@@ -14,7 +14,7 @@ lang='EN'
 
 require(directlabels)
 cap %>% 
-  filter(year(date)>=2017, fuel=='All', grepl('New', var)) %>% 
+  filter(year(date)>=2018, fuel=='All', grepl('New', var)) %>% 
   group_by(source, fuel, year=as.factor(year(date))) %>% 
   group_modify(function(df, groups) {
     df %>% head(1) %>% mutate(date=ymd(paste(groups$year, 1, 1)), Value=0) %>% 
@@ -24,38 +24,43 @@ cap %>%
                source=ifelse(fuel=='All', source, fuel)) %>% 
   write_csv(file.path(output_dir, 'newly added power capacity.csv')) %>% 
   ggplot(aes(plotdate, Value/100, col=year)) + geom_line(size=1) + 
-  facet_wrap(~translateSources(source), ncol=2) +
+  facet_wrap(~translateSources(source), ncol=2, scales='free_y') +
   labs(y='GW', x='', title='Newly added power capacity, year-to-date') +
   scale_x_date(date_breaks = '3 months', labels = monthlab, minor_breaks = 'month',
                expand = expansion(mult=c(.0,.13))) +
   scale_y_continuous(expand=expansion(mult=c(0,.05))) + 
   theme_crea(axis.text.x=element_text(hjust=.2)) + 
   scale_color_crea_d(col.index = c(7, 2:5, 1), labels=yearlab) +
-  geom_dl(aes(label=yearlab(year)), method=list('last.bumpup', cex=.7))
-ggsave(file.path(output_dir, 'Newly added power capacity, year-to-date.png'), width=8, height=6)
+  geom_dl(aes(label=yearlab(year)), method=list('last.bumpup', cex=.7)) -> plt
+quicksave(file.path(output_dir, 'Newly added power capacity, year-to-date.png'), plot=plt, scale=1.33)
 
 fuel_cols = crea_palettes$CREA[c(1, 4, 2, 6, 5)]
 names(fuel_cols) = cap$source %>% unique %>% subset(.!='All') %>% sort
-cap %>% filter(fuel=='All', month(date)==11, grepl('New', var)) %>% 
+cap %>% filter(fuel=='All', month(date)==3, grepl('New', var)) %>% 
+  write_csv(file.path(output_dir, 'Newly added power capacity, January to March.csv')) %>% 
   ggplot(aes(year(date), Value/100, fill=source, alpha=year(date))) + 
   geom_col(size=1) + facet_wrap(~translateSources(source), ncol=2) +
-  labs(y='GW', x='', title='Newly added power capacity, January to November') +
+  labs(y='GW', x='', title='Newly added power capacity, January to March') +
   scale_y_continuous(expand=expansion(mult=c(0,.05))) + 
   scale_x_continuous(labels=yearlab) +
   theme_crea() + 
   scale_fill_manual(values=unname(fuel_cols), guide='none') + 
   scale_alpha(range=c(.5,1), guide='none') +
-  theme(axis.text.x = element_text(hjust=.1))
-ggsave(paste0('2022Q2 analysis/Newly added power capacity, January to November, ',lang,'.png'), width=8, height=6)
+  theme(axis.text.x = element_text(hjust=.1)) -> plt
+quicksave(file.path(output_dir, paste0('Newly added power capacity, January to March, ',lang,'.png')), plot=plt, scale=1.33)
 
 in_file = "data/New power capacity by province and type.xlsx"
-getwindvars(in_file)
-readwindEN(in_file, c('var', 'source', 'prov'), read_vardata = T) -> provcap
+getwindvars(in_file, skip=0)
+readwindEN(in_file, c('var', 'source', 'prov'), read_vardata = T, skip=0) -> provcap
+
+dates_to_include = c(ymd('2022-01-01'), max(provcap$date))
+period_name = 'January 2021 - November 2022'
 
 provcap %>% 
+  filter(!is.na(Value), date %in% dates_to_include, prov != 'National') %>% 
   mutate(source = source %>% gsub(' Energy| Power|power', '', .)) %>% 
   group_by(source) %>% 
-  filter(!is.na(Value), date==max(date), prov != 'National') %>% 
+  group_by(source, prov) %>% summarise(across(Value, sum)) %>% 
   slice_max(Value, n=10) %>% 
   group_split %>% 
   lapply(function(df) {
@@ -69,27 +74,29 @@ provcap %>%
       theme_crea() +
       theme(strip.text = element_text(size=rel(2)),
             axis.text = element_text(size=rel(1.8)),
-            axis.title = element_text(size=rel(2))) +
+            axis.title = element_text(size=rel(2)),
+            plot.margin = unit(c(.5, 1.5, .2, .2), 'line')) +
       labs(y='GW', x='') +
       scale_y_continuous(expand=expansion(mult=c(0,.05)))
   }) -> p
 
+library(cowplot)
 require(gridExtra)
 require(grid)
 title.grob = textGrob("Newly installed power capacity by province", 
                       gp=gpar(fontface='bold', cex=4.5, col="#35416C"),
                       just=.5)
-subtitle.grob = textGrob('January-November 2022', 
+subtitle.grob = textGrob(period_name, 
                          gp=gpar(fontface='italic',cex=3),
                          just=.5)
-p.grid = arrangeGrob(grobs=p)
-margin <- unit(0.5, "line")
+p.grid = plot_grid(plotlist=p,ncol=2,align="v")
+margin <- unit(1, "line")
 
-png(paste0('power capacity additions by province, ',lang,'.png'), width=2000, height=1500, res=100)
+png(paste0('power capacity additions by province, ', period_name, ', ',lang,'.png'), width=2000, height=1500, res=100)
 grid.arrange(title.grob, subtitle.grob, p.grid,
              heights = unit.c(grobHeight(title.grob) + 3*margin, 
                               grobHeight(subtitle.grob) + 2*margin, 
-                              unit(1,"null")))
+                              unit(1,"null"))) %>% add_logo
 dev.off()
 
 
