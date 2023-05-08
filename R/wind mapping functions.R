@@ -63,11 +63,14 @@ readwindEN <- function(infile,
                        read_vardata = F,
                        readfun = readxl::read_excel,
                        skip=1,
-                       force_last_of_month=T) {
+                       zero_as_NA=F,
+                       force_last_of_month=T,
+                       drop_china_column=T) {
   readfun(infile, n_max=1, col_names = F, skip=skip) %>% unlist -> h
   
   if(any(grepl('YTD', h))) colNames %<>% c('type') %>% unique
   if(any(grepl('YoY', h))) colNames %<>% c('YoY') %>% unique
+  if(drop_china_column) h %<>% gsub('China: ', '', .)
   
   if(read_vardata) {
     readfun(infile, n_max=10, col_names = F, skip=skip) -> vardata
@@ -108,6 +111,7 @@ readwindEN <- function(infile,
   }
   
   if(force_last_of_month) day(d$date)<-days_in_month(d$date)
+  if(zero_as_NA) d$Value[d$Value==0] <- NA
   
   return(d)
 }
@@ -154,6 +158,7 @@ unYTD <- function(df) {
         
         ind <- which(month(df$date)==2 & is.na(df$prevval))
         df$Value1m[ind] <- df$Value[ind]/2
+        ind %<>% subset(.>1)
         df$Value1m[ind-1] <- df$Value[ind]/2
       } else df$Value1m <- df$Value
       
@@ -201,17 +206,26 @@ YoY <- function(df, daterange) {
 get.yoy <- function(values, dates,
                     type='relative',
                     fun=ifelse(type=='relative', (function(x1, x0) {x1/x0-1}),(function(x1, x0) {x1-x0}))) {
-  dates -> basedates
-  year(basedates) <- year(dates) - 1
-  basevalues <- values[match(basedates, dates)]
+  dates -> targetdates
+  
+  day(targetdates)[day(targetdates)==29 & month(targetdates)==2] <- 28
+  if(any(duplicated(targetdates))) dates -> targetdates
+  
+  targetdates -> basedates
+  year(basedates) <- year(targetdates) - 1
+  basevalues <- values[match(basedates, targetdates)]
   fun(values, basevalues)
 }
 
 get.yoy.df <- function(df, col='Value', datecol='date',
-                    fun=function(x1, x0) {x1/x0-1}) {
-  df[[datecol]] -> basedates
+                       fun=function(x1, x0) {x1/x0-1}) {
+  df[[datecol]] -> targetdates
+  day(targetdates)[day(targetdates)==29 & month(targetdates)==2] <- 28
+  if(any(duplicated(targetdates))) df[[datecol]] -> targetdates
+    
+  targetdates-> basedates
   year(basedates) <- year(basedates) - 1
-  baseconcs <- df[[col]][match(basedates, df[[datecol]])]
+  baseconcs <- df[[col]][match(basedates, targetdates)]
   df$YoY <- fun(df[[col]], baseconcs)
   return(df)
 }
