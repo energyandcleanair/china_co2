@@ -185,7 +185,7 @@ d.quarter %<>% group_by(name, prod, sector) %>%
 
 
 d.quarter %>% filter(date=='2023-03-31', prod=='Total') %>% 
-  select(name, prod, sector, CO2_3m, CO2_3m, YoY_3m)
+  select(name, prod, sector, CO2_3m, YoY_3m)
 
 
 d.quarter %>% filter(include_in_totals | prod=='Total', name != 'reported') %>% ungroup %>%
@@ -319,7 +319,7 @@ d.changes %>% filter(prod != 'Total') %>%
   x_at_zero() -> plt
 quicksave(file.path(output_dir, 'Contributions to emissions growth.png'), plot=plt, scale=1.33)
 
-d.changes %>% select(sector, prod, YoY_change_3m) %>%
+d.changes %>% select(sector, prod, YoY_change_3m, YoY_3m, CO2_3m) %T>% copy.xl %>% 
   write_csv(file.path(output_dir, 'Contributions to emissions growth.csv'))
 
 
