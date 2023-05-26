@@ -4,7 +4,8 @@ require(tidyverse)
 require(lubridate)
 require(magrittr)
 require(readxl)
-
+require(rcrea)
+require(creahelpers)
 
 readwind <- function(infile,
                      colNames = c('var', 'prov', 'type'),
@@ -70,7 +71,7 @@ readwindEN <- function(infile,
   
   if(any(grepl('YTD', h))) colNames %<>% c('type') %>% unique
   if(any(grepl('YoY', h))) colNames %<>% c('YoY') %>% unique
-  if(drop_china_column) h %<>% gsub('China: ', '', .)
+  if(drop_china_column) h %<>% gsub('(\\(DC\\) )?China: ', '', .)
   
   if(read_vardata) {
     readfun(infile, n_max=10, col_names = F, skip=skip) -> vardata
