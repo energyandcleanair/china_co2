@@ -7,7 +7,6 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
            source = source %>% gsub(' ?Power.*', '', ., ignore.case=T) %>% gsub('YTD', 'All', .),
            fuel = ifelse(is.na(fuel) | fuel %in% c('YTD', 'National'), 'All', fuel)) -> cap
   
-  
   cap %>% 
     filter(year(date)>=2018, fuel=='All', grepl('New', var)) %>% 
     group_by(source, fuel, year=as.factor(year(date))) %>% 
@@ -15,12 +14,23 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
       df %>% head(1) %>% mutate(date=ymd(paste(groups$year, 1, 1)), Value=0) %>% 
         bind_rows(df)
     }) %>% 
-    mutate(plotdate=date %>% 'year<-'(2022),
-           source=ifelse(fuel=='All', source, fuel)) %>% 
-    write_csv(file.path(output_dir, 'newly added power capacity.csv')) %>% 
-    ggplot(aes(plotdate, convert_value(Value, '10MW'), col=year)) + geom_line(linewidth=1) + 
+    write_csv(file.path(output_dir, 'newly added power capacity.csv')) ->
+    plotdata
+  
+  plotdata %<>% group_by(source, fuel) %>% 
+    mutate(YoY=get.yoy(Value, date) %>% scales::percent(accuracy = 1, style_positive='plus'),
+           Value=convert_value(Value, '10MW'),
+           plotdate=date %>% 'year<-'(2022),
+           source=ifelse(fuel=='All', source, fuel))
+  
+  plotdata %>% filter(date %>% 'day<-'(1) %>% equals(focus_month)) -> yoy_labels
+  
+  plotdata %>% 
+    ggplot(aes(plotdate, Value, col=year)) + geom_line(linewidth=1) + 
+    geom_label(data=yoy_labels, aes(label=YoY), vjust=-2) +
     facet_wrap(~translateSources(source), ncol=2, scales='free_y') +
-    labs(y=unit_label('10MW'), x='', title=trans('Newly added power capacity, year-to-date')) +
+    labs(y=unit_label('10MW'), x='', title=trans('Newly added power capacity, year-to-date'),
+         caption=trans('Labels show year-on-year changes for the current year')) +
     scale_x_date(date_breaks = '3 months', labels = monthlab, minor_breaks = 'month',
                  expand = expansion(mult=c(.0,.17))) +
     scale_y_continuous(expand=expansion(mult=c(0,.05))) + 
@@ -35,10 +45,11 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
   cap$date %>% year %>% max %>% seq(2010, ., 1) -> yrs
   cap$date %>% max %>% month -> ytd_month
   
-  cap %>% filter(fuel=='All', month(date)==month(max(date)), grepl('New', var), year(date) %in% yrs) %>% 
+  cap %>% filter(fuel=='All', month(date)==month(focus_month), grepl('New', var), year(date) %in% yrs) %>% 
     write_csv(file.path(output_dir, 'Newly added power capacity, YTD.csv')) %>% 
     ggplot(aes(year(date), convert_value(Value, '10MW'), fill=source, alpha=year(date))) + 
     geom_col(size=1) + facet_wrap(~translateSources(source), ncol=2, scales='free') +
+    geom_label(data=yoy_labels, aes(label=YoY), vjust=-2, fill='white') +
     labs(y=unit_label('10MW'), x='', title=ifelse(lang=='EN',
                                                   paste0('Newly added power capacity, January to ', month.name[ytd_month]),
                                                   paste0('新增发电装机容量，前', ytd_month,'个月累计值'))) +

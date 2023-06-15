@@ -57,10 +57,17 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     
     plotdata %>% write_csv(file.path(output_dir, paste0(names(plots)[i], '.csv')))
     
+    plotdata %<>% mutate(across(c(Value.seasonadj, Value1m), ~convert_value(.x, Unit)*Unit_multiplier),
+                         YoY_3m = (Value3m.seasonadj/lag(Value3m.seasonadj, 12)-1)  %>% pmax(-.2) %>% pmin(.2),
+                         plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1),
+                         year=as.factor(year(date)))
+    plotdata %>% mutate(YoY=get.yoy(Value1m, date) %>% scales::percent(accuracy = 1, style_positive='plus')) %>% 
+      filter(date %>% 'day<-'(1) %>% equals(focus_month)) -> yoy_labels
+    
     plotdata %>%
-      mutate(YoY = (Value3m.seasonadj/lag(Value3m.seasonadj, 12)-1)  %>% pmax(-.2) %>% pmin(.2)) %>%
-      ggplot(aes(date, convert_value(Value.seasonadj, Unit)*Unit_multiplier, col=YoY))+
+      ggplot(aes(date, Value.seasonadj, col=YoY_3m))+
       geom_line(size=.8)+geom_point(size=.8)+
+      geom_label(data=yoy_labels, aes(label=YoY), vjust=4, hjust=1) +
       facet_wrap(~trans(prod), scales='free_y') +
       scale_color_gradientn(colors=colorspace::darken(crea_palettes$change), labels=scales::percent, 
                             name=trans('year-on-year change')) +
@@ -78,14 +85,14 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     quicksave(file.path(output_dir, paste0(names(plots)[i], '_seasonal, ',lang,'.png')), plot=p, scale=1.2)
     
     plotdata %>%
-      mutate(plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1),
-             year=as.factor(year(date))) %>%
-      ggplot(aes(plotdate, convert_value(Value1m, Unit)*Unit_multiplier, col=year))+
+      ggplot(aes(plotdate, Value1m, col=year))+
       geom_line(size=.8)+
+      geom_label(data=yoy_labels, aes(label=YoY), vjust=ifelse(i==2, -.5, 5), hjust=1, key_glyph="path") +
       facet_wrap(~trans(prod), scales='free_y') +
       scale_color_manual(values=colorspace::darken(crea_palettes$change), name=trans('year')) +
       labs(title=trans(names(plots)[i]), 
-           x='', y=unit_label(unique(plotdata$Unit))) +
+           x='', y=unit_label(unique(plotdata$Unit)),
+           caption=trans('Labels show year-on-year changes in the latest month of data')) +
       theme_crea() + 
       #geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
       scale_linetype_manual(values='dashed', name='') +

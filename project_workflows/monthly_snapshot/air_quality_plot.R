@@ -1,66 +1,19 @@
-convert_dt <- function(x) {
-  if(!is.POSIXt(x)) x %<>% ymd_hms
-  x
-}
-
 air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1), 
                               lang=parent.frame()$lang, 
                               output_dir=get('output_dir', envir=.GlobalEnv), 
                               update_data=T,
-                              deweathered_data_path) {
+                              pollutants = c('no2', 'pm25', 'o3'),
+                              aq_file = file.path('cached_data', 'city_air_quality_data.RDS'),
+                              aq_dw_file = file.path('cached_data', 'deweathered_air_quality_data.RDS'),
+                              gis_dir = '~/GIS/',
+                              aq=NULL, aq_dw=NULL) {
   cities <- read_csv('https://api.energyandcleanair.org/cities?country=CN&format=csv')
-  gis_dir <- '~/GIS/'
   
-  aq_file <- file.path('cached_data', 'city_air_quality_data.RDS')
+  if(is.null(aq)) aq <- get_aq(start_date=ymd('2022-01-01'), update_data=update_data, aq_file=aq_file)
+  if(is.null(aq_dw)) aq_dw <- get_deweathered_aq(china_admin_capitals, pollutants, update_data=update_data, aq_file=aq_dw_file)
   
-  start_date <- ymd('2017-01-01')
-  aq <- NULL
-  
-  if(file.exists(aq_file)) {
-    readRDS(aq_file) -> aq
-    start_date <- aq$date %>% max %>% date
-  }
-  
-  if(update_data) {
-    seq.Date(start_date, today(), by='month') %>% 
-      pbapply::pblapply(function(start_date) {
-        message(start_date)
-        end_date=start_date %>% 'day<-'(days_in_month(start_date))
-        read_csv(paste0("https://api.energyandcleanair.org/measurements?",
-                        "country=CN&pollutant=no2,pm25,pm10,so2&",
-                        "date_from=",start_date,"&date_to=", end_date,
-                        "&level=city&do_average=true&averaging_period=1d&format=csv")) %>% 
-          select(-any_of('...1')) %>% 
-          mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_24h
-        
-        #read 8-hour max ozone
-        read_csv(paste0("https://api.energyandcleanair.org/measurements?",
-                        "country=CN&pollutant=o3&process=city_8h_max_day_mad&",
-                        "date_from=",start_date,"&date_to=", end_date,
-                        "&level=city&do_average=true&averaging_period=1d&format=csv")) %>% 
-          select(-any_of('...1')) %>% 
-          mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_8h
-        
-        #read 1-hour max NO2
-        if(F) {
-          read_csv(paste0("https://api.energyandcleanair.org/measurements?",
-                          "country=CN&pollutant=no2&process=city_max_day_mad&",
-                          "date_from=",start_date,"&date_to=", end_date,
-                          "&level=city&do_average=true&averaging_period=1d&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv")) -> conc_1h
-        }
-        
-        bind_rows(conc_24h, conc_8h)
-      }) %>% bind_rows(aq) %>% distinct(date, location_id, pollutant, .keep_all=T) -> aq
-    
-    aq %>% saveRDS(aq_file)
-  }
-  
-  aq_dw <- read_csv(deweathered_data_path)
-  
-  china_admin_capitals <- c("Beijing", "Chongqing", "Shanghai", "Tianjin", "Lhasa", "Hohhot", "Nanning", "Shijiazhuang", "Taiyuan", 
-                            "Xining", "Zhengzhou", "Wuhan", "Haikou", "Changsha", "Nanjing", "Shenyang", "Hefei", "Fuzhou", "Nanchang", 
-                            "Changchun", "Harbin", "Hohhot", "Guiyang", "Kunming", "Nanning", "Lanzhou", "Yinchuan", "Xining", "Jinan", 
-                            "Nanjing", "Hefei", "Fuzhou")
+  #read_csv('~/../Downloads/deweathered_mee_20230518.csv') %>% filter(pollutant=='o3', location_id %in% china_admin_capitals) %>% 
+  #  bind_rows(aq_dw) -> aq_dw
   
   #add city and pollutant names
   aq %<>% left_join(cities %>% select(location_id=id, city_name=name)) %>% 
@@ -92,7 +45,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   if(lang == 'ZH') aq_all %<>% mutate(city_name = city_name_ZH, NAME_1 = NAME_1_ZH)
   
   aq_all %>% 
-    filter(city_name_EN %in% china_admin_capitals,
+    filter(location_id %in% china_admin_capitals,
            month(date) == month(focus_month)) %>%
     group_by(city_name, pollutant_name, type, year=year(date)) %>%
     summarise(across(c(value, anomaly), mean)) ->
@@ -204,4 +157,119 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     write_excel_csv(file.path(output_dir, paste0('worst_episodes, ', lang,'.csv')))
 }
 
+
+china_admin_capitals <- c(
+  "harbin_chn.11_1_cn",
+  "changsha_chn.14_1_cn",
+  "taiyuan_chn.25_1_cn",
+  "urumqi_chn.28_1_cn",
+  "shenyang_chn.18_1_cn",
+  "hefei_chn.1_1_cn",
+  "hangzhou_chn.31_1_cn",
+  "shanghai_chn.24_1_cn",
+  "nanjing_chn.15_1_cn",
+  "nanchang_chn.16_1_cn",
+  "guangzhou_chn.6_1_cn",
+  "lhasa_chn.29_1_cn",
+  "xining_chn.21_1_cn",
+  "lanzhou_chn.5_1_cn",
+  "chengdu_chn.26_1_cn",
+  "nanning_chn.7_1_cn",
+  "changchun_chn.17_1_cn",
+  "yinchuan_chn.20_1_cn",
+  "zhengzhou_chn.12_1_cn",
+  "guiyang_chn.8_1_cn",
+  "fuzhou_chn.4_1_cn",
+  "wuhan_chn.13_1_cn",
+  "shijiazhuang_chn.10_1_cn",
+  "tianjin_chn.27_1_cn",
+  "beijing_chn.2_1_cn",
+  "xi'an_chn.22_1_cn",
+  "jinan_chn.23_1_cn",
+  "fuzhou_chn.16_1_cn",
+  "kunming_chn.30_1_cn",
+  "hohhot_chn.19_1_cn"
+)
+
+
+convert_dt <- function(x) {
+  if(!is.POSIXt(x)) x %<>% ymd_hms
+  x
+}
+
+
+get_aq <- function(start_date=ymd('2022-01-01'), update_data=T, aq_file=file.path('cached_data', 'city_air_quality_data.RDS')) {
+  message('read measured air quality data')
+  aq <- NULL
+  
+  if(!is.null(aq_file) & file.exists(aq_file)) {
+    readRDS(aq_file) -> aq
+    start_date <- aq$date %>% max %>% date
+  }
+  
+  if(update_data) {
+    seq.Date(start_date, today(), by='month') %>% 
+      pbapply::pblapply(function(start_date) {
+        message(start_date)
+        end_date=start_date %>% 'day<-'(days_in_month(start_date))
+        read_csv(paste0("https://api.energyandcleanair.org/measurements?",
+                        "country=CN&pollutant=no2,pm25,pm10,so2&",
+                        "date_from=",start_date,"&date_to=", end_date,
+                        "&level=city&do_average=true&averaging_period=1d&format=csv")) %>% 
+          select(-any_of('...1')) %>% 
+          mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_24h
+        
+        #read 8-hour max ozone
+        read_csv(paste0("https://api.energyandcleanair.org/measurements?",
+                        "country=CN&pollutant=o3&process=city_8h_max_day_mad&",
+                        "date_from=",start_date,"&date_to=", end_date,
+                        "&level=city&do_average=true&averaging_period=1d&format=csv")) %>% 
+          select(-any_of('...1')) %>% 
+          mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_8h
+        
+        #read 1-hour max NO2
+        if(F) {
+          read_csv(paste0("https://api.energyandcleanair.org/measurements?",
+                          "country=CN&pollutant=no2&process=city_max_day_mad&",
+                          "date_from=",start_date,"&date_to=", end_date,
+                          "&level=city&do_average=true&averaging_period=1d&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv")) -> conc_1h
+        }
+        
+        bind_rows(conc_24h, conc_8h)
+      }) %>% bind_rows(aq) %>% distinct(date, location_id, pollutant, .keep_all=T) -> aq
+    
+    if(!is.null(aq_file)) aq %>% saveRDS(aq_file)
+  }
+  return(aq)
+}
+
+get_deweathered_aq <- function(cities, pollutants = c('no2', 'pm25', 'o3'), 
+                               update_data=T, 
+                               aq_file=file.path('cached_data', 'deweathered_air_quality_data.RDS')) {
+  message('read deweathered air quality data')
+  
+  aq <- NULL
+  
+  if(!is.null(aq_file) & file.exists(aq_file)) {
+    readRDS(aq_file) -> aq
+    start_date <- aq$date %>% max %>% date
+  }
+  
+  if(update_data) {
+    pollutants %>% 
+      pbapply::pblapply(
+        function(poll) {
+          read_csv(
+            sprintf('http://api.energyandcleanair.org/v1/measurements?location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099,default_anomaly_o3_2018_2099&variable=anomaly&format=csv',
+                    paste0(cities, collapse = ","),
+                    poll)
+            #'http://api.energyandcleanair.org/v1/measurements?location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099&variable=anomaly&format=csv'
+          )
+        }
+      ) %>% bind_rows %>% bind_rows(aq) %>% rename(anomaly=value) -> aq
+    
+    if(!is.null(aq_file)) aq %>% saveRDS(aq_file)
+  }
+  return(aq)
+}
 

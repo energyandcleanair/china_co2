@@ -75,5 +75,5 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     scale_color_crea_d('dramatic', name='') +
     expand_limits(y=0) + x_at_zero() +
     scale_x_date(expand=expansion(mult=c(0,.05)), labels = yearlab) -> p
-  quicksave(file.path(output_dir, 'oil products output.png'), plot=p)
+  quicksave(file.path(output_dir, paste0('oil products output, ', lang,'.png')), plot=p)
 }
