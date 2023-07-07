@@ -31,7 +31,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   adm1 <- readr::read_csv(get_data_file('gadm1.csv'))
   aq_all %<>% mutate(GID_1 = location_id %>% gsub('^[a-z]*_|_[a-z]*$', '', .) %>% toupper,
                      iso3c = substr(GID_1, 1, 3)) %>%
-    inner_join(adm1@data %>% select(GID_1, NAME_1))
+    inner_join(adm1 %>% select(GID_1, NAME_1))
 
   #add city and province names in Chinese
   aq_all %<>% filter(iso3c=='CHN') %>% mutate(city_name = case_when(is.na(city_name)~location_id %>% gsub('_.*', '', .) %>% capitalize_first(), T~city_name))
