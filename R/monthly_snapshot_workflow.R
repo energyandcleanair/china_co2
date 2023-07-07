@@ -1,4 +1,6 @@
-build_snapshot <- function(focus_month = NULL, output_dir = NULL, lang="EN") {
+build_snapshot <- function(focus_month = NULL, output_dir = NULL,
+                           gis_dir=Sys.getenv('GIS_DIR'),
+                           lang="EN") {
   # required input data:
   # "data/monthly industry stats.xlsx"
   # "data/Power Capacity.xlsx"
@@ -11,10 +13,8 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL, lang="EN") {
       "day<-"(1)
   }
 
-  # focus_month <- ymd("2023-04-01")
-  # output_dir = paste0('outputs/monthly_snapshot_', format(focus_month, "%Y-%m")); dir.create(output_dir)
   if (is.null(output_dir)) {
-    output_dir <- paste0("monthly_snapshot_", format(focus_month, "%Y-%m"))
+    output_dir <- paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m"))
   }
   dir.create(output_dir, showWarnings = F, recursive = T)
 
@@ -23,10 +23,14 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL, lang="EN") {
 
 
   # preload air quality data
-  aq <- get_aq(start_date = ymd("2022-01-01"), update_data = T)
-  aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = T)
+  aq <- get_aq(start_date = ymd("2022-01-01"), update_data = F)
+  aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = F)
 
-  for (lang in c("EN", "ZH")) {
+  #TODO add ZH once we have the translation file
+  for (lang in c("EN")) {
+
+    # set lang in global environment
+    assign("lang", lang, envir = .GlobalEnv)
 
     capacity_plots(focus_month = focus_month,
                    output_dir=output_dir,

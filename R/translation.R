@@ -1,14 +1,15 @@
 trans <- function(x,
-                  lang=get('lang', envir=.GlobalEnv),
-                  trans_file = get_data_file('label translations.xlsx'),
+                  lang=get("lang", .GlobalEnv),
+                  trans_file = NULL, #get_data_file('label translations.xlsx'),
                   wrap_chars=NULL,
                   ignore.case=T,
                   when_missing='warn') {
+
   if(lang=='EN') return(x)
 
   read_xlsx(trans_file) -> dict
 
-  if(!is.null(wrap_chars)) dict$ZH %<>% strsplit_lang(width=wrap_chars)
+  if(!is.null(wrap_chars)) dict$ZH %<>% strsplit_lang(width=wrap_chars, lang=lang)
 
   if(ignore.case) {
     x %<>% tolower
@@ -32,7 +33,7 @@ trans <- function(x,
   x
 }
 
-translateSources <- function(x, lang=get('lang', envir=.GlobalEnv)) {
+translateSources <- function(x, lang=get("lang", .GlobalEnv)) {
   if(lang=='ZH')
     x <- case_when(grepl('Hydro', x)~'水电',
                    grepl('Nuclear', x)~'核电',
@@ -42,7 +43,7 @@ translateSources <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   x
 }
 
-translateProvinces <- function(x, lang=get('lang', envir=.GlobalEnv)) {
+translateProvinces <- function(x, lang=get("lang", .GlobalEnv)) {
   read_xlsx(get_data_file('provincesZH.xlsx')) -> provdict
 
   if(lang=='ZH')
@@ -51,7 +52,7 @@ translateProvinces <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   return(x)
 }
 
-translateFuels <- function(x, lang=get('lang', envir=.GlobalEnv)) {
+translateFuels <- function(x, lang=get("lang", .GlobalEnv)) {
   recode_factor(x,
                 'Steam Coal'='动力煤',
                 'Natural Gas'='天然气',

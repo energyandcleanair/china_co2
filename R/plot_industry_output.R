@@ -73,7 +73,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
                             name=trans('year-on-year change')) +
       labs(title=trans(names(plots)[i]),
            subtitle=trans('seasonally adjusted monthly data'), #'12-month moving sum',
-           x='', y=unit_label(unique(plotdata$Unit))) +
+           x='', y=unit_label(unique(plotdata$Unit), lang=lang)) +
       theme_crea() +
       theme(strip.text = element_text(size=rel(labscale*.8)),
             axis.text.y = element_text(size=rel(labscale))) +
@@ -91,7 +91,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
       facet_wrap(~trans(prod), scales='free_y') +
       scale_color_manual(values=colorspace::darken(crea_palettes$change), name=trans('year')) +
       labs(title=trans(names(plots)[i]),
-           x='', y=unit_label(unique(plotdata$Unit)),
+           x='', y=unit_label(unique(plotdata$Unit, lang=lang)),
            caption=trans('Labels show year-on-year changes in the latest month of data')) +
       theme_crea() +
       #geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
@@ -115,7 +115,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     geom_text(data=solar_labels, vjust=-.4, hjust=1.2, fontface='bold') +
     labs(title=trans('Solar cell output'),
          subtitle=trans('12-month moving sum'),
-         x='', y=unit_label('10000 kw'),
+         x='', y=unit_label('10000 kw', lang=lang),
          col=trans('year-on-year change')) +
     theme_crea() +
     scale_linetype_manual(values='dashed', name='') +

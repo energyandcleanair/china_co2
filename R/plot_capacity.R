@@ -17,9 +17,10 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
     write_csv(file.path(output_dir, 'newly added power capacity.csv')) ->
     plotdata
 
-  plotdata %<>% group_by(source, fuel) %>%
+  plotdata %<>%
+    group_by(source, fuel) %>%
     mutate(YoY=get.yoy(Value, date) %>% scales::percent(accuracy = 1, style_positive='plus'),
-           Value=convert_value(Value, '10MW'),
+           Value=convert_value(Value, '10MW', lang=lang),
            plotdate=date %>% 'year<-'(2022),
            source=ifelse(fuel=='All', source, fuel))
 
@@ -28,16 +29,16 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
   plotdata %>%
     ggplot(aes(plotdate, Value, col=year)) + geom_line(linewidth=1) +
     geom_label(data=yoy_labels, aes(label=YoY), vjust=-2) +
-    facet_wrap(~translateSources(source), ncol=2, scales='free_y') +
-    labs(y=unit_label('10MW'), x='', title=trans('Newly added power capacity, year-to-date'),
+    facet_wrap(~translateSources(source, lang=lang), ncol=2, scales='free_y') +
+    labs(y=unit_label('10MW', lang=lang), x='', title=trans('Newly added power capacity, year-to-date'),
          caption=trans('Labels show year-on-year changes for the current year')) +
     scale_x_date(date_breaks = '3 months', labels = monthlab, minor_breaks = 'month',
                  expand = expansion(mult=c(.0,.17))) +
     scale_y_continuous(expand=expansion(mult=c(0,.05))) +
     theme_crea(axis.text.x=element_text(hjust=.2)) +
-    lang_theme() +
+    lang_theme(lang=lang) +
     scale_color_crea_d(col.index = c(7, 2:5, 1), labels=yearlab, guide='none') +
-    geom_dl(aes(label=yearlab(year)), method=list('last.bumpup', cex=.7)) -> plt
+    geom_dl(aes(label=yearlab(year, lang=lang)), method=list('last.bumpup', cex=.7)) -> plt
   quicksave(file.path(output_dir, paste0('Newly added power capacity, year-to-date, ',lang,'.png')), plot=plt, scale=1.2)
 
   fuel_cols = crea_palettes$CREA[c(1, 4, 2, 6, 5)]
@@ -48,9 +49,9 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
   cap %>% filter(fuel=='All', month(date)==month(focus_month), grepl('New', var), year(date) %in% yrs) %>%
     write_csv(file.path(output_dir, 'Newly added power capacity, YTD.csv')) %>%
     ggplot(aes(year(date), convert_value(Value, '10MW'), fill=source, alpha=year(date))) +
-    geom_col(size=1) + facet_wrap(~translateSources(source), ncol=2, scales='free') +
+    geom_col(size=1) + facet_wrap(~translateSources(source, lang=lang), ncol=2, scales='free') +
     geom_label(data=yoy_labels, aes(label=YoY), vjust=-2, fill='white') +
-    labs(y=unit_label('10MW'), x='', title=ifelse(lang=='EN',
+    labs(y=unit_label('10MW', lang=lang), x='', title=ifelse(lang=='EN',
                                                   paste0('Newly added power capacity, January to ', month.name[ytd_month]),
                                                   paste0('新增发电装机容量，前', ytd_month,'个月累计值'))) +
     scale_y_continuous(expand=expansion(mult=c(0,.05))) +
@@ -82,18 +83,18 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
     group_split %>%
     lapply(function(df) {
       df %>%
-        mutate(prov=translateProvinces(prov)) %>%
+        mutate(prov=translateProvinces(prov, lang=lang)) %>%
         mutate(prov = factor(prov, levels=rev(prov))) %>%
         ggplot(aes(prov, convert_value(Value, '10MW'))) +
         geom_col(fill=fuel_cols[unique(df$source)]) +
-        facet_wrap(~translateSources(source)) +
+        facet_wrap(~translateSources(source, lang=lang)) +
         coord_flip() +
         theme_crea() +
         theme(#strip.text = element_text(size=rel(2)),
           #axis.text = element_text(size=rel(1.8)),
           #axis.title = element_text(size=rel(2)),
           plot.margin = unit(c(.5, 1.5, .2, .2), 'line')) +
-        labs(y=unit_label('10MW'), x='') +
+        labs(y=unit_label('10MW', lang=lang), x='') +
         scale_y_continuous(expand=expansion(mult=c(0,.05)))
     }) -> p
 

@@ -48,7 +48,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   fuelsupply_plotdata %<>% ungroup %>%
     mutate(across(starts_with('Value'), ~convert_value(.x, Unit))*ifelse(Unit=='10000 tons' & lang=='ZH', 1e-4, 1),
-           Unit = unit_label(ifelse(Unit=='10000 tons' & lang=='ZH', "100Mt", Unit)),
+           Unit = unit_label(ifelse(Unit=='10000 tons' & lang=='ZH', "100Mt", Unit), lang=lang),
            prod_group = paste0(trans(prod_group), ', ', Unit))
 
   if(lang=='EN') fuelsupply_plotdata %>% write_csv(file.path(output_dir, 'fossil fuel supply.csv'))
@@ -70,7 +70,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     ggplot(aes(date, Value12m*12, col=trans(prod))) + geom_line(linewidth=1.5) +
     theme_crea() +
     labs(title=trans('Output of different oil products'), subtitle=trans('12-month moving sum'),
-         y=ifelse(lang=='ZH', unit_label('100Mt'), 'Mt'),
+         y=ifelse(lang=='ZH', unit_label('100Mt', lang=lang, lang=lang), 'Mt'),
          x='') +
     scale_color_crea_d('dramatic', name='') +
     expand_limits(y=0) + x_at_zero() +

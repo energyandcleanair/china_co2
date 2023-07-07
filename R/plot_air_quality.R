@@ -7,6 +7,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
                               aq_dw_file = file.path('cached_data', 'deweathered_air_quality_data.RDS'),
                               gis_dir = '~/GIS/',
                               aq=NULL, aq_dw=NULL) {
+
   cities <- read_csv('https://api.energyandcleanair.org/cities?country=CN&format=csv')
 
   if(is.null(aq)) aq <- get_aq(start_date=ymd('2022-01-01'), update_data=update_data, aq_file=aq_file)
@@ -37,9 +38,10 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   station_key <- read_csv('data/air_quality_station_codes.csv')
 
-  city_key <- station_key %>% distinct(city_name=CityEN, NAME_1=ProvinceEN, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH)
+  # Add proper air_quality_station_codes.csv with ProvinceZH
+  city_key <- station_key %>% distinct(city_name=CityEN, NAME_1=Province, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH)
 
-  aq_all %<>% inner_join(city_key) %>% rename(city_name_EN=city_name, NAME_1_EN=NAME_1)
+  aq_all %<>% inner_join(city_key) %>% dplyr::rename(city_name_EN=city_name, NAME_1_EN=NAME_1)
 
   if(lang == 'EN') aq_all %<>% mutate(city_name = city_name_EN, NAME_1 = NAME_1_EN)
   if(lang == 'ZH') aq_all %<>% mutate(city_name = city_name_ZH, NAME_1 = NAME_1_ZH)
@@ -48,7 +50,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     filter(location_id %in% china_admin_capitals,
            month(date) == month(focus_month)) %>%
     group_by(city_name, pollutant_name, type, year=year(date)) %>%
-    summarise(across(c(value, anomaly), mean)) ->
+    dplyr::summarise(dplyr::across(c(value, anomaly), mean)) ->
     aq_annual
 
   aq_dw$date %>% min() -> dw_start_date
@@ -143,9 +145,9 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   aq_episodes_w_sandstorms %>% filter(grepl('PM2.5|O3|NO2', pollutant_name), !is.na(value)) %>%
     group_by(city_name, NAME_1, location_id, pollutant_name) %>% arrange(date) %>%
-    mutate(value_rollmean = rollapplyr(value, width=7, FUN=mean, fill=NA),
-           worst_day = rollapplyr(value, width=7, FUN=max, fill=NA)) %>%
-    filter(date>=focus_month, date<=focus_month+days_in_month(focus_month)+5) %>%
+    mutate(value_rollmean = zoo::rollapplyr(value, width=7, FUN=mean, fill=NA),
+           worst_day = zoo::rollapplyr(value, width=7, FUN=max, fill=NA)) %>%
+    filter(date>=focus_month, date<=as.Date(focus_month)+days_in_month(as.Date(focus_month))+5) %>%
     group_by(city_name, NAME_1, location_id, pollutant_name) %>%
     slice_max(value_rollmean, n=1, with_ties = F) %>%
     group_by(pollutant_name) %>%
@@ -198,13 +200,18 @@ convert_dt <- function(x) {
 }
 
 
-get_aq <- function(start_date=ymd('2022-01-01'), update_data=T, aq_file=file.path('cached_data', 'city_air_quality_data.RDS')) {
+get_aq <- function(start_date=ymd('2022-01-01'),
+                   update_data=T,
+                   cache_folder='cache',
+                   aq_file=file.path(cache_folder, 'city_air_quality_data.RDS')) {
+
   message('read measured air quality data')
+  dir.create(cache_folder, showWarnings = F, recursive = T)
   aq <- NULL
 
   if(!is.null(aq_file) & file.exists(aq_file)) {
     readRDS(aq_file) -> aq
-    start_date <- aq$date %>% max %>% date
+    start_date <- aq$date %>% max %>% lubridate::date()
   }
 
   if(update_data) {
@@ -245,14 +252,16 @@ get_aq <- function(start_date=ymd('2022-01-01'), update_data=T, aq_file=file.pat
 
 get_deweathered_aq <- function(cities, pollutants = c('no2', 'pm25', 'o3'),
                                update_data=T,
-                               aq_file=file.path('cached_data', 'deweathered_air_quality_data.RDS')) {
-  message('read deweathered air quality data')
+                               cache_folder='cache',
+                               aq_file=file.path(cache_folder, 'deweathered_air_quality_data.RDS')) {
 
+  message('read deweathered air quality data')
+  dir.create(cache_folder, showWarnings = F, recursive = T)
   aq <- NULL
 
   if(!is.null(aq_file) & file.exists(aq_file)) {
     readRDS(aq_file) -> aq
-    start_date <- aq$date %>% max %>% date
+    start_date <- aq$date %>% max %>% date()
   }
 
   if(update_data) {
@@ -263,10 +272,11 @@ get_deweathered_aq <- function(cities, pollutants = c('no2', 'pm25', 'o3'),
             sprintf('http://api.energyandcleanair.org/v1/measurements?location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099,default_anomaly_o3_2018_2099&variable=anomaly&format=csv',
                     paste0(cities, collapse = ","),
                     poll)
-            #'http://api.energyandcleanair.org/v1/measurements?location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099&variable=anomaly&format=csv'
           )
         }
-      ) %>% bind_rows %>% bind_rows(aq) %>% rename(anomaly=value) -> aq
+      ) %>% bind_rows %>%
+      bind_rows(aq) %>%
+      dplyr::rename(anomaly=value) -> aq
 
     if(!is.null(aq_file)) aq %>% saveRDS(aq_file)
   }

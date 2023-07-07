@@ -14,11 +14,11 @@ LazyData: true
 Depends:
     ggplot2,
     creahelpers,
-    rcrea
+    rcrea,
+    lubridate
 Imports:
     plyr,
     tidyverse,
-    lubridate,
     scales,
     pbapply,
     countrycode,
