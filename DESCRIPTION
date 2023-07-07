@@ -1,0 +1,40 @@
+Package: chinatracker
+Type: Package
+Title: China tracker from CREA
+Version: 0.2
+Authors@R: c(
+    person("Lauri", "Myllyvirta", email = "lauri@energyandcleanair.org", role = c("cre", "aut")),
+    person("Hubert", "Thieriot", email = "hubert@energyandcleanair.org", role = c("aut"))
+    )
+Maintainer: Hubert Thieriot <hubert@energyandcleanair.org>
+Description: A R package to build monthly snapshots for China.
+License: GPL 3.0
+Encoding: UTF-8
+LazyData: true
+Depends:
+    ggplot2,
+    creahelpers,
+    rcrea,
+    lubridate
+Imports:
+    plyr,
+    tidyverse,
+    scales,
+    pbapply,
+    countrycode,
+    magrittr,
+    gsubfn,
+    creahelpers,
+    rcrea,
+    zoo,
+    readxl,
+    grid,
+    gridExtra,
+    ggrepel,
+    directlabels,
+    cowplot,
+    openxlsx
+Remotes:
+    energyandcleanair/creahelpers,
+    energyandcleanair/rcrea
+RoxygenNote: 7.1.1
