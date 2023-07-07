@@ -81,6 +81,8 @@ importFrom(magrittr,subtract)
 
 importFrom(openxlsx,read.xlsx)
 
+importFrom(plyr,ddply)
+
 importFrom(readxl,read_xlsx)
 
 importFrom(tidyr,nesting)
