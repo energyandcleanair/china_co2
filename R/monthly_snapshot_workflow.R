@@ -1,6 +1,6 @@
 build_snapshot <- function(focus_month = NULL, output_dir = NULL,
-                           gis_dir=Sys.getenv('GIS_DIR'),
-                           lang="EN") {
+                           lang="EN",
+                           update_aq_data=T) {
   # required input data:
   # "data/monthly industry stats.xlsx"
   # "data/Power Capacity.xlsx"
@@ -23,8 +23,8 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
 
 
   # preload air quality data
-  aq <- get_aq(start_date = ymd("2022-01-01"), update_data = F)
-  aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = F)
+  aq <- get_aq(start_date = ymd("2022-01-01"), update_data = update_aq_data)
+  aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = update_aq_data)
 
   #TODO add ZH once we have the translation file
   for (lang in c("EN")) {
