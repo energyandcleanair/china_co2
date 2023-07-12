@@ -57,10 +57,11 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
     plotdata %>% write_csv(file.path(output_dir, paste0(names(plots)[i], '.csv')))
 
-    plotdata %<>% mutate(across(c(Value.seasonadj, Value1m), ~convert_value(.x, Unit)*Unit_multiplier),
+    plotdata %<>% mutate(across(c(Value.seasonadj, Value1m), ~convert_value(.x, Unit) * Unit_multiplier),
                          YoY_3m = (Value3m.seasonadj/lag(Value3m.seasonadj, 12)-1)  %>% pmax(-.2) %>% pmin(.2),
                          plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1),
                          year=as.factor(year(date)))
+
     plotdata %>% mutate(YoY=get.yoy(Value1m, date) %>% scales::percent(accuracy = 1, style_positive='plus')) %>%
       filter(date %>% 'day<-'(1) %>% equals(focus_month)) -> yoy_labels
 

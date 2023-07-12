@@ -44,7 +44,8 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
                       output_dir=output_dir,
                       lang=lang)
 
-    air_quality_plots(focus_month = focus_month, update_data = F, aq = aq, aq_dw = aq_dw,
+    air_quality_plots(focus_month = focus_month,
+                      update_data = F, aq = aq, aq_dw = aq_dw,
                       output_dir=output_dir,
                       lang=lang)
   }

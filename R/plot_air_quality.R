@@ -250,7 +250,8 @@ get_aq <- function(start_date=ymd('2022-01-01'),
   return(aq)
 }
 
-get_deweathered_aq <- function(cities, pollutants = c('no2', 'pm25', 'o3'),
+get_deweathered_aq <- function(cities,
+                               pollutants = c('no2', 'pm25', 'o3'),
                                update_data=T,
                                cache_folder='cache',
                                aq_file=file.path(cache_folder, 'deweathered_air_quality_data.RDS')) {
@@ -259,7 +260,8 @@ get_deweathered_aq <- function(cities, pollutants = c('no2', 'pm25', 'o3'),
   dir.create(cache_folder, showWarnings = F, recursive = T)
   aq <- NULL
 
-  if(!is.null(aq_file) & file.exists(aq_file)) {
+  if(!is.null(aq_file) & file.exists(aq_file) & !update_data) {
+    # Deweathered data should be taken as a whole, not only missing dates
     readRDS(aq_file) -> aq
     start_date <- aq$date %>% max %>% date()
   }
@@ -274,7 +276,8 @@ get_deweathered_aq <- function(cities, pollutants = c('no2', 'pm25', 'o3'),
                     poll)
           )
         }
-      ) %>% bind_rows %>%
+      ) %>%
+      bind_rows %>%
       bind_rows(aq) %>%
       dplyr::rename(anomaly=value) -> aq
 
