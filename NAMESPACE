@@ -59,6 +59,8 @@ importFrom(dplyr,vars)
 importFrom(dplyr, group_modify)
 importFrom(dplyr,"%>%")
 
+importFrom(glue,glue)
+
 importFrom(grid,gpar)
 importFrom(grid,textGrob)
 importFrom(grid,unit.c)
