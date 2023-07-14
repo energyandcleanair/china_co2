@@ -78,8 +78,11 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
         ggplot(aes(city_name, value, fill=value)) + geom_col() + coord_flip() +
         scale_fill_gradientn(colors=crea_palettes$change[c(1:2,5:7)], guide='none') +
         theme_crea() +
+        lang_theme() +
         x_at_zero() +
-        labs(x='', y=trans('µg/m3'), subtitle=toupper(trans(group$pollutant_name))) -> p_means
+        labs(x='',
+             y=trans('µg/m3'),
+             subtitle=toupper(trans(group$pollutant_name))) -> p_means
 
       plotdata %>%
         group_by(city_name, type) %>%
@@ -141,7 +144,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   }
 
   plot_title="Monthly average pollutant concentrations in province capitals"
-  plot_subtitle=format(as.Date(focus_month), "%B %Y")
+  plot_subtitle=monthyearlab(focus_month)
   plots %>% lapply('[[', 'plot_means') %>% rev %>% make_pollution_plot(plot_title=plot_title,
                                                                        plot_subtitle=plot_subtitle)
 
@@ -156,12 +159,18 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
 
   #worst episodes (PM2.5, non-sandstorm PM2.5, O3)
-  replace_nil <- function(x) { if(length(x)==1) {x} else {1} }
-  aq_all %>% filter(year(date)==year(focus_month), source=='mee', type=='measured') %>%
-    mutate(violation=value>=case_when(pollutant_name=='PM2.5'~75,pollutant_name=='O3'~100,pollutant_name=='NO2'~200)) %>%
+  replace_nil_with_1 <- function(x) { if(length(x)==1) {x} else {1} }
+  replace_nil_with_0 <- function(x) { if(length(x)==1) {x} else {0} }
+
+  aq_all %>%
+    filter(year(date)==year(focus_month), source=='mee', type=='measured') %>%
+    mutate(violation=value>=case_when(
+      pollutant_name=='PM2.5'~75,
+      pollutant_name=='O3'~100,
+      pollutant_name=='NO2'~200)) %>%
     group_by(city_name, NAME_1, location_id, date) %>%
-    mutate(PM_ratio=replace_nil(value[pollutant_name=='PM2.5']/value[pollutant_name=='PM10']),
-           sand_storm=value[pollutant_name=='PM10']>150 & PM_ratio<.7 & value[pollutant_name=='NO2']<20 & value[pollutant_name=='SO2']<20) ->
+    mutate(PM_ratio=replace_nil_with_1(value[pollutant_name=='PM2.5']/value[pollutant_name=='PM10']),
+           sand_storm=replace_nil_with_0(value[pollutant_name=='PM10']>150 & PM_ratio<.7 & value[pollutant_name=='NO2']<20 & value[pollutant_name=='SO2']<20)) ->
     aq_episodes
 
   bind_rows(aq_episodes %>% filter(pollutant_name=='PM2.5') %>% mutate(value = ifelse(sand_storm, value, 0), pollutant_name='sandstorms (PM2.5)'),

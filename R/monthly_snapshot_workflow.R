@@ -21,32 +21,29 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
   # TODO
   # Upload all files to Google Drive
 
+  # extrafont::font_import()
 
   # preload air quality data
   aq <- get_aq(start_date = ymd("2022-01-01"), update_data = update_aq_data)
   aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = update_aq_data)
 
-  #TODO add ZH once we have the translation file
-  for (lang in c("EN")) {
+  # set lang in global environment
+  assign("lang", lang, envir = .GlobalEnv)
 
-    # set lang in global environment
-    assign("lang", lang, envir = .GlobalEnv)
+  capacity_plots(focus_month = focus_month,
+                 output_dir=output_dir,
+                 lang=lang)
 
-    capacity_plots(focus_month = focus_month,
-                   output_dir=output_dir,
-                   lang=lang)
+  industry_output_plots(focus_month = focus_month,
+                        output_dir=output_dir,
+                        lang=lang)
 
-    industry_output_plots(focus_month = focus_month,
-                          output_dir=output_dir,
-                          lang=lang)
+  fuel_supply_plots(focus_month = focus_month,
+                    output_dir=output_dir,
+                    lang=lang)
 
-    fuel_supply_plots(focus_month = focus_month,
-                      output_dir=output_dir,
-                      lang=lang)
-
-    air_quality_plots(focus_month = focus_month,
-                      update_data = F, aq = aq, aq_dw = aq_dw,
-                      output_dir=output_dir,
-                      lang=lang)
-  }
+  air_quality_plots(focus_month = focus_month,
+                    update_data = F, aq = aq, aq_dw = aq_dw,
+                    output_dir=output_dir,
+                    lang=lang)
 }
