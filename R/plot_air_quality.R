@@ -2,22 +2,26 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
                               lang=parent.frame()$lang,
                               output_dir=get('output_dir', envir=.GlobalEnv),
                               update_data=T,
+                              country="CN",
+                              cities=china_admin_capitals,
                               pollutants = c('no2', 'pm25', 'o3'),
                               aq_file = file.path('cached_data', 'city_air_quality_data.RDS'),
                               aq_dw_file = file.path('cached_data', 'deweathered_air_quality_data.RDS'),
-                              gis_dir = '~/GIS/',
-                              aq=NULL, aq_dw=NULL) {
+                              aq=NULL,
+                              aq_dw=NULL) {
 
-  cities <- read_csv('https://api.energyandcleanair.org/cities?country=CN&format=csv')
+  dir.create(output_dir, F, T)
+
+  cities_meta <- read_csv(glue('https://api.energyandcleanair.org/cities?country={country}&format=csv'))
 
   if(is.null(aq)) aq <- get_aq(start_date=ymd('2022-01-01'), update_data=update_data, aq_file=aq_file)
-  if(is.null(aq_dw)) aq_dw <- get_deweathered_aq(china_admin_capitals, pollutants, update_data=update_data, aq_file=aq_dw_file)
+  if(is.null(aq_dw)) aq_dw <- get_deweathered_aq(cities, pollutants, update_data=update_data, aq_file=aq_dw_file)
 
-  #read_csv('~/../Downloads/deweathered_mee_20230518.csv') %>% filter(pollutant=='o3', location_id %in% china_admin_capitals) %>%
+  #read_csv('~/../Downloads/deweathered_mee_20230518.csv') %>% filter(pollutant=='o3', location_id %in% cities) %>%
   #  bind_rows(aq_dw) -> aq_dw
 
   #add city and pollutant names
-  aq %<>% left_join(cities %>% select(location_id=id, city_name=name)) %>%
+  aq %<>% left_join(cities_meta %>% select(location_id=id, city_name=name)) %>%
     mutate(pollutant_name = case_when(pollutant=='pm25'~'PM2.5', T~toupper(pollutant)),
            date=date(date))
 
@@ -28,27 +32,30 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     aq_all
 
   #add province names
-  adm1 <- get_adm(1, 'coarse')
+  adm1 <- readr::read_csv(get_data_file('gadm1.csv'))
   aq_all %<>% mutate(GID_1 = location_id %>% gsub('^[a-z]*_|_[a-z]*$', '', .) %>% toupper,
                      iso3c = substr(GID_1, 1, 3)) %>%
-    inner_join(adm1@data %>% select(GID_1, NAME_1))
+    inner_join(adm1 %>% select(GID_1, NAME_1))
 
   #add city and province names in Chinese
-  aq_all %<>% filter(iso3c=='CHN') %>% mutate(city_name = case_when(is.na(city_name)~location_id %>% gsub('_.*', '', .) %>% capitalize_first(), T~city_name))
-
-  station_key <- read_csv('data/air_quality_station_codes.csv')
+  aq_all %<>% filter(iso3c==countrycode::countrycode(!!country, "iso2c", "iso3c")) %>%
+    mutate(city_name = case_when(is.na(city_name) ~ location_id %>% gsub('_.*', '', .) %>% capitalize_first(),
+                                 T~city_name))
 
   # Add proper air_quality_station_codes.csv with ProvinceZH
-  city_key <- station_key %>% distinct(city_name=CityEN, NAME_1=Province, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH)
+  if(country == "CN"){
+    station_key <- read_csv('data/air_quality_station_codes.csv')
+    city_key <- station_key %>% distinct(city_name=CityEN, NAME_1=Province, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH)
+    aq_all %<>% inner_join(city_key) %>% dplyr::rename(city_name_EN=city_name, NAME_1_EN=NAME_1)
 
-  aq_all %<>% inner_join(city_key) %>% dplyr::rename(city_name_EN=city_name, NAME_1_EN=NAME_1)
+    if(lang == 'EN') aq_all %<>% mutate(city_name = city_name_EN, NAME_1 = NAME_1_EN)
+    if(lang == 'ZH') aq_all %<>% mutate(city_name = city_name_ZH, NAME_1 = NAME_1_ZH)
 
-  if(lang == 'EN') aq_all %<>% mutate(city_name = city_name_EN, NAME_1 = NAME_1_EN)
-  if(lang == 'ZH') aq_all %<>% mutate(city_name = city_name_ZH, NAME_1 = NAME_1_ZH)
+  }
 
   aq_all %>%
-    filter(location_id %in% china_admin_capitals,
-           month(date) == month(focus_month)) %>%
+    filter(location_id %in% cities) %>%
+    filter(month(date) == month(focus_month)) %>%
     group_by(city_name, pollutant_name, type, year=year(date)) %>%
     dplyr::summarise(dplyr::across(c(value, anomaly), mean)) ->
     aq_annual
@@ -62,6 +69,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   aq_annual %>% filter(pollutant_name %in% c('PM2.5', 'O3', 'NO2')) %>%
     group_by(pollutant_name) %>%
     group_map(function(plotdata, group) {
+
       plotdata %>% ungroup %>% filter(year==year(focus_month), type=='measured') %>% arrange(value) %>%
         mutate(city_name = factor(city_name, levels=city_name), pollutant_name=group$pollutant_name) %>%
         select(-anomaly, -mean_value) -> plotdata_means
@@ -70,8 +78,11 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
         ggplot(aes(city_name, value, fill=value)) + geom_col() + coord_flip() +
         scale_fill_gradientn(colors=crea_palettes$change[c(1:2,5:7)], guide='none') +
         theme_crea() +
+        lang_theme() +
         x_at_zero() +
-        labs(x='', y=trans('µg/m3'), subtitle=toupper(trans(group$pollutant_name))) -> p_means
+        labs(x='',
+             y=trans('µg/m3'),
+             subtitle=toupper(trans(group$pollutant_name))) -> p_means
 
       plotdata %>%
         group_by(city_name, type) %>%
@@ -90,10 +101,13 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
                pollutant_name=toupper(trans(group$pollutant_name)))
 
       guide_to_use <- case_when(group$pollutant_name=='NO2'~'legend', T~'none')
-
+      levels <- levels(yoy$city_name)
       ggplot(mapping=aes(city_name, yoy)) +
-        geom_col(data=yoy %>% filter(type!='total'), aes(fill=trans(type))) +
-        geom_point(data=yoy %>% filter(type=='total'), aes(shape=trans('year-on-year change')), size=3) +
+        geom_col(data=yoy %>% filter(type!='total'),
+                 aes(fill=trans(type))) +
+        geom_point(data=yoy %>% filter(type=='total'),
+                   aes(shape=trans('year-on-year change')), size=3) +
+        scale_x_discrete(limits=levels) +
         coord_flip() +
         theme_crea() +
         scale_fill_crea_d('change', col.index = c(5,2), name='', guide=guide_to_use) +
@@ -104,33 +118,59 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
       return(list(plot_means=p_means, plot_yoy=p_yoy, data_means=plotdata_means, data_yoy=yoy))
     }) -> plots
 
-  make_pollution_plot <- function(plotlist, plot_title, rel_widths=1) {
-    plot_grid(plotlist=plotlist,nrow=1, rel_widths=rel_widths) -> g
-    title <- ggdraw() + draw_label(trans(plot_title), size=22, fontface='bold', color=unname(pal_crea['Dark.blue']))
-    plot_grid(title, g, ncol=1, rel_heights=c(0.1, 1)) -> p
-    quicksave(file.path(output_dir, paste0(plot_title, ', ', lang,'.png')), plot=p, footer_height=.03)
+  make_pollution_plot <- function(plotlist, plot_title, plot_subtitle, rel_widths=1) {
+    plot_grid(plotlist=plotlist, nrow=1, rel_widths=rel_widths) -> g
+    title <- ggdraw() +
+      draw_label(trans(plot_title), size=22, fontface='bold', color=unname(pal_crea['Dark.blue']))
+
+    title2 <- grid::textGrob(trans(plot_title),
+                           gp = gpar(fontface = "bold", cex = 1.5, col = unname(pal_crea['Dark.blue'])),
+                           just = 0,
+                           x = unit(0.02, "npc")
+    )
+
+    subtitle <- grid::textGrob(trans(plot_subtitle),
+                              gp = gpar(cex = 1),
+                              just = 0,
+                              x = unit(0.02, "npc")
+    )
+
+
+    plot_grid(title2, subtitle, g, ncol=1,
+              rel_heights=c(0.06, 0.03, 1)
+              ) -> p
+
+    quicksave(file.path(output_dir, paste0(plot_title, ', ', lang,'.png')), plot=p, footer_height=.05)
   }
 
   plot_title="Monthly average pollutant concentrations in province capitals"
-  plots %>% lapply('[[', 'plot_means') %>% rev %>% make_pollution_plot(plot_title=plot_title)
+  plot_subtitle=monthyearlab(focus_month)
+  plots %>% lapply('[[', 'plot_means') %>% rev %>% make_pollution_plot(plot_title=plot_title,
+                                                                       plot_subtitle=plot_subtitle)
 
   plots %>% lapply('[[', 'data_means') %>% bind_rows() %>% write_csv(file.path(output_dir, paste0(plot_title, ', ', lang, '.csv')))
 
 
   plot_title="Year-on-year changes in pollutant concentrations in province capitals"
   plots %>% lapply('[[', 'plot_yoy') %>% rev() %>%
-    make_pollution_plot(plot_title=plot_title, rel_widths = c(.25,.25,.5))
+    make_pollution_plot(plot_title=plot_title, plot_subtitle=plot_subtitle, rel_widths = c(.25,.25,.5))
 
   plots %>% lapply('[[', 'data_yoy') %>% bind_rows() %>% write_csv(file.path(output_dir, paste0(plot_title, '.csv')))
 
 
   #worst episodes (PM2.5, non-sandstorm PM2.5, O3)
-  replace_nil <- function(x) { if(length(x)==1) {x} else {1} }
-  aq_all %>% filter(year(date)==year(focus_month), source=='mee', type=='measured') %>%
-    mutate(violation=value>=case_when(pollutant_name=='PM2.5'~75,pollutant_name=='O3'~100,pollutant_name=='NO2'~200)) %>%
+  replace_nil_with_1 <- function(x) { if(length(x)==1) {x} else {1} }
+  replace_nil_with_0 <- function(x) { if(length(x)==1) {x} else {0} }
+
+  aq_all %>%
+    filter(year(date)==year(focus_month), source=='mee', type=='measured') %>%
+    mutate(violation=value>=case_when(
+      pollutant_name=='PM2.5'~75,
+      pollutant_name=='O3'~100,
+      pollutant_name=='NO2'~200)) %>%
     group_by(city_name, NAME_1, location_id, date) %>%
-    mutate(PM_ratio=replace_nil(value[pollutant_name=='PM2.5']/value[pollutant_name=='PM10']),
-           sand_storm=value[pollutant_name=='PM10']>150 & PM_ratio<.7 & value[pollutant_name=='NO2']<20 & value[pollutant_name=='SO2']<20) ->
+    mutate(PM_ratio=replace_nil_with_1(value[pollutant_name=='PM2.5']/value[pollutant_name=='PM10']),
+           sand_storm=replace_nil_with_0(value[pollutant_name=='PM10']>150 & PM_ratio<.7 & value[pollutant_name=='NO2']<20 & value[pollutant_name=='SO2']<20)) ->
     aq_episodes
 
   bind_rows(aq_episodes %>% filter(pollutant_name=='PM2.5') %>% mutate(value = ifelse(sand_storm, value, 0), pollutant_name='sandstorms (PM2.5)'),
@@ -203,13 +243,15 @@ convert_dt <- function(x) {
 get_aq <- function(start_date=ymd('2022-01-01'),
                    update_data=T,
                    cache_folder='cache',
-                   aq_file=file.path(cache_folder, 'city_air_quality_data.RDS')) {
+                   aq_file=file.path(cache_folder, 'city_air_quality_data.RDS'),
+                   country='CN',
+                   source='mee') {
 
   message('read measured air quality data')
   dir.create(cache_folder, showWarnings = F, recursive = T)
   aq <- NULL
 
-  if(!is.null(aq_file) & file.exists(aq_file)) {
+  if(!is.null(aq_file) && file.exists(aq_file)) {
     readRDS(aq_file) -> aq
     start_date <- aq$date %>% max %>% lubridate::date()
   }
@@ -220,15 +262,14 @@ get_aq <- function(start_date=ymd('2022-01-01'),
         message(start_date)
         end_date=start_date %>% 'day<-'(days_in_month(start_date))
         read_csv(paste0("https://api.energyandcleanair.org/measurements?",
-                        "country=CN&pollutant=no2,pm25,pm10,so2&",
-                        "date_from=",start_date,"&date_to=", end_date,
-                        "&level=city&do_average=true&averaging_period=1d&format=csv")) %>%
+                        glue("country={country}&source={source}&date_from={start_date}&date_to={end_date}"),
+                             "&pollutant=no2,pm25,pm10,so2&level=city&do_average=true&averaging_period=1d&format=csv")) %>%
           select(-any_of('...1')) %>%
           mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_24h
 
         #read 8-hour max ozone
         read_csv(paste0("https://api.energyandcleanair.org/measurements?",
-                        "country=CN&pollutant=o3&process=city_8h_max_day_mad&",
+                        glue("country={country}&pollutant=o3&process=city_8h_max_day_mad&"),
                         "date_from=",start_date,"&date_to=", end_date,
                         "&level=city&do_average=true&averaging_period=1d&format=csv")) %>%
           select(-any_of('...1')) %>%
@@ -237,8 +278,8 @@ get_aq <- function(start_date=ymd('2022-01-01'),
         #read 1-hour max NO2
         if(F) {
           read_csv(paste0("https://api.energyandcleanair.org/measurements?",
-                          "country=CN&pollutant=no2&process=city_max_day_mad&",
-                          "date_from=",start_date,"&date_to=", end_date,
+                          glue("country={country}&source={source}"),
+                          "&pollutant=no2&process=city_max_day_mad",
                           "&level=city&do_average=true&averaging_period=1d&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv")) -> conc_1h
         }
 
@@ -250,16 +291,19 @@ get_aq <- function(start_date=ymd('2022-01-01'),
   return(aq)
 }
 
-get_deweathered_aq <- function(cities, pollutants = c('no2', 'pm25', 'o3'),
+get_deweathered_aq <- function(cities,
+                               pollutants = c('no2', 'pm25', 'o3'),
                                update_data=T,
                                cache_folder='cache',
+                               source='mee',
                                aq_file=file.path(cache_folder, 'deweathered_air_quality_data.RDS')) {
 
   message('read deweathered air quality data')
   dir.create(cache_folder, showWarnings = F, recursive = T)
   aq <- NULL
 
-  if(!is.null(aq_file) & file.exists(aq_file)) {
+  if(!is.null(aq_file) && file.exists(aq_file) & !update_data) {
+    # Deweathered data should be taken as a whole, not only missing dates
     readRDS(aq_file) -> aq
     start_date <- aq$date %>% max %>% date()
   }
@@ -269,12 +313,15 @@ get_deweathered_aq <- function(cities, pollutants = c('no2', 'pm25', 'o3'),
       pbapply::pblapply(
         function(poll) {
           read_csv(
-            sprintf('http://api.energyandcleanair.org/v1/measurements?location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099,default_anomaly_o3_2018_2099&variable=anomaly&format=csv',
+            paste0('http://api.energyandcleanair.org/v1/measurements?',
+            sprintf("location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099,default_anomaly_o3_2018_2099&variable=anomaly&format=csv&source=%s",
                     paste0(cities, collapse = ","),
-                    poll)
+                    poll,
+                    source))
           )
         }
-      ) %>% bind_rows %>%
+      ) %>%
+      bind_rows %>%
       bind_rows(aq) %>%
       dplyr::rename(anomaly=value) -> aq
 

@@ -33,7 +33,8 @@ Imports:
     ggrepel,
     directlabels,
     cowplot,
-    openxlsx
+    openxlsx,
+    glue
 Remotes:
     energyandcleanair/creahelpers,
     energyandcleanair/rcrea
