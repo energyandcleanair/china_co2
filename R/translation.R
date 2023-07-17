@@ -1,23 +1,24 @@
-trans <- function(x, 
-                  lang=get('lang', envir=.GlobalEnv), 
-                  trans_file = 'data/label translations.xlsx',
+trans <- function(x,
+                  lang=get("lang", .GlobalEnv),
+                  trans_file = NULL, #get_data_file('label translations.xlsx'),
                   wrap_chars=NULL,
                   ignore.case=T,
                   when_missing='warn') {
+
   if(lang=='EN') return(x)
-  
+
   read_xlsx(trans_file) -> dict
-  
-  if(!is.null(wrap_chars)) dict$ZH %<>% strsplit_lang(width=wrap_chars)
-  
+
+  if(!is.null(wrap_chars)) dict$ZH %<>% strsplit_lang(width=wrap_chars, lang=lang)
+
   if(ignore.case) {
     x %<>% tolower
     dict$EN %<>% tolower
   }
-  
+
   dictvect <- dict$ZH
   names(dictvect) <- dict$EN
-  
+
   #identify values not translated
   missing <- x %whichnotin% dict$EN
   if(length(missing)>0) {
@@ -25,14 +26,14 @@ trans <- function(x,
     if(when_missing=='warn') warning(msg)
     if(when_missing=='stop') stop(msg)
   }
-  
+
   if(is.character(x)) x %<>% recode(!!!dictvect)
   if(is.factor(x)) x %<>% recode_factor(!!!dictvect, ordered=T)
-  
+
   x
 }
 
-translateSources <- function(x, lang=get('lang', envir=.GlobalEnv)) {
+translateSources <- function(x, lang=get("lang", .GlobalEnv)) {
   if(lang=='ZH')
     x <- case_when(grepl('Hydro', x)~'水电',
                    grepl('Nuclear', x)~'核电',
@@ -42,16 +43,16 @@ translateSources <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   x
 }
 
-translateProvinces <- function(x, lang=get('lang', envir=.GlobalEnv)) {
-  read_xlsx('data/provincesZH.xlsx') -> provdict
-  
+translateProvinces <- function(x, lang=get("lang", .GlobalEnv)) {
+  read_xlsx(get_data_file('provincesZH.xlsx')) -> provdict
+
   if(lang=='ZH')
     x <- provdict$ProvinceZH[match(x, provdict$Province)]
-  
+
   return(x)
 }
 
-translateFuels <- function(x, lang=get('lang', envir=.GlobalEnv)) {
+translateFuels <- function(x, lang=get("lang", .GlobalEnv)) {
   recode_factor(x,
                 'Steam Coal'='动力煤',
                 'Natural Gas'='天然气',
@@ -89,7 +90,7 @@ unit_label <- function(original_unit, lang=get('lang', envir=.GlobalEnv)) {
                           original_unit=='100M cu.m'~'亿立方米',
                           original_unit=='10000 units'~'万辆')
   }
-  
+
   if(lang=='EN') {
     new_unit <- case_when(original_unit == "10MW"~'GW',
                           original_unit == "10000 tons"~'Mt',
@@ -110,9 +111,9 @@ lang_theme <- function(lang=get('lang', envir=.GlobalEnv)) {
 
 strsplit_lang <- function(x, width, lang=get('lang', envir=.GlobalEnv)) {
   if(lang=='EN') return(stringr::str_wrap(x, width=width))
-  
+
   starts <- seq(1, nchar(x), by=width) %>% c(nchar(x)) %>% unique
-  
+
   # chop it up
   out <- character()
   for(i in 1:(length(starts)-1)) {
