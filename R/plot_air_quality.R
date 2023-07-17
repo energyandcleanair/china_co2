@@ -45,7 +45,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   # Add proper air_quality_station_codes.csv with ProvinceZH
   if(country == "CN"){
     station_key <- read_csv('data/air_quality_station_codes.csv')
-    city_key <- station_key %>% distinct(city_name=CityEN, NAME_1=Province, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH)
+    city_key <- station_key %>% distinct(city_name=CityEN, NAME_1=ProvinceEN, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH)
     aq_all %<>% inner_join(city_key) %>% dplyr::rename(city_name_EN=city_name, NAME_1_EN=NAME_1)
 
     if(lang == 'EN') aq_all %<>% mutate(city_name = city_name_EN, NAME_1 = NAME_1_EN)
