@@ -179,8 +179,12 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     aq_episodes_w_sandstorms
 
   date_format_fun <- function(date) {
-    if(lang=='EN') format(date, "%b %d")
-    if(lang=='ZH') paste0(month(date), '月', day(date), '日')
+    if(lang=='EN'){
+      return(format(date, "%b %d"))
+    }
+    if(lang=='ZH'){
+      return(paste0(month(date), '月', day(date), '日'))
+    }
   }
 
   aq_episodes_w_sandstorms %>% filter(grepl('PM2.5|O3|NO2', pollutant_name), !is.na(value)) %>%
