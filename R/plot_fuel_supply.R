@@ -3,7 +3,8 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
                                   output_dir=get('output_dir', envir=.GlobalEnv)) {
   in_file = get_data_file("fuel supply.xlsx")
 
-  readwindEN(in_file, c('var', 'prod'), columnFilter = "YTD", read_vardata = T, zero_as_NA = T) -> fuelsupply
+  readwindEN(in_file, c('var', 'prod'), read_vardata = T, zero_as_NA = T) %>%
+    replace_na(list(type='M')) -> fuelsupply
 
   fuelsupply %<>% arrange(date) %>%
     mutate(Value=Value*ifelse(Unit=="ton", 1e-4,1),
@@ -70,7 +71,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     ggplot(aes(date, Value12m*12, col=trans(prod))) + geom_line(linewidth=1.5) +
     theme_crea() +
     labs(title=trans('Output of different oil products'), subtitle=trans('12-month moving sum'),
-         y=ifelse(lang=='ZH', unit_label('100Mt', lang=lang, lang=lang), 'Mt'),
+         y=ifelse(lang=='ZH', unit_label('100Mt', lang=lang), 'Mt'),
          x='') +
     scale_color_crea_d('dramatic', name='') +
     expand_limits(y=0) + x_at_zero() +
