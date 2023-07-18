@@ -94,9 +94,6 @@ importFrom(magrittr,not)
 
 importFrom(openxlsx,read.xlsx)
 
-importFrom(plyr,ddply)
-importFrom(plyr,".")
-
 importFrom(readr, read_csv)
 importFrom(readr, write_csv)
 importFrom(readr, write_excel_csv)
