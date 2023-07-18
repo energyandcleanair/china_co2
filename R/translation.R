@@ -1,6 +1,6 @@
 trans <- function(x,
                   lang=get("lang", .GlobalEnv),
-                  trans_file = NULL, #get_data_file('label translations.xlsx'),
+                  trans_file = get_data_file('label translations.xlsx'),
                   wrap_chars=NULL,
                   ignore.case=T,
                   when_missing='warn') {
