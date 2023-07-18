@@ -36,7 +36,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
                  expand = expansion(mult=c(.0,.17))) +
     scale_y_continuous(expand=expansion(mult=c(0,.05))) +
     theme_crea(axis.text.x=element_text(hjust=.2)) +
-    lang_theme(lang=lang) +
+    # lang_theme(lang=lang) +
     scale_color_crea_d(col.index = c(7, 2:5, 1), labels=yearlab, guide='none') +
     geom_dl(aes(label=yearlab(year, lang=lang)), method=list('last.bumpup', cex=.7)) -> plt
   quicksave(file.path(output_dir, paste0('Newly added power capacity, year-to-date, ',lang,'.png')), plot=plt, scale=1.2)

@@ -69,9 +69,15 @@ monthlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
 }
 
 yearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
-  if(is.Date(x) | is.POSIXt(x)) x %<>% year
+  if(lubridate::is.Date(x) | lubridate::is.POSIXt(x)) x %<>% year
   if(lang=='ZH') x %<>% paste0('年')
   x
+}
+
+monthyearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
+  if(lang=='EN') x %<>% format.Date('%b %Y')
+  if(lang=='ZH') x <- glue("{year(as.Date(x))} 年 {month(as.Date(x))} 月")
+  return(x)
 }
 
 convert_value <- function(x, original_unit, lang=get('lang', envir=.GlobalEnv)) {
@@ -104,7 +110,7 @@ unit_label <- function(original_unit, lang=get('lang', envir=.GlobalEnv)) {
 }
 
 lang_theme <- function(lang=get('lang', envir=.GlobalEnv)) {
-  case_when(lang=='ZH'~list(theme(text=element_text(family='Source Sans'),
+  case_when(lang=='ZH'~list(theme(text=element_text(family='PingFang SC'),
                                   plot.title = element_text(size=rel(2), margin=margin(c(20,12,16,12))))),
             T~list(theme()))
 }
