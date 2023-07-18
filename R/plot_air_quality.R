@@ -39,7 +39,8 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   station_key <- read_csv('data/air_quality_station_codes.csv')
 
   # Add proper air_quality_station_codes.csv with ProvinceZH
-  city_key <- station_key %>% distinct(city_name=CityEN, NAME_1=Province, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH)
+  city_key <- station_key %>% distinct(city_name=CityEN, NAME_1=ProvinceEN, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH) %>%
+    filter(is.na(city_name))
 
   aq_all %<>% inner_join(city_key) %>% dplyr::rename(city_name_EN=city_name, NAME_1_EN=NAME_1)
 
@@ -139,8 +140,9 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     aq_episodes_w_sandstorms
 
   date_format_fun <- function(date) {
-    if(lang=='EN') format(date, "%b %d")
-    if(lang=='ZH') paste0(month(date), '月', day(date), '日')
+    if(lang=='EN') format(date, "%b %d") -> date_out
+    if(lang=='ZH') paste0(month(date), '月', day(date), '日') -> date_out
+    return(date_out)
   }
 
   aq_episodes_w_sandstorms %>% filter(grepl('PM2.5|O3|NO2', pollutant_name), !is.na(value)) %>%
