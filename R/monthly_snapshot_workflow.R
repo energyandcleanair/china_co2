@@ -27,25 +27,25 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
   aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = F)
 
   #TODO add ZH once we have the translation file
-  for (lang in c("EN")) {
+  for (target_lang in lang) {
 
     # set lang in global environment
-    assign("lang", lang, envir = .GlobalEnv)
+    assign("lang", target_lang, envir = .GlobalEnv)
 
     capacity_plots(focus_month = focus_month,
                    output_dir=output_dir,
-                   lang=lang)
+                   lang=target_lang)
 
     industry_output_plots(focus_month = focus_month,
                           output_dir=output_dir,
-                          lang=lang)
+                          lang=target_lang)
 
     fuel_supply_plots(focus_month = focus_month,
                       output_dir=output_dir,
-                      lang=lang)
+                      lang=target_lang)
 
     air_quality_plots(focus_month = focus_month, update_data = F, aq = aq, aq_dw = aq_dw,
                       output_dir=output_dir,
-                      lang=lang)
+                      lang=target_lang)
   }
 }
