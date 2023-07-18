@@ -142,7 +142,8 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     expand_limits(y=0) + x_at_zero() -> p1
 
   plotdata1 %>%
-    ddply(.(prod), roll12m, months=3, outcol='Value3m') %>%
+    group_by(prod) %>%
+    roll12m(months=3, outcol='Value3m') %>%
     group_by(date) %>% summarise(Value3m = Value3m[grepl('New Energy', prod)]/Value3m[grepl('Auto', prod)]) %>%
     mutate(prod='Share of New Energy Vehicles', Unit='percent') -> plotdata2
 
