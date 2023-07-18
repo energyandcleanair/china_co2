@@ -161,6 +161,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   #worst episodes (PM2.5, non-sandstorm PM2.5, O3)
   replace_nil_with_1 <- function(x) { if(length(x)==1) {x} else {1} }
   replace_nil_with_0 <- function(x) { if(length(x)==1) {x} else {0} }
+  replace_nil_with_NA <- function(x) { if(length(x)==1) {x} else {NA} }
 
   aq_all %>%
     filter(year(date)==year(focus_month), source=='mee', type=='measured') %>%
@@ -170,7 +171,11 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
       pollutant_name=='NO2'~200)) %>%
     group_by(city_name, NAME_1, location_id, date) %>%
     mutate(PM_ratio=replace_nil_with_1(value[pollutant_name=='PM2.5']/value[pollutant_name=='PM10']),
-           sand_storm=replace_nil_with_0(value[pollutant_name=='PM10']>150 & PM_ratio<.7 & value[pollutant_name=='NO2']<20 & value[pollutant_name=='SO2']<20)) ->
+           sand_storm=replace_nil_with_NA(value[pollutant_name=='PM10'])>150 & PM_ratio<.7
+           & replace_nil_with_NA(value[pollutant_name=='NO2']) <20
+           & replace_nil_with_NA(value[pollutant_name=='SO2']) <20,
+           sand_storm = tidyr::replace_na(sand_storm, F)
+           ) ->
     aq_episodes
 
   bind_rows(aq_episodes %>% filter(pollutant_name=='PM2.5') %>% mutate(value = ifelse(sand_storm, value, 0), pollutant_name='sandstorms (PM2.5)'),
