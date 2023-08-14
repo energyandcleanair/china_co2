@@ -329,8 +329,8 @@ get_deweathered_aq <- function(cities,
         }
       ) %>%
       bind_rows %>%
-      bind_rows(aq) %>%
-      dplyr::rename(anomaly=value) -> aq
+      dplyr::rename(anomaly=value) %>%
+      bind_rows(aq) -> aq
 
     if(!is.null(aq_file)) aq %>% saveRDS(aq_file)
   }
