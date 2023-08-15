@@ -5,6 +5,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
                               country="CN",
                               cities=china_admin_capitals,
                               pollutants = c('no2', 'pm25', 'o3'),
+                              aq=NULL, aq_dw=NULL,
                               aq_file = file.path('cached_data', 'city_air_quality_data.RDS'),
                               aq_dw_file = file.path('cached_data', 'deweathered_air_quality_data.RDS'),
                               gis_dir=Sys.getenv('GIS_DIR')) {
