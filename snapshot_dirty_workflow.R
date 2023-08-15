@@ -46,6 +46,9 @@ for (target_lang in c('EN', 'ZH')) {
                         output_dir=output_dir,
                         lang=target_lang)
 
+  steel_indicator_plots(output_dir=output_dir,
+                        lang=target_lang)
+
   fuel_supply_plots(focus_month = focus_month,
                     output_dir=output_dir,
                     lang=target_lang)
