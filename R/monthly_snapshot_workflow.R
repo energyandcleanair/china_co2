@@ -27,9 +27,9 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
   # preload air quality data
   aq <- get_aq(start_date = ymd("2022-01-01"), update_data = update_aq_data)
   aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = update_aq_data)
+  check_aq_data(aq=aq, aq_dw=aq_dw, focus_month=focus_month, cities=china_admin_capitals)
 
   for (target_lang in lang) {
-
     # set lang in global environment
     assign("lang", target_lang, envir = .GlobalEnv)
 

@@ -276,7 +276,7 @@ get_aq <- function(start_date=ymd('2022-01-01'),
 
         #read 8-hour max ozone
         read_csv(paste0("https://api.energyandcleanair.org/measurements?",
-                        glue("country={country}&pollutant=o3&process=city_8h_max_day_mad&"),
+                        glue("country={country}&source={source}&pollutant=o3&process=city_8h_max_day_mad&"),
                         "date_from=",start_date,"&date_to=", end_date,
                         "&level=city&do_average=true&averaging_period=1d&format=csv")) %>%
           select(-any_of('...1')) %>%
