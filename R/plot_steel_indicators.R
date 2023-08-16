@@ -16,16 +16,16 @@ steel_indicator_plots <- function(lang=parent.frame()$lang,
            yr=as.character(year(date)),
            Name=gsub('Custeel: | \\(.*|: National|: China|China: |Refining Production | Steel Mills| of Major Steel Mills', '', Name)) %>%
     ggplot(aes(plotdate, Value, col=yr)) +
-    facet_wrap(~Name, scales='free_y') +
+    facet_wrap(~trans(Name), scales='free_y') +
     geom_line(size=1, alpha=.75) +
-    geom_dl(aes(label=yr), method=list('last.bumpup', cex=.6, hjust=-.1)) +
-    scale_x_date(date_labels = '%b', expand=expansion(add=c(0,40))) +
+    geom_dl(aes(label=yearlab(yr)), method=list('last.bumpup', cex=.6, hjust=-.1)) +
+    scale_x_date(labels = monthlab, expand=expansion(add=c(0,60))) +
     #scale_y_continuous(labels=scales::percent) +
     x_at_zero() +
     theme_crea() + theme(strip.text = element_text(size=rel(.8))) +
     scale_color_crea_d('dramatic', col.index = rep(1:6,2), guide=F) +
     scale_linetype_manual(values=2:1) +
-    labs(x='', y='', col='year', title='Steel industry weekly operating indicators',
-         caption='Source: Wind Information') -> p
-  quicksave(file.path(output_dir, 'Steel industry weekly operating indicators.png'), plot=p, scale=1.5)
+    labs(x='', y='', col='year', title=trans('Steel industry weekly operating indicators'),
+         caption=trans('Source: Wind Information')) -> p
+  quicksave(file.path(output_dir, paste0('Steel industry weekly operating indicators',lang,'.png')), plot=p, scale=1.5)
 }
