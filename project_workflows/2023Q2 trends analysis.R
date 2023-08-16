@@ -98,12 +98,48 @@ elec_plot %>% mutate(sector=case_when(sector %in% elec_plot$sector[1:20]~sector,
 quicksave(file.path(output_dir, 'Drivers of electricity consumption growth.png'), plot=p, scale=1.33, footer_height=.03)
 
 
+d.quarter %>% replace_na(list(sector='All Sectors')) %>%
+  filter(grepl('predicted', name),
+         date>='2017-01-01',
+         grepl('consumption', var, ignore.case=T) | prod=='Cement',
+         grepl('Cement|Oil Products|Coal|Coking|Natural', prod),
+         grepl('All|Power|Total', sector) | grepl('Coking', prod),
+         !grepl('WIND', var)) ->
+  energy_plot
 
 
+energy_plot %<>% filter(prod=='Steam Coal') %>%
+  group_by(prod, date, Unit, var) %>%
+  summarise(across(is.numeric, function(x) x[sector=='Total']-x[sector=='Power Industry'])) %>%
+  mutate(sector='Non-power use') %>%
+  bind_rows(energy_plot) %>% filter(sector != 'Total')
+
+energy_plot %>%
+  ggplot(aes(date, CO2_12m*12)) + geom_line(size=1, col=crea_palettes$dramatic[2]) +
+  facet_wrap(~prod+sector, scales='free_y') +
+  geom_smooth(data=energy_plot %>% filter(date<='2020-01-01', date>='2017-01-01'),
+              aes(col='pre-COVID trendline'),
+              fullrange=T, method='lm') +
+  plot_formats + snug_x_date +
+  labs(title='Trends in China CO2 by fuel and sector',
+       x='', y='Mt/year, 12-month moving mean') -> plt
+quicksave(file.path(output_dir, 'Trends in China CO2 by fuel and sector.png'), plot=plt, footer_height=.03)
+
+energy_plot %>% write_csv(file.path(output_dir, 'Trends in China CO2 by fuel and sector.csv'))
+
+in_file = get_data_file("monthly industry stats.xlsx")
+readwindEN(in_file, c('var', 'prod'), columnExclude = 'Consumption', read_vardata = T) -> prod
+prod %<>% group_by(var, prod, type) %>% unYTD()
+prod %>% filter(grepl('Auto|New Energy', prod), date>max(date)-365*10) %>% group_by(prod) %>% summarise(across(Value1m, sum, na.rm=T)) %>%
+  summarise(share=Value1m[2]/Value1m[1])
+prod %>% filter(grepl('Auto|New Energy', prod), date>max(date)-365*11, date<=max(date)-365*1) %>% group_by(prod) %>% summarise(across(Value1m, sum, na.rm=T)) %>%
+  summarise(share=Value1m[2]/Value1m[1])
+
+prod %>% filter(grepl('Auto|New Energy', prod), month(date) %in% 1:6) %>% group_by(year(date), prod) %>% summarise(across(Value1m, sum, na.rm=T)) %>%
+  summarise(share=Value1m[2]/Value1m[1]) %>% tail
 
 
-
-in_file = "real estate indicators.xlsx"
+in_file = "data/real estate indicators.xlsx"
 getwindvars(in_file)
 readwindEN(in_file, c('var', 'type'), columnExclude = "Funds", read_vardata = T) -> re
 readwindEN(in_file, c('var', 'source', 'type'), columnFilter = "Funds", read_vardata = T) -> re_funds
@@ -114,18 +150,24 @@ re %<>% bind_rows(re_funds) %>%
   group_modify(function(df, ...) { df %>% unYTD() %>% roll12m})
 
 require(directlabels)
-re %>% filter(year(date)>=2015, grepl('Funds', var), !grepl('Foreign', source)) %>%
-  ggplot(aes(date, Value12m*12/10, col=source)) + geom_line(size=1) + geom_dl(aes(label=source), method=list('last.bumpup', cex=.8)) +
+re %>% filter(year(date)>=2015, grepl('Fund', var), !grepl('Foreign', source)) %>%
+  mutate(source=na.cover(source, type)) %>%
+  ggplot(aes(date, Value12m*12/10e3, col=source)) +
+  geom_line(size=1) +
+  geom_dl(aes(label=source), method=list('last.bumpup', cex=.8)) +
   theme_crea() + scale_color_crea_d(guide=F) +
-  scale_x_date(expand=expansion(mult=c(0, .5))) +
+  scale_x_date(expand=expansion(mult=c(0, .25))) +
+  x_at_zero() +
   labs(title='Real estate financing in China',
        subtitle='12-month moving sum',
-       y='CNY bln', x='')
-ggsave('Real estate financing in China.png')
+       y='CNY trn', x='') -> plt
+quicksave(file.path(output_dir, 'Real estate financing in China.png'), plot=plt, footer_height=.03)
 
-re %>% filter(year(date)>=2015, !grepl('Fund|Price', var)) %>%
-  mutate(Value12m = Value12m / case_when(Unit=='CNY 100 mn'~ 10000,
-                                         Unit=='10000 sq.m'~100),
+re %>% write_csv(file.path(output_dir, 'Real estate financing in China.csv'))
+
+re %>% filter(year(date)>=2010, !grepl('Fund|Price', var)) %>%
+  mutate(Value12m = Value12m / case_when(Unit=='CNY 100mn'~ 10000,
+                                         Unit %in% c('10000 sq.m', '10k ㎡')~100),
          Unit = recode(Unit, 'CNY 100 mn'='CNY trn', '10000 sq.m'='mln m2')) %>%
   ggplot(aes(date, Value12m*12)) + geom_line(size=1) + facet_wrap(~var+Unit, scales='free_y') +
   theme_crea() +

@@ -14,12 +14,12 @@ require(zoo)
 output_dir='outputs/2023Q2'
 dir.create(output_dir)
 
-last_month = ymd('2023-05-31')
+last_month = ymd('2023-06-30')
 
 in_file = "data/apparent consumption of fossils.xlsx"
 getwindvars(in_file) #%>% grep("YTD", ., value=T)
 
-rw <- function(...) readwindEN(..., , read_vardata = T, zero_as_NA = T)
+rw <- function(...) readwindEN(..., read_vardata = T, zero_as_NA = T)
 
 rw(in_file, c('var', 'prod'), columnFilter = "YTD") -> d1
 rw(in_file, c('var', 'prod', 'area', 'sector'), columnFilter = "Consump.*Steam") %>%
@@ -37,7 +37,6 @@ d %<>%
   group_by(var, prod, sector, type) %>%
   unYoY %>% filter(!YoY) %>%
   unYTD
-
 
 d %<>% mutate(var = ifelse(var=='Apparent Consumption' & prod=='Natural Gas',
                            'Apparent Consumption WIND', var),
@@ -73,6 +72,31 @@ d$Value1m[d$prod=='Steam Coal' & d$var=='Consumption' & d$date=='2014-01-31' & d
 d$Value1m[year(d$date)==2021 & month(d$date) %in% 7:9] %<>% multiply_by(.98)
 d$Value1m[year(d$date)==2022 & month(d$date) %in% 1:3 & d$prod=='Oil Products'] %<>% multiply_by(.96)
 
+#get bottom up estimates for last month when it is missing from data
+source('project_workflows/coal use bottom-up, 2023Q2.R')
+
+coaluse_fill %>% mutate(sector=case_when(sector_coal=='Heating'~'Heating System Industry',
+                                         sector_coal=='Other'~'Other Sectors',
+                                         sector_coal=='Coking'~'Metallurgy Industry',
+                                         grepl('Power|Metal|Chemical', sector_coal)~paste(sector_coal, 'Industry'),
+                                         T~sector_coal),
+                        prod=case_when(sector_coal=='Coking'~'Coking Coal',T~'Steam Coal')) %>%
+  ungroup %>% select(-name) %>%
+  full_join(d) %>%
+  group_by(sector, prod) %>%
+  fill(var) %>%
+  group_by(sector, prod, var) %>%
+  group_modify(function(df, ...) {
+    last_year_date <- df$date %>% 'year<-'(year(df$date)-1)
+    last_year_value <- df$Value1m[match(last_year_date, df$date)]
+    ind <- is.na(df$Value1m) & !is.na(df$YoY_pred)
+    df$Value1m[ind] <- df$YoY_pred[ind] * last_year_value[ind]
+    return(df)
+  }) -> d
+
+
+
+
 CO2.factor <- c(Cement = 858.200/233035.7, #Cement = 769.300/231624.90 #2020 data https://zenodo.org/record/5126601
                 'Steam Coal' = .7*29.3*96.1/1e3/100,
                 'Coking Coal' = 24*94.6/1e3/100,
@@ -105,7 +129,8 @@ d %<>% left_join(CO2.factor) %>% mutate(CO2 = Value1m * ef)
 
 
 #adjustment to BP numbers
-read_bp('Coal Cons.*EJ|Oil Cons.*EJ|Gas Cons.*EJ', read_multiple = T, year=2021) %>%
+read_bp('G:/My Drive/CO2data/BPreviews/bp-stats-review-2021-all-data.xlsx',
+        'Coal Cons.*EJ|Oil Cons.*EJ|Gas Cons.*EJ', read_multiple = T, year=2021) %>%
   bind_rows() %>% filter(country=='China') %>% mutate(prod_bp=gsub(' .*', '', variable)) -> bp
 
 d %<>% mutate(prod_bp=disambiguate(prod, c(Coal='Coal', Oil='Oil', Gas=' Gas')), year=year(date))
@@ -159,8 +184,6 @@ d.adj2 %>% filter(date>'2000-12-01',date<=last_month,
 
 
 #adjust for bottom-up estimates
-source('project_workflows/coal use bottom-up, 2023Q1.R')
-
 coaluse_plot %>% filter(sector_coal=='Power') %>% group_by(date) %>%
   mutate(adj = value - value[name=='reported']) %>%
   select(name, date, adj) %>%
@@ -245,11 +268,7 @@ quicksave(file.path(output_dir, 'CO2 12m sum.png'), plot=plt)
 d.quarter %>% filter(prod=='Total', grepl('predicted', name),
                      month(date) %in% (3*1:4),
                      year(date)>=2015) %>%
-  (function(df) {
-    if('2023-06-01' %notin% df$date)
-      df %<>% bind_rows(tibble(date=ymd('2023-06-30'), CO2_3m = df$CO2_3m[df$date=='2021-06-30']*1.004))
-    return(df)
-  }) %>%
+  write_csv(file.path(output_dir, 'CO2 quarterly.csv')) %>%
   ggplot(aes(date-45, CO2_3m*3)) +
   geom_col(aes(fill=month(date) %in% 5:6)) +
   scale_x_date(expand=c(0,0)) +
@@ -261,6 +280,8 @@ d.quarter %>% filter(prod=='Total', grepl('predicted', name),
        subtitle="Quarterly", y='Mt CO2 / quarter', x='') -> plt
 quicksave(file.path(output_dir, 'CO2 quarterly.png'), plot=plt, footer_height=.025)
 
+d.quarter %>% group_by(name, sector, prod) %>%
+  mutate(YoY = get_yoy(CO2_3m, date)) %>% filter(date==last_month) %>% select(YoY) %>% data.frame
 
 
 
