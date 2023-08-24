@@ -145,15 +145,32 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   plotdata1 %>%
     group_by(prod) %>%
     roll12m(months=3, outcol='Value3m') %>%
-    group_by(date) %>% summarise(Value3m = Value3m[grepl('New Energy', prod)]/Value3m[grepl('Auto', prod)]) %>%
-    mutate(prod='Share of New Energy Vehicles', Unit='percent') -> plotdata2
+    group_by(date) %>% summarise(share = Value3m[grepl('New Energy', prod)]/Value3m[grepl('Auto', prod)]) %>%
+    mutate(prod='new sales, 3-month mean', Unit='percent') -> plotdata2
+
+  prod_withlatest %>% filter(grepl('Auto|New Energy', prod)) %>% filter(year(date)>=2017) %>%
+    (function(df) {
+      df$cumulative_share <- as.numeric(NA)
+      for(i in seq_along(df$date)) {
+        end_date <- df$date[i]
+        message(end_date)
+        start_date <- end_date %>% 'day<-'(1) %>% 'year<-'(year(.)-10) %>% 'day<-'(days_in_month(.))
+        df %>% filter(date>start_date, date<=end_date) %>% group_by(prod) %>% summarise(across(Value1m, sum, na.rm=T)) %>%
+          summarise(share=Value1m[grepl('New Energy', prod)]/Value1m[grepl('Auto', prod)]) %>% unlist -> share
+        df$share[df$date==end_date] <- share
+      }
+      return(df)
+    }) %>% mutate(prod='cumulative sales over 10 years', Unit='percent') %>%
+    bind_rows(plotdata2) ->
+    plotdata2
 
   plotdata2 %>%
-    ggplot(aes(date, Value3m, col=trans(prod)))+
+    filter(year(date)>=2017) %>%
+    ggplot(aes(date, share, col=trans(prod)))+
     geom_line(size=1.2)+geom_point(size=.8)+
-    scale_color_crea_d('dramatic', guide='none', col.index = 3) +
-    labs(y=trans('new energy vehicle share, 3-month moving average'), title=' ', subtitle=' ', x='') +
-    theme_crea() +
+    scale_color_crea_d('dramatic', col.index = c(3,6), guide=guide_legend(nrow=1)) +
+    labs(y=trans('new energy vehicle share'), title=' ', subtitle=' ', x='', col='') +
+    theme_crea() + theme(legend.position = 'top') +
     geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
     scale_linetype_manual(values='dashed', name='', guide=F) +
     scale_y_continuous(labels = scales::percent, breaks=function(x) seq(0,x[2],.05),
@@ -164,8 +181,9 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   plot_grid(p1,p2, nrow=1) -> g
   quicksave(file.path(output_dir, paste0('Vehicle production, ',lang,'.png')), plot=g, footer_height=.01)
 
-  bind_rows(plotdata1, plotdata2) %>%
-    select(date, prod, Unit, Value12m) %>%
+  bind_rows(plotdata1 %>% mutate(value=Value12m, prod = paste0(prod, ': Output: 12-month moving sum')),
+            plotdata2 %>% mutate(value=share, prod = paste0('New Energy Vehicle share: ', prod))) %>%
+    filter(year(date)>=2017) %>%
+    select(date, variable=prod, Unit, value) %>%
     write_csv(file.path(output_dir, 'vehicle production.csv'))
-
 }
