@@ -280,6 +280,9 @@ d.quarter %>% filter(prod=='Total', grepl('predicted', name),
        subtitle="Quarterly", y='Mt CO2 / quarter', x='') -> plt
 quicksave(file.path(output_dir, 'CO2 quarterly.png'), plot=plt, footer_height=.025)
 
+
+
+
 d.quarter %>% group_by(name, sector, prod) %>%
   mutate(YoY = get_yoy(CO2_3m, date)) %>% filter(date==last_month) %>% select(YoY) %>% data.frame
 
