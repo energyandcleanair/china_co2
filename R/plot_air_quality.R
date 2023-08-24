@@ -71,13 +71,14 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     group_by(pollutant_name) %>%
     group_map(function(plotdata, group) {
 
+
       plotdata %>% ungroup %>% filter(year==year(focus_month), type=='measured') %>% arrange(value) %>%
         mutate(city_name = factor(city_name, levels=city_name), pollutant_name=group$pollutant_name) %>%
         select(-anomaly, -mean_value) -> plotdata_means
 
       plotdata_means %>%
         ggplot(aes(city_name, value, fill=value)) + geom_col() + coord_flip() +
-        scale_fill_gradientn(colors=crea_palettes$change[c(1:2,5:7)], guide='none') +
+        scale_fill_gradientn(colors=rcrea::pal_crea.change[c(1:2,5:7)], guide='none') +
         theme_crea() +
         lang_theme() +
         x_at_zero() +
@@ -86,9 +87,16 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
              subtitle=toupper(trans(group$pollutant_name))) -> p_means
 
       plotdata %>%
+        # Only keep cities with values for both years
         group_by(city_name, type) %>%
-        reframe(yoy=value[year==year(focus_month)]/value[year==year(focus_month)-1]-1) ->
-        yoy
+        filter(all(c(year(focus_month), year(focus_month)-1) %in% year)) %>%
+        # Create common denominator
+        group_by(city_name) %>%
+        mutate(value_measured = value[year==year(focus_month) - 1 & (type=='measured')]) %>%
+        # Compute y-o-y
+        group_by(city_name, type) %>%
+        summarise(yoy=(value[year==year(focus_month)]-value[year==year(focus_month)-1]) / unique(value_measured)) -> yoy
+
 
       yoy %<>% group_by(city_name) %>%
         reframe(yoy = yoy[type=='measured']-yoy[type=='deweathered']) %>%
