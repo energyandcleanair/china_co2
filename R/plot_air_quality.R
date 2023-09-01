@@ -6,8 +6,8 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
                               cities=china_admin_capitals,
                               pollutants = c('no2', 'pm25', 'o3'),
                               aq=NULL, aq_dw=NULL,
-                              aq_file = file.path('cached_data', 'city_air_quality_data.RDS'),
-                              aq_dw_file = file.path('cached_data', 'deweathered_air_quality_data.RDS'),
+                              aq_file = file.path('cache', 'city_air_quality_data.RDS'),
+                              aq_dw_file = file.path('cache', 'deweathered_air_quality_data.RDS'),
                               gis_dir=Sys.getenv('GIS_DIR')) {
 
   dir.create(output_dir, F, T)
@@ -21,7 +21,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   #  bind_rows(aq_dw) -> aq_dw
 
   #add city and pollutant names
-  aq %<>% left_join(cities_meta %>% select(location_id=id, city_name=name)) %>%
+  aq %<>%
     mutate(pollutant_name = case_when(pollutant=='pm25'~'PM2.5', T~toupper(pollutant)),
            date=date(date))
 
@@ -33,20 +33,23 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   #add province names
   adm1 <- readr::read_csv(get_data_file('gadm1.csv'))
-  aq_all %<>% mutate(GID_1 = location_id %>% gsub('^[a-z]*_|_[a-z]*$', '', .) %>% toupper,
-                     iso3c = substr(GID_1, 1, 3)) %>%
-    inner_join(adm1 %>% select(GID_1, NAME_1))
+  aq_all %<>%
+    left_join(cities_meta %>% select(location_id=id, gadm1_id),
+              by=c('location_id')) %>%
+    mutate(gadm1_id=toupper(gadm1_id)) %>%
+    left_join(adm1 %>% select(gadm1_id=GID_1, NAME_1))
 
   #add city and province names in Chinese
-  aq_all %<>% filter(iso3c==countrycode::countrycode(!!country, "iso2c", "iso3c")) %>%
+  aq_all %<>% filter(country_id == !!country) %>%
     mutate(city_name = case_when(is.na(city_name) ~ location_id %>% gsub('_.*', '', .) %>% capitalize_first(),
                                  T~city_name))
 
   # Add proper air_quality_station_codes.csv with ProvinceZH
   if(country == "CN"){
     station_key <- read_csv('data/air_quality_station_codes.csv')
-    city_key <- station_key %>% distinct(city_name=CityEN, NAME_1=ProvinceEN, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH) %>%
-      filter(is.na(city_name))
+    city_key <- station_key %>%
+      distinct(city_name=CityEN, NAME_1=ProvinceEN, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH) %>%
+      filter(!is.na(city_name))
     aq_all %<>% inner_join(city_key) %>% dplyr::rename(city_name_EN=city_name, NAME_1_EN=NAME_1)
 
     if(lang == 'EN') aq_all %<>% mutate(city_name = city_name_EN, NAME_1 = NAME_1_EN)

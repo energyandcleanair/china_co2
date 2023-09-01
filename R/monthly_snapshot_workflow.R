@@ -8,6 +8,15 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
   # "data/New power capacity by province and type.xlsx"
   # "data/fuel supply.xlsx"
 
+
+  # Packages needed if run manually
+  library(tidyverse)
+  library(magrittr)
+  library(lubridate)
+  library(grid)
+  library(glue)
+  library(cowplot)
+
   if (is.null(focus_month)) {
     focus_month <- today() %>%
       subtract(30) %>%
