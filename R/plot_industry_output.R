@@ -126,6 +126,45 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     scale_x_date(labels = yearlab) -> p
   quicksave(file.path(output_dir, paste0('solar cell output, ',lang,'.png')), plot=p)
 
+  if(lang=='EN') {
+    solar_plotdata %>%
+      mutate(Unit=unit_label(unique(Unit), lang=lang)) %>%
+      select(date, product=prod, Unit, Value12m) %>%
+      write_csv(file.path(output_dir, 'solar cell output.csv'))
+  }
+
+  #battery output
+  prod_withlatest %>% filter(year(date)>=2020, grepl('Battery', prod)) %>%
+    mutate(type=ifelse(type=='YTD', 'Total', type)) %>%
+    group_by(type) %>%
+    mutate(YoY = (Value1m/lag(Value1m, 12)-1)  %>% pmax(-.5) %>% pmin(.5)) %>%
+    mutate(Value12m=convert_value(Value12m, Unit)*12) %>%
+    filter(max(Value12m, na.rm=T)>5) -> battery_plotdata
+
+  battery_labels <- battery_plotdata %>% filter(date==max(date) | month(date)==12)
+
+  battery_plotdata %>%
+    ggplot(aes(date, Value12m, col=type, label=round(Value12m,0)))+
+    geom_line(size=1.2)+geom_point(size=.8)+
+    geom_text(data=battery_labels, vjust=-.4, hjust=1.2, fontface='bold', show.legend = FALSE) +
+    labs(title=trans('Battery output'),
+         subtitle=trans('12-month moving sum'),
+         x='', y=unit_label('mwh', lang=lang),
+         col=trans('type')) +
+    theme_crea() +
+    expand_limits(y=0) +
+    scale_color_crea_d(col.index = c(1,2,5)) +
+    scale_y_continuous(expand=expansion(mult=c(0,.05))) +
+    scale_x_date(labels = yearlab) -> p
+  quicksave(file.path(output_dir, paste0('battery output, ',lang,'.png')), plot=p)
+
+  if(lang=='EN') {
+    battery_plotdata %>%
+      mutate(Unit=unit_label(unique(Unit), lang=lang)) %>%
+      select(date, variable=var, product=prod, type, Unit, Value12m) %>%
+      write_csv(file.path(output_dir, 'battery output.csv'))
+  }
+
   #EV and car output
   prod_withlatest %>% filter(year(date)>=2017, grepl('Automob|Vehicle', prod)) -> plotdata1
 

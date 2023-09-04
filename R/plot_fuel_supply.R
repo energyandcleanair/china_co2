@@ -77,4 +77,21 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     expand_limits(y=0) + x_at_zero() +
     scale_x_date(expand=expansion(mult=c(0,.05)), labels = yearlab) -> p
   quicksave(file.path(output_dir, paste0('oil products output, ', lang,'.png')), plot=p)
+
+
+  fuelsupply_plotdata %>%
+    filter(year(date)>=2010, !grepl('Diesel|Gasoline|Kerosene|Other', prod), var=='Net Imports') %>%
+    group_by(prod_group=ifelse(grepl('Oil', prod_group), 'Oil, Mt', prod_group), date) %>%
+    summarise(across(Value12m, sum)) %>%
+    mutate(YoY_12m = get.yoy(Value12m, date) %>% pmax(-.2) %>% pmin(.2)) %>%
+    ggplot(aes(date, Value12m*12, col=YoY_12m)) +
+    geom_line(linewidth=1.5) +
+    facet_wrap(~prod_group, scales='free_y') +
+    theme_crea(legend.position='bottom') +
+    labs(title=trans('Fossil fuel imports'), subtitle=trans('12-month moving sum'), y='', x='') +
+    scale_color_crea_c('change', labels=scales::percent, name='year-on-year',
+                       guide=guide_colorbar(direction = 'horizontal', barwidth = 10)) +
+    scale_x_date(expand=expansion(mult=c(0,.05)), labels = yearlab) +
+    x_at_zero() -> p
+  quicksave(file.path(output_dir, paste0('Fossil fuel imports, ', lang,'.png')), plot=p)
 }
