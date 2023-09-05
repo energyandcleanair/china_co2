@@ -1,5 +1,5 @@
 build_snapshot <- function(focus_month = NULL, output_dir = NULL,
-                           lang="EN",
+                           lang=c("EN","ZH"),
                            gis_dir=Sys.getenv('GIS_DIR'),
                            update_aq_data=T) {
   # required input data:
@@ -10,12 +10,13 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
 
 
   # Packages needed if run manually
-  library(tidyverse)
-  library(magrittr)
-  library(lubridate)
-  library(grid)
-  library(glue)
-  library(cowplot)
+  # library(tidyverse)
+  # library(magrittr)
+  # library(lubridate)
+  # library(grid)
+  # library(glue)
+  # library(cowplot)
+  # library(chinatracker)
 
   if (is.null(focus_month)) {
     focus_month <- today() %>%
