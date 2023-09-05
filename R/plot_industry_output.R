@@ -28,7 +28,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
 
   prod_withlatest %<>%
-    group_by(prod) %>%
+    group_by(prod, type) %>%
     roll12m(months=3, incol='Value.seasonadj', outcol='Value3m.seasonadj') %>%
     mutate(YoY=get.yoy(Value3m.seasonadj, date))
 
