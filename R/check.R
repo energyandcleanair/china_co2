@@ -7,7 +7,7 @@ check_aq_data <- function(aq, aq_dw, cities, focus_month=focus_month, n_polls=3)
         summarise(n = n())
 
     if(any(aq_count$n != days_in_month(focus_month))){
-      stop(glue("Missing air quality data {min(aq_count$n)} / {days_in_month(focus_month)}"))
+      warning(glue("Missing air quality data {min(aq_count$n)} / {days_in_month(focus_month)}"))
     }
 
     if(any(aq$source != 'mee')){
@@ -21,6 +21,6 @@ check_aq_data <- function(aq, aq_dw, cities, focus_month=focus_month, n_polls=3)
 
     if(any(aq_dw_count$n != lubridate::days_in_month(focus_month))
        || (nrow(aq_dw_count) != length(cities) * n_polls)){
-       stop(glue("Missing deweathered air quality data {min(aq_dw_count$n)} / {days_in_month(focus_month)}"))
+       warning(glue("Missing deweathered air quality data {min(aq_dw_count$n)} / {days_in_month(focus_month)}"))
     }
 }
