@@ -226,7 +226,7 @@ peakloads %>% mutate(plotdate = date %>% 'year<-'(2022),
 
 
 
-read_csv("https://api.energyandcleanair.org/v1/weather?variable=CDD,HDD&region_type=gadm1&format=csv") ->
+read_csv("https://api.energyandcleanair.org/v1/weather?variable=CDD,HDD&region_type=gadm1&format=csv&region_iso2=CN") ->
   dd
 
 require(raster)
