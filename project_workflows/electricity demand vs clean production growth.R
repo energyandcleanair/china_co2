@@ -1,3 +1,5 @@
+output_dir='outputs'
+
 cap <- readwindEN('data/Power Capacity.xlsx', c('var', 'source'), columnExclude = 'New|Conventional|Coal|Gas',
            zero_as_NA = T, read_vardata = T) %>% filter(source!='YTD') %>%
   mutate(GW=Value/100)
@@ -8,9 +10,15 @@ gen_cons <- read_csv('data/monthly_full_release_long_format-4.csv') %>%
 
 #projected 2023 capacity: Wind, Solar, Hydro, Nuclear 43000, 53000, 42000, 5846
 #https://www.cec.org.cn/detail/index.html?3-323217
+#projected solar additions: 210 GW
+#https://www.bloomberg.com/news/articles/2023-09-06/china-s-breakneck-solar-expansion-starts-to-meet-power-grid-resistance
 tibble(source=c('Wind', 'Solar', 'Hydro', 'Nuclear'),
        date=ymd('2023-12-01'),
        GW=c(43000, 53000, 42000, 5846)/100) -> cap_fut
+
+cap_fut$GW[cap_fut$source=='Solar'] <- cap$GW[cap$date=='2022-12-31' & grepl('Solar', cap$source)] + 210
+
+
 
 dates <- seq.Date(min(gen_cons$date), max(cap_fut$date, cap$date), by='month')
 
@@ -30,11 +38,8 @@ demand_growth <- 5.2e-2
 gen_cons %<>% mutate(utilization = TWh/(GW*days_in_month(date)*24/1000), month=month(date)) %>%
   group_by(month, source) %>% mutate(TWh = case_when(year(date)==2023 & source=='Demand' & is.na(TWh)~TWh[year(date)==2022]*(1+demand_growth), T~TWh))
 
-gen_cons %<>% group_by(source) %>% mutate(change_TWh = get.yoy(TWh_norm, date, type='absolute'),
+gen_cons %<>% group_by(source) %>% mutate(change_TWh = get.yoy(TWh, date, type='absolute'),
                                           change_GW = get.yoy(GW, date, type='absolute'))
-
-
-
 
 gen_cons %>% mutate(year=year(date)) %>%
   group_by(source, year) %>% summarise(across(change_TWh, ~sum(.x, na.rm=T)),
@@ -78,7 +83,7 @@ cons_yr %>% filter(year>=start_yr) %>% ungroup %>%
   summarise(across(TWh, mean)) -> average_demand_growth
 
 gen_cons_yr_norm %>% filter(source != 'Demand', year>=start_yr) %>%
-  ggplot(aes(year, TWh, alpha=ifelse(year==2023, 'CEC forecast', 'Actual'))) +
+  ggplot(aes(year, TWh, alpha=ifelse(year==2023, 'Forecast', 'Actual'))) +
   geom_col(aes(fill=source)) +
   geom_point(data=gen_cons_yr_norm %>% filter(source == 'Demand', year>=start_yr), aes(shape='Demand growth')) +
   geom_hline(aes(yintercept=TWh, linetype='Average demand growth'), data=average_demand_growth) +
@@ -97,6 +102,9 @@ quicksave(file.path(output_dir, 'Electricity demand growth vs clean power additi
           plot=p, scale=1)
 
 
+gen_cons_yr_norm %>% filter(year>=start_yr) %>% select(source, year, TWh) %>%
+  bind_rows(average_demand_growth %>% mutate(source='Average demand growth')) %>%
+  write_csv(file.path(output_dir, 'Electricity demand growth vs clean power additions in China.csv'))
 
 
 #added generation from 2023 installations

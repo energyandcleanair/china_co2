@@ -78,7 +78,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
     filter(Value>0, year(date)==year(focus_month), month(date)<=month(focus_month), prov != 'National') %>%
     mutate(source = source %>% gsub(' Energy| Power|power', '', .)) %>%
     group_by(source) %>%
-    group_by(source, prov) %>% summarise(across(Value, sum)) %>%
+    group_by(source, prov) %>% summarise(across(Value, max)) %>%
     slice_max(Value, n=10) %>%
     group_split %>%
     lapply(function(df) {

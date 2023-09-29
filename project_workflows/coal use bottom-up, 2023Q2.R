@@ -190,6 +190,7 @@ bind_rows(temperature_effect, drought_effect) %>%
   summarise(across(c(Mt, TWh), sum)) ->
   heat_effect
 
+stop('check the signs of heat and drought effects before using the code')
 coaluse_df %>% filter(sector_coal %in% c('Power', 'Total'),
                       grepl('predict', name),
                       date<=last_month) %>%

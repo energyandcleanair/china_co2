@@ -3,7 +3,15 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
                                    output_dir=get('output_dir', envir=.GlobalEnv)) {
 
   in_file = get_data_file("monthly industry stats.xlsx")
-  readwindEN(in_file, c('var', 'prod'), columnExclude = 'Consumption', read_vardata = T) -> prod
+  readwindEN(in_file, c('var', 'prod'), columnExclude = 'Consumption|YoY', read_vardata = T) -> prod
+
+  #in_file = get_data_file("power generation CEC.xlsx")
+  #readwindEN(in_file, c('var', 'prod'), columnFilter='Generation|Solar', columnExclude = 'YoY', read_vardata = T) -> pwr
+
+  #pwr %<>% filter(prod=='Solar') %>% mutate(YoY=YoY=='YoY') %>% unYoY %>%
+  #  bind_rows(pwr %<>% filter(prod!='Solar'))
+
+  #prod %<>% bind_rows(pwr)
 
   yoy_2020M7 <- prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-07-31'] /
     prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-07-31']
@@ -14,7 +22,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-06-30'] * yoy_2020M7
 
   prod %<>%
-    group_by(var, prod, type) %>%
+    group_by(var, prod) %>%
     group_modify(function(df, k) {
       message(k)
       df %>% unYTD() %>%
@@ -22,7 +30,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
   prod$date %>% max -> latest_date
   prod %>% group_by(prod) %>%
-    filter(latest_date %in% date) ->
+    filter(latest_date %in% date | grepl('Battery', prod)) ->
     prod_withlatest
 
 
@@ -56,6 +64,14 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     if(length(unique(plotdata$prod))>3) labscale=.9
 
     plotdata %>% write_csv(file.path(output_dir, paste0(names(plots)[i], '.csv')))
+
+    plotdata %<>% group_by(prod) %>% addmonths %>% group_by(prod, year(date)) %>%
+      group_modify(function(df, group) {
+        message(group)
+        if(sum(!is.na(df$Value1m[month(df$date)==1]))==0)
+          df$Value1m[month(df$date) %in% 1:2] <- df$Value1m[month(df$date)==2]/2
+        return(df)
+      })
 
     plotdata %<>% mutate(across(c(Value.seasonadj, Value1m), ~convert_value(.x, Unit) * Unit_multiplier),
                          YoY_3m = (Value3m.seasonadj/lag(Value3m.seasonadj, 12)-1)  %>% pmax(-.2) %>% pmin(.2),
@@ -207,14 +223,14 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     filter(year(date)>=2017) %>%
     ggplot(aes(date, share, col=trans(prod)))+
     geom_line(size=1.2)+geom_point(size=.8)+
-    scale_color_crea_d('dramatic', col.index = c(3,6), guide=guide_legend(nrow=1)) +
+    scale_color_crea_d('dramatic', col.index = c(3,6), guide=guide_legend(nrow=ifelse(lang=='ZH', 2, 1))) +
     labs(y=trans('new energy vehicle share'), title=' ', subtitle=' ', x='', col='') +
     theme_crea() + theme(legend.position = 'top') +
     geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
     scale_linetype_manual(values='dashed', name='', guide=F) +
     scale_y_continuous(labels = scales::percent, breaks=function(x) seq(0,x[2],.05),
                        expand=expansion(mult=c(0,.05))) +
-    scale_x_date(labels=yearlab) +
+    scale_x_date(labels=yearlab, date_breaks = '1 year') +
     expand_limits(y=0) -> p2
 
   plot_grid(p1,p2, nrow=1) -> g

@@ -12,6 +12,7 @@ steel_indicator_plots <- function(lang=parent.frame()$lang,
     plotdata
 
   plotdata %>% filter(!is.na(Value), year(date)>=2015) %>%
+    filter(!grepl('Estimated.*Crude|Stove', Name)) %>% #remove duplicated datasets
     mutate(plotdate = 'year<-'(date, 2020),
            yr=as.character(year(date)),
            Name=gsub('Custeel: | \\(.*|: National|: China|China: |Refining Production | Steel Mills| of Major Steel Mills', '', Name)) %>%
