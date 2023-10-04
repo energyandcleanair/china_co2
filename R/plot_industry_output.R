@@ -22,7 +22,8 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-06-30'] * yoy_2020M7
 
   prod %<>%
-    group_by(var, prod) %>%
+    mutate(battery_type=case_when(!grepl('Battery', prod)~NA, type=='YTD'~'Total', T~type)) %>%
+    group_by(var, prod, battery_type) %>%
     group_modify(function(df, k) {
       message(k)
       df %>% unYTD() %>%
@@ -150,17 +151,22 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   }
 
   #battery output
-  prod_withlatest %>% filter(year(date)>=2020, grepl('Battery', prod)) %>%
-    mutate(type=ifelse(type=='YTD', 'Total', type)) %>%
-    group_by(type) %>%
-    mutate(YoY = (Value1m/lag(Value1m, 12)-1)  %>% pmax(-.5) %>% pmin(.5)) %>%
-    mutate(Value12m=convert_value(Value12m, Unit)*12) %>%
-    filter(max(Value12m, na.rm=T)>5) -> battery_plotdata
+  prod_withlatest %>% filter(grepl('Battery', prod)) %>%
+    group_by(battery_type, year(date)) %>%
+    mutate(Value = Value %>% na.approx(date, date, rule=2) %>% pmax(0)) %>%
+    group_by(date) %>%
+    mutate(Value = case_when(battery_type=='Total'~Value, T~Value[battery_type=='Total'] * Value / sum(Value[battery_type!='Total']))) %>%
+    group_by(battery_type) %>%
+    unYTD() %>% roll12m() %>%
+    mutate(YoY = (Value1m/lag(Value1m, 12)-1)  %>% pmax(-.5) %>% pmin(.5),
+           Value12m=convert_value(Value12m, Unit)*12) %>%
+    filter(max(Value12m, na.rm=T)>5,
+           year(date)>=2020) -> battery_plotdata
 
   battery_labels <- battery_plotdata %>% filter(date==max(date) | month(date)==12)
 
   battery_plotdata %>%
-    ggplot(aes(date, Value12m, col=type, label=round(Value12m,0)))+
+    ggplot(aes(date, Value12m, col=battery_type, label=round(Value12m,0)))+
     geom_line(size=1.2)+geom_point(size=.8)+
     geom_text(data=battery_labels, vjust=-.4, hjust=1.2, fontface='bold', show.legend = FALSE) +
     labs(title=trans('Battery output'),
