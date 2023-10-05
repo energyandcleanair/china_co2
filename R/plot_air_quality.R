@@ -12,8 +12,6 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   dir.create(output_dir, F, T)
 
-  cities_meta <- read_csv(glue('https://api.energyandcleanair.org/cities?country={country}&format=csv'))
-
   if(is.null(aq)) aq <- get_aq(start_date=ymd('2022-01-01'), update_data=update_data, aq_file=aq_file)
   if(is.null(aq_dw)) aq_dw <- get_deweathered_aq(cities, pollutants, update_data=update_data, aq_file=aq_dw_file)
 
@@ -31,31 +29,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     bind_rows(aq_dw %>% mutate(type='deweathered')) ->
     aq_all
 
-  #add province names
-  adm1 <- readr::read_csv(get_data_file('gadm1.csv'))
-  aq_all %<>%
-    left_join(cities_meta %>% select(location_id=id, gadm1_id),
-              by=c('location_id')) %>%
-    mutate(gadm1_id=toupper(gadm1_id)) %>%
-    left_join(adm1 %>% select(gadm1_id=GID_1, NAME_1))
-
-  #add city and province names in Chinese
-  aq_all %<>% filter(country_id == !!country) %>%
-    mutate(city_name = case_when(is.na(city_name) ~ location_id %>% gsub('_.*', '', .) %>% capitalize_first(),
-                                 T~city_name))
-
-  # Add proper air_quality_station_codes.csv with ProvinceZH
-  if(country == "CN"){
-    station_key <- read_csv('data/air_quality_station_codes.csv')
-    city_key <- station_key %>%
-      distinct(city_name=CityEN, NAME_1=ProvinceEN, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH) %>%
-      filter(!is.na(city_name))
-    aq_all %<>% inner_join(city_key) %>% dplyr::rename(city_name_EN=city_name, NAME_1_EN=NAME_1)
-
-    if(lang == 'EN') aq_all %<>% mutate(city_name = city_name_EN, NAME_1 = NAME_1_EN)
-    if(lang == 'ZH') aq_all %<>% mutate(city_name = city_name_ZH, NAME_1 = NAME_1_ZH)
-
-  }
+  aq_all %<>% add_location_names(country=country)
 
   aq_all %>%
     filter(location_id %in% cities) %>%
@@ -246,9 +220,9 @@ china_admin_capitals <- c(
   "beijing_chn.2_1_cn",
   "xi'an_chn.22_1_cn",
   "jinan_chn.23_1_cn",
-  "fuzhou_chn.16_1_cn",
   "kunming_chn.30_1_cn",
-  "hohhot_chn.19_1_cn"
+  "hohhot_chn.19_1_cn",
+  "chongqing_chn.3_1_cn"
 )
 
 
@@ -263,6 +237,7 @@ get_aq <- function(start_date=ymd('2022-01-01'),
                    cache_folder='cache',
                    aq_file=file.path(cache_folder, 'city_air_quality_data.RDS'),
                    country='CN',
+                   cities=NULL,
                    source='mee') {
 
   message('read measured air quality data')
@@ -279,9 +254,14 @@ get_aq <- function(start_date=ymd('2022-01-01'),
       pbapply::pblapply(function(start_date) {
         message(start_date)
         end_date=start_date %>% 'day<-'(days_in_month(start_date))
-        read_csv(paste0("https://api.energyandcleanair.org/measurements?",
-                        glue("country={country}&source={source}&date_from={start_date}&date_to={end_date}"),
-                             "&pollutant=no2,pm25,pm10,so2&level=city&do_average=true&averaging_period=1d&format=csv")) %>%
+
+        source_url <- paste0("https://api.energyandcleanair.org/measurements?",
+                             glue("country={country}&source={source}&date_from={start_date}&date_to={end_date}"),
+                             "&pollutant=no2,pm25,pm10,so2&level=city&do_average=true&averaging_period=1d&format=csv")
+
+        if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
+
+        read_csv(source_url) %>%
           select(-any_of('...1')) %>%
           mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_24h
 
@@ -348,3 +328,33 @@ get_deweathered_aq <- function(cities,
   return(aq)
 }
 
+add_location_names <- function(df, country) {
+  cities_meta <- read_csv(glue('https://api.energyandcleanair.org/cities?country={country}&format=csv'))
+
+  #add province names
+  adm1 <- readr::read_csv(get_data_file('gadm1.csv'))
+  df %<>%
+    left_join(cities_meta %>% select(location_id=id, gadm1_id),
+              by=c('location_id')) %>%
+    mutate(gadm1_id=toupper(gadm1_id)) %>%
+    left_join(adm1 %>% select(gadm1_id=GID_1, NAME_1_EN=NAME_1))
+
+  #add city and province names in Chinese
+  df %<>% filter(country_id == !!country)
+
+  if(is.null(df$city_name_EN)) df %<>% mutate(city_name_EN = location_id %>% gsub('_.*', '', .) %>% capitalize_first())
+
+  # Add Chinese names
+  if(country == "CN"){
+    station_key <- read_csv('data/air_quality_station_codes.csv')
+    city_key <- station_key %>%
+      distinct(city_name_EN=CityEN, NAME_1_EN=ProvinceEN, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH) %>%
+      filter(!is.na(city_name_EN))
+
+    df %<>% inner_join(city_key)
+
+    if(lang == 'EN') df %<>% mutate(city_name = city_name_EN, NAME_1 = NAME_1_EN)
+    if(lang == 'ZH') df %<>% mutate(city_name = city_name_ZH, NAME_1 = NAME_1_ZH)
+  }
+  df
+}

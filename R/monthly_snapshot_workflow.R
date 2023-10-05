@@ -61,5 +61,9 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
     air_quality_plots(focus_month = focus_month, update_data = F, aq = aq, aq_dw = aq_dw,
                       output_dir=output_dir,
                       lang=target_lang)
+
+    aq_compliance_plots(cities = china_admin_capitals,
+                        output_dir=output_dir,
+                        lang=target_lang)
   }
 }

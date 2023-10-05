@@ -32,7 +32,6 @@ dir.create(output_dir, showWarnings = F, recursive = T)
 aq <- get_aq(start_date = ymd("2022-01-01"), update_data = T)
 aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = T)
 
-#TODO add ZH once we have the translation file
 for (target_lang in c('EN', 'ZH')) {
 
   # set lang in global environment
@@ -57,4 +56,7 @@ for (target_lang in c('EN', 'ZH')) {
                     output_dir=output_dir,
                     lang=target_lang)
 
+  aq_compliance_plots(cities = china_admin_capitals,
+                      output_dir=output_dir,
+                      lang=target_lang)
 }
