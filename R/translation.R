@@ -1,4 +1,5 @@
-trans <- function(x,
+#the trans function in this repo has been replaced by creahelpers::trans
+trans_old <- function(x,
                   lang=get("lang", .GlobalEnv),
                   trans_file = get_data_file('label translations.xlsx'),
                   wrap_chars=NULL,
