@@ -291,6 +291,7 @@ get_aq <- function(start_date=ymd('2022-01-01'),
 
 get_deweathered_aq <- function(cities,
                                pollutants = c('no2', 'pm25', 'o3'),
+                               start_date=ymd('2022-01-01'),
                                update_data=T,
                                cache_folder='cache',
                                source='mee',
@@ -312,10 +313,11 @@ get_deweathered_aq <- function(cities,
         function(poll) {
           read_csv(
             paste0('http://api.energyandcleanair.org/v1/measurements?',
-            sprintf("location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099,default_anomaly_o3_2018_2099&variable=anomaly&format=csv&source=%s",
+            sprintf("location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099,default_anomaly_o3_2018_2099&variable=anomaly&format=csv&source=%s&date_from=%s",
                     paste0(cities, collapse = ","),
                     poll,
-                    source))
+                    source,
+                    start_date))
           )
         }
       ) %>%
