@@ -30,7 +30,7 @@ dir.create(output_dir, showWarnings = F, recursive = T)
 
 # preload air quality data
 aq <- get_aq(start_date = ymd("2022-01-01"), update_data = T)
-aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = T)
+aq_dw <- get_deweathered_aq(china_admin_capitals, start_date = ymd("2022-01-01"), update_data = T)
 
 for (target_lang in c('EN', 'ZH')) {
 
