@@ -15,18 +15,18 @@ steel_indicator_plots <- function(lang=parent.frame()$lang,
     filter(!grepl('Estimated.*Crude|Stove', Name)) %>% #remove duplicated datasets
     mutate(plotdate = 'year<-'(date, 2020),
            yr=as.character(year(date)),
-           Name=gsub('Custeel: | \\(.*|: National|: China|China: |Refining Production | Steel Mills| of Major Steel Mills', '', Name)) %>%
+           Name=gsub('Custeel: | \\(.*|: National|: China|China: |Refining Production | Steel Mills| of Major Steel Mills|: [0-9]+$', '', Name)) %>%
     ggplot(aes(plotdate, Value, col=yr)) +
     facet_wrap(~trans(Name), scales='free_y') +
-    geom_line(size=1, alpha=.75) +
+    geom_line(linewidth=1, alpha=.75) +
     geom_dl(aes(label=yearlab(yr)), method=list('last.bumpup', cex=.6, hjust=-.1)) +
     scale_x_date(labels = monthlab, expand=expansion(add=c(0,60))) +
     #scale_y_continuous(labels=scales::percent) +
     x_at_zero() +
     theme_crea() + theme(strip.text = element_text(size=rel(.8))) +
-    scale_color_crea_d('dramatic', col.index = rep(1:6,2), guide=F) +
+    scale_color_crea_d('dramatic', col.index = rep(1:6,2), guide='none') +
     scale_linetype_manual(values=2:1) +
     labs(x='', y='', col='year', title=trans('Steel industry weekly operating indicators'),
          caption=trans('Source: Wind Information')) -> p
-  quicksave(file.path(output_dir, paste0('Steel industry weekly operating indicators',lang,'.png')), plot=p, scale=1.5)
+  quicksave(file.path(output_dir, paste0('Steel industry weekly operating indicators, ',lang,'.png')), plot=p, scale=1.33)
 }
