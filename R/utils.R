@@ -68,7 +68,7 @@ read_bp <- function(file_path,
   return(d.out)
 }
 
-#fix English province names
+#fix dumb English province names used by GADM
 fix_province_names <- function(x) {
   x %>% recode('Nei Mongol'='Inner Mongolia', 'Ningxia Hui'='Ningxia', 'Xinjiang Uygur'='Xinjiang', 'Xizang'='Tibet')
 }
