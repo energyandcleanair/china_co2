@@ -8,6 +8,7 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
   # "data/New power capacity by province and type.xlsx"
   # "data/fuel supply.xlsx"
 
+  trans_file = get_data_file('label_translations.xlsx')
 
   # Packages needed if run manually
   # library(tidyverse)
@@ -17,6 +18,7 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
   # library(glue)
   # library(cowplot)
   # library(chinatracker)
+  # library(creahelpers)
 
   if (is.null(focus_month)) {
     focus_month <- today() %>%

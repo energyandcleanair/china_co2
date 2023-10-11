@@ -1,4 +1,4 @@
-plot_aq_compliance <- function(start_date=ymd('2019-01-01'),
+aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
                                cities,
                                pollutants=c('pm25', 'o3'),
                                update_data = T,
