@@ -1,11 +1,11 @@
-get_data_file <- function(filename, data_folder="data"){
+get_data_file <- function(filename, data_folder="inst/extdata", inst_data_folder=gsub("inst/", "", data_folder)){
 
     # First check locally if the file exists in data folder
     if(file.exists(file.path(data_folder, filename))){
         path <- file.path(data_folder, filename)
     }else{
         # look into installed package
-        path <- system.file(data_folder, filename, package = "chinatracker")
+        path <- system.file(inst_data_folder, filename, package = "chinatracker")
     }
 
     if(!file.exists(path) | (path=="")){
