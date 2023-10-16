@@ -8,6 +8,7 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
   # "data/New power capacity by province and type.xlsx"
   # "data/fuel supply.xlsx"
 
+  trans_file = get_data_file('label_translations.xlsx')
 
   # Packages needed if run manually
   # library(tidyverse)
@@ -17,6 +18,7 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
   # library(glue)
   # library(cowplot)
   # library(chinatracker)
+  # library(creahelpers)
 
   if (is.null(focus_month)) {
     focus_month <- today() %>%
@@ -35,7 +37,7 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
   # extrafont::font_import()
 
   # preload air quality data
-  aq <- get_aq(start_date = ymd("2022-01-01"), update_data = update_aq_data)
+  aq <- get_aq(start_date = ymd("2022-01-01"), update_data = update_aq_data, source='mee')
   aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = update_aq_data)
   check_aq_data(aq=aq, aq_dw=aq_dw, focus_month=focus_month, cities=china_admin_capitals)
 
