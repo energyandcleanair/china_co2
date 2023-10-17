@@ -15,7 +15,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
 
   aqs = tibble(pollutant=c('pm25', 'no2', 'o3'), aqs=c(35,40,160))
 
-  aq_capitals %<>% add_location_names(country = 'CN')
+  aq_capitals %<>% add_location_names(country = 'CN', lang = lang)
 
   aq_capitals %>%
     inner_join(aqs) %>%
