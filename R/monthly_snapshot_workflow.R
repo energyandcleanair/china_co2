@@ -7,6 +7,7 @@ build_snapshot <- function(focus_month = NULL, output_dir = NULL,
   # "data/Power Capacity.xlsx"
   # "data/New power capacity by province and type.xlsx"
   # "data/fuel supply.xlsx"
+  # "steel plant operating rates.xlsx"
 
   trans_file = get_data_file('label_translations.xlsx')
 
