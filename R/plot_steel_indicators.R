@@ -1,6 +1,6 @@
 steel_indicator_plots <- function(lang=parent.frame()$lang,
                                   output_dir=get('output_dir', envir=.GlobalEnv)) {
-  in_file = "data/steel plant operating rates.xlsx"
+  in_file = get_data_file("steel plant operating rates.xlsx")
 
   readwindEN(in_file, paste0('V', 1:3), read_vardata = T, zero_as_NA = T, force_last_of_month = F) -> steel
 
