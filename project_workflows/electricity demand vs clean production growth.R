@@ -18,18 +18,29 @@ tibble(source=c('Wind', 'Solar', 'Hydro', 'Nuclear'),
 
 cap_fut$GW[cap_fut$source=='Solar'] <- cap$GW[cap$date=='2022-12-31' & grepl('Solar', cap$source)] + 210
 
+dates <- seq.Date(min(gen_cons$date), ymd('2025-12-01'), by='month')
 
-
-dates <- seq.Date(min(gen_cons$date), max(cap_fut$date, cap$date), by='month')
+compound_growth = function(x, g, type='percent') {
+  for(i in which(is.na(x) & seq_along(x)>1)) {
+    if(type=='percent') x[i] <- x[i-1] * (1+g[i])
+    if(type=='absolute') x[i] <- x[i-1] + g[i]
+  }
+}
 
 cap %>% mutate(source = disambiguate(source, unique(gen_cons$source)),
                date = date %>% 'day<-'(1)) %>%
   inner_join(gen_cons) %>%
   bind_rows(cap_fut) %>%
   complete(date=dates, source) %>%
+  group_by(source) %>%
+  mutate(annual_add_GW=GW[date=='2023-12-01']-GW[date=='2022-12-01']) %>%
+  group_by(source, month(date)) %>%
+  mutate(GW = case_when(date>='2024-01-01'~GW[year(date)==2023]+annual_add_GW*(year(date)-2023), T~GW)) %>%
   group_by(source) %>% arrange(date) %>%
   mutate(GW = na.approx(GW, date, na.rm=F)) %>%
   bind_rows(gen_cons %>% filter(source=='Demand') %>% complete(date=dates, source)) -> gen_cons
+
+gen_cons %>% ggplot(aes(date, GW, col=source)) + geom_line()
 
 gen_cons %>% filter(source=='Demand') %>% mutate(YoY=get_yoy(TWh, date)) %>% filter(year(date)==2023) %>%
   summarise(across(YoY, ~mean(.x, na.rm=T))) %>% use_series(YoY) -> demand_growth
