@@ -66,7 +66,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
   readwindEN(in_file, c('var', 'source', 'prov'), read_vardata = T) -> provcap
 
   pwr_sources <- c('Thermal', 'Wind', 'Solar', 'Nuclear', 'Hydro')
-  provs <- read_xlsx('data/provincesZH.xlsx')
+  provs <- read_xlsx(get_data_file('provincesZH.xlsx'))
   provcap$prov %>% unique %>% subset(!grepl(paste(pwr_sources, collapse='|'), .))
   provcap %<>% mutate(prov = disambiguate(Name, c(provs$Province, 'National')), source=disambiguate(Name, pwr_sources))
 

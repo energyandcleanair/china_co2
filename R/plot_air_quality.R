@@ -331,7 +331,7 @@ get_deweathered_aq <- function(cities,
   return(aq)
 }
 
-add_location_names <- function(df, country) {
+add_location_names <- function(df, country, lang = 'EN') {
   cities_meta <- read_csv(glue('https://api.energyandcleanair.org/cities?country={country}&format=csv'))
 
   #add province names
@@ -349,7 +349,7 @@ add_location_names <- function(df, country) {
 
   # Add Chinese names
   if(country == "CN"){
-    station_key <- read_csv('data/air_quality_station_codes.csv')
+    station_key <- read_csv(get_data_file('air_quality_station_codes.csv'))
     city_key <- station_key %>%
       distinct(city_name_EN=CityEN, NAME_1_EN=ProvinceEN, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH) %>%
       filter(!is.na(city_name_EN))
