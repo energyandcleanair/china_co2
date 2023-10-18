@@ -166,7 +166,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   battery_labels <- battery_plotdata %>% filter(date==max(date) | month(date)==12)
 
   battery_plotdata %>%
-    ggplot(aes(date, Value12m, col=battery_type, label=round(Value12m,0)))+
+    ggplot(aes(date, Value12m, col=trans(battery_type), label=round(Value12m,0)))+
     geom_line(size=1.2)+geom_point(size=.8)+
     geom_text(data=battery_labels, vjust=-.4, hjust=1.2, fontface='bold', show.legend = FALSE) +
     labs(title=trans('Battery output'),
