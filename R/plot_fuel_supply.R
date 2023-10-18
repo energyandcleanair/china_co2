@@ -89,7 +89,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     facet_wrap(~prod_group, scales='free_y') +
     theme_crea(legend.position='bottom') +
     labs(title=trans('Fossil fuel imports'), subtitle=trans('12-month moving sum'), y='', x='') +
-    scale_color_crea_c('change', labels=scales::percent, name='year-on-year',
+    scale_color_crea_c('change', labels=scales::percent, name=trans('year-on-year'),
                        guide=guide_colorbar(direction = 'horizontal', barwidth = 10)) +
     scale_x_date(expand=expansion(mult=c(0,.05)), labels = yearlab) +
     x_at_zero() -> p
