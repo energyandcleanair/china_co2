@@ -12,8 +12,9 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   dir.create(output_dir, F, T)
 
-  if(is.null(aq)) aq <- get_aq(start_date=ymd('2022-01-01'), update_data=update_data, aq_file=aq_file)
-  if(is.null(aq_dw)) aq_dw <- get_deweathered_aq(cities, pollutants, update_data=update_data, aq_file=aq_dw_file)
+  aq_data_start=ymd(paste(year(focus_month)-1,1,1))
+  if(is.null(aq)) aq <- get_aq(start_date=aq_data_start, update_data=update_data, aq_file=aq_file)
+  if(is.null(aq_dw)) aq_dw <- get_deweathered_aq(cities, pollutants, start_date=aq_data_start, update_data=update_data, aq_file=aq_dw_file)
 
   #read_csv('~/../Downloads/deweathered_mee_20230518.csv') %>% filter(pollutant=='o3', location_id %in% cities) %>%
   #  bind_rows(aq_dw) -> aq_dw
