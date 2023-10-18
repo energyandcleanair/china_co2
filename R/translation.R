@@ -82,10 +82,10 @@ monthyearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
 }
 
 convert_value <- function(x, original_unit, lang=get('lang', envir=.GlobalEnv)) {
-  x * case_when(lang=='ZH'~1,
+  x * case_when(original_unit %in% c('mwh')~1/1000,
+                lang=='ZH'~1,
                 original_unit %in% c("10MW", "10000 tons", '10000 kw', '10000 units')~1/100,
-                original_unit %in% c('100M cu.m', '100 million kwh', "100Mt")~1/10,
-                original_unit %in% c('mwh')~1/1000)
+                original_unit %in% c('100M cu.m', '100 million kwh', "100Mt")~1/10)
 }
 
 unit_label <- function(original_unit, lang=get('lang', envir=.GlobalEnv)) {
