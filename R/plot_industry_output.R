@@ -141,7 +141,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     scale_color_crea_c('change', labels=scales::percent, guide='none') +
     scale_y_continuous(expand=expansion(mult=c(0,.05))) +
     scale_x_date(labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('solar cell output, ',lang,'.png')), plot=p)
+  quicksave(file.path(output_dir, paste0('solar cell output, ',lang,'.png')), plot=p, footer_height=.03)
 
   if(lang=='EN') {
     solar_plotdata %>%
@@ -209,7 +209,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     group_by(date) %>% summarise(share = Value3m[grepl('New Energy', prod)]/Value3m[grepl('Auto', prod)]) %>%
     mutate(prod='new sales, 3-month mean', Unit='percent') -> plotdata2
 
-  prod_withlatest %>% filter(grepl('Auto|New Energy', prod)) %>% filter(year(date)>=2017) %>%
+  prod_withlatest %>% filter(grepl('Auto|New Energy', prod)) %>%
     (function(df) {
       df$cumulative_share <- as.numeric(NA)
       for(i in seq_along(df$date)) {
