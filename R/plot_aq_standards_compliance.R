@@ -21,7 +21,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     inner_join(aqs) %>%
     group_by(across(where(is.character))) %>%
     mutate(value_12m = case_when(pollutant!='o3'~value %>% pmin(500) %>% rollapplyr(365, mean, fill=NA),
-                                 T~value %>% rollapplyr(365, quantile, probs=.9, fill=NA))) ->
+                                 T~value %>% rollapplyr(365, quantile, probs=.9, na.rm=T, fill=NA))) ->
     aq_capitals_12m
 
   aq_capitals_12m %<>% mutate(city_label = case_when(city_name==NAME_1~city_name,
