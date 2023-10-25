@@ -6,7 +6,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
                                output_dir=get('output_dir', envir=.GlobalEnv)) {
 
   # trans_file will be used by creahelpers::trans_file
-  trans_file = get_data_file('label translations.xlsx')
+  trans_file = get_data_file('label_translations.xlsx')
 
   aq_capitals <- get_aq(start_date=start_date-365,
                         update_data=T,
