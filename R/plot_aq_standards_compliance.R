@@ -5,10 +5,12 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
                                lang=parent.frame()$lang,
                                output_dir=get('output_dir', envir=.GlobalEnv)) {
 
-  # trans_file will be used by creahelpers::trans_file
+  # Assign global variables used by creahelpers for translation
   trans_file = get_data_file('label_translations.xlsx')
-  Sys.setenv(trans_file=trans_file)
+  assign("trans_file", trans_file, envir = .GlobalEnv)
+  assign("lang", lang, envir = .GlobalEnv)
 
+  # Collect data
   aq_capitals <- get_aq(start_date=start_date-365,
                         update_data=T,
                         aq_file='cache/province_capital_air_quality_data.RDS',
