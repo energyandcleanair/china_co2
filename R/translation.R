@@ -114,9 +114,10 @@ unit_label <- function(original_unit, lang=get('lang', envir=.GlobalEnv)) {
 }
 
 lang_theme <- function(lang=get('lang', envir=.GlobalEnv)) {
-  case_when(lang=='ZH'~list(theme(text=element_text(family='PingFang SC'),
-                                  plot.title = element_text(size=rel(2), margin=margin(c(20,12,16,12))))),
-            T~list(theme()))
+  theme()
+  # case_when(lang=='ZH'~list(theme(text=element_text(family='PingFang SC'),
+  #                                 plot.title = element_text(size=rel(2), margin=margin(c(20,12,16,12))))),
+  #           T~list(theme()))
 }
 
 strsplit_lang <- function(x, width, lang=get('lang', envir=.GlobalEnv)) {

@@ -27,6 +27,7 @@ steel_indicator_plots <- function(lang=parent.frame()$lang,
     #scale_y_continuous(labels=scales::percent) +
     x_at_zero() +
     theme_crea() + theme(strip.text = element_text(size=rel(.8))) +
+    lang_theme(lang=lang) +
     scale_color_crea_d('dramatic', col.index = rep(1:6,2), guide='none') +
     scale_linetype_manual(values=2:1) +
     labs(x='', y='', col='year', title=trans('Steel industry weekly operating indicators'),

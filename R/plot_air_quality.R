@@ -58,7 +58,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
         ggplot(aes(city_name, value, fill=value)) + geom_col() + coord_flip() +
         scale_fill_gradientn(colors=rcrea::pal_crea.change[c(1:2,5:7)], guide='none') +
         theme_crea() +
-        lang_theme() +
+        lang_theme(lang=lang) +
         x_at_zero() +
         labs(x='',
              y=trans('µg/m3'),
@@ -97,6 +97,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
         scale_x_discrete(limits=levels) +
         coord_flip() +
         theme_crea() +
+        lang_theme(lang=lang) +
         scale_fill_crea_d('change', col.index = c(5,2), name='', guide=guide_to_use) +
         scale_shape_discrete(guide=guide_to_use, name='') +
         scale_y_continuous(labels=scales::percent) +

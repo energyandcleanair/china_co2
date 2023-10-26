@@ -59,6 +59,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     ggplot(aes(date, Value12m*12, col=trans(var))) + geom_line(aes(linewidth=var=='Total Supply')) +
     facet_wrap(~prod_group, scales='free_y') +
     theme_crea() +
+    lang_theme(lang=lang) +
     labs(title=trans('Fossil fuel supply'), subtitle=trans('12-month moving sum'), y='', x='') +
     scale_linewidth_discrete(range=c(1,2), guide='none') +
     scale_color_crea_d('dramatic', name='') +
@@ -70,6 +71,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     write_csv(file.path(output_dir, 'oil products output.csv')) %>%
     ggplot(aes(date, Value12m*12, col=trans(prod))) + geom_line(linewidth=1.5) +
     theme_crea() +
+    lang_theme(lang=lang) +
     labs(title=trans('Output of different oil products'), subtitle=trans('12-month moving sum'),
          y=ifelse(lang=='ZH', unit_label('100Mt', lang=lang), 'Mt'),
          x='') +
@@ -88,6 +90,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     geom_line(linewidth=1.5) +
     facet_wrap(~prod_group, scales='free_y') +
     theme_crea(legend.position='bottom') +
+    lang_theme(lang=lang) +
     labs(title=trans('Fossil fuel imports'), subtitle=trans('12-month moving sum'), y='', x='') +
     scale_color_crea_c('change', labels=scales::percent, name=trans('year-on-year'),
                        guide=guide_colorbar(direction = 'horizontal', barwidth = 10)) +

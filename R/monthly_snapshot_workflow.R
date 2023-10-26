@@ -38,11 +38,6 @@ build_snapshot <- function(focus_month = NULL,
   month_dir <- file.path(base_dir, month_subdir)
   dir.create(month_dir, showWarnings = F, recursive = T)
 
-  # TODO
-  # Upload all files to Google Drive
-
-  # extrafont::font_import()
-
   # preload air quality data
   aq <- get_aq(start_date = ymd("2022-01-01"), update_data = update_aq_data, source='mee')
   aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = update_aq_data)
