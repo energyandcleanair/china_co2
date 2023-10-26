@@ -8,7 +8,6 @@ importFrom(cowplot,plot_grid)
 importFrom(cowplot,ggdraw)
 
 importFrom(directlabels,geom_dl)
-importFrom(directlabels,last.bumpup)
 
 importFrom(dplyr,all_vars)
 importFrom(dplyr,across)
