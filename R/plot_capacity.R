@@ -1,6 +1,9 @@
 capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
                            lang=parent.frame()$lang,
                            output_dir=get('output_dir', envir=.GlobalEnv)) {
+
+  library(directlabels)
+
   in_file = get_data_file("Power Capacity.xlsx")
   readwindEN(in_file, c('var', 'source', 'fuel', 'YTD'), read_vardata = T) %>%
     mutate(var = ifelse(grepl('New', var), 'Newly added capacity', 'Installed capacity'),
