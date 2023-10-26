@@ -14,7 +14,7 @@ cap %>% distinct(var, source, fuel, YTD)
 lang='EN'
 
 
-require(directlabels)
+library(directlabels)
 cap %>%
   filter(year(date)>=2018, fuel=='All', grepl('New', var)) %>%
   group_by(source, fuel, year=as.factor(year(date))) %>%

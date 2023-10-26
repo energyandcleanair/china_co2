@@ -20,14 +20,14 @@ rw(in_file, c('var', 'prod', 'area', 'sector'), columnFilter = "Consump.*Steam")
 rw(in_file, c('var', 'prod'), columnFilter = "Consumption: Coking Coal$") %>%
   mutate(type='M', sector='Metallurgy Industry') -> d4
 
-d = bind_rows(d1, d2, d4) %>% arrange(date) %>% 
+d = bind_rows(d1, d2, d4) %>% arrange(date) %>%
   mutate(YoY=!is.na(YoY), Value=Value*ifelse(Unit=="ton", 1e-4,1),
          Unit=recode(Unit, ton="10000 tons"),
          Value=ifelse(Value==0, NA, Value))
 
-d %<>% 
-  group_by(var, prod, sector, type) %>% 
-  unYoY %>% filter(!YoY) %>% 
+d %<>%
+  group_by(var, prod, sector, type) %>%
+  unYoY %>% filter(!YoY) %>%
   unYTD
 
 
@@ -40,21 +40,21 @@ d %<>% mutate(var = ifelse(var=='Apparent Consumption' & prod=='Natural Gas',
 d %<>% filter(prod=='Crude Oil') %>% group_by(prod, date) %>% summarise_at('Value1m', sum) %>%
   mutate(var='Apparent Consumption') %>% bind_rows(d, .)
 
-d %<>% filter(grepl('Processing of Petroleum|Finished Oil Products', prod)) %>% 
-  mutate(prod='Oil Products', Value1m = Value1m * ifelse(grepl('Exports', var), -1, 1)) %>% 
+d %<>% filter(grepl('Processing of Petroleum|Finished Oil Products', prod)) %>%
+  mutate(prod='Oil Products', Value1m = Value1m * ifelse(grepl('Exports', var), -1, 1)) %>%
   group_by(prod, date) %>% summarise(across(Value1m, sum)) %>%
   mutate(var='Apparent Consumption') %>% bind_rows(d, .)
 
 #1 m3 = 0.76e-3 t
 
-d %<>% filter(prod=='Natural Gas', grepl('Output|Imports', var)) %>% 
+d %<>% filter(prod=='Natural Gas', grepl('Output|Imports', var)) %>%
   group_by(prod, date) %>% summarise(across(Value1m, sum)) %>%
-  mutate(var='Apparent Consumption') %>% 
+  mutate(var='Apparent Consumption') %>%
   bind_rows(d, .)
 
 d %>% filter(prod=='Natural Gas') %>% ggplot(aes(date, Value1m, col=var)) + geom_line() + facet_wrap(~var)
-d %>% filter(grepl('Cons', var), !grepl('WIND', var), year(date)>=2021) %>% 
-  ggplot(aes(date, Value1m)) + 
+d %>% filter(grepl('Cons', var), !grepl('WIND', var), year(date)>=2021) %>%
+  ggplot(aes(date, Value1m)) +
   geom_col() + facet_wrap(~prod+sector, scales='free_y')
 
 d$Value1m[d$prod=='Steam Coal' & d$var=='Consumption' & d$date=='2014-01-31' & d$sector=='Total'] <-
@@ -77,8 +77,8 @@ CO2.factor <- c(Cement = 858.200/233035.7, #Cement = 769.300/231624.90 #2020 dat
                 'Oil Products' = NA) %>%
   tibble(cat=names(.), ef=.)
 
-d %>% filter(grepl('Diesel|Fuel Oil|Gasoline|Kerosene', prod), grepl('Consumption', var), 
-             year(date)==2021, month(date)==11) %>% ungroup %>% 
+d %>% filter(grepl('Diesel|Fuel Oil|Gasoline|Kerosene', prod), grepl('Consumption', var),
+             year(date)==2021, month(date)==11) %>% ungroup %>%
   left_join(CO2.factor %>% rename(prod=cat)) %>% summarise(ef=weighted.mean(ef, Value)) %>% unlist ->
   CO2.factor$ef[CO2.factor$cat=='Oil Products']
 
@@ -87,7 +87,7 @@ d$cat[d$prod == 'Kerosene'] <- 'Oil Products'
 d$cat[d$prod == 'Petroleum Coke'] <- 'Oil Products'
 
 oilprod = 'Oil Products' #c('Gasoline', 'Diesel Oil', 'Fuel Oil')
-d %<>% group_by(var, sector, date) %>% 
+d %<>% group_by(var, sector, date) %>%
   group_modify(function(df, ...) {
     df$Value1m[df$prod=='Crude Oil'] %<>% subtract(sum(df$Value1m[df$prod %in% oilprod]))
     df
@@ -97,46 +97,46 @@ d %<>% left_join(CO2.factor) %>% mutate(CO2 = Value1m * ef)
 
 
 #adjustment to BP numbers
-read_bp('Coal Cons.*EJ|Oil Cons.*EJ|Gas Cons.*EJ', read_multiple = T, year=2021) %>% 
+read_bp('Coal Cons.*EJ|Oil Cons.*EJ|Gas Cons.*EJ', read_multiple = T, year=2021) %>%
   bind_rows() %>% filter(country=='China') %>% mutate(prod_bp=gsub(' .*', '', variable)) -> bp
 
 d %<>% mutate(prod_bp=disambiguate(prod, c(Coal='Coal', Oil='Oil', Gas=' Gas')), year=year(date))
 
-d %>% filter(grepl('Cons', var), sector=='Total' | prod=='Coking Coal', grepl('Oil Prod|Coal| Gas', prod)) %>% 
-  group_by(prod_bp, year) %>% 
+d %>% filter(grepl('Cons', var), sector=='Total' | prod=='Coking Coal', grepl('Oil Prod|Coal| Gas', prod)) %>%
+  group_by(prod_bp, year) %>%
   summarise(across(CO2, sum)) ->
   d_yr
 
-d_yr %>% inner_join(bp %>% rename(EJ_BP=value)) %>% na.omit %>% 
-  group_by(prod_bp) %>% 
-  mutate(adjustment=EJ_BP * CO2[year==2019] / EJ_BP[year==2019] / CO2) %>% 
+d_yr %>% inner_join(bp %>% rename(EJ_BP=value)) %>% na.omit %>%
+  group_by(prod_bp) %>%
+  mutate(adjustment=EJ_BP * CO2[year==2019] / EJ_BP[year==2019] / CO2) %>%
   select(prod_bp, year, adjustment) ->
   adj
 
-d %>% left_join(adj) %>% group_by(prod_bp) %>% 
-  fill(adjustment, .direction='downup') %>% 
+d %>% left_join(adj) %>% group_by(prod_bp) %>%
+  fill(adjustment, .direction='downup') %>%
   mutate(adjustment=na.cover(adjustment, 1),
          CO2=CO2*adjustment) ->
   d.adj
 
-d.adj %<>% group_by(var, prod, sector, type) %>% 
+d.adj %<>% group_by(var, prod, sector, type) %>%
   roll12m(months=12, outcol='CO2_12m', incol='CO2') %>%
   roll12m(months=3, outcol='CO2_3m', incol='CO2')
 
 
-bp %>% filter(year<=2011) %>% group_by(prod_bp) %>% 
-  mutate(bp_adj_hist=value/value[year==2011]) %>% 
+bp %>% filter(year<=2011) %>% group_by(prod_bp) %>%
+  mutate(bp_adj_hist=value/value[year==2011]) %>%
   select(year, prod_bp, bp_adj_hist) ->
   bp_hist
 
-d.adj %>% filter(date=='2011-12-31', 
+d.adj %>% filter(date=='2011-12-31',
                  var != 'Apparent Consumption WIND',
                  grepl('Consumpt', var), is.na(sector) | sector == 'Total' | prod=='Coking Coal',
-                 !grepl('Cement', prod)) %>% 
-  select(-date, -year) %>% 
-  right_join(bp_hist) %>% 
+                 !grepl('Cement', prod)) %>%
+  select(-date, -year) %>%
+  right_join(bp_hist) %>%
   mutate(CO2_12m = CO2_12m * bp_adj_hist,
-         date=ymd(paste0(year, '-12-31'))) %>% 
+         date=ymd(paste0(year, '-12-31'))) %>%
   bind_rows(d.adj %>% filter(date>'2012-01-01' | (grepl('Cement', prod) & month(date)==12))) ->
   d.adj2
 
@@ -144,7 +144,7 @@ d.adj %>% filter(date=='2011-12-31',
 #quarterly
 d.adj2 %>% filter(date>'2000-12-01',date<='2023-03-31',
                   #month(date) %in% c(3,6,9,11),
-                  prod %in% c('Cement', 'Natural Gas', 'Steam Coal', 'Coking Coal', oilprod), #, 'Crude Oil' 
+                  prod %in% c('Cement', 'Natural Gas', 'Steam Coal', 'Coking Coal', oilprod), #, 'Crude Oil'
                   var != 'Apparent Consumption WIND',
                   grepl('Consumpt', var) | prod=='Cement') %>%
   mutate(include_in_totals = is.na(sector) | sector=='Total' | prod=='Coking Coal') -> d.quarter
@@ -153,26 +153,26 @@ d.adj2 %>% filter(date>'2000-12-01',date<='2023-03-31',
 #adjust for bottom-up estimates
 source('project_workflows/coal use bottom-up, 2023Q1.R')
 
-coaluse_plot %>% filter(sector_coal=='Power') %>% group_by(date) %>% 
-  mutate(adj = value - value[name=='reported']) %>% 
-  select(name, date, adj) %>% 
-  mutate(prod='Steam Coal') %>% 
+coaluse_plot %>% filter(sector_coal=='Power') %>% group_by(date) %>%
+  mutate(adj = value - value[name=='reported']) %>%
+  select(name, date, adj) %>%
+  mutate(prod='Steam Coal') %>%
   cross_join(tibble(sector=c('Total', 'Power Industry'))) -> bottomup_adj
 
-d.quarter %<>% cross_join(bottomup_adj %>% ungroup %>% distinct(name)) %>% 
-  left_join(bottomup_adj) %>% 
-  replace_na(list(adj=0)) %>% 
-  group_by(name, var, prod, sector) %>% 
+d.quarter %<>% cross_join(bottomup_adj %>% ungroup %>% distinct(name)) %>%
+  left_join(bottomup_adj) %>%
+  replace_na(list(adj=0)) %>%
+  group_by(name, var, prod, sector) %>%
   roll12m(months=12, outcol='adj_12m', incol='adj') %>%
-  roll12m(months=3, outcol='adj_3m', incol='adj') %>% 
+  roll12m(months=3, outcol='adj_3m', incol='adj') %>%
   mutate(CO2 = CO2 + adj*ef,
          CO2_3m = CO2_3m + adj_3m*ef,
-         CO2_12m = CO2_12m + adj_12m*ef) %>% 
+         CO2_12m = CO2_12m + adj_12m*ef) %>%
   filter(!is.na(CO2_12m))
 
-d.quarter %<>% filter(include_in_totals) %>% 
-  group_by(name, date) %>% summarise(across(c(starts_with('CO2')), sum)) %>% 
-  mutate(include_in_totals=F, prod='Total') %>% 
+d.quarter %<>% filter(include_in_totals) %>%
+  group_by(name, date) %>% summarise(across(c(starts_with('CO2')), sum)) %>%
+  mutate(include_in_totals=F, prod='Total') %>%
   bind_rows(d.quarter)
 
 d.quarter %>% filter(prod=='Total') %>% ggplot(aes(date, CO2_12m, col=name)) + geom_line()
@@ -184,13 +184,13 @@ d.quarter %<>% group_by(name, prod, sector) %>%
          YoY_1m = get.yoy(CO2, date, 'relative'))
 
 
-d.quarter %>% filter(date=='2023-03-31', prod=='Total') %>% 
+d.quarter %>% filter(date=='2023-03-31', prod=='Total') %>%
   select(name, prod, sector, CO2_3m, YoY_3m)
 
 
 d.quarter %>% filter(include_in_totals | prod=='Total', name != 'reported') %>% ungroup %>%
   dplyr::select(name, date, prod, CO2_12m) %>% spread(prod, CO2_12m) %>%
-  mutate(across(where(is.numeric), multiply_by, 12)) %>% 
+  mutate(across(where(is.numeric), multiply_by, 12)) %>%
   write_csv(file.path(output_dir, '12-month CO2.csv'))
 
 
@@ -198,29 +198,29 @@ prodcols = c('black', crea_palettes$dramatic[c(6,5,3,2)], 'gray30') #
 names(prodcols) = c('Crude Oil','Cement','Natural Gas','Oil Products','Coking Coal','Steam Coal')
 
 
-d.quarter %>% filter(include_in_totals, grepl('predicted', name)) %>% 
-  group_by(name, date) %>% summarise(across(CO2_12m, sum)) %>% 
-  filter(year(date) %in% 2013:2019) %>% 
+d.quarter %>% filter(include_in_totals, grepl('predicted', name)) %>%
+  group_by(name, date) %>% summarise(across(CO2_12m, sum)) %>%
+  filter(year(date) %in% 2013:2019) %>%
   lm(CO2_12m~date, data=.) ->
   m
 
 d.quarter %>% filter(grepl('predicted', name)) %>% ungroup %>% distinct(date) %>% mutate(CO2_12m=predict(m, .)) ->
   trend
 
-d.quarter %>% filter(include_in_totals, grepl('predicted', name)) %>% ungroup %>% 
-  bind_rows(trend %>% filter(year(date)>=2012) %>% mutate(prod='pre-COVID trend')) %>% 
+d.quarter %>% filter(include_in_totals, grepl('predicted', name)) %>% ungroup %>%
+  bind_rows(trend %>% filter(year(date)>=2012) %>% mutate(prod='pre-COVID trend')) %>%
   mutate(CO2_12m=CO2_12m*12,
          variable="CO2 emissions, 12-month moving sum",
-         unit='Mt CO2 / year') %>% 
-  select(variable, date, product=prod, value=CO2_12m, unit) %>% 
+         unit='Mt CO2 / year') %>%
+  select(variable, date, product=prod, value=CO2_12m, unit) %>%
   write_csv(file.path(output_dir, "CO2 12m sum.csv"))
 
 d.quarter %>% filter(include_in_totals, grepl('predicted', name)) %>%
-  mutate(prod=factor(prod, levels=names(prodcols))) %>% 
+  mutate(prod=factor(prod, levels=names(prodcols))) %>%
   ggplot(aes(date, CO2_12m*12)) +
   geom_area(aes(fill=prod)) +
-  geom_line(aes(col='pre-COVID trend'), 
-            data=trend %>% filter(year(date)>=2012), 
+  geom_line(aes(col='pre-COVID trend'),
+            data=trend %>% filter(year(date)>=2012),
             linetype='dashed', size=1) +
   scale_x_date(expand=c(0,0)) +
   scale_y_continuous(expand=expansion(c(0,.05))) +
@@ -237,7 +237,7 @@ prodcolsZH <- prodcols
 names(prodcolsZH) %<>% translateFuels
 
 d.quarter %>% filter(include_in_totals, grepl('predicted', name)) %>%
-  mutate(prod=prod %>% translateFuels %>% factor(levels=names(prodcolsZH))) %>% 
+  mutate(prod=prod %>% translateFuels %>% factor(levels=names(prodcolsZH))) %>%
   ggplot(aes(date, CO2_12m*12/100, fill=prod)) +
   geom_area() +
   scale_x_date(expand=c(0,0), labels=function(x) paste0(year(x), '年')) +
@@ -250,9 +250,9 @@ d.quarter %>% filter(include_in_totals, grepl('predicted', name)) %>%
 quicksave(file.path(output_dir, 'CO2 12m sum ZH.png'), plot=plt)
 
 
-d.quarter %>% filter(include_in_totals | prod=='Total', grepl('predicted', name)) %>% 
-  mutate(YoY_change_3m=YoY_change_3m*3, CO2_12m=CO2_12m*12) %>% ungroup %>% 
-  select(date, prod, YoY_change_3m, CO2_12m) %>% 
+d.quarter %>% filter(include_in_totals | prod=='Total', grepl('predicted', name)) %>%
+  mutate(YoY_change_3m=YoY_change_3m*3, CO2_12m=CO2_12m*12) %>% ungroup %>%
+  select(date, prod, YoY_change_3m, CO2_12m) %>%
   write_csv(file.path(output_dir, 'CO2 quarterly.csv'))
 
 d.quarter %>% filter(include_in_totals, grepl('predicted', name)) %>%
@@ -268,7 +268,7 @@ d.quarter %>% filter(include_in_totals, grepl('predicted', name)) %>%
 quicksave(file.path(output_dir, 'CO2 monthly change by fuel.png'), plot=plt, scale=1.33)
 
 d.quarter %>% filter(prod=='Total', grepl('predicted', name)) %>%
-  write_csv(file.path(output_dir, 'CO2 monthly change.csv')) %>% 
+  write_csv(file.path(output_dir, 'CO2 monthly change.csv')) %>%
   ggplot(aes(date, YoY_change_1m, fill=YoY_change_1m<0)) + geom_col() +
   scale_x_date(expand=c(0,0), limits = c(ymd('2018-01-01'), NA)) +
   theme_crea() +
@@ -281,7 +281,7 @@ quicksave(file.path(output_dir, 'CO2 monthly change.png'), plot=plt, scale=1.33)
 
 d.quarter %>% filter(include_in_totals) %>%
   mutate(prodZH = translateFuels(prod)) %>%
-  ggplot(aes(date, YoY_change_3m*3/100)) + 
+  ggplot(aes(date, YoY_change_3m*3/100)) +
   geom_col(aes(fill=prodZH)) +
   geom_point(data=d.quarter %>% filter(prod=='Total') %>% mutate(prod='总计'), aes(col=prod)) +
   scale_x_date(expand=c(0,0)) +
@@ -294,7 +294,7 @@ d.quarter %>% filter(include_in_totals) %>%
 quicksave(file.path(output_dir, 'CO2 quarterly change ZH.png'))
 
 
-d.quarter %>% filter(date=='2023-03-31', 
+d.quarter %>% filter(date=='2023-03-31',
                      !(sector == 'Total' & prod == 'Steam Coal'),
                      grepl('predicted', name)) %>%
   mutate(sector = case_when(prod=='Cement'~'Building Materials',
@@ -304,9 +304,9 @@ d.quarter %>% filter(date=='2023-03-31',
                             T~sector)) %>%
   group_by(prod, sector) %>% mutate(across(YoY_change_3m, mean)) -> d.changes
 
-d.changes %>% filter(prod != 'Total') %>% 
-  mutate(sector=recode(sector, Total='All Sectors', 'Oil Consumption'='All Sectors')) %>% 
-  write_csv(file.path(output_dir, 'Contributions to emissions growth.csv')) %>% 
+d.changes %>% filter(prod != 'Total') %>%
+  mutate(sector=recode(sector, Total='All Sectors', 'Oil Consumption'='All Sectors')) %>%
+  write_csv(file.path(output_dir, 'Contributions to emissions growth.csv')) %>%
   ggplot(aes(prod, YoY_change_3m, fill=sector)) +
   geom_col() +
   scale_y_continuous(expand=expansion(c(.05,.05))) +
@@ -314,12 +314,12 @@ d.changes %>% filter(prod != 'Total') %>%
   scale_fill_crea_d(name='Sector') +
   labs(title="Contributions to changes in emissions",
        subtitle="in the first quarter of 2023, compared with 2022", y='Mt CO2 / year', x='') +
-  coord_flip() + 
+  coord_flip() +
   scale_x_discrete(limits=rev) +
   x_at_zero() -> plt
 quicksave(file.path(output_dir, 'Contributions to emissions growth.png'), plot=plt, scale=1.33)
 
-d.changes %>% select(sector, prod, YoY_change_3m, YoY_3m, CO2_3m) %T>% copy.xl %>% 
+d.changes %>% select(sector, prod, YoY_change_3m, YoY_3m, CO2_3m) %T>% copy.xl %>%
   write_csv(file.path(output_dir, 'Contributions to emissions growth.csv'))
 
 
@@ -336,10 +336,10 @@ readwindEN(in_file,
   mutate(type='M') %>% bind_rows(elec, .) -> elec
 
 
-elec %>% group_by(var, sector, subsector) %>% 
-  roll12m(months=3, incol='Value') %>% 
-  mutate(YoY = get.yoy, col='Value3m') %>% 
-  arrange(desc(Value3m)) %>% 
+elec %>% group_by(var, sector, subsector) %>%
+  roll12m(months=3, incol='Value') %>%
+  mutate(YoY = get.yoy, col='Value3m') %>%
+  arrange(desc(Value3m)) %>%
   filter(date==max(date), is.na(subsector) | subsector=="") %>% select(sector, YoY)
 
 elec %>%
@@ -368,23 +368,23 @@ ggsave(file.path(output_dir, 'Contributions to electricity demand growth.png'))
 
 in_file='apparent consumption of fossils YTD M new.xlsx'
 getwindvars(in_file)
-readwindEN(in_file, c('var', 'prod', 'country', 'sector'), read_vardata = T) %>% 
+readwindEN(in_file, c('var', 'prod', 'country', 'sector'), read_vardata = T) %>%
   mutate(sector=na.cover(sector, 'Total')) -> coaluse
 
-coaluse %<>% filter(var=='Consumption', sector=='Total') %>% 
-  group_by(var, date) %>% summarise(across(Value, sum)) %>% 
+coaluse %<>% filter(var=='Consumption', sector=='Total') %>%
+  group_by(var, date) %>% summarise(across(Value, sum)) %>%
   rename(Value1m=Value)
 
 in_file='Implied coal demand.xlsx'
 getwindvars(in_file)
 readwindEN(in_file, c('var', 'prod'), read_vardata = T) %>% mutate(type=na.cover(type, '1m')) -> coal
-coal %>% filter(prod %in% c('Raw Coal', 'Coal and Lignite'), !is.na(Value), is.na(YoY)) %>% 
-  ddply(.(var, prod, type), unYTD) %>% 
+coal %>% filter(prod %in% c('Raw Coal', 'Coal and Lignite'), !is.na(Value), is.na(YoY)) %>%
+  ddply(.(var, prod, type), unYTD) %>%
   group_by(date) %>% group_modify(function(df, ...) {
     outdf=df[1,]
     outdf$var='Supply (output+net imports)'
     outdf$prod='Coal'
-    
+
     outdf$Value1m = sum(c(df$Value1m[df$var=='Output' & is.na(df$YoY) & df$prod=='Raw Coal'],
                           df$Value1m[df$var=='Imports'],
                           -df$Value1m[df$var=='Exports']),
@@ -394,9 +394,9 @@ coal %>% filter(prod %in% c('Raw Coal', 'Coal and Lignite'), !is.na(Value), is.n
 
 adj = mean(coalsupply$Value1m[year(coalsupply$date)>=2014], na.rm=T) / mean(coaluse$Value1m[year(coaluse$date)>=2014], na.rm=T)
 coaluse$Value1m %<>% multiply_by(adj)
-bind_rows(coalsupply, coaluse) %>% 
-  ddply(.(var), roll12m) %>% 
-  filter(!is.na(Value1m), year(date)>=2010) %>% 
+bind_rows(coalsupply, coaluse) %>%
+  ddply(.(var), roll12m) %>%
+  filter(!is.na(Value1m), year(date)>=2010) %>%
   ggplot(aes(date, Value12m*12/100e3, col=var)) + geom_line(size=1) +
   theme_crea() + scale_color_crea_d('dramatic', guide=guide_legend(nrow=1)) +
   labs(y='Gt/year', x='', title='Coal demand and supply in China', subtitle='12-month moving sum', col='',
@@ -408,11 +408,11 @@ in_file='Output of Major Industrial Products YTD M.xlsx'
 #in_file='industrial output.xlsx'
 getwindvars(in_file)
 readwindEN(in_file, c('var', 'prod'), read_vardata = T) %>% mutate(type=na.cover(type, '1m')) -> ind
-readwindEN('power generation by source.xlsx', c('var', 'prod'), columnFilter = 'Nuclear', read_vardata = T) %>% 
+readwindEN('power generation by source.xlsx', c('var', 'prod'), columnFilter = 'Nuclear', read_vardata = T) %>%
   bind_rows(ind) -> ind
 
 
-ind %<>% ddply(.(prod), unYTD) %>% ddply(.(prod), roll12m) %>% 
+ind %<>% ddply(.(prod), unYTD) %>% ddply(.(prod), roll12m) %>%
   ddply(.(prod), roll12m, months=3) %>% ddply(.(prod), get.yoy, col='Value1m')
 
 ind %<>% ddply(.(var, prod), seasonal)
@@ -430,17 +430,17 @@ for(i in 1:length(plots)) {
   ind %>% filter(year(date)>=2015, grepl(plots[[i]], prod)) -> plotdata
   plotdata %>%
     mutate(YoY = (Value1m/lag(Value1m, 12)-1)  %>% pmax(-.2) %>% pmin(.2),
-           prod = case_when(prod=='Generating Capacity'~'Electricity', 
+           prod = case_when(prod=='Generating Capacity'~'Electricity',
                             prod=='Solar'~'Solar power',
                             T~gsub(' Generating Capacity', '', prod))) %>%
     ggplot(aes(date, Value.seasonadj, col=YoY))+
     geom_line(size=1.2)+geom_point(size=.8)+
     facet_wrap(~paste0(prod, ', ', Unit), scales='free_y') +
     scale_color_gradientn(colors=colorspace::darken(crea_palettes$change), labels=scales::percent) +
-    labs(title=names(plots)[i], 
-         subtitle='seasonally adjusted monthly data', #'12-month moving sum', 
+    labs(title=names(plots)[i],
+         subtitle='seasonally adjusted monthly data', #'12-month moving sum',
          x='', y=unique(plotdata$Unit)) +
-    theme_crea() + 
+    theme_crea() +
     theme(strip.text = element_text(size=rel(.4)),
           axis.text.y = element_text(size=rel(.5))) +
     geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
@@ -454,14 +454,14 @@ ind %>% filter(year(date)>=2015, grepl('Solar Cells', prod)) %>%
   mutate(YoY = (Value1m/lag(Value1m, 12)-1)  %>% pmax(-.5) %>% pmin(.5),
          Value12m=Value12m*12/100) -> solar_plotdata
 
-solar_plotdata %>% 
+solar_plotdata %>%
   ggplot(aes(date, Value12m, col=YoY, label=round(Value12m,0)))+
   geom_line(size=1.2)+geom_point(size=.8)+
   geom_text(data=solar_plotdata %>% filter(date==max(date)), vjust=-.4, fontface='bold')+
   facet_wrap(~prod, scales='free_y', nrow=4) +
   scale_color_crea_c('change', labels=scales::percent) +
   labs(title=names(plots)[i], subtitle='12-month moving sum', x='', y='GW') +
-  theme_crea() + 
+  theme_crea() +
   scale_linetype_manual(values='dashed', name='')
 ggsave(paste0(names(plots)[4], '.png'))
 
@@ -477,16 +477,16 @@ plotdata1 %>% ggplot(aes(date, Value12m*12/100, col=prod))+
   scale_linetype_manual(values='dashed', name='') +
   expand_limits(y=0) -> p1
 
-plotdata1 %>% 
-  group_by(date) %>% summarise(Value12m = Value12m[grepl('New Energy', prod)]/Value12m[grepl('Auto', prod)]) %>% 
+plotdata1 %>%
+  group_by(date) %>% summarise(Value12m = Value12m[grepl('New Energy', prod)]/Value12m[grepl('Auto', prod)]) %>%
   mutate(prod='Share of New Energy Vehicles', Unit='percent') -> plotdata2
 
-plotdata2 %>% 
+plotdata2 %>%
   ggplot(aes(date, Value12m, col=prod))+
   geom_line(size=1.2)+geom_point(size=.8)+
   scale_color_crea_d('dramatic', guide=F, col.index = 3) +
   labs(y='new energy vehicle share', title=' ', subtitle=' ') +
-  theme_crea() + 
+  theme_crea() +
   geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
   scale_linetype_manual(values='dashed', name='', guide=F) +
   scale_y_continuous(labels = scales::percent) +
@@ -496,16 +496,16 @@ grid.arrange(p1,p2, nrow=1)
 arrangeGrob(p1,p2, nrow=1) -> g
 ggsave('Vehicle production.png', g)
 
-bind_rows(plotdata1, plotdata2) %>% 
-  select(date, prod, Unit, Value12m) %>% 
+bind_rows(plotdata1, plotdata2) %>%
+  select(date, prod, Unit, Value12m) %>%
   write_csv('vehicle production.csv')
 
-ind %>% filter(date==max(date)) %>% 
+ind %>% filter(date==max(date)) %>%
   select(prod, YoY) %>% mutate(across(YoY, scales::percent))
 
 
 
-  
+
 
 in_file='new power capacity.xlsx'
 getwindvars(in_file)
@@ -514,20 +514,20 @@ readwindEN(in_file, c('var', 'planttype', 'source', 'YTD')) %>% filter(grepl('Co
 
 cap %<>% bind_rows(cap2)
 
-cap %<>% select(-type) %>% ddply(.(source), unYTD) %>% ddply(.(source), roll12m) %>% 
+cap %<>% select(-type) %>% ddply(.(source), unYTD) %>% ddply(.(source), roll12m) %>%
   ddply(.(source), roll12m, months=3) %>% ddply(.(source), get.yoy, col='Value3m')
 
 
-cap %>% filter(source %notin% c("Coal", "Gas"), month(date)==10) %>% 
-  mutate(date='yday<-'(date, 1)) %>% 
-  ggplot(aes(date, Value/100, fill=source)) + geom_col() + facet_wrap(~source) + 
+cap %>% filter(source %notin% c("Coal", "Gas"), month(date)==10) %>%
+  mutate(date='yday<-'(date, 1)) %>%
+  ggplot(aes(date, Value/100, fill=source)) + geom_col() + facet_wrap(~source) +
   theme_crea() + scale_fill_crea_d('dramatic', col.index = c(2,6,1,4,3)) +
   labs(title="Power generating capacity additions", subtitle = "Jan-Oct by year", y='GW', x='')
 ggsave('Power generating capacity additions.png')
 
-cap %>% filter(month(date)==9, source %notin% c("Coal", "Gas")) %>% 
-  mutate(Value=Value/100, Unit = 'GW') %>% 
-  select(date, value=Value, variable=var, source, Unit) %>% 
+cap %>% filter(month(date)==9, source %notin% c("Coal", "Gas")) %>%
+  mutate(Value=Value/100, Unit = 'GW') %>%
+  select(date, value=Value, variable=var, source, Unit) %>%
   write_csv('Power generating capacity additions.csv')
 
 
@@ -560,14 +560,14 @@ Total social finance" %>% textConnection %>% readLines ->
 
 stimu %<>% left_join(dict) %>% ddply(.(var), roll12m, incol='Value')
 
-ind %>% ddply(.(var, prod, type), function(df) df %>% unYTD %>% get.yoy) %>% 
-  filter(grepl('Coal|Cement$|Steel|Iron|Non-ferr|Gasoli|Diesel|Boilers', prod)) %>% 
+ind %>% ddply(.(var, prod, type), function(df) df %>% unYTD %>% get.yoy) %>%
+  filter(grepl('Coal|Cement$|Steel|Iron|Non-ferr|Gasoli|Diesel|Boilers', prod)) %>%
   select(-var, -Value) %>% rename(var=prod, Value=YoY) -> ind2
 
 ind2 %>%
-  ddply(.(var), roll12m, incol='Value') %>% 
-  filter(grepl('Pig Iron|Cement|Steels|^Steel|Diesel|Non-ferr', var)) %>% 
-  mutate(name='variable', var=gsub('.*Kinds of ', '', var)) %>% 
+  ddply(.(var), roll12m, incol='Value') %>%
+  filter(grepl('Pig Iron|Cement|Steels|^Steel|Diesel|Non-ferr', var)) %>%
+  mutate(name='variable', var=gsub('.*Kinds of ', '', var)) %>%
   ggplot(aes(date, Value12m, col=name)) + geom_line() +
   facet_wrap(~var) +
   geom_line(data=stimu %>% filter(grepl('M2|social finance$', var)) %>% rename(name=var)) +
@@ -577,18 +577,18 @@ ind2 %>%
        subtitle='12-month average', x='', y='year-on-year') +
   theme_crea() +
   scale_color_crea_d('dramatic')
-  
+
 readwindEN(in_file, c('var', 'planttype', 'source', 'YTD')) %>% filter(grepl('Coal|Gas', source)) -> cap2
 
 cap %<>% bind_rows(cap2)
 
-cap %<>% select(-type) %>% ddply(.(source), unYTD) %>% ddply(.(source), roll12m) %>% 
+cap %<>% select(-type) %>% ddply(.(source), unYTD) %>% ddply(.(source), roll12m) %>%
   ddply(.(source), roll12m, months=3) %>% ddply(.(source), get.yoy, col='Value3m')
 
 
-cap %>% filter(source %notin% c("Coal", "Gas"), month(date)==10) %>% 
-  mutate(date='yday<-'(date, 1)) %>% 
-  ggplot(aes(date, Value/100, fill=source)) + geom_col() + facet_wrap(~source) + 
+cap %>% filter(source %notin% c("Coal", "Gas"), month(date)==10) %>%
+  mutate(date='yday<-'(date, 1)) %>%
+  ggplot(aes(date, Value/100, fill=source)) + geom_col() + facet_wrap(~source) +
   theme_crea() + scale_fill_crea_d('dramatic', col.index = c(2,6,1,4,3)) +
   labs(title="Power generating capacity additions", subtitle = "Jan-Oct by year", y='GW', x='')
 ggsave('Power generating capacity additions.png')
@@ -605,21 +605,21 @@ readwindEN(in_file, c('var', 'prod'), columnExclude = 'Consumption') -> prod
 readwindEN(in_file, c('var', 'sector'), columnFilter = 'Power Consumption.*Industry') -> cons
 readwindEN(in_file, c('sector'), columnFilter = 'Residents|Social') -> hhcons
 
-hhcons %>% 
-  mutate(sector = ifelse(grepl('Residents', sector), 'Residential', 'Total')) %>% 
-  bind_rows(cons) %>% 
-  mutate(prod = paste0('Power Demand: ', sector), var='Power Demand') %>% 
+hhcons %>%
+  mutate(sector = ifelse(grepl('Residents', sector), 'Residential', 'Total')) %>%
+  bind_rows(cons) %>%
+  mutate(prod = paste0('Power Demand: ', sector), var='Power Demand') %>%
   bind_rows(prod) ->
   prod
 
 prod %>% filter(year(date)==2021) %>% use_series(date) %>%  unique
 prod %<>% fixdates()
 
-prod %<>% 
+prod %<>%
   group_by(var, prod, type) %>%
   group_modify(function(df, k) { df %>% unYTD() %>% roll12m %>% seasonal(year_range = 2012:2019) })
 
-prod %>% filter(year(date)>=2018) %>% 
+prod %>% filter(year(date)>=2018) %>%
   ggplot(aes(date, Value.seasonadj)) + geom_line() + facet_wrap(~prod, scales='free_y')
 
 
@@ -646,7 +646,7 @@ steel %>%
   scale_size_manual(values=.5, name='')
 ggsave('China crude steel output.png')
 
-steel %>% mutate(Value12m=Value12m/100*12) %>% select(var, prod, date, moving_12_sum_Mt=Value12m, type) %>% 
+steel %>% mutate(Value12m=Value12m/100*12) %>% select(var, prod, date, moving_12_sum_Mt=Value12m, type) %>%
   write_csv('China crude steel output.png')
 
 
@@ -656,26 +656,26 @@ readwindEN(in_file, c('var', 'type'), columnExclude = "Funds", read_vardata = T)
 readwindEN(in_file, c('var', 'source', 'type'), columnFilter = "Funds", read_vardata = T) -> re_funds
 re_funds %<>% mutate(source = ifelse(type=='YTD', source, type), type='YTD')
 
-re %<>% bind_rows(re_funds) %>% 
+re %<>% bind_rows(re_funds) %>%
   group_by(var, source, type) %>%
   group_modify(function(df, ...) { df %>% unYTD() %>% roll12m})
 
-require(directlabels)
-re %>% filter(year(date)>=2015, grepl('Funds', var), !grepl('Foreign', source)) %>% 
+library(directlabels)
+re %>% filter(year(date)>=2015, grepl('Funds', var), !grepl('Foreign', source)) %>%
   ggplot(aes(date, Value12m*12/10, col=source)) + geom_line(size=1) + geom_dl(aes(label=source), method=list('last.bumpup', cex=.8)) +
-  theme_crea() + scale_color_crea_d(guide=F) + 
+  theme_crea() + scale_color_crea_d(guide=F) +
   scale_x_date(expand=expansion(mult=c(0, .5))) +
   labs(title='Real estate financing in China',
        subtitle='12-month moving sum',
        y='CNY bln', x='')
 ggsave('Real estate financing in China.png')
 
-re %>% filter(year(date)>=2015, !grepl('Fund|Price', var)) %>% 
+re %>% filter(year(date)>=2015, !grepl('Fund|Price', var)) %>%
   mutate(Value12m = Value12m / case_when(Unit=='CNY 100 mn'~ 10000,
                                          Unit=='10000 sq.m'~100),
-         Unit = recode(Unit, 'CNY 100 mn'='CNY trn', '10000 sq.m'='mln m2')) %>% 
+         Unit = recode(Unit, 'CNY 100 mn'='CNY trn', '10000 sq.m'='mln m2')) %>%
   ggplot(aes(date, Value12m*12)) + geom_line(size=1) + facet_wrap(~var+Unit, scales='free_y') +
-  theme_crea() + 
+  theme_crea() +
   labs(title='Real estate volumes in China',
        subtitle='12-month moving sum',
        y='', x='') +
@@ -688,16 +688,16 @@ in_file = "real estate by province.xlsx"
 getwindvars(in_file)
 readwindEN(in_file, c('prov', 'var', 'type')) -> re_provs
 
-re_provs %<>% 
+re_provs %<>%
   group_by(var, prov, type) %>%
   group_modify(function(df, k) { df %>% unYTD() %>% roll12m })
 
-re_provs %>% filter(year(date) %in% 2020:2021, month(date) %in% 7:10, !grepl('Land', var)) %>% 
-  group_by(year=year(date), var, prov) %>% 
-  summarise(across(Value1m, mean)) %>% 
+re_provs %>% filter(year(date) %in% 2020:2021, month(date) %in% 7:10, !grepl('Land', var)) %>%
+  group_by(year=year(date), var, prov) %>%
+  summarise(across(Value1m, mean)) %>%
   group_by(var, prov) %>% summarise(change_perc=Value1m[year==2021]/Value1m[year==2020]-1) -> re_changes
 
-re_changes %>% filter(grepl('Newly Started|Total Sale', var)) %>% 
+re_changes %>% filter(grepl('Newly Started|Total Sale', var)) %>%
   ggplot(aes(prov, change_perc, fill=change_perc>0)) + facet_wrap(~var) + geom_col() +
   scale_y_continuous(labels=scales::percent) +
   scale_x_discrete(limits=rev) +
