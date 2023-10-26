@@ -115,4 +115,5 @@ importFrom(tidyr,replace_na)
 importFrom(tidyr,unite)
 
 importFrom(zoo,na.approx)
+importFrom(zoo,rollapplyr)
 
