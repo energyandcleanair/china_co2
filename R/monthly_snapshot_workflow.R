@@ -13,6 +13,7 @@ build_snapshot <- function(focus_month = NULL,
 
   trans_file = get_data_file('label_translations.xlsx')
   assign("trans_file", trans_file, envir = .GlobalEnv)
+  assign("last.bumpup", list("last.points", "bumpup"), envir = .GlobalEnv) #last.bumpup is missing in latest directlabels
 
   # Packages needed if run manually
   # library(tidyverse)
