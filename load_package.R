@@ -1,0 +1,22 @@
+require(tidyverse)
+require(magrittr)
+require(rcrea)
+require(creahelpers)
+require(directlabels)
+require(ggrepel)
+require(readxl)
+require(lubridate)
+require(scales)
+require(pbapply)
+require(countrycode)
+require(gsubfn)
+require(zoo)
+require(grid)
+require(gridExtra)
+require(cowplot)
+require(openxlsx)
+require(glue)
+
+list.files(path='R', pattern='\\.R$', full.names=T) -> s
+
+lapply(s, function(s) {message(s); source(s)})

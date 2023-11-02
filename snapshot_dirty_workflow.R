@@ -1,25 +1,4 @@
-require(tidyverse)
-require(magrittr)
-require(rcrea)
-require(creahelpers)
-require(directlabels)
-require(ggrepel)
-require(readxl)
-require(lubridate)
-require(scales)
-require(pbapply)
-require(countrycode)
-require(gsubfn)
-require(zoo)
-require(grid)
-require(gridExtra)
-require(cowplot)
-require(openxlsx)
-require(glue)
-
-list.files(path='R', pattern='\\.R', full.names=T) -> s
-
-lapply(s, source)
+source('load_package.R')
 
 
 focus_month <- today() %>% subtract(30) %>% "day<-"(1)
