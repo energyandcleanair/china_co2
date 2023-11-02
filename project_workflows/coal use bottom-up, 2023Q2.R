@@ -1,6 +1,6 @@
-in_file = "data/monthly industry stats.xlsx"
+in_file = get_data_file("monthly industry stats.xlsx")
 getwindvars(in_file)
-readwindEN(in_file, c('var', 'prod'), columnExclude = 'Consumption', read_vardata = T,
+readwindEN(in_file, c('var', 'prod'), columnExclude = 'Consumption|Battery', read_vardata = T,
            zero_as_NA = T) -> prod
 
 prod %<>%
@@ -40,7 +40,14 @@ d %>% ungroup %>% filter(grepl('Coking|Steam', prod), sector != 'Total', !is.na(
                                  T~disambiguate(sector, coal_sectors))) ->
   d_coal
 
-read_csv('data/monthly_full_release_long_format-4.csv') %>%
+#download Ember data from: https://ember-climate.org/data-catalogue/monthly-electricity-data/
+ember <- NULL
+ember_cached <- get_data_file("monthly_full_release_long_format-4.csv")
+try(ember <- read_csv("https://ember-climate.org/app/uploads/2022/07/monthly_full_release_long_format-4.csv"))
+if(!is.null(ember)) ember %>% write_csv(ember_cached)
+if(is.null(ember)) ember <- get_data_file("monthly_full_release_long_format-4.csv") %>% read_csv
+
+ember %>%
   set_names(make.names(names(.))) %>%
   filter(Variable=='Coal', Country.code=='CHN', Unit=='TWh') %>%
   select(date=Date, generation_twh=Value) -> coal_gen
@@ -109,7 +116,7 @@ coaluse_df %>% filter(month(date)==month(last_month), year(date) %in% (year(last
 
 #drought effect
 
-in_file = 'data/power generation by type.xlsx'
+in_file = get_data_file('power generation by type.xlsx')
 getwindvars(in_file)
 readwindEN(in_file, c('var', 'prod'),
            columnFilter = "Electricity Production|Thermal|Hydro|Nuclear|Solar|Wind", read_vardata = T) %>%
@@ -133,9 +140,8 @@ pwr_plot %>%
   scale_linetype_manual(values='dashed') -> p
 quicksave(file.path(output_dir, 'Trends in power generation in China.png'), plot=p, footer_height = .03)
 
-
-readwindEN('data/Power Capacity.xlsx', c('var', 'prod'), columnExclude = 'New|Conventional|Coal|Gas',
-           zero_as_NA = T) %>% filter(prod!='YTD') -> cap
+get_data_file('Power Capacity.xlsx') %>%
+  readwindEN(c('var', 'prod'), columnExclude = 'New|Conventional|Coal|Gas', zero_as_NA = T) %>% filter(prod!='YTD') -> cap
 
 pwr %<>% mutate(prod = case_when(grepl('Hydro', prod)~'Hydro', T~prod)) %>%
   left_join(cap %>% mutate(prod = case_when(grepl('Hydro', prod)~'Hydro', grepl('Solar', prod)~'Solar', T~prod)) %>%
@@ -163,10 +169,10 @@ pwr_plot %>% filter(grepl('Electri|Hydro|Thermal', prod), year(date) %in% 2019:y
   ggplot(aes(month, Value1m, col=as.factor(year))) + geom_line() + facet_wrap(~prod, scales='free_y')
 
 #get effect of heating and cooling demands
-infile <- "data/Electricity Consumption by sector.xlsx"
+infile <- get_data_file("Electricity Consumption by sector.xlsx")
 readwindEN(infile, c('var', 'sector', 'subsector'), read_vardata = T, zero_as_NA = T) -> elec_cons_sector
 
-infile <- "data/Electricity Consumption by key sector.xlsx"
+infile <- get_data_file("Electricity Consumption by key sector.xlsx")
 readwindEN(infile, c('var'), columnFilter = 'Urban and Rural', read_vardata = T, zero_as_NA = T) %>%
   mutate(var='Electricity Consumption', sector='Households') %>% bind_rows(elec_cons_sector) -> elec_cons_sector
 
@@ -180,7 +186,7 @@ elec_cons_total %>% lm(Value ~ CDD+HDD+as.factor(month(date)), data=.) -> m
 predict(m, elec_cons_total) -> elec_cons_total$Value_pred
 
 elec_cons_total %>% group_by(month) %>%
-  mutate(TWh = (Value_pred-Value_pred[year(date)==2021])/1e5) %>%
+  mutate(TWh = (Value_pred[year(date)==2021]-Value_pred)/1e5) %>%
   ungroup %>% select(date, TWh) ->
   temperature_effect
 
@@ -190,12 +196,11 @@ bind_rows(temperature_effect, drought_effect) %>%
   summarise(across(c(Mt, TWh), sum)) ->
   heat_effect
 
-stop('check the signs of heat and drought effects before using the code')
 coaluse_df %>% filter(sector_coal %in% c('Power', 'Total'),
                       grepl('predict', name),
                       date<=last_month) %>%
   full_join(heat_effect) %>%
-  mutate(value = value - pmax(0, Mt, na.rm=T)*100,
+  mutate(value = value + Mt*100,
          name = 'without drought&heatwave') %>%
   bind_rows(coaluse_df) %>%
   mutate(name = factor(name, levels=c('reported','without drought&heatwave',
@@ -212,7 +217,7 @@ coaluse_plot %>% filter(date>='2016-01-01', sector_coal == 'Power') %>%
   write_csv(file.path(output_dir, 'Power sector coal consumption in China.csv'))
 
 coaluse_plot %>%
-  filter(date>='2016-01-01', sector_coal %in% c('Power', 'Total')) %>%
+  filter(date>='2016-01-01', date<=last_month, sector_coal %in% c('Power', 'Total'), !is.na(value)) %>%
   ggplot(aes(date, value_12m*12/100, col=name)) +
   facet_wrap(~sector_coal, scales='free_y') +
   geom_line(size=1) +
@@ -228,7 +233,8 @@ dd %>%
          plotdate = date %>% 'year<-'(2022),
          year=as.factor(year(date)),
          variable=recode(variable, CDD='cooling degree days', HDD='heating degree days')) %>%
-  ggplot(aes(plotdate, value, col=year)) + geom_line(linewidth=1) + facet_wrap(~variable) +
+  ggplot(aes(plotdate, value, col=year)) + geom_line(linewidth=1) +
+  facet_wrap(~variable, scales='free_y', ncol=1) +
   labs(title='Cooling and heating needs in China by year', y='degree-days', x='', subtitle='population-weighted average') +
   theme_crea() + scale_color_crea_d('change') + x_at_zero() +
   scale_x_datetime(date_labels='%b', expand=expansion(mult=0)) -> p
