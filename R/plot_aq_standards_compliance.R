@@ -5,6 +5,12 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
                                lang=parent.frame()$lang,
                                output_dir=get('output_dir', envir=.GlobalEnv)) {
 
+  # Assign global variables used by creahelpers for translation
+  trans_file = get_data_file('label_translations.xlsx')
+  assign("trans_file", trans_file, envir = .GlobalEnv)
+  assign("lang", lang, envir = .GlobalEnv)
+
+  # Collect data
   aq_capitals <- get_aq(start_date=start_date-365,
                         update_data=T,
                         aq_file='cache/province_capital_air_quality_data.RDS',
@@ -21,7 +27,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     inner_join(aqs) %>%
     group_by(across(where(is.character))) %>%
     mutate(value_12m = case_when(pollutant!='o3'~value %>% pmin(500) %>% rollapplyr(365, mean, fill=NA),
-                                 T~value %>% rollapplyr(365, quantile, probs=.9, fill=NA))) ->
+                                 T~value %>% rollapplyr(365, quantile, probs=.9, na.rm=T, fill=NA))) ->
     aq_capitals_12m
 
   aq_capitals_12m %<>% mutate(city_label = case_when(city_name==NAME_1~city_name,
@@ -35,6 +41,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     facet_wrap(~city_label) +
     geom_hline(aes(linetype=trans('National air quality standard'), yintercept = 35), alpha=.5) +
     theme_crea(legend.position='top', axis.text.x=element_text(angle=30, hjust=1)) +
+    lang_theme(lang=lang) +
     scale_color_crea_c('change', guide='none', darken=.15) +
     labs(title=trans('PM2.5 concentrations in province capitals'),
          x='', y=trans('µg/m3'),
@@ -50,6 +57,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     facet_wrap(~city_label) +
     geom_hline(aes(linetype=trans('National air quality standard'), yintercept = 160), alpha=.5) +
     theme_crea(legend.position='top', axis.text.x=element_text(angle=30, hjust=1)) +
+    lang_theme(lang=lang) +
     scale_color_crea_c('change', guide='none', darken=.3) +
     labs(title=trans('Ozone concentrations in province capitals'),
          x='', y=trans('µg/m3, 90th percentile of daily 8-hour maximum'),

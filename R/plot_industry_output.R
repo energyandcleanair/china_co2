@@ -93,6 +93,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
            subtitle=trans('seasonally adjusted monthly data'), #'12-month moving sum',
            x='', y=unit_label(unique(plotdata$Unit), lang=lang)) +
       theme_crea() +
+      lang_theme(lang=lang) +
       theme(strip.text = element_text(size=rel(labscale*.8)),
             axis.text.y = element_text(size=rel(labscale))) +
       geom_vline(aes(linetype=trans('COVID-19 lockdown'), xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
@@ -112,6 +113,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
            x='', y=unit_label(unique(plotdata$Unit, lang=lang)),
            caption=trans('Labels show year-on-year changes in the latest month of data')) +
       theme_crea() +
+      lang_theme(lang=lang) +
       #geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
       scale_linetype_manual(values='dashed', name='') +
       expand_limits(y=0) +
@@ -136,6 +138,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
          x='', y=unit_label('10000 kw', lang=lang),
          col=trans('year-on-year change')) +
     theme_crea() +
+    lang_theme(lang=lang) +
     scale_linetype_manual(values='dashed', name='') +
     expand_limits(y=0) +
     scale_color_crea_c('change', labels=scales::percent, guide='none') +
@@ -174,6 +177,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
          x='', y=unit_label('mwh', lang=lang),
          col=trans('type')) +
     theme_crea() +
+    lang_theme(lang=lang) +
     expand_limits(y=0) +
     scale_color_crea_d(col.index = c(1,2,5)) +
     scale_y_continuous(expand=expansion(mult=c(0,.05))) +
@@ -196,8 +200,10 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     facet_wrap(~trans(prod), scales='free_y',ncol=1) +
     scale_color_crea_d('dramatic', guide=F) +
     labs(title=trans('Vehicle production'), subtitle='', x='', y=trans('million units, 12-month moving sum')) +
-    theme_crea() + theme(strip.text = element_text(size=rel(1)), legend.position = 'top',
+    theme_crea() +
+    theme(strip.text = element_text(size=rel(1)), legend.position = 'top',
                          plot.title=element_text(size=rel(3))) +
+    lang_theme(lang=lang) +
     geom_vline(aes(linetype=trans('COVID-19 lockdown'), xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
     scale_linetype_manual(values='dashed', name='') +
     scale_x_date(labels=yearlab) +
@@ -232,6 +238,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     scale_color_crea_d('dramatic', col.index = c(3,6), guide=guide_legend(nrow=ifelse(lang=='ZH', 2, 1))) +
     labs(y=trans('new energy vehicle share'), title=' ', subtitle=' ', x='', col='') +
     theme_crea() + theme(legend.position = 'top') +
+    lang_theme(lang=lang) +
     geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
     scale_linetype_manual(values='dashed', name='', guide=F) +
     scale_y_continuous(labels = scales::percent, breaks=function(x) seq(0,x[2],.05),

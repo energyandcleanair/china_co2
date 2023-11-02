@@ -14,7 +14,7 @@ cap %>% distinct(var, source, fuel, YTD)
 lang='EN'
 
 
-require(directlabels)
+library(directlabels)
 cap %>%
   filter(year(date)>=2018, fuel=='All', grepl('New', var)) %>%
   group_by(source, fuel, year=as.factor(year(date))) %>%
@@ -32,6 +32,7 @@ cap %>%
                expand = expansion(mult=c(.0,.17))) +
   scale_y_continuous(expand=expansion(mult=c(0,.05))) +
   theme_crea(axis.text.x=element_text(hjust=.2)) +
+  lang_theme(lang=lang) +
   scale_color_crea_d(col.index = c(7, 2:5, 1), labels=yearlab, guide='none') +
   geom_dl(aes(label=yearlab(year)), method=list('last.bumpup', cex=.7)) -> plt
 quicksave(file.path(output_dir, 'Newly added power capacity, year-to-date.png'), plot=plt, scale=1.2)
@@ -49,6 +50,7 @@ cap %>% filter(fuel=='All', month(date)==month(max(date)), grepl('New', var), ye
   scale_y_continuous(expand=expansion(mult=c(0,.05))) +
   scale_x_continuous(labels=yearlab, breaks=yrs) +
   theme_crea(axis.text.x=element_text(angle=25, hjust=1)) +
+  lang_theme(lang=lang) +
   scale_fill_manual(values=unname(fuel_cols), guide='none') +
   scale_alpha(range=c(.5,1), guide='none') -> plt
 quicksave(file.path(output_dir, paste0('Newly added power capacity, YTD, ',lang,'.png')), plot=plt, scale=1.33)
@@ -81,6 +83,7 @@ provcap %>%
       facet_wrap(~translateSources(source)) +
       coord_flip() +
       theme_crea() +
+      lang_theme(lang=lang) +
       theme(#strip.text = element_text(size=rel(2)),
             #axis.text = element_text(size=rel(1.8)),
             #axis.title = element_text(size=rel(2)),
@@ -138,6 +141,7 @@ scatterplotdata %>%
   scale_y_continuous(expand=expansion(mult=c(0,.05))) +
   coord_cartesian(ylim=c(0,NA)) + expand_limits(x=0) +
   theme_crea() +
+  lang_theme(lang=lang) +
   labs(title=ifelse(lang=='EN', 'Capacity installations in January-November vs. full year',
                     '各年前几个月与全年新增发电容量对比'),
        x=ifelse(lang=='EN', paste0('Capacity added, GW, Jan-', month.abb[ytd_month]), paste0('新增发电容量，前',ytd_month,'个月')),
@@ -163,6 +167,7 @@ provcap %>% filter(grepl('Wind|Solar', source)) %>%
                expand = expansion(mult=c(.0,.1))) +
   scale_y_continuous(expand=expansion(mult=c(0,.05))) +
   theme_crea() +
+  lang_theme(lang=lang) +
   scale_color_crea_d(col.index = c(7, 2:5, 1)) -> plt
 quicksave(file.path(output_dir, paste0('Newly added power capacity, top provinces, year-to-date, ',lang,'.png')), plot=plt)
 
@@ -171,7 +176,9 @@ provcap %>% filter(grepl('Wind|Solar', source)) %>% replace_na(list(Value=0)) %>
   mutate(source = gsub(' Energy', '', source)) %>%
   filter(year(date)>=2010, prov %in% prov_ranking$prov[2:17], month(date)==4) %>%
   ggplot(aes(date, Value/100, col=source)) + geom_line(size=1) + facet_wrap(~prov) +
-  theme_crea() + scale_color_crea_d(guide=guide_legend(nrow=1)) +
+  theme_crea() +
+  lang_theme(lang=lang) +
+  scale_color_crea_d(guide=guide_legend(nrow=1)) +
   labs(title='Newly added wind and solar power capacity',
        subtitle = paste0(period_name, ', by year'),
        color='') +

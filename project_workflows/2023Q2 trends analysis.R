@@ -3,7 +3,7 @@ require(tidyverse)
 require(magrittr)
 require(rcrea)
 require(creahelpers)
-require(directlabels)
+library(directlabels)
 require(ggrepel)
 require(lubridate)
 require(grid)
@@ -149,7 +149,7 @@ re %<>% bind_rows(re_funds) %>%
   group_by(var, source, type) %>%
   group_modify(function(df, ...) { df %>% unYTD() %>% roll12m})
 
-require(directlabels)
+library(directlabels)
 re %>% filter(year(date)>=2015, grepl('Fund', var), !grepl('Foreign', source)) %>%
   mutate(source=na.cover(source, type)) %>%
   ggplot(aes(date, Value12m*12/10e3, col=source)) +

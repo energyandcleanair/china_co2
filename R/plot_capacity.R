@@ -1,6 +1,9 @@
 capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
                            lang=parent.frame()$lang,
                            output_dir=get('output_dir', envir=.GlobalEnv)) {
+
+  library(directlabels)
+
   in_file = get_data_file("Power Capacity.xlsx")
   readwindEN(in_file, c('var', 'source', 'fuel', 'YTD'), read_vardata = T) %>%
     mutate(var = ifelse(grepl('New', var), 'Newly added capacity', 'Installed capacity'),
@@ -36,7 +39,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
                  expand = expansion(mult=c(.0,.17))) +
     scale_y_continuous(expand=expansion(mult=c(0,.05))) +
     theme_crea(axis.text.x=element_text(hjust=.2)) +
-    # lang_theme(lang=lang) +
+    lang_theme(lang=lang) +
     scale_color_crea_d(col.index = c(7, 2:5, 1), labels=yearlab, guide='none') +
     geom_dl(aes(label=yearlab(year, lang=lang)), method=list('last.bumpup', cex=.7)) -> plt
   quicksave(file.path(output_dir, paste0('Newly added power capacity, year-to-date, ',lang,'.png')), plot=plt, scale=1.2)
@@ -57,6 +60,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
     scale_y_continuous(expand=expansion(mult=c(0,.05))) +
     scale_x_continuous(labels=yearlab, breaks=yrs) +
     theme_crea(axis.text.x=element_text(angle=25, hjust=1)) +
+    lang_theme(lang=lang) +
     scale_fill_manual(values=unname(fuel_cols), guide='none') +
     scale_alpha(range=c(.5,1), guide='none') -> plt
   quicksave(file.path(output_dir, paste0('Newly added power capacity, YTD, ',lang,'.png')), plot=plt, scale=1.33)
@@ -90,6 +94,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
         facet_wrap(~translateSources(source, lang=lang)) +
         coord_flip() +
         theme_crea() +
+        lang_theme(lang=lang) +
         theme(#strip.text = element_text(size=rel(2)),
           #axis.text = element_text(size=rel(1.8)),
           #axis.title = element_text(size=rel(2)),

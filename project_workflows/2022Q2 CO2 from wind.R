@@ -599,7 +599,7 @@ re %<>% bind_rows(re_funds) %>%
   group_by(var, source, type) %>%
   group_modify(function(df, ...) { df %>% unYTD() %>% roll12m})
 
-require(directlabels)
+library(directlabels)
 re %>% filter(year(date)>=2015, grepl('Funds', var), !grepl('Foreign', source)) %>% 
   ggplot(aes(date, Value12m*12/10, col=source)) + geom_line(size=1) + geom_dl(aes(label=source), method=list('last.bumpup', cex=.8)) +
   theme_crea() + scale_color_crea_d(guide=F) + 

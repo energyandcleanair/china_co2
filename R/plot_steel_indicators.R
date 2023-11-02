@@ -1,5 +1,8 @@
 steel_indicator_plots <- function(lang=parent.frame()$lang,
                                   output_dir=get('output_dir', envir=.GlobalEnv)) {
+
+  library(directlabels)
+
   in_file = get_data_file("steel plant operating rates.xlsx")
 
   readwindEN(in_file, paste0('V', 1:3), read_vardata = T, zero_as_NA = T, force_last_of_month = F) -> steel
@@ -24,6 +27,7 @@ steel_indicator_plots <- function(lang=parent.frame()$lang,
     #scale_y_continuous(labels=scales::percent) +
     x_at_zero() +
     theme_crea() + theme(strip.text = element_text(size=rel(.8))) +
+    lang_theme(lang=lang) +
     scale_color_crea_d('dramatic', col.index = rep(1:6,2), guide='none') +
     scale_linetype_manual(values=2:1) +
     labs(x='', y='', col='year', title=trans('Steel industry weekly operating indicators'),
