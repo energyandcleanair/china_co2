@@ -338,8 +338,11 @@ add_location_names <- function(df, country, lang = 'EN') {
 
   #add province names
   adm1 <- readr::read_csv(get_data_file('gadm1.csv'))
+
+  # Remove if exists to prevent conflicts
+  if(gadm1_id %in% names(df)) df %<>% select(-gadm1_id)
+
   df %<>%
-    select(-gadm1_id) %>%
     left_join(cities_meta %>% select(location_id=id, gadm1_id),
               by=c('location_id')) %>%
     mutate(gadm1_id=toupper(gadm1_id)) %>%
