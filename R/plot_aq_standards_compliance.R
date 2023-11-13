@@ -38,6 +38,10 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     ggplot(aes(date, value_12m)) +
     geom_line(aes(col=value_12m %>% divide_by(aqs) %>% pmax(.8) %>% pmin(1.2)),
               linewidth=.75) +
+    geom_text_repel(
+      aes(label = as.integer(value_12m)), data = aq_capitals_12m %>%
+        ungroup %>% filter(!is.na(value_12m), pollutant=='pm25') %>% filter(date==max(date)),
+      size = 3, direction='y') +
     facet_wrap(~city_label) +
     geom_hline(aes(linetype=trans('National air quality standard'), yintercept = 35), alpha=.5) +
     theme_crea(legend.position='top', axis.text.x=element_text(angle=30, hjust=1)) +
@@ -54,6 +58,10 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     ggplot(aes(date, value_12m)) +
     geom_line(aes(col=value_12m %>% divide_by(aqs) %>% pmax(.8) %>% pmin(1.2)),
               linewidth=.75) +
+    geom_text_repel(
+      aes(label = as.integer(value_12m)), data = aq_capitals_12m %>%
+        ungroup %>% filter(!is.na(value_12m), pollutant=='o3') %>% filter(date==max(date)),
+      size = 3, direction='y') +
     facet_wrap(~city_label) +
     geom_hline(aes(linetype=trans('National air quality standard'), yintercept = 160), alpha=.5) +
     theme_crea(legend.position='top', axis.text.x=element_text(angle=30, hjust=1)) +
