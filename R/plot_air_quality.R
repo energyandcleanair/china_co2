@@ -30,7 +30,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     bind_rows(aq_dw %>% mutate(type='deweathered')) ->
     aq_all
 
-  aq_all %<>% add_location_names(country=country)
+  aq_all %<>% add_location_names(country=country, lang=lang)
 
   aq_all %>%
     filter(location_id %in% cities) %>%
@@ -339,6 +339,7 @@ add_location_names <- function(df, country, lang = 'EN') {
   #add province names
   adm1 <- readr::read_csv(get_data_file('gadm1.csv'))
   df %<>%
+    select(-one_of(gadm1_id)) %>%
     left_join(cities_meta %>% select(location_id=id, gadm1_id),
               by=c('location_id')) %>%
     mutate(gadm1_id=toupper(gadm1_id)) %>%
