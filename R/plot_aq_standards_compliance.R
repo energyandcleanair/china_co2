@@ -72,8 +72,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
          subtitle=trans('90th percentile over 12 months')) +
     scale_linetype_manual(values='dotted', name='') +
     scale_x_datetime(labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('Ozone compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03,
-            logo_negative=T)
+  quicksave(file.path(output_dir, paste0('Ozone compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03)
 
   aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), date>=start_date) %>%
