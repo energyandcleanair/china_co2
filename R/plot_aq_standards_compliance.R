@@ -51,7 +51,8 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
          x='', y=trans('µg/m3'),
          subtitle=trans('12-month moving average')) +
     scale_linetype_manual(values='dotted', name='') -> p
-  quicksave(file.path(output_dir, paste0('PM2.5 compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03)
+  quicksave(file.path(output_dir, paste0('PM2.5 compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03,
+            png = T)
 
   aq_capitals_12m %>%
     ungroup %>% filter(!is.na(value_12m), pollutant=='o3', date>=start_date) %>%
@@ -72,7 +73,8 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
          subtitle=trans('90th percentile over 12 months')) +
     scale_linetype_manual(values='dotted', name='') +
     scale_x_datetime(labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('Ozone compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03)
+  quicksave(file.path(output_dir, paste0('Ozone compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03,
+            png = T)
 
   aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), date>=start_date) %>%
