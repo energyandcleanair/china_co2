@@ -32,5 +32,6 @@ steel_indicator_plots <- function(lang=parent.frame()$lang,
     scale_linetype_manual(values=2:1) +
     labs(x='', y='', col='year', title=trans('Steel industry weekly operating indicators'),
          caption=trans('Source: Wind Information')) -> p
-  quicksave(file.path(output_dir, paste0('Steel industry weekly operating indicators, ',lang,'.png')), plot=p, scale=1.33)
+  quicksave(file.path(output_dir, paste0('Steel industry weekly operating indicators, ',lang,'.png')), plot=p, scale=1.33,
+            png = T)
 }

@@ -42,7 +42,8 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
     lang_theme(lang=lang) +
     scale_color_crea_d(col.index = c(7, 2:5, 1), labels=yearlab, guide='none') +
     geom_dl(aes(label=yearlab(year, lang=lang)), method=list('last.bumpup', cex=.7)) -> plt
-  quicksave(file.path(output_dir, paste0('Newly added power capacity, year-to-date, ',lang,'.png')), plot=plt, scale=1.2)
+  quicksave(file.path(output_dir, paste0('Newly added power capacity, year-to-date, ',lang,'.png')), plot=plt, scale=1.2,
+            png = T)
 
   fuel_cols = crea_palettes$CREA[c(1, 4, 2, 6, 5)]
   names(fuel_cols) = cap$source %>% unique %>% subset(.!='All') %>% sort #%>% translateSources()
@@ -63,7 +64,8 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
     lang_theme(lang=lang) +
     scale_fill_manual(values=unname(fuel_cols), guide='none') +
     scale_alpha(range=c(.5,1), guide='none') -> plt
-  quicksave(file.path(output_dir, paste0('Newly added power capacity, YTD, ',lang,'.png')), plot=plt, scale=1.33)
+  quicksave(file.path(output_dir, paste0('Newly added power capacity, YTD, ',lang,'.png')), plot=plt, scale=1.33,
+            png = T)
 
   in_file = get_data_file("New power capacity by province and type.xlsx")
   getwindvars(in_file)
@@ -117,6 +119,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
                heights = unit.c(grobHeight(title.grob) + 2*margin,
                                 grobHeight(subtitle.grob) + .5*margin,
                                 unit(1,"null"))) -> plt
-  quicksave(file.path(output_dir, paste0('power capacity additions by province, ',lang,'.png')), plot=plt)
+  quicksave(file.path(output_dir, paste0('power capacity additions by province, ',lang,'.png')), plot=plt,
+            png = T)
 
 }

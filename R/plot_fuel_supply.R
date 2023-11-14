@@ -65,7 +65,8 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     scale_color_crea_d('dramatic', name='') +
     expand_limits(y=0) +
     scale_x_date(expand=expansion(mult=c(0,.05)), labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('fossil fuel supply, ',lang,'.png')), plot=p)
+  quicksave(file.path(output_dir, paste0('fossil fuel supply, ',lang,'.png')), plot=p,
+            png = T)
 
   fuelsupply_plotdata %>% filter(year(date)>=2017, grepl('Diesel|Gasoline|Kerosene|Other', prod)) %>%
     write_csv(file.path(output_dir, 'oil products output.csv')) %>%
@@ -78,7 +79,8 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     scale_color_crea_d('dramatic', name='') +
     expand_limits(y=0) + x_at_zero() +
     scale_x_date(expand=expansion(mult=c(0,.05)), labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('oil products output, ', lang,'.png')), plot=p)
+  quicksave(file.path(output_dir, paste0('oil products output, ', lang,'.png')), plot=p,
+            png = T)
 
 
   fuelsupply_plotdata %>%
@@ -96,5 +98,6 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
                        guide=guide_colorbar(direction = 'horizontal', barwidth = 10)) +
     scale_x_date(expand=expansion(mult=c(0,.05)), labels = yearlab) +
     x_at_zero() -> p
-  quicksave(file.path(output_dir, paste0('Fossil fuel imports, ', lang,'.png')), plot=p)
+  quicksave(file.path(output_dir, paste0('Fossil fuel imports, ', lang,'.png')), plot=p,
+            png = T)
 }

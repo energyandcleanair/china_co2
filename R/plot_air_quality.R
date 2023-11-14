@@ -128,7 +128,8 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
               rel_heights=c(0.06, 0.03, 1)
               ) -> p
 
-    quicksave(file.path(output_dir, paste0(plot_title, ', ', lang,'.png')), plot=p, footer_height=.05)
+    quicksave(file.path(output_dir, paste0(plot_title, ', ', lang,'.png')), plot=p, footer_height=.05,
+              png = T)
   }
 
   plot_title="Monthly average pollutant concentrations in province capitals"
