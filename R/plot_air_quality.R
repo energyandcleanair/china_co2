@@ -30,7 +30,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     bind_rows(aq_dw %>% mutate(type='deweathered')) ->
     aq_all
 
-  aq_all %<>% add_location_names(country=country)
+  aq_all %<>% add_location_names(country=country, lang=lang)
 
   aq_all %>%
     filter(location_id %in% cities) %>%
@@ -128,7 +128,8 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
               rel_heights=c(0.06, 0.03, 1)
               ) -> p
 
-    quicksave(file.path(output_dir, paste0(plot_title, ', ', lang,'.png')), plot=p, footer_height=.05)
+    quicksave(file.path(output_dir, paste0(plot_title, ', ', lang,'.png')), plot=p, footer_height=.05,
+              png = T)
   }
 
   plot_title="Monthly average pollutant concentrations in province capitals"
@@ -338,6 +339,10 @@ add_location_names <- function(df, country, lang = 'EN') {
 
   #add province names
   adm1 <- readr::read_csv(get_data_file('gadm1.csv'))
+
+  # Remove if exists to prevent conflicts
+  if("gadm1_id" %in% names(df)) df %<>% select(-gadm1_id)
+
   df %<>%
     left_join(cities_meta %>% select(location_id=id, gadm1_id),
               by=c('location_id')) %>%

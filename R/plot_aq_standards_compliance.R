@@ -38,6 +38,10 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     ggplot(aes(date, value_12m)) +
     geom_line(aes(col=value_12m %>% divide_by(aqs) %>% pmax(.8) %>% pmin(1.2)),
               linewidth=.75) +
+    geom_text_repel(
+      aes(label = as.integer(value_12m)), data = aq_capitals_12m %>%
+        ungroup %>% filter(!is.na(value_12m), pollutant=='pm25') %>% filter(date==max(date)),
+      size = 3, direction='y') +
     facet_wrap(~city_label) +
     geom_hline(aes(linetype=trans('National air quality standard'), yintercept = 35), alpha=.5) +
     theme_crea(legend.position='top', axis.text.x=element_text(angle=30, hjust=1)) +
@@ -47,13 +51,18 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
          x='', y=trans('µg/m3'),
          subtitle=trans('12-month moving average')) +
     scale_linetype_manual(values='dotted', name='') -> p
-  quicksave(file.path(output_dir, paste0('PM2.5 compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03)
+  quicksave(file.path(output_dir, paste0('PM2.5 compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03,
+            png = T)
 
   aq_capitals_12m %>%
     ungroup %>% filter(!is.na(value_12m), pollutant=='o3', date>=start_date) %>%
     ggplot(aes(date, value_12m)) +
     geom_line(aes(col=value_12m %>% divide_by(aqs) %>% pmax(.8) %>% pmin(1.2)),
               linewidth=.75) +
+    geom_text_repel(
+      aes(label = as.integer(value_12m)), data = aq_capitals_12m %>%
+        ungroup %>% filter(!is.na(value_12m), pollutant=='o3') %>% filter(date==max(date)),
+      size = 3, direction='y') +
     facet_wrap(~city_label) +
     geom_hline(aes(linetype=trans('National air quality standard'), yintercept = 160), alpha=.5) +
     theme_crea(legend.position='top', axis.text.x=element_text(angle=30, hjust=1)) +
@@ -64,7 +73,8 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
          subtitle=trans('90th percentile over 12 months')) +
     scale_linetype_manual(values='dotted', name='') +
     scale_x_datetime(labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('Ozone compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03)
+  quicksave(file.path(output_dir, paste0('Ozone compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03,
+            png = T)
 
   aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), date>=start_date) %>%
