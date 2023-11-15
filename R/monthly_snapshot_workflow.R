@@ -16,14 +16,15 @@ build_snapshot <- function(focus_month = NULL,
   assign("last.bumpup", list("last.points", "bumpup"), envir = .GlobalEnv) #last.bumpup is missing in latest directlabels
 
   # Packages needed if run manually
-  # library(tidyverse)
-  # library(magrittr)
-  # library(lubridate)
-  # library(grid)
-  # library(glue)
-  # library(cowplot)
-  # library(chinatracker)
-  # library(creahelpers)
+  library(tidyverse)
+  library(magrittr)
+  library(lubridate)
+  library(grid)
+  library(glue)
+  library(cowplot)
+  library(chinatracker)
+  library(creahelpers)
+  library(zoo)
 
   if (is.null(focus_month)) {
     focus_month <- today() %>%
