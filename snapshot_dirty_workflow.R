@@ -35,10 +35,10 @@ for (target_lang in c('EN', 'ZH')) {
                     output_dir=output_dir,
                     lang=target_lang)
 
-  plot_aq_compliance(cities = china_admin_capitals,
-                     update_data = T,
-                     output_dir=output_dir,
-                     lang=target_lang)
+  aq_compliance_plots(cities = china_admin_capitals,
+                      update_data = T,
+                      output_dir=output_dir,
+                      lang=target_lang)
 }
 
 shared_dir=file.path("G:/Shared drives/CREA-China/monthly snapshot",basename(output_dir))
