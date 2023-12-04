@@ -3,7 +3,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
                                    output_dir=get('output_dir', envir=.GlobalEnv)) {
 
   in_file = get_data_file("monthly industry stats.xlsx")
-  readwindEN(in_file, c('var', 'prod'), columnExclude = 'Consumption|YoY', read_vardata = T) -> prod
+  readwindEN(in_file, c('var', 'prod'), columnExclude = 'Consumption|YoY', read_vardata = T, zero_as_NA = T) -> prod
 
   #in_file = get_data_file("power generation CEC.xlsx")
   #readwindEN(in_file, c('var', 'prod'), columnFilter='Generation|Solar', columnExclude = 'YoY', read_vardata = T) -> pwr
@@ -66,16 +66,8 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
     plotdata %>% write_csv(file.path(output_dir, paste0(names(plots)[i], '.csv')))
 
-    plotdata %<>% group_by(prod) %>% addmonths %>% group_by(prod, year(date)) %>%
-      group_modify(function(df, group) {
-        message(group)
-        if(sum(!is.na(df$Value1m[month(df$date)==1]))==0)
-          df$Value1m[month(df$date) %in% 1:2] <- df$Value1m[month(df$date)==2]/2
-        return(df)
-      })
-
     plotdata %<>% mutate(across(c(Value.seasonadj, Value1m), ~convert_value(.x, Unit) * Unit_multiplier),
-                         YoY_3m = (Value3m.seasonadj/lag(Value3m.seasonadj, 12)-1)  %>% pmax(-.2) %>% pmin(.2),
+                         YoY_3m = YoY_3m  %>% pmax(-.2) %>% pmin(.2),
                          plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1),
                          year=as.factor(year(date)))
 
@@ -157,43 +149,51 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   }
 
   #battery output
-  prod_withlatest %>% filter(grepl('Battery', prod)) %>%
-    group_by(battery_type, year(date)) %>%
-    mutate(Value = Value %>% na.approx(date, date, rule=2) %>% pmax(0)) %>%
-    group_by(date) %>%
-    mutate(Value = case_when(battery_type=='Total'~Value, T~Value[battery_type=='Total'] * Value / sum(Value[battery_type!='Total']))) %>%
-    group_by(battery_type) %>%
-    unYTD() %>% roll12m() %>%
-    mutate(YoY = (Value1m/lag(Value1m, 12)-1)  %>% pmax(-.5) %>% pmin(.5),
-           Value12m=convert_value(Value12m, Unit)*12) %>%
-    filter(max(Value12m, na.rm=T)>5,
-           year(date)>=2020) -> battery_plotdata
+  tryCatch({
+    prod_withlatest %>% filter(grepl('Battery', prod)) %>%
+      group_by(battery_type, year(date)) %>%
+      mutate(Value = Value %>% na.approx(date, date, rule=2) %>% pmax(0)) %>%
+      group_by(date) %>%
+      mutate(Value = case_when(battery_type=='Total'~Value, T~Value[battery_type=='Total'] * Value / sum(Value[battery_type!='Total']))) %>%
+      group_by(battery_type) %>%
+      unYTD() %>% roll12m() %>%
+      mutate(YoY = (Value1m/lag(Value1m, 12)-1)  %>% pmax(-.5) %>% pmin(.5),
+             Value12m=convert_value(Value12m, Unit)*12) %>%
+      filter(max(Value12m, na.rm=T)>5,
+             year(date)>=2020) -> battery_plotdata
 
-  battery_labels <- battery_plotdata %>% filter(date==max(date) | month(date)==12)
+    battery_labels <- battery_plotdata %>% filter(date==max(date) | month(date)==12)
 
-  battery_plotdata %>%
-    ggplot(aes(date, Value12m, col=trans(battery_type), label=round(Value12m,0)))+
-    geom_line(size=1.2)+geom_point(size=.8)+
-    geom_text(data=battery_labels, vjust=-.4, hjust=1.2, fontface='bold', show.legend = FALSE) +
-    labs(title=trans('Battery output'),
-         subtitle=trans('12-month moving sum'),
-         x='', y=unit_label('mwh', lang=lang),
-         col=trans('type')) +
-    theme_crea() +
-    lang_theme(lang=lang) +
-    expand_limits(y=0) +
-    scale_color_crea_d(col.index = c(1,2,5)) +
-    scale_y_continuous(expand=expansion(mult=c(0,.05))) +
-    scale_x_date(labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('battery output, ',lang,'.png')), plot=p,
-            png = T)
-
-  if(lang=='EN') {
     battery_plotdata %>%
-      mutate(Unit=unit_label(unique(Unit), lang=lang)) %>%
-      select(date, variable=var, product=prod, type, Unit, Value12m) %>%
-      write_csv(file.path(output_dir, 'battery output.csv'))
-  }
+      ggplot(aes(date, Value12m, col=trans(battery_type), label=round(Value12m,0)))+
+      geom_line(size=1.2)+geom_point(size=.8)+
+      geom_text(data=battery_labels, vjust=-.4, hjust=1.2, fontface='bold', show.legend = FALSE) +
+      labs(title=trans('Battery output'),
+           subtitle=trans('12-month moving sum'),
+           x='', y=unit_label('mwh', lang=lang),
+           col=trans('type')) +
+      theme_crea() +
+      lang_theme(lang=lang) +
+      expand_limits(y=0) +
+      scale_color_crea_d(col.index = c(1,2,5)) +
+      scale_y_continuous(expand=expansion(mult=c(0,.05))) +
+      scale_x_date(labels = yearlab) -> p
+    quicksave(file.path(output_dir, paste0('battery output, ',lang,'.png')), plot=p,
+              png = T)
+
+    if(lang=='EN') {
+      battery_plotdata %>%
+        mutate(Unit=unit_label(unique(Unit), lang=lang)) %>%
+        select(date, variable=var, product=prod, type, Unit, Value12m) %>%
+        write_csv(file.path(output_dir, 'battery output.csv'))
+    }
+
+  }, error=function(error){
+    print("Failed for battery")
+  })
+
+
+
 
   #EV and car output
   prod_withlatest %>% filter(year(date)>=2017, grepl('Automob|Vehicle', prod)) -> plotdata1
