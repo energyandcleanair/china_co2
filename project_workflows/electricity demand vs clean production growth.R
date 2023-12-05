@@ -64,7 +64,7 @@ gen_cons %>% filter(year(date) %in% 2018:2022) %>% group_by(source) %>% summaris
 
 
 #added capacity vs demand
-infile <- "data/Electricity Consumption by sector.xlsx"
+infile <- get_data_file("Electricity Consumption by sector.xlsx")
 readwindEN(infile, c('var', 'sector', 'subsector'), read_vardata = T, zero_as_NA = T, columnFilter = 'Whole Society') -> elec_cons_sector
 
 elec_cons_sector %>% group_by(year=year(date)) %>%
@@ -73,7 +73,7 @@ elec_cons_sector %>% group_by(year=year(date)) %>%
   mutate(source='Demand', TWh=TWh-lag(TWh)) ->
   cons_yr
 
-new_cap <- readwindEN('data/Power Capacity.xlsx', c('var', 'source'), columnExclude = 'Conventional|Coal|Gas|Thermal',
+new_cap <- readwindEN(get_data_file('Power Capacity.xlsx'), c('var', 'source'), columnExclude = 'Conventional|Coal|Gas|Thermal',
                       columnFilter='New',
                       zero_as_NA = T, read_vardata = T) %>% filter(source!='YTD') %>%
   mutate(GW=Value/100)
@@ -111,6 +111,32 @@ gen_cons_yr_norm %>% filter(source != 'Demand', year>=start_yr) %>%
        caption='Annual capacity additions converted to generation using average capacity factors') -> p
 quicksave(file.path(output_dir, 'Electricity demand growth vs clean power additions in China.png'),
           plot=p, scale=1)
+
+
+gen_cons_yr_norm %>% filter(source != 'Demand', year>=start_yr) %>%
+  ggplot(aes(year, TWh)) +
+  geom_col(aes(fill=source)) +
+  geom_point(data=gen_cons_yr_norm %>% filter(source == 'Demand', year>=start_yr), aes(shape='Demand growth'), size=2) +
+  geom_smooth(aes(linetype='Demand growth trend?', groups=year<=2016),
+              fullrange=F,se=F,
+              color=col.a(crea_palettes$CREA['Red'],.5),linewidth=2,
+              #span=3,
+              #method='gam',formula = y ~ s(x),
+              method='lm',
+              data=gen_cons_yr_norm %>% filter(source == 'Demand', year>=start_yr, year!=2021)) +
+  theme_crea() +
+  scale_shape(name='', guide=guide_legend(order=1)) +
+  scale_linetype_manual(values='solid', name='', guide=guide_legend(order=2)) +
+  scale_fill_crea_d(guide=guide_legend(order=3)) +
+  scale_alpha_manual(values=c(1,.6), name='',
+                     guide=guide_legend(override.aes = list(shape=NA, fill=crea_palettes$CREA[1]), order=4)) +
+  x_at_zero() +
+  scale_x_continuous(expand=expansion(mult=c(.01,.01)), breaks=function(x)round(x[1]:x[2],0)) +
+  labs(x='', fill='Added generation', y='Annual increase, TWh/year',
+       title='Electricity demand trend vs. clean power additions in China',
+       caption='Annual capacity additions converted to generation using average capacity factors') -> p
+quicksave(file.path(output_dir, 'Electricity demand growth vs clean power additions in China, with break in trend.png'),
+          plot=p, scale=1.2)
 
 
 gen_cons_yr_norm %>% filter(year>=start_yr) %>% select(source, year, TWh) %>%

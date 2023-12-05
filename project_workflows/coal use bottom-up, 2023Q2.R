@@ -17,7 +17,7 @@ prod %<>% mutate(sector_coal=case_when(grepl('Thermal Power$', prod)~'Power',
                                        grepl('Coke', prod)~'Coking',
                                        grepl('Cement$|Glass', prod)~'Building Materials')) %>%
   group_by(prod) %>%
-  filter(!is.na(sector_coal), !is.na(Value1m[date==last_month]))
+  filter(!is.na(sector_coal), sum(date==last_month & !is.na(Value1m))>0)
 
 
 #heating needs

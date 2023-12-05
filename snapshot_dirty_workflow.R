@@ -11,35 +11,36 @@ dir.create(output_dir, showWarnings = F, recursive = T)
 aq <- get_aq(start_date = ymd("2022-01-01"), update_data = T)
 aq_dw <- get_deweathered_aq(china_admin_capitals, start_date = ymd("2022-01-01"), update_data = T)
 
-for (target_lang in c('EN', 'ZH')) {
+target_lang = 'EN'
+#target_lang = 'ZH'
 
-  # set lang in global environment
-  assign("lang", target_lang, envir = .GlobalEnv)
+# set lang in global environment
+assign("lang", target_lang, envir = .GlobalEnv)
 
-  capacity_plots(focus_month = focus_month,
-                 output_dir=output_dir,
-                 lang=target_lang)
+capacity_plots(focus_month = focus_month,
+               output_dir=output_dir,
+               lang=target_lang)
 
-  industry_output_plots(focus_month = focus_month,
-                        output_dir=output_dir,
-                        lang=target_lang)
-
-  steel_indicator_plots(output_dir=output_dir,
-                        lang=target_lang)
-
-  fuel_supply_plots(focus_month = focus_month,
-                    output_dir=output_dir,
-                    lang=target_lang)
-
-  air_quality_plots(focus_month = focus_month, update_data = F, aq = aq, aq_dw = aq_dw,
-                    output_dir=output_dir,
-                    lang=target_lang)
-
-  aq_compliance_plots(cities = china_admin_capitals,
-                      update_data = T,
+industry_output_plots(focus_month = focus_month,
                       output_dir=output_dir,
                       lang=target_lang)
-}
+
+steel_indicator_plots(output_dir=output_dir,
+                      lang=target_lang)
+
+fuel_supply_plots(focus_month = focus_month,
+                  output_dir=output_dir,
+                  lang=target_lang)
+
+air_quality_plots(focus_month = focus_month, update_data = F, aq = aq, aq_dw = aq_dw,
+                  output_dir=output_dir,
+                  lang=target_lang)
+
+aq_compliance_plots(cities = china_admin_capitals,
+                    update_data = T,
+                    output_dir=output_dir,
+                    lang=target_lang)
+
 
 shared_dir=file.path("G:/Shared drives/CREA-China/monthly snapshot",basename(output_dir))
 
