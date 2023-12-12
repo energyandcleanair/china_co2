@@ -76,6 +76,7 @@ build_snapshot <- function(focus_month = NULL,
     aq_compliance_plots(cities = china_admin_capitals,
                         update_data = T,
                         output_dir=base_dir,
-                        lang=target_lang)
+                        lang=target_lang,
+                        aq_cache = NULL)
   }
 }
