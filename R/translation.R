@@ -72,7 +72,7 @@ monthlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
 yearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   if(lubridate::is.Date(x) | lubridate::is.POSIXt(x)) x %<>% year
   if(lang=='ZH') x %<>% paste0('年')
-  x %>% `Encoding<-`('UTF-8')
+  x %>% as.character() %>% `Encoding<-`('UTF-8')
 }
 
 monthyearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
