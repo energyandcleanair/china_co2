@@ -31,7 +31,7 @@ trans_old <- function(x,
   if(is.character(x)) x %<>% recode(!!!dictvect)
   if(is.factor(x)) x %<>% recode_factor(!!!dictvect, ordered=T)
 
-  x
+  x %>% `Encoding<-`('UTF-8')
 }
 
 translateSources <- function(x, lang=get("lang", .GlobalEnv)) {
@@ -41,7 +41,7 @@ translateSources <- function(x, lang=get("lang", .GlobalEnv)) {
                    grepl('Solar', x)~'太阳能发电',
                    grepl('Thermal', x)~'火电',
                    grepl('Wind', x)~'风电')
-  x
+  x %>% `Encoding<-`('UTF-8')
 }
 
 translateProvinces <- function(x, lang=get("lang", .GlobalEnv)) {
@@ -50,7 +50,7 @@ translateProvinces <- function(x, lang=get("lang", .GlobalEnv)) {
   if(lang=='ZH')
     x <- provdict$ProvinceZH[match(x, provdict$Province)]
 
-  return(x)
+  return(x %>% `Encoding<-`('UTF-8'))
 }
 
 translateFuels <- function(x, lang=get("lang", .GlobalEnv)) {
@@ -60,25 +60,25 @@ translateFuels <- function(x, lang=get("lang", .GlobalEnv)) {
                 'Crude Oil'='石油',
                 'Coking Coal'='焦煤',
                 'Cement'='水泥',
-                'Oil Products'='成品油')
+                'Oil Products'='成品油') %>% `Encoding<-`('UTF-8')
 }
 
 monthlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   if(lang=='EN') x %<>% format.Date('%b')
   if(lang=='ZH') x %<>% month() %>% paste0('月')
-  return(x)
+  return(x %>% `Encoding<-`('UTF-8'))
 }
 
 yearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   if(lubridate::is.Date(x) | lubridate::is.POSIXt(x)) x %<>% year
   if(lang=='ZH') x %<>% paste0('年')
-  x
+  x %>% `Encoding<-`('UTF-8')
 }
 
 monthyearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   if(lang=='EN') x %<>% format.Date('%b %Y')
   if(lang=='ZH') x <- glue("{year(as.Date(x))} 年 {month(as.Date(x))} 月")
-  return(x)
+  return(x %>% `Encoding<-`('UTF-8'))
 }
 
 convert_value <- function(x, original_unit, lang=get('lang', envir=.GlobalEnv)) {
@@ -110,11 +110,16 @@ unit_label <- function(original_unit, lang=get('lang', envir=.GlobalEnv)) {
                           original_unit=='100M cu.m'~'bcm',
                           original_unit=='10000 units'~'million units')
   }
-  new_unit
+  new_unit %>% `Encoding<-`('UTF-8')
 }
 
 lang_theme <- function(lang=get('lang', envir=.GlobalEnv)) {
-  theme()
+  if(lang == 'ZH'){
+    theme(text = element_text(family = 'Microsoft JhengHei'))
+  } else {
+    theme()
+  }
+
   # case_when(lang=='ZH'~list(theme(text=element_text(family='PingFang SC'),
   #                                 plot.title = element_text(size=rel(2), margin=margin(c(20,12,16,12))))),
   #           T~list(theme()))
