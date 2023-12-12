@@ -174,7 +174,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   date_format_fun <- function(date) {
     if(lang=='EN') format(date, "%b %d") -> date_out
-    if(lang=='ZH') paste0(month(date), '月', day(date), '日') -> date_out
+    if(lang=='ZH') paste0(month(date), '\u6708', day(date), '\u65e5') -> date_out
     return(date_out)
   }
 

@@ -36,11 +36,11 @@ trans_old <- function(x,
 
 translateSources <- function(x, lang=get("lang", .GlobalEnv)) {
   if(lang=='ZH')
-    x <- case_when(grepl('Hydro', x)~'水电',
-                   grepl('Nuclear', x)~'核电',
-                   grepl('Solar', x)~'太阳能发电',
-                   grepl('Thermal', x)~'火电',
-                   grepl('Wind', x)~'风电')
+    x <- case_when(grepl('Hydro', x)~'\u6c34\u7535',
+                   grepl('Nuclear', x)~"\u6838\u7535",
+                   grepl('Solar', x)~'\u592a\u9633\u80fd\u53d1\u7535',
+                   grepl('Thermal', x)~"\u706b\u7535",
+                   grepl('Wind', x)~"\u98ce\u7535")
   x %>% `Encoding<-`('UTF-8')
 }
 
@@ -55,29 +55,29 @@ translateProvinces <- function(x, lang=get("lang", .GlobalEnv)) {
 
 translateFuels <- function(x, lang=get("lang", .GlobalEnv)) {
   recode_factor(x,
-                'Steam Coal'='动力煤',
-                'Natural Gas'='天然气',
-                'Crude Oil'='石油',
-                'Coking Coal'='焦煤',
-                'Cement'='水泥',
-                'Oil Products'='成品油') %>% `Encoding<-`('UTF-8')
+                'Steam Coal'='\u52a8\u529b\u7164',
+                'Natural Gas'='\u5929\u7136\u6c14',
+                'Crude Oil'='\u77f3\u6cb9',
+                'Coking Coal'='\u7126\u7164',
+                'Cement'='\u6c34\u6ce5',
+                'Oil Products'='\u6210\u54c1\u6cb9') %>% `Encoding<-`('UTF-8')
 }
 
 monthlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   if(lang=='EN') x %<>% format.Date('%b')
-  if(lang=='ZH') x %<>% month() %>% paste0('月')
+  if(lang=='ZH') x %<>% month() %>% paste0('\u6708')
   return(x %>% `Encoding<-`('UTF-8'))
 }
 
 yearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   if(lubridate::is.Date(x) | lubridate::is.POSIXt(x)) x %<>% year
-  if(lang=='ZH') x %<>% paste0('年')
+  if(lang=='ZH') x %<>% paste0('\u5e74')
   x %>% as.character() %>% `Encoding<-`('UTF-8')
 }
 
 monthyearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   if(lang=='EN') x %<>% format.Date('%b %Y')
-  if(lang=='ZH') x <- glue("{year(as.Date(x))} 年 {month(as.Date(x))} 月")
+  if(lang=='ZH') x <- glue("{year(as.Date(x))} \u5e74 {month(as.Date(x))} \u6708")
   return(x %>% `Encoding<-`('UTF-8'))
 }
 
@@ -90,14 +90,14 @@ convert_value <- function(x, original_unit, lang=get('lang', envir=.GlobalEnv)) 
 
 unit_label <- function(original_unit, lang=get('lang', envir=.GlobalEnv)) {
   if(lang=='ZH') {
-    new_unit <- case_when(original_unit == "10MW"~'万千瓦',
-                          original_unit == "mwh"~'吉瓦时',
-                          original_unit == "10000 tons"~'万吨',
-                          original_unit == "100Mt"~'亿吨',
-                          original_unit=='10000 kw'~'万千瓦',
-                          original_unit=='100 million kwh'~'亿千瓦时',
-                          original_unit=='100M cu.m'~'亿立方米',
-                          original_unit=='10000 units'~'万辆')
+    new_unit <- case_when(original_unit == "10MW"~"\u4e07\u5343\u74e6",
+                          original_unit == "mwh"~"\u5409\u74e6\u65f6",
+                          original_unit == "10000 tons"~"\u4e07\u5428",
+                          original_unit == "100Mt"~"\u4ebf\u5428",
+                          original_unit=='10000 kw'~"\u4e07\u5343\u74e6",
+                          original_unit=='100 million kwh'~"\u4ebf\u5343\u74e6\u65f6",
+                          original_unit=='100M cu.m'~"\u4ebf\u7acb\u65b9\u7c73",
+                          original_unit=='10000 units'~"\u4e07\u8f86")
   }
 
   if(lang=='EN') {
