@@ -31,7 +31,7 @@ trans_old <- function(x,
   if(is.character(x)) x %<>% recode(!!!dictvect)
   if(is.factor(x)) x %<>% recode_factor(!!!dictvect, ordered=T)
 
-  x %>% `Encoding<-`('UTF-8')
+  x
 }
 
 translateSources <- function(x, lang=get("lang", .GlobalEnv)) {
@@ -41,7 +41,7 @@ translateSources <- function(x, lang=get("lang", .GlobalEnv)) {
                    grepl('Solar', x)~'\u592a\u9633\u80fd\u53d1\u7535',
                    grepl('Thermal', x)~"\u706b\u7535",
                    grepl('Wind', x)~"\u98ce\u7535")
-  x %>% `Encoding<-`('UTF-8')
+  x
 }
 
 translateProvinces <- function(x, lang=get("lang", .GlobalEnv)) {
@@ -50,7 +50,7 @@ translateProvinces <- function(x, lang=get("lang", .GlobalEnv)) {
   if(lang=='ZH')
     x <- provdict$ProvinceZH[match(x, provdict$Province)]
 
-  return(x %>% `Encoding<-`('UTF-8'))
+  return(x)
 }
 
 translateFuels <- function(x, lang=get("lang", .GlobalEnv)) {
@@ -60,25 +60,25 @@ translateFuels <- function(x, lang=get("lang", .GlobalEnv)) {
                 'Crude Oil'='\u77f3\u6cb9',
                 'Coking Coal'='\u7126\u7164',
                 'Cement'='\u6c34\u6ce5',
-                'Oil Products'='\u6210\u54c1\u6cb9') %>% `Encoding<-`('UTF-8')
+                'Oil Products'='\u6210\u54c1\u6cb9')
 }
 
 monthlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   if(lang=='EN') x %<>% format.Date('%b')
   if(lang=='ZH') x %<>% month() %>% paste0('\u6708')
-  return(x %>% `Encoding<-`('UTF-8'))
+  return(x)
 }
 
 yearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   if(lubridate::is.Date(x) | lubridate::is.POSIXt(x)) x %<>% year
   if(lang=='ZH') x %<>% paste0('\u5e74')
-  x %>% as.character() %>% `Encoding<-`('UTF-8')
+  x %>% as.character()
 }
 
 monthyearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   if(lang=='EN') x %<>% format.Date('%b %Y')
   if(lang=='ZH') x <- glue("{year(as.Date(x))} \u5e74 {month(as.Date(x))} \u6708")
-  return(x %>% `Encoding<-`('UTF-8'))
+  return(x)
 }
 
 convert_value <- function(x, original_unit, lang=get('lang', envir=.GlobalEnv)) {
@@ -110,7 +110,7 @@ unit_label <- function(original_unit, lang=get('lang', envir=.GlobalEnv)) {
                           original_unit=='100M cu.m'~'bcm',
                           original_unit=='10000 units'~'million units')
   }
-  new_unit %>% `Encoding<-`('UTF-8')
+  new_unit
 }
 
 lang_theme <- function(lang=get('lang', envir=.GlobalEnv)) {
