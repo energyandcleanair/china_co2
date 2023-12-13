@@ -260,7 +260,7 @@ get_aq <- function(start_date=ymd('2022-01-01'),
 
         source_url <- paste0("https://api.energyandcleanair.org/measurements?",
                              glue("country={country}&source={source}&date_from={start_date}&date_to={end_date}"),
-                             "&pollutant=no2,pm25,pm10,so2&level=city&process_id=city_day_mad&format=csv")
+                             "&pollutant=no2,pm25,pm10,so2&level=city&process=city_day_mad&format=csv")
 
         if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
 
@@ -270,7 +270,7 @@ get_aq <- function(start_date=ymd('2022-01-01'),
 
         #read 8-hour max ozone
         read_csv(paste0("https://api.energyandcleanair.org/measurements?",
-                        glue("country={country}&source={source}&pollutant=o3&process_id=city_8h_max_day_mad&"),
+                        glue("country={country}&source={source}&pollutant=o3&process=city_8h_max_day_mad&"),
                         "date_from=",start_date,"&date_to=", end_date,
                         "&level=city&format=csv"), show_col_types = FALSE) %>%
           select(-any_of('...1')) %>%
