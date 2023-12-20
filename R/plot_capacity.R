@@ -57,7 +57,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
     geom_label(data=yoy_labels, aes(label=YoY), vjust=-2, fill='white') +
     labs(y=unit_label('10MW', lang=lang), x='', title=ifelse(lang=='EN',
                                                   paste0('Newly added power capacity, January to ', month.name[ytd_month]),
-                                                  paste0('新增发电装机容量，前', ytd_month,'个月累计值'))) +
+                                                  paste0("\u65b0\u589e\u53d1\u7535\u88c5\u673a\u5bb9\u91cf,\u524d", ytd_month,"\u4e2a\u6708\u7d2f\u8ba1\u503c"))) +
     scale_y_continuous(expand=expansion(mult=c(0,.05))) +
     scale_x_continuous(labels=yearlab, breaks=yrs) +
     theme_crea(axis.text.x=element_text(angle=25, hjust=1)) +
@@ -78,7 +78,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
 
   ytd_date = max(provcap$date)
   period_name = case_when(lang=='EN'~paste('January -', month.name[ytd_month], year(ytd_date)),
-                          lang=='ZH'~paste0(year(ytd_date),'年1-',ytd_month,'月'))
+                          lang=='ZH'~paste0(year(ytd_date),'\u5e741-',ytd_month,'\u6708'))
 
   provcap %>%
     filter(Value>0, year(date)==year(focus_month), month(date)<=month(focus_month), prov != 'National') %>%

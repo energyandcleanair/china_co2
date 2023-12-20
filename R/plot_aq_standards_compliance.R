@@ -1,6 +1,7 @@
 aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
                                cities,
                                pollutants=c('pm25', 'o3'),
+                               aq_cache='cache/province_capital_air_quality_data.RDS',
                                update_data = T,
                                lang=parent.frame()$lang,
                                output_dir=get('output_dir', envir=.GlobalEnv)) {
@@ -13,7 +14,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
   # Collect data
   aq_capitals <- get_aq(start_date=start_date-365,
                         update_data=T,
-                        aq_file='cache/province_capital_air_quality_data.RDS',
+                        aq_file=aq_cache,
                         country='CN',
                         cities=cities,
                         source='mee') %>%
