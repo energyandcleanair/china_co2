@@ -16,9 +16,6 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   if(is.null(aq)) aq <- get_aq(start_date=aq_data_start, update_data=update_data, aq_file=aq_file)
   if(is.null(aq_dw)) aq_dw <- get_deweathered_aq(cities, pollutants, start_date=aq_data_start, update_data=update_data, aq_file=aq_dw_file)
 
-  #read_csv('~/../Downloads/deweathered_mee_20230518.csv') %>% filter(pollutant=='o3', location_id %in% cities) %>%
-  #  bind_rows(aq_dw) -> aq_dw
-
   #add city and pollutant names
   aq %<>%
     mutate(pollutant_name = case_when(pollutant=='pm25'~'PM2.5', T~toupper(pollutant)),
@@ -225,7 +222,8 @@ china_admin_capitals <- c(
   "jinan_chn.23_1_cn",
   "kunming_chn.30_1_cn",
   "hohhot_chn.19_1_cn",
-  "chongqing_chn.3_1_cn"
+  "chongqing_chn.3_1_cn",
+  "haikou_chn.9_1"
 )
 
 
