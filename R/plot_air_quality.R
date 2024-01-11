@@ -36,7 +36,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     filter(location_id %in% cities) %>%
     filter(month(date) == month(focus_month)) %>%
     group_by(city_name, pollutant_name, type, year=year(date)) %>%
-    dplyr::summarise(dplyr::across(c(value, anomaly), mean)) ->
+    dplyr::summarise(dplyr::across(c(value, anomaly), mean, na.rm=T)) ->
     aq_annual
 
   aq_dw$date %>% min() -> dw_start_date
