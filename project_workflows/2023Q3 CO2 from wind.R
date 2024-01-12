@@ -219,6 +219,10 @@ d.quarter %>% filter(date==last_month, prod=='Total') %>%
   select(name, prod, sector, CO2_3m, YoY_3m)
 
 
+d.quarter %>% ungroup %>%
+  dplyr::select(name, date, prod, sector, CO2, CO2_3m, CO2_12m) %>%
+  write_csv(file.path(output_dir, 'CO2.csv'))
+
 d.quarter %>% filter(include_in_totals | prod=='Total', name != 'reported') %>% ungroup %>%
   dplyr::select(name, date, prod, CO2_12m) %>% spread(prod, CO2_12m) %>%
   mutate(across(where(is.numeric), multiply_by, 12)) %>%
