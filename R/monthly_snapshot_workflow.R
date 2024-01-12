@@ -5,11 +5,12 @@ build_snapshot <- function(focus_month = NULL,
                            gis_dir=Sys.getenv('GIS_DIR'),
                            update_aq_data=T) {
   # required input data:
-  # "data/monthly industry stats.xlsx"
+  # monthly industry stats with YoY.xlsx
   # "data/Power Capacity.xlsx"
   # "data/New power capacity by province and type.xlsx"
   # "data/fuel supply.xlsx"
   # "steel plant operating rates.xlsx"
+
 
   trans_file = get_data_file('label_translations.xlsx')
   assign("trans_file", trans_file, envir = .GlobalEnv)
@@ -54,7 +55,10 @@ build_snapshot <- function(focus_month = NULL,
                    output_dir=month_dir,
                    lang=target_lang)
 
-    industry_output_plots(focus_month = focus_month,
+    industry_output_plots(plots=NULL, #list of plots to make, NULL to use default defined within the function
+                          yoy_labels=F, #include labels with year-on-year growth in plots?
+                          skip_yoy_adjustment = 'Copper|Glass|Chemical Fibers|Solar$', #these products aren't retroactively adjusted to fit reported yoy numbers because there are anomalies
+                          focus_month = focus_month,
                           output_dir=month_dir,
                           lang=target_lang)
 
@@ -70,7 +74,8 @@ build_snapshot <- function(focus_month = NULL,
                       lang=target_lang)
 
     # Non month-specific charts
-    steel_indicator_plots(output_dir=base_dir,
+    steel_indicator_plots(start_year=year(today())-6, #first year shown in plots
+                          output_dir=base_dir,
                           lang=target_lang)
 
     aq_compliance_plots(cities = china_admin_capitals,

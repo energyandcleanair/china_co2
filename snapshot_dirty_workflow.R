@@ -21,11 +21,15 @@ capacity_plots(focus_month = focus_month,
                output_dir=output_dir,
                lang=target_lang)
 
-industry_output_plots(focus_month = focus_month,
-                      output_dir=output_dir,
+industry_output_plots(plots=NULL, #list of plots to make, NULL to use default defined within the function
+                      yoy_labels=F, #include labels with year-on-year growth in plots?
+                      skip_yoy_adjustment = 'Copper|Glass|Chemical Fibers|Solar$', #these products aren't retroactively adjusted to fit reported yoy numbers because there are anomalies
+                      focus_month = focus_month,
+                      output_dir=month_dir,
                       lang=target_lang)
 
-steel_indicator_plots(output_dir=output_dir,
+steel_indicator_plots(start_year=year(today())-6, #first year shown in plots
+                      output_dir=base_dir,
                       lang=target_lang)
 
 fuel_supply_plots(focus_month = focus_month,

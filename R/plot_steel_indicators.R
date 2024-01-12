@@ -1,4 +1,5 @@
 steel_indicator_plots <- function(lang=parent.frame()$lang,
+                                  start_year=year(today())-6,
                                   output_dir=get('output_dir', envir=.GlobalEnv)) {
 
   library(directlabels)
@@ -14,7 +15,7 @@ steel_indicator_plots <- function(lang=parent.frame()$lang,
            yr=as.character(year(date))) ->
     plotdata
 
-  plotdata %>% filter(!is.na(Value), year(date)>=2015) %>%
+  plotdata %>% filter(!is.na(Value), year(date)>=start_year) %>%
     filter(!grepl('Estimated.*Crude|Stove', Name)) %>% #remove duplicated datasets
     mutate(plotdate = 'year<-'(date, 2020),
            yr=as.character(year(date)),

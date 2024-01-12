@@ -1,17 +1,29 @@
+
 industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
                                    lang=parent.frame()$lang,
-                                   output_dir=get('output_dir', envir=.GlobalEnv)) {
+                                   output_dir=get('output_dir', envir=.GlobalEnv),
+                                   plots=NULL, #list of plots to make, see default below
+                                   yoy_labels=F, #include labels with year-on-year growth in plots?
+                                   skip_yoy_adjustment = 'Copper|Glass|Chemical Fibers|Solar$' #these products aren't retroactively adjusted to fit reported yoy numbers because there are anomalies
+) {
 
-  in_file = get_data_file("monthly industry stats.xlsx")
-  readwindEN(in_file, c('var', 'prod'), columnExclude = 'Consumption|YoY', read_vardata = T, zero_as_NA = T) -> prod
+  if(is.null(plots)) {
+    plots = list(#'Industrial output'='',
+      #'Metals&cement output'='Steel Material|Crude Steel|Cement$|Coke|Pig Iron|Non-ferrous|Copper',
+      #'Heavy industry output'='Steel Material|Crude Steel|Cement$|Chemical|Plastic|Coke|Copper|Metals|Aluminous|Glass|Pig Iron',
+      'Heavy industry output'='Steel Material|Crude Steel|Cement$|Chemical|Plastics|Coke|Copper|Metals|Glass|Pig Iron',
+      #'Housing indicators'='Household|TV|Escalator',
+      #'Transport fuel production'='Diese|Gasoline|Kerosene',
+      #'Coal mine output'='Raw Coal',
+      #'Solar cell output'='Solar Cells',
+      'Power generation'='Solar$|Power$|Generating|Nuclear|Hydro')
+  }
 
-  #in_file = get_data_file("power generation CEC.xlsx")
-  #readwindEN(in_file, c('var', 'prod'), columnFilter='Generation|Solar', columnExclude = 'YoY', read_vardata = T) -> pwr
+  data_to_include = plots %>% unlist %>% c('Solar Cells','Batter','Automob|Vehicle') %>% paste(collapse='|')
 
-  #pwr %<>% filter(prod=='Solar') %>% mutate(YoY=YoY=='YoY') %>% unYoY %>%
-  #  bind_rows(pwr %<>% filter(prod!='Solar'))
-
-  #prod %<>% bind_rows(pwr)
+  in_file = get_data_file("monthly industry stats with YoY.xlsx")
+  readwindEN(in_file, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=2) %>%
+    filter(grepl(data_to_include, prod)) -> prod
 
   yoy_2020M7 <- prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-07-31'] /
     prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-07-31']
@@ -21,13 +33,31 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-06-30'] <-
     prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-06-30'] * yoy_2020M7
 
+  #recode product names that differ between WIND data series
+  prod$prod %<>%
+    recode('Motor Vehicles'='Automobiles',
+           'Electricity Production'='Generating Capacity',
+           'Coal'='Raw Coal',
+           'Crude Steel'='Crude Steels',
+           'Pig Iron'='Pig Irons',
+           'Home Washing Machines'='Household Washing Machines',
+           'New Energy Vehicle'='New Energy Vehicles',
+           'Rolled Steel'='Steel Materials',
+           'Plate Glass'='Plain Glass')
+
   prod %<>%
-    mutate(battery_type=case_when(!grepl('Battery', prod)~NA, type=='YTD'~'Total', T~type)) %>%
+    mutate(YoY = !is.na(YoY),
+           battery_type=case_when(!grepl('Batter', prod)~NA, !grepl('\\(', prod)~'Total', T~prod %>% gsub('.*\\(|\\)', '', .)),
+           prod=disambiguate(prod, c('Battery'='Batter'))) %>%
     group_by(var, prod, battery_type) %>%
+    filter(length(unique(YoY))==2,
+           grepl('', prod)) %>%
     group_modify(function(df, k) {
-      message(k)
-      df %>% unYTD() %>%
-        filter(Value1m>0) %>% roll12m %>% seasonal(year_range = 2012:2019) })
+      message('processing ', k)
+      if(!grepl(skip_yoy_adjustment, k$prod)) df %<>% unYoY()
+      df %>% filter(!YoY) %>% unYTD %>% roll12m() %>% seasonal(year_range = 2012:2019)
+    })
+
 
   prod$date %>% max -> latest_date
   prod %>% group_by(prod) %>%
@@ -41,16 +71,6 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     roll12m(months=3, incol='Value.seasonadj', outcol='Value3m.seasonadj') %>%
     mutate(YoY=get.yoy(Value3m.seasonadj, date))
 
-
-  plots = list(#'Industrial output'='',
-    #'Metals&cement output'='Steel Material|Crude Steel|Cement$|Coke|Pig Iron|Non-ferrous|Copper',
-    #'Heavy industry output'='Steel Material|Crude Steel|Cement$|Chemical|Plastic|Coke|Copper|Metals|Aluminous|Glass|Pig Iron',
-    'Heavy industry output'='Steel Material|Crude Steel|Cement$|Chemical|Plastics|Coke|Copper|Metals|Glass|Pig Iron',
-    #'Housing indicators'='Household|TV|Escalator',
-    #'Transport fuel production'='Diese|Gasoline|Kerosene',
-    #'Coal mine output'='Raw Coal',
-    #'Solar cell output'='Solar Cells',
-    'Power generation'='Solar$|Power$|Generating|Nuclear|Hydro')
 
   for(i in 1:length(plots)) {
     prod_withlatest %>% filter(year(date)>=2017, grepl(plots[[i]], prod),
@@ -77,7 +97,6 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     plotdata %>%
       ggplot(aes(date, Value.seasonadj, col=YoY_3m))+
       geom_line(size=.8)+geom_point(size=.8)+
-      geom_label(data=yoy_labels, aes(label=YoY), vjust=4, hjust=1) +
       facet_wrap(~trans(prod), scales='free_y') +
       scale_color_gradientn(colors=colorspace::darken(crea_palettes$change), labels=scales::percent,
                             name=trans('year-on-year change')) +
@@ -93,6 +112,9 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
       expand_limits(y=0) +
       x_at_zero() +
       scale_x_date(labels = yearlab) -> p
+
+    if(yoy_labels) p = p + geom_label(data=yoy_labels, aes(label=YoY), vjust=4, hjust=1)
+
     quicksave(file.path(output_dir, paste0(names(plots)[i], '_seasonal, ',lang,'.png')), plot=p, scale=1.2,
               png = T)
 
@@ -150,8 +172,8 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
   #battery output
   tryCatch({
-    prod_withlatest %>% filter(grepl('Battery', prod)) %>%
-      group_by(battery_type, year(date)) %>%
+    prod_withlatest %>% filter(grepl('Batter', prod)) %>%
+      group_by(battery_type, year(date)) %>% filter(!all(is.na(Value))) %>%
       mutate(Value = Value %>% na.approx(date, date, rule=2) %>% pmax(0)) %>%
       group_by(date) %>%
       mutate(Value = case_when(battery_type=='Total'~Value, T~Value[battery_type=='Total'] * Value / sum(Value[battery_type!='Total']))) %>%
@@ -175,7 +197,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
       theme_crea() +
       lang_theme(lang=lang) +
       expand_limits(y=0) +
-      scale_color_crea_d(col.index = c(1,2,5)) +
+      scale_color_crea_d(col.index = c(1,2,5, 6:12)) +
       scale_y_continuous(expand=expansion(mult=c(0,.05))) +
       scale_x_date(labels = yearlab) -> p
     quicksave(file.path(output_dir, paste0('battery output, ',lang,'.png')), plot=p,
@@ -206,7 +228,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     labs(title=trans('Vehicle production'), subtitle='', x='', y=trans('million units, 12-month moving sum')) +
     theme_crea() +
     theme(strip.text = element_text(size=rel(1)), legend.position = 'top',
-                         plot.title=element_text(size=rel(3))) +
+          plot.title=element_text(size=rel(3))) +
     lang_theme(lang=lang) +
     geom_vline(aes(linetype=trans('COVID-19 lockdown'), xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
     scale_linetype_manual(values='dashed', name='') +
