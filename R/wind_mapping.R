@@ -227,6 +227,7 @@ unYoY <- function(df, col='Value', outcol='Value',
                   datecol='date') {
   df %>%
     group_modify(function(df, group) {
+      message('adjusting ', group)
       if(is.null(df[[outcol]])) df[[outcol]] <- NA
 
       process_dates <- df[[datecol]] %>% unique %>% sort(decreasing = T)
@@ -243,7 +244,6 @@ unYoY <- function(df, col='Value', outcol='Value',
         if(length(checkval) == 1) {
           if(!is.na(checkval))
             df[[outcol]][cur.val.ind] <- next.val / (1+next.yoy/100)
-          message('adjusting ', df[cur.val.ind, ] %>% select(c(is.character, is.Date)))
         }
       }
       return(df)
