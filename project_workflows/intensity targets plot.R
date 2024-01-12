@@ -1,7 +1,11 @@
+source('load_package.R')
+
 paste.xl() %>% filter(Type=='Realized') %>% select(-Type) -> hist
 paste.xl() -> targ
 
 saveRDS(list(hist=hist, targ=targ), 'data/intensity_targets_plot_data.RDS')
+
+readRDS('data/intensity_targets_plot_data.RDS') %>% attach()
 
 hist %>% pivot_longer(starts_with('X')) %>%
   separate(name, c('year', 'type')) %>%
@@ -53,7 +57,7 @@ hist_long %>% filter(year>2005) %>%
   pivot_longer(contains('year'), values_to = 'year') ->
   hist_avg
 
-hist_long %>% #bind_rows(targ_plot, targ_paris) %>%
+hist_long %>% filter(year>2005) %>%
   group_by(Variable, year) %>%
   mutate(value=ifelse(type=='reported', value, value-value[type=='reported'])) %>%
   ggplot(aes(year, value)) + geom_col(aes(fill=type), alpha=.6) +
@@ -66,10 +70,23 @@ hist_long %>% #bind_rows(targ_plot, targ_paris) %>%
   theme_crea() +
   scale_color_crea_d('dramatic', col.index = c(6,3)) + scale_fill_crea_d('dramatic', col.index = c(6,3)) +
   scale_linetype_manual(values=c('dashed', 'solid'), guide=guide_legend(override.aes = list(linewidth=.7))) +
-  scale_x_continuous(expand=expansion()) +
+  scale_x_continuous(expand=expansion(mult=c(0.02,0))) +
   x_at_zero(labels=scales::percent) +
   labs(title = "China's progress towards five-year plan intensity targets", x='', y='',
        subtitle='annual reductions in CO2 and energy intensity',
        linetype='5-year plan period average',
        color='data', fill='data') -> p
 quicksave(file.path('outputs', 'Chinas progress towards five-year plan targets.png'), plot=p, scale=1.2)
+
+
+bind_rows(hist_long %>% mutate(data_type=type, type='historical', period='yearly') %>% filter(year>2005),
+          hist_avg %>% mutate(data_type=type, type='historical'),
+          targ_plot %>% mutate(year=year+ifelse(year==base_year, 1, 0), value=target_yearly)) %>%
+  select(Variable, year, period, type, data_type, value) %>%
+  write_csv(file.path('outputs', 'Chinas progress towards five-year plan targets.csv'))
+
+
+
+hist_avg$period
+hist_avg %>% filter(period=='2021-2023') %>% distinct(Variable, type, value)
+targ_plot %>% filter(period=='2020-2025') %>% distinct(Variable, type, target_yearly)
