@@ -3,7 +3,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
                                    lang=parent.frame()$lang,
                                    output_dir=get('output_dir', envir=.GlobalEnv),
                                    plots=NULL, #list of plots to make, see default below
-                                   yoy_labels=F, #include labels with year-on-year growth in plots?
+                                   include_yoy_labels=F, #include labels with year-on-year growth in plots?
                                    skip_yoy_adjustment = 'Copper|Glass|Chemical Fibers|Solar$' #these products aren't retroactively adjusted to fit reported yoy numbers because there are anomalies
 ) {
 
@@ -113,7 +113,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
       x_at_zero() +
       scale_x_date(labels = yearlab) -> p
 
-    if(yoy_labels) p = p + geom_label(data=yoy_labels, aes(label=YoY), vjust=4, hjust=1)
+    if(include_yoy_labels) p = p + geom_label(data=yoy_labels, aes(label=YoY), vjust=4, hjust=1)
 
     quicksave(file.path(output_dir, paste0(names(plots)[i], '_seasonal, ',lang,'.png')), plot=p, scale=1.2,
               png = T)

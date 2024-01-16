@@ -56,7 +56,7 @@ build_snapshot <- function(focus_month = NULL,
                    lang=target_lang)
 
     industry_output_plots(plots=NULL, #list of plots to make, NULL to use default defined within the function
-                          yoy_labels=F, #include labels with year-on-year growth in plots?
+                          include_yoy_labels=F, #include labels with year-on-year growth in plots?
                           skip_yoy_adjustment = 'Copper|Glass|Chemical Fibers|Solar$', #these products aren't retroactively adjusted to fit reported yoy numbers because there are anomalies
                           focus_month = focus_month,
                           output_dir=month_dir,
