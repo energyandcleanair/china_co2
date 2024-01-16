@@ -5,7 +5,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
                               country="CN",
                               cities=china_admin_capitals,
                               pollutants = c('no2', 'pm25', 'o3'),
-                              aq=NULL, aq_dw=NULL,
+                              aq=NULL, aq_dw=NULL, aq_long=NULL,
                               aq_file = file.path('cache', 'city_air_quality_data.RDS'),
                               aq_dw_file = file.path('cache', 'deweathered_air_quality_data.RDS'),
                               gis_dir=Sys.getenv('GIS_DIR')) {
@@ -267,12 +267,17 @@ get_aq <- function(start_date=ymd('2022-01-01'),
           mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_24h
 
         #read 8-hour max ozone
-        read_csv(paste0("https://api.energyandcleanair.org/measurements?",
-                        glue("country={country}&source={source}&pollutant=o3&process=city_8h_max_day_mad&"),
-                        "date_from=",start_date,"&date_to=", end_date,
-                        "&level=city&format=csv"), show_col_types = FALSE) %>%
+        source_url <- paste0("https://api.energyandcleanair.org/measurements?",
+                             glue("country={country}&source={source}&pollutant=o3&process=city_8h_max_day_mad&"),
+                             "date_from=",start_date,"&date_to=", end_date,
+                             "&level=city&format=csv"), show_col_types = FALSE
+
+        if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
+
+        read_csv(source_url) %>%
           select(-any_of('...1')) %>%
           mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_8h
+
 
         #read 1-hour max NO2
         if(F) {
@@ -357,7 +362,8 @@ add_location_names <- function(df, country, lang = 'EN') {
     station_key <- read_csv(get_data_file('air_quality_station_codes.csv'))
     city_key <- station_key %>%
       distinct(city_name_EN=CityEN, NAME_1_EN=ProvinceEN, city_name_ZH=CityZH, NAME_1_ZH = ProvinceZH) %>%
-      filter(!is.na(city_name_EN))
+      filter(!is.na(city_name_EN)) %>%
+      mutate(city_name_EN=recode(city_name_EN, Seaport='Haikou'))
 
     df %<>% inner_join(city_key)
 
