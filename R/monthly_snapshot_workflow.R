@@ -41,6 +41,41 @@ build_snapshot <- function(focus_month = NULL,
   month_dir <- file.path(base_dir, month_subdir)
   dir.create(month_dir, showWarnings = F, recursive = T)
 
+  china_admin_capitals <- c(
+    "harbin_chn.11_1_cn",
+    "changsha_chn.14_1_cn",
+    "taiyuan_chn.25_1_cn",
+    "urumqi_chn.28_1_cn",
+    "shenyang_chn.18_1_cn",
+    "hefei_chn.1_1_cn",
+    "hangzhou_chn.31_1_cn",
+    "shanghai_chn.24_1_cn",
+    "nanjing_chn.15_1_cn",
+    "nanchang_chn.16_1_cn",
+    "guangzhou_chn.6_1_cn",
+    "lhasa_chn.29_1_cn",
+    "xining_chn.21_1_cn",
+    "lanzhou_chn.5_1_cn",
+    "chengdu_chn.26_1_cn",
+    "nanning_chn.7_1_cn",
+    "changchun_chn.17_1_cn",
+    "yinchuan_chn.20_1_cn",
+    "zhengzhou_chn.12_1_cn",
+    "guiyang_chn.8_1_cn",
+    "fuzhou_chn.4_1_cn",
+    "wuhan_chn.13_1_cn",
+    "shijiazhuang_chn.10_1_cn",
+    "tianjin_chn.27_1_cn",
+    "beijing_chn.2_1_cn",
+    "xi'an_chn.22_1_cn",
+    "jinan_chn.23_1_cn",
+    "kunming_chn.30_1_cn",
+    "hohhot_chn.19_1_cn",
+    "chongqing_chn.3_1_cn",
+    "haikou_chn.9_1_cn",
+    "hainan_chn.21_1_cn"
+  )
+
   # preload air quality data
   aq <- get_aq(start_date = ymd("2019-01-01"), update_data = update_aq_data, source='mee')
   aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = update_aq_data)
