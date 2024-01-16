@@ -4,7 +4,8 @@ Title: China tracker from CREA
 Version: 0.2
 Authors@R: c(
     person("Lauri", "Myllyvirta", email = "lauri@energyandcleanair.org", role = c("cre", "aut")),
-    person("Hubert", "Thieriot", email = "hubert@energyandcleanair.org", role = c("aut"))
+    person("Hubert", "Thieriot", email = "hubert@energyandcleanair.org", role = c("aut")),
+    person("Danny", "Hartono", email = "danny@energyandcleanair.org", role = c("aut"))
     )
 Maintainer: Hubert Thieriot <hubert@energyandcleanair.org>
 Description: A R package to build monthly snapshots for China.

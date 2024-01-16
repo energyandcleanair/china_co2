@@ -223,7 +223,8 @@ china_admin_capitals <- c(
   "kunming_chn.30_1_cn",
   "hohhot_chn.19_1_cn",
   "chongqing_chn.3_1_cn",
-  "haikou_chn.9_1_cn"
+  "haikou_chn.9_1_cn",
+  "hainan_chn.21_1_cn"
 )
 
 
