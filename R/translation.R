@@ -129,7 +129,7 @@ strsplit_lang <- function(x, width, lang=get('lang', envir=.GlobalEnv)) {
   # chop it up
   out <- character()
   for(i in 1:(length(starts)-1)) {
-    if(substr(x, starts[i], starts[i]) %in% c("，", "。","：")) starts[i] %<>% add(1)
+    if(substr(x, starts[i], starts[i]) %in% c("，", "\u3002", "：")) starts[i] %<>% add(1)
     out[i] <- substr(x, starts[i], starts[i+1])
   }
   out %>% paste(collapse='\n')
