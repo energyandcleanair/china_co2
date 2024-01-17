@@ -24,7 +24,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
 
   aq_capitals %<>% add_location_names(country = 'CN', lang = lang)
 
-  aq_capitals %>%
+  aq_capitals %>% arrange(date) %>%
     inner_join(aqs) %>%
     group_by(across(where(is.character))) %>%
     mutate(value_12m = case_when(pollutant!='o3'~value %>% pmin(500) %>% rollapplyr(365, mean, fill=NA),
