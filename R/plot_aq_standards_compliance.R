@@ -40,7 +40,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     geom_line(aes(col=value_12m %>% divide_by(aqs) %>% pmax(.8) %>% pmin(1.2)),
               linewidth=.75) +
     geom_text_repel(
-      aes(label = round(value_12m, 0)), data = aq_capitals_12m %>%
+      aes(label = round(value_12m, digits = 0)), data = aq_capitals_12m %>%
         ungroup %>% filter(!is.na(value_12m), pollutant=='pm25') %>% filter(date==max(date)),
       size = 3, direction='y') +
     facet_wrap(~city_label) +
@@ -61,7 +61,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     geom_line(aes(col=value_12m %>% divide_by(aqs) %>% pmax(.8) %>% pmin(1.2)),
               linewidth=.75) +
     geom_text_repel(
-      aes(label = round(value_12m, 0)), data = aq_capitals_12m %>%
+      aes(label = round(value_12m, digits = 0)), data = aq_capitals_12m %>%
         ungroup %>% filter(!is.na(value_12m), pollutant=='o3') %>% filter(date==max(date)),
       size = 3, direction='y') +
     facet_wrap(~city_label) +
