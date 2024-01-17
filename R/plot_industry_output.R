@@ -121,12 +121,14 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     plotdata %>%
       ggplot(aes(plotdate, Value1m, col=year))+
       geom_line(size=.8)+
-      geom_label(data=yoy_labels, aes(label=YoY), vjust=ifelse(i==2, -.5, 5), hjust=1, key_glyph="path") +
+      {if(include_yoy_labels) geom_label(data=yoy_labels, aes(label=YoY),
+                                         vjust=ifelse(i==2, -.5, 5), hjust=1, key_glyph="path")} +
       facet_wrap(~trans(prod), scales='free_y') +
       scale_color_manual(values=colorspace::darken(crea_palettes$change), name=trans('year')) +
       labs(title=trans(names(plots)[i]),
            x='', y=unit_label(unique(plotdata$Unit, lang=lang)),
-           caption=trans('Labels show year-on-year changes in the latest month of data')) +
+           caption={if(include_yoy_labels) trans('Labels show year-on-year changes in the latest month of data')
+             else ''}) +
       theme_crea() +
       lang_theme(lang=lang) +
       #geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
@@ -134,8 +136,8 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
       expand_limits(y=0) +
       x_at_zero() +
       scale_x_date(labels = monthlab) -> p
-    quicksave(file.path(output_dir, paste0(names(plots)[i], '_monthly_by_year, ',lang,'.png')), plot=p, scale=ifelse(lang=='ZH', 1.2, 1.33),
-              png = T)
+    quicksave(file.path(output_dir, paste0(names(plots)[i], '_monthly_by_year, ',lang,'.png')),
+              plot=p, scale=ifelse(lang=='ZH', 1.2, 1.33), png = T)
   }
 
   #solar cell output
