@@ -270,7 +270,7 @@ get_aq <- function(start_date=ymd('2022-01-01'),
         source_url <- paste0("https://api.energyandcleanair.org/measurements?",
                              glue("country={country}&source={source}&pollutant=o3&process=city_8h_max_day_mad&"),
                              "date_from=",start_date,"&date_to=", end_date,
-                             "&level=city&format=csv"), show_col_types = FALSE
+                             "&level=city&format=csv")
 
         if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
 
