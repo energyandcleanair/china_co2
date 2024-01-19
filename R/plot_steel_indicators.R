@@ -15,6 +15,10 @@ steel_indicator_plots <- function(lang=parent.frame()$lang,
            yr=as.character(year(date))) ->
     plotdata
 
+  write_excel_csv(plotdata %>% select(Name, ID, Date = date, Frequency, Value, Unit, `Time Period`,
+                                      Source),
+                  file.path(output_dir, 'Steel industry weekly operating indicators.csv'))
+
   plotdata %>% filter(!is.na(Value), year(date)>=start_year) %>%
     filter(!grepl('Estimated.*Crude|Stove', Name)) %>% #remove duplicated datasets
     mutate(plotdate = 'year<-'(date, 2020),
