@@ -223,8 +223,7 @@ china_admin_capitals <- c(
   "kunming_chn.30_1_cn",
   "hohhot_chn.19_1_cn",
   "chongqing_chn.3_1_cn",
-  "haikou_chn.9_1_cn",
-  "hainan_chn.21_1_cn"
+  "haikou_chn.9_1_cn"
 )
 
 
@@ -271,11 +270,11 @@ get_aq <- function(start_date=ymd('2022-01-01'),
         source_url <- paste0("https://api.energyandcleanair.org/measurements?",
                              glue("country={country}&source={source}&pollutant=o3&process=city_8h_max_day_mad&"),
                              "date_from=",start_date,"&date_to=", end_date,
-                             "&level=city&format=csv"), show_col_types = FALSE
+                             "&level=city&format=csv")
 
         if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
 
-        read_csv(source_url) %>%
+        read_csv(source_url, show_col_types = FALSE) %>%
           select(-any_of('...1')) %>%
           mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_8h
 
