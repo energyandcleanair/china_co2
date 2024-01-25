@@ -278,7 +278,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   quicksave(file.path(output_dir, paste0('Vehicle production, ',lang,'.png')), plot=g, footer_height=.01,
             png = T)
 
-  bind_rows(plotdata1 %>% mutate(value=Value12m, prod = paste0(prod, ': Output: 12-month moving sum')),
+  bind_rows(plotdata1 %>% mutate(value=Value12m*12, prod = paste0(prod, ': Output: 12-month moving sum')),
             plotdata2 %>% mutate(value=share, prod = paste0('New Energy Vehicle share: ', prod))) %>%
     filter(year(date)>=2017) %>%
     select(date, variable=prod, Unit, value) %>%
