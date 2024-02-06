@@ -233,6 +233,21 @@ convert_dt <- function(x) {
 }
 
 
+read_csv_and_retry <- function(url, ntries=3, pause_sec=10, backoff=5){
+  for(i in 1:ntries) {
+    tryCatch({
+      read_csv(url, show_col_types = FALSE) -> df
+      return(df)
+    }, error=function(e) {
+      message(glue('Error reading {url}, retrying in {pause_sec} seconds'))
+      Sys.sleep(pause_sec)
+      pause_sec <- pause_sec * backoff
+    })
+  }
+  stop(glue('Failed to read {url} after {ntries} attempts'))
+}
+
+
 get_aq <- function(start_date=ymd('2022-01-01'),
                    update_data=T,
                    cache_folder='cache',
@@ -262,7 +277,7 @@ get_aq <- function(start_date=ymd('2022-01-01'),
 
         if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
 
-        read_csv(source_url, show_col_types = FALSE) %>%
+        read_csv_and_retry(url=source_url) %>%
           select(-any_of('...1')) %>%
           mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_24h
 
@@ -274,18 +289,19 @@ get_aq <- function(start_date=ymd('2022-01-01'),
 
         if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
 
-        read_csv(source_url, show_col_types = FALSE) %>%
+        read_csv_and_retry(url=source_url) %>%
           select(-any_of('...1')) %>%
           mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_8h
 
 
         #read 1-hour max NO2
         if(F) {
-          read_csv(paste0("https://api.energyandcleanair.org/measurements?",
+          source_url <- paste0("https://api.energyandcleanair.org/measurements?",
                           glue("country={country}&source={source}"),
                           "&pollutant=no2&process=city_max_day_mad",
-                          "&level=city&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv"),
-                   show_col_types = FALSE) -> conc_1h
+                          "&level=city&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv")
+          
+          read_csv_and_retry(url=source_url) -> conc_1h
         }
 
         bind_rows(conc_24h, conc_8h)
