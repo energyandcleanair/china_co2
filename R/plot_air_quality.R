@@ -300,7 +300,7 @@ get_aq <- function(start_date=ymd('2022-01-01'),
                           glue("country={country}&source={source}"),
                           "&pollutant=no2&process=city_max_day_mad",
                           "&level=city&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv")
-          
+
           read_csv_and_retry(url=source_url) -> conc_1h
         }
 
@@ -334,16 +334,23 @@ get_deweathered_aq <- function(cities,
     pollutants %>%
       pbapply::pblapply(
         function(poll) {
-          read_csv(
-            paste0('http://api.energyandcleanair.org/v1/measurements?',
-            sprintf("location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099,default_anomaly_o3_2018_2099&variable=anomaly&format=csv&source=%s&date_from=%s",
-                    paste0(cities, collapse = ","),
-                    poll,
-                    source,
-                    start_date))
-          )
-        }
-      ) %>%
+          seq.Date(start_date, today(), by='month') %>%
+            pbapply::pblapply(function(start_date) {
+              message(start_date)
+              end_date=start_date %>% 'day<-'(days_in_month(start_date))
+
+              read_csv_and_retry(
+                paste0('http://api.energyandcleanair.org/v1/measurements?',
+                       sprintf("location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099,default_anomaly_o3_2018_2099&variable=anomaly&format=csv&source=%s&date_from=%s&date_to=%s",
+                               paste0(cities, collapse = ","),
+                               poll,
+                               source,
+                               start_date,
+                               end_date))
+              )
+            }) %>%
+            bind_rows()
+      }) %>%
       bind_rows %>%
       dplyr::rename(anomaly=value) %>%
       bind_rows(aq) -> aq
