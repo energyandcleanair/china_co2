@@ -1,6 +1,7 @@
 aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
                                cities,
                                pollutants=c('pm25', 'o3'),
+                               one_month_plots=F,
                                aq_cache='cache/province_capital_air_quality_data.RDS',
                                update_data = T,
                                lang=parent.frame()$lang,
@@ -81,6 +82,45 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     filter(!is.na(value_12m), date>=start_date) %>%
     select(location_id, pollutant, city_name_EN, NAME_1_EN, city_name_ZH, NAME_1_ZH, date, value_12m, unit, source) %>%
     write_excel_csv(file.path(output_dir, 'air quality compliance in provincial capitals.csv'))
+
+  if(one_month_plots) {
+    for(poll in pollutants) {
+      pollname_EN=recode(poll, o3='ozone', pm25='PM2.5', no2='NO2')
+      pollname=ifelse(poll=='o3', '臭氧', pollname_EN)
+
+      plottitle_EN=paste(format(focus_month, '%B'),
+                         ifelse(poll=='o3', '','average'),
+                         pollname_EN,'levels in province capitals')
+
+      plottitle = ifelse(lang=='EN', plottitle_EN,
+                         paste0("省会城市各年",month(focus_month), "月", pollname,
+                                ifelse(poll=='o3', '', '平均'),
+                                "浓度"))
+      subtitle=ifelse(poll=='o3', trans('average of daily 8-hour maximum'), '')
+
+      y_lab=case_when(poll=='o3' & lang=='EN'~'µg/m3, average of daily 8-hour maximum',
+                      poll=='o3' & lang=='ZH'~"微克/立方米，日最大8小时平均",
+                      T~trans('µg/m3'))
+
+      maxval=ifelse(poll=='pm25', 100, NA)
+
+      aq_capitals %>% filter(pollutant==poll) %>%
+        group_by(city_name, month=date %>% 'day<-'(1), pollutant) %>%
+        summarise(across(value, mean)) %>%
+        filter(month <= focus_month, month(month)==month(focus_month)) %>%
+        write_csv(file.path(output_dir, paste0(plottitle_EN, '.csv'))) %>%
+        group_by(city_name) %>% mutate(rank=rank(value)) %>%
+        ggplot(aes(year(month), value, fill=rank)) + geom_col() + facet_wrap(~city_name) +
+        coord_cartesian(ylim=c(0,maxval)) +
+        labs(title=plottitle, subtitle=subtitle, x='', y=y_lab) +
+        theme_crea() + scale_fill_crea_c('change', guide='none', col.index = 5:7) +
+        lang_theme(lang=lang) +
+        x_at_zero() -> p
+
+      quicksave(file.path(output_dir, paste0(plottitle_EN, ', ',lang,'.png')), plot=p, footer_height=.0,
+                png = T)
+    }
+  }
 }
 
 
