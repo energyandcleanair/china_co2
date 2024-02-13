@@ -223,14 +223,28 @@ china_admin_capitals <- c(
   "kunming_chn.30_1_cn",
   "hohhot_chn.19_1_cn",
   "chongqing_chn.3_1_cn",
-  "haikou_chn.9_1_cn",
-  "hainan_chn.21_1_cn"
+  "haikou_chn.9_1_cn"
 )
 
 
 convert_dt <- function(x) {
   if(!is.POSIXt(x)) x %<>% ymd_hms
   x
+}
+
+
+read_csv_and_retry <- function(url, ntries=3, pause_sec=10, backoff=5){
+  for(i in 1:ntries) {
+    tryCatch({
+      read_csv(url, show_col_types = FALSE) -> df
+      return(df)
+    }, error=function(e) {
+      message(glue('Error reading {url}, retrying in {pause_sec} seconds'))
+      Sys.sleep(pause_sec)
+      pause_sec <- pause_sec * backoff
+    })
+  }
+  stop(glue('Failed to read {url} after {ntries} attempts'))
 }
 
 
@@ -263,7 +277,7 @@ get_aq <- function(start_date=ymd('2022-01-01'),
 
         if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
 
-        read_csv(source_url, show_col_types = FALSE) %>%
+        read_csv_and_retry(url=source_url) %>%
           select(-any_of('...1')) %>%
           mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_24h
 
@@ -271,22 +285,23 @@ get_aq <- function(start_date=ymd('2022-01-01'),
         source_url <- paste0("https://api.energyandcleanair.org/measurements?",
                              glue("country={country}&source={source}&pollutant=o3&process=city_8h_max_day_mad&"),
                              "date_from=",start_date,"&date_to=", end_date,
-                             "&level=city&format=csv"), show_col_types = FALSE
+                             "&level=city&format=csv")
 
         if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
 
-        read_csv(source_url) %>%
+        read_csv_and_retry(url=source_url) %>%
           select(-any_of('...1')) %>%
           mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_8h
 
 
         #read 1-hour max NO2
         if(F) {
-          read_csv(paste0("https://api.energyandcleanair.org/measurements?",
+          source_url <- paste0("https://api.energyandcleanair.org/measurements?",
                           glue("country={country}&source={source}"),
                           "&pollutant=no2&process=city_max_day_mad",
-                          "&level=city&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv"),
-                   show_col_types = FALSE) -> conc_1h
+                          "&level=city&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv")
+
+          read_csv_and_retry(url=source_url) -> conc_1h
         }
 
         bind_rows(conc_24h, conc_8h)
@@ -319,16 +334,23 @@ get_deweathered_aq <- function(cities,
     pollutants %>%
       pbapply::pblapply(
         function(poll) {
-          read_csv(
-            paste0('http://api.energyandcleanair.org/v1/measurements?',
-            sprintf("location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099,default_anomaly_o3_2018_2099&variable=anomaly&format=csv&source=%s&date_from=%s",
-                    paste0(cities, collapse = ","),
-                    poll,
-                    source,
-                    start_date))
-          )
-        }
-      ) %>%
+          seq.Date(start_date, today(), by='month') %>%
+            pbapply::pblapply(function(start_date) {
+              message(start_date)
+              end_date=start_date %>% 'day<-'(days_in_month(start_date))
+
+              read_csv_and_retry(
+                paste0('http://api.energyandcleanair.org/v1/measurements?',
+                       sprintf("location_id=%s&pollutant=%s&process_id=default_anomaly_2018_2099,default_anomaly_o3_2018_2099&variable=anomaly&format=csv&source=%s&date_from=%s&date_to=%s",
+                               paste0(cities, collapse = ","),
+                               poll,
+                               source,
+                               start_date,
+                               end_date))
+              )
+            }) %>%
+            bind_rows()
+      }) %>%
       bind_rows %>%
       dplyr::rename(anomaly=value) %>%
       bind_rows(aq) -> aq

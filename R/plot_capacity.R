@@ -105,21 +105,21 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
         scale_y_continuous(expand=expansion(mult=c(0,.05)))
     }) -> p
 
+  if(length(p) != 0){
+    title.grob = textGrob(trans("Newly installed power capacity by province"),
+                          gp=gpar(fontface='bold', cex=2, col="#35416C"),
+                          just=.5)
+    subtitle.grob = textGrob(period_name,
+                             gp=gpar(fontface='italic',cex=1.33),
+                             just=.5)
+    p.grid = plot_grid(plotlist=p,ncol=2,align="v")
+    margin <- unit(1, "line")
 
-  title.grob = textGrob(trans("Newly installed power capacity by province"),
-                        gp=gpar(fontface='bold', cex=2, col="#35416C"),
-                        just=.5)
-  subtitle.grob = textGrob(period_name,
-                           gp=gpar(fontface='italic',cex=1.33),
-                           just=.5)
-  p.grid = plot_grid(plotlist=p,ncol=2,align="v")
-  margin <- unit(1, "line")
-
-  grid.arrange(title.grob, subtitle.grob, p.grid,
-               heights = unit.c(grobHeight(title.grob) + 2*margin,
-                                grobHeight(subtitle.grob) + .5*margin,
-                                unit(1,"null"))) -> plt
-  quicksave(file.path(output_dir, paste0('power capacity additions by province, ',lang,'.png')), plot=plt,
-            png = T)
-
+    grid.arrange(title.grob, subtitle.grob, p.grid,
+                 heights = unit.c(grobHeight(title.grob) + 2*margin,
+                                  grobHeight(subtitle.grob) + .5*margin,
+                                  unit(1,"null"))) -> plt
+    quicksave(file.path(output_dir, paste0('power capacity additions by province, ',lang,'.png')), plot=plt,
+              png = T)
+  }
 }
