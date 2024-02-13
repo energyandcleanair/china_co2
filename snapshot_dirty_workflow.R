@@ -41,6 +41,7 @@ air_quality_plots(focus_month = focus_month, update_data = F, aq = aq, aq_dw = a
                   lang=target_lang)
 
 aq_compliance_plots(cities = china_admin_capitals,
+                    one_month_plots=T,
                     update_data = T,
                     output_dir=output_dir,
                     lang=target_lang)
