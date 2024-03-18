@@ -88,7 +88,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
     plotdata %<>% mutate(across(c(Value.seasonadj, Value1m), ~convert_value(.x, Unit) * Unit_multiplier),
                          YoY_3m = (Value3m.seasonadj/lag(Value3m.seasonadj, 12)-1)  %>% pmax(-.2) %>% pmin(.2),
-                         plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1),
+                         plotdate=date %>% 'year<-'(year(focus_month) - (year(focus_month) %% 4)) %>% 'day<-'(1),
                          year=as.factor(year(date)))
 
     plotdata %>% mutate(YoY=get.yoy(Value1m, date) %>% scales::percent(accuracy = 1, style_positive='plus')) %>%
