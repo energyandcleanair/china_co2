@@ -73,7 +73,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
 
   for(i in 1:length(plots)) {
-    prod_withlatest %>% filter(year(date)>=2017, grepl(plots[[i]], prod),
+    prod_withlatest %>% filter(year(date)>(year(focus_month)-7), grepl(plots[[i]], prod),
                                !is.na(Value1m)) %>%
       mutate(Unit_multiplier=case_when(Unit=='10000 weight-box'~1/20, T~1),
              Unit=case_when(Unit == '10000 weight-box'~'10000 tons', T~Unit),

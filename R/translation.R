@@ -75,9 +75,9 @@ yearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
   x %>% as.character()
 }
 
-monthyearlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
-  if(lang=='EN') x %<>% format.Date('%b %Y')
-  if(lang=='ZH') x <- glue("{year(as.Date(x))} \u5e74 {month(as.Date(x))} \u6708")
+monthyearlab <- function(x, lang=get('lang', envir=.GlobalEnv), english_format='%b %Y') {
+  if(lang=='EN') x %<>% format.Date(english_format)
+  if(lang=='ZH') x <- glue("{year(as.Date(x))}\u5e74{month(as.Date(x))}\u6708")
   return(x)
 }
 

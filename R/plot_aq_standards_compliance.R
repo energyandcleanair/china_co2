@@ -1,11 +1,12 @@
 aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
-                               cities,
-                               pollutants=c('pm25', 'o3'),
-                               one_month_plots=F,
-                               aq_cache='cache/province_capital_air_quality_data.RDS',
-                               update_data = T,
-                               lang=parent.frame()$lang,
-                               output_dir=get('output_dir', envir=.GlobalEnv)) {
+                                cities,
+                                pollutants=c('pm25', 'o3'),
+                                one_month_plots=F,
+                                aq_cache='cache/province_capital_air_quality_data.RDS',
+                                update_data = T,
+                                lang=parent.frame()$lang,
+                                output_dir=get('output_dir', envir=.GlobalEnv),
+                                focus_month) {
 
   # Assign global variables used by creahelpers for translation
   trans_file = get_data_file('label_translations.xlsx')

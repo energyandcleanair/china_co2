@@ -83,6 +83,7 @@ build_snapshot <- function(focus_month = NULL,
                         update_data = T,
                         output_dir=base_dir,
                         lang=target_lang,
-                        aq_cache = NULL)
+                        aq_cache = NULL,
+                        focus_month = focus_month)
   }
 }

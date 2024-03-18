@@ -87,7 +87,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     filter(year(date)>=2010, !grepl('Diesel|Gasoline|Kerosene|Other', prod), var=='Net Imports') %>%
     group_by(prod_group=ifelse(grepl('Oil', prod_group), 'Oil, Mt', prod_group), date) %>%
     summarise(across(Value12m, sum)) %>%
-    mutate(YoY_12m = get.yoy(Value12m, date) %>% pmax(-.2) %>% pmin(.2)) %>%
+    mutate(YoY_12m = get.yoy(Value12m, date, fun = (function(x1, x0) {(x1/x0-1) * sign(x0)})) %>% pmax(-.2) %>% pmin(.2)) %>%
     ggplot(aes(date, Value12m*12, col=YoY_12m)) +
     geom_line(linewidth=1.5) +
     facet_wrap(~prod_group, scales='free_y') +
