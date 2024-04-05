@@ -129,7 +129,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
               png = T)
   }
 
-  plot_title="Monthly average pollutant concentrations in province capitals"
+  plot_title="Monthly average pollutant concentrations in provincial capitals"
   plot_subtitle=monthyearlab(focus_month)
   plots %>% lapply('[[', 'plot_means') %>% rev %>% make_pollution_plot(plot_title=plot_title,
                                                                        plot_subtitle=plot_subtitle)
@@ -137,7 +137,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   plots %>% lapply('[[', 'data_means') %>% bind_rows() %>% write_csv(file.path(output_dir, paste0(plot_title, ', ', lang, '.csv')))
 
 
-  plot_title="Year-on-year changes in pollutant concentrations in province capitals"
+  plot_title="Year-on-year changes in pollutant concentrations in provincial capitals"
   plots %>% lapply('[[', 'plot_yoy') %>% rev() %>%
     make_pollution_plot(plot_title=plot_title, plot_subtitle=plot_subtitle, rel_widths = c(.25,.25,.5))
 
