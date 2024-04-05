@@ -50,11 +50,35 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     theme_crea(legend.position='top', axis.text.x=element_text(angle=30, hjust=1)) +
     lang_theme(lang=lang) +
     scale_color_crea_c('change', guide='none', darken=.15) +
-    labs(title=trans('PM2.5 concentrations in province capitals'),
+    labs(title=trans('PM2.5 concentrations in provincial capitals'),
          x='', y=trans('µg/m3'),
          subtitle=trans('12-month moving average')) +
     scale_linetype_manual(values='dotted', name='') -> p
-  quicksave(file.path(output_dir, paste0('PM2.5 compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03,
+  quicksave(file.path(output_dir, paste0('PM2.5 compliance in provincial capitals, ',lang,'.png')), plot=p, footer_height=.03,
+            png = T)
+
+  aq_capitals_12m %>%
+    ungroup %>% filter(!is.na(value_12m), pollutant=='pm25', date>=start_date, date<(focus_month + months(1))) %>%
+    ggplot(aes(date, value_12m)) +
+    geom_line(aes(col=value_12m %>% divide_by(aqs) %>% pmax(.8) %>% pmin(1.2)),
+              linewidth=.75) +
+    geom_text_repel(
+      aes(label = round(value_12m, digits = 0)), data = aq_capitals_12m %>%
+        ungroup %>% filter(!is.na(value_12m), pollutant=='pm25', date>=start_date, date<(focus_month + months(1))) %>%
+        filter(date==max(date)),
+      size = 3, direction='y') +
+    facet_wrap(~city_label) +
+    geom_hline(aes(linetype=trans('National air quality standard'), yintercept = 35), alpha=.5) +
+    theme_crea(legend.position='top', axis.text.x=element_text(angle=30, hjust=1)) +
+    lang_theme(lang=lang) +
+    scale_color_crea_c('change', guide='none', darken=.15) +
+    labs(title=trans('PM2.5 concentrations in provincial capitals'),
+         x='', y=trans('µg/m3'),
+         subtitle=trans('12-month moving average')) +
+    scale_linetype_manual(values='dotted', name='') -> p
+  quicksave(file.path(output_dir, paste0('PM2.5 compliance in provincial capitals until ',
+                                         ceiling_date(focus_month, unit = 'month') - days(1),
+                                         ',',lang,'.png')), plot=p, footer_height=.03,
             png = T)
 
   aq_capitals_12m %>%
@@ -71,12 +95,37 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     theme_crea(legend.position='top', axis.text.x=element_text(angle=30, hjust=1)) +
     lang_theme(lang=lang) +
     scale_color_crea_c('change', guide='none', darken=.3) +
-    labs(title=trans('Ozone concentrations in province capitals'),
+    labs(title=trans('Ozone concentrations in provincial capitals'),
          x='', y=trans('µg/m3, 90th percentile of daily 8-hour maximum'),
          subtitle=trans('90th percentile over 12 months')) +
     scale_linetype_manual(values='dotted', name='') +
     scale_x_datetime(labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('Ozone compliance in province capitals, ',lang,'.png')), plot=p, footer_height=.03,
+  quicksave(file.path(output_dir, paste0('Ozone compliance in provincial capitals, ',lang,'.png')), plot=p, footer_height=.03,
+            png = T)
+
+  aq_capitals_12m %>%
+    ungroup %>% filter(!is.na(value_12m), pollutant=='o3', date>=start_date, date<(focus_month + months(1))) %>%
+    ggplot(aes(date, value_12m)) +
+    geom_line(aes(col=value_12m %>% divide_by(aqs) %>% pmax(.8) %>% pmin(1.2)),
+              linewidth=.75) +
+    geom_text_repel(
+      aes(label = round(value_12m, digits = 0)), data = aq_capitals_12m %>%
+        ungroup %>% filter(!is.na(value_12m), pollutant=='o3', date>=start_date, date<(focus_month + months(1))) %>%
+        filter(date==max(date)),
+      size = 3, direction='y') +
+    facet_wrap(~city_label) +
+    geom_hline(aes(linetype=trans('National air quality standard'), yintercept = 160), alpha=.5) +
+    theme_crea(legend.position='top', axis.text.x=element_text(angle=30, hjust=1)) +
+    lang_theme(lang=lang) +
+    scale_color_crea_c('change', guide='none', darken=.3) +
+    labs(title=trans('Ozone concentrations in provincial capitals'),
+         x='', y=trans('µg/m3, 90th percentile of daily 8-hour maximum'),
+         subtitle=trans('90th percentile over 12 months')) +
+    scale_linetype_manual(values='dotted', name='') +
+    scale_x_datetime(labels = yearlab) -> p
+  quicksave(file.path(output_dir, paste0('Ozone compliance in provincial capitals until ',
+                                         ceiling_date(focus_month, unit = 'month') - days(1),
+                                         ',',lang,'.png')), plot=p, footer_height=.03,
             png = T)
 
   aq_capitals_12m %>% ungroup %>%
@@ -91,7 +140,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
 
       plottitle_EN=paste(format(focus_month, '%B'),
                          ifelse(poll=='o3', '','average'),
-                         pollname_EN,'levels in province capitals')
+                         pollname_EN,'levels in provincial capitals')
 
       plottitle = ifelse(lang=='EN', plottitle_EN,
                          paste0("省会城市各年",month(focus_month), "月", pollname,
