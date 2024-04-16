@@ -156,7 +156,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
 
       aq_capitals %>% filter(pollutant==poll) %>%
         group_by(city_name, month=date %>% 'day<-'(1), pollutant) %>%
-        summarise(across(value, mean)) %>%
+        summarise(across(value, ~ mean(.x, na.rm = TRUE))) %>%
         filter(month <= focus_month, month(month)==month(focus_month)) %>%
         write_csv(file.path(output_dir, paste0(plottitle_EN, '.csv'))) %>%
         group_by(city_name) %>% mutate(rank=rank(value)) %>%
