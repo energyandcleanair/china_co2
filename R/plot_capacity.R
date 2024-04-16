@@ -11,7 +11,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
            fuel = ifelse(is.na(fuel) | fuel %in% c('YTD', 'National'), 'All', fuel)) -> cap
 
   cap %>%
-    filter(year(date)>=2018, fuel=='All', grepl('New', var)) %>%
+    filter(year(date)>=year(today()) - 5, fuel=='All', grepl('New', var)) %>%
     group_by(source, fuel, year=as.factor(year(date))) %>%
     group_modify(function(df, groups) {
       df %>% head(1) %>% mutate(date=ymd(paste(groups$year, 1, 1)), Value=0) %>%
@@ -24,13 +24,13 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
     group_by(source, fuel) %>%
     mutate(YoY=get.yoy(Value, date) %>% scales::percent(accuracy = 1, style_positive='plus'),
            Value=convert_value(Value, '10MW', lang=lang),
-           plotdate=date %>% 'year<-'(2022),
+           plotdate=date %>% 'year<-'(2024),
            source=ifelse(fuel=='All', source, fuel))
 
   plotdata %>% filter(date %>% 'day<-'(1) %>% equals(focus_month)) -> yoy_labels
 
   plotdata %>%
-    ggplot(aes(plotdate, Value, col=year)) + geom_line(linewidth=1) +
+    ggplot(aes(plotdate, Value, colour=year)) + geom_line(linewidth=1) +
     geom_label(data=yoy_labels, aes(label=YoY), vjust=-2) +
     facet_wrap(~translateSources(source, lang=lang), ncol=2, scales='free_y') +
     labs(y=unit_label('10MW', lang=lang), x='', title=trans('Newly added power capacity, year-to-date'),
