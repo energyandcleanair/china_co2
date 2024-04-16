@@ -22,7 +22,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   data_to_include = plots %>% unlist %>% c('Solar Cells','Batter','Automob|Vehicle') %>% paste(collapse='|')
 
   in_file = get_data_file("monthly industry stats with YoY.xlsx")
-  readwindEN(in_file, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=2) %>%
+  readwindEN(in_file, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=3) %>%
     filter(grepl(data_to_include, prod)) -> prod
 
   yoy_2020M7 <- prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-07-31'] /
