@@ -238,7 +238,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     labs(title=trans('Vehicle production'), subtitle='', x='', y=trans('million units, 12-month moving sum')) +
     theme_crea() +
     theme(strip.text = element_text(size=rel(1)), legend.position = 'top',
-          plot.title=element_text(size=rel(3))) +
+          plot.title=element_text(size=rel(2.9))) +
     lang_theme(lang=lang) +
     geom_vline(aes(linetype=trans('COVID-19 lockdown'), xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
     scale_linetype_manual(values='dashed', name='') +
