@@ -25,6 +25,14 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   readwindEN(in_file, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=3) %>%
     filter(grepl(data_to_include, prod)) -> prod
 
+  # in_file_compare <- get_data_file('monthly industry stats.xlsx')
+  # prod_compare <- readwindEN(in_file_compare, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=1) %>%
+  #   filter(grepl(data_to_include, prod))
+
+  if(max(prod$date) != max(prod_compare$date)){
+    warning('The data in the two files do not match. Will merge_rows from the newer one.')
+  }
+
   yoy_2020M7 <- prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-07-31'] /
     prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-07-31']
 
@@ -250,7 +258,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
         end_date <- df$date[i]
         message(end_date)
         start_date <- end_date %>% 'day<-'(1) %>% 'year<-'(year(.)-10) %>% 'day<-'(days_in_month(.))
-        df %>% filter(date>start_date, date<=end_date) %>% group_by(prod) %>% summarise(across(Value1m, sum, na.rm=T)) %>%
+        df %>% filter(date>start_date, date<=end_date) %>% group_by(prod) %>% summarise(across(Value1m, ~ sum(.x, na.rm = T))) %>%
           summarise(share=Value1m[grepl('New Energy', prod)]/Value1m[grepl('Auto', prod)]) %>% unlist -> share
         df$share[df$date==end_date] <- share
       }
@@ -263,7 +271,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     filter(year(date)>=2017) %>%
     ggplot(aes(date, share, col=trans(prod)))+
     geom_line(size=1.2)+geom_point(size=.8)+
-    scale_color_crea_d('dramatic', col.index = c(3,6), guide=guide_legend(nrow=ifelse(lang=='ZH', 2, 1))) +
+    scale_color_crea_d('dramatic', col.index = c(3,6), guide=guide_legend(nrow=2)) +
     labs(y=trans('new energy vehicle share'), title=' ', subtitle=' ', x='', col='') +
     theme_crea() + theme(legend.position = 'top') +
     lang_theme(lang=lang) +
@@ -284,3 +292,14 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     select(date, variable=prod, Unit, value) %>%
     write_csv(file.path(output_dir, 'vehicle production.csv'))
 }
+
+
+# check_dates <- function(data, obv_date_threshold = Sys.Date() - 30){
+#   max_date <- max(data$date)
+#   if(max_date < Sys.Date() - 30) {
+#     stop('Data is not up to date. Last date is ', max_date)
+#   }
+#
+#   max_update_date <- data %>% group_by(Name) %>% summarise(Update = max(Update))
+#
+# }
