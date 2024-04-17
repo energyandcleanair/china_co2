@@ -29,9 +29,9 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   # prod_compare <- readwindEN(in_file_compare, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=1) %>%
   #   filter(grepl(data_to_include, prod))
 
-  if(max(prod$date) != max(prod_compare$date)){
-    warning('The data in the two files do not match. Will merge_rows from the newer one.')
-  }
+  # if(max(prod$date) != max(prod_compare$date)){
+  #   warning('The data in the two files do not match. Will merge_rows from the newer one.')
+  # }
 
   yoy_2020M7 <- prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-07-31'] /
     prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-07-31']
