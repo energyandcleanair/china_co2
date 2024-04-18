@@ -72,3 +72,21 @@ read_bp <- function(file_path,
 fix_province_names <- function(x) {
   x %>% recode('Nei Mongol'='Inner Mongolia', 'Ningxia Hui'='Ningxia', 'Xinjiang Uygur'='Xinjiang', 'Xizang'='Tibet')
 }
+
+check_dates <- function(data, obv_date_threshold = Sys.Date() - 30, file_name){
+  max_date <- max(data$date)
+  if(max_date < Sys.Date() - 60) {
+    warning('Data is not up to date. Last date is ', max_date)
+  }
+
+  if('Update' %in% colnames(data)){
+    max_update_date <- max(data$Update)
+    if(max_date < Sys.Date() - 30) {
+      warning('Data is not up to date. Last date is ', max_date)
+    }
+  } else {
+    max_update_date <- NA
+  }
+
+  return(tibble(file = file_name, latest_data = max_date, latest_update = max_update_date))
+}

@@ -10,6 +10,9 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
            source = source %>% gsub(' ?Power.*', '', ., ignore.case=T) %>% gsub('YTD', 'All', .),
            fuel = ifelse(is.na(fuel) | fuel %in% c('YTD', 'National'), 'All', fuel)) -> cap
 
+  data_summary <<- data_summary %>% bind_rows(check_dates(data = cap,
+                                                          file_name = "Power Capacity.xlsx"))
+
   cap %>%
     filter(year(date)>=year(today()) - 5, fuel=='All', grepl('New', var)) %>%
     group_by(source, fuel, year=as.factor(year(date))) %>%

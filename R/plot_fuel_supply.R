@@ -6,6 +6,9 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   readwindEN(in_file, c('var', 'prod'), read_vardata = T, zero_as_NA = T) %>%
     replace_na(list(type='M')) -> fuelsupply
 
+  data_summary <<- data_summary %>% bind_rows(check_dates(data = fuelsupply,
+                                                          file_name = "fuel supply.xlsx"))
+
   fuelsupply %<>% arrange(date) %>%
     mutate(Value=Value*ifelse(Unit=="ton", 1e-4,1),
            Unit=recode(Unit, ton="10000 tons"),

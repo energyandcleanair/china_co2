@@ -16,6 +16,11 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   if(is.null(aq)) aq <- get_aq(start_date=aq_data_start, update_data=update_data, aq_file=aq_file)
   if(is.null(aq_dw)) aq_dw <- get_deweathered_aq(cities, pollutants, start_date=aq_data_start, update_data=update_data, aq_file=aq_dw_file)
 
+  data_summary <<- data_summary %>% bind_rows(check_dates(data = aq,
+                                                          file_name = 'aq data from database'))
+  data_summary <<- data_summary %>% bind_rows(check_dates(data = aq_dw,
+                                                          file_name = 'aq deweather data from database'))
+
   #add city and pollutant names
   aq %<>%
     mutate(pollutant_name = case_when(pollutant=='pm25'~'PM2.5', T~toupper(pollutant)),

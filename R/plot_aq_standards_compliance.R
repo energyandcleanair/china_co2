@@ -22,6 +22,9 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
                         source='mee') %>%
     filter(pollutant %in% pollutants, location_id %in% cities)
 
+  data_summary <<- data_summary %>% bind_rows(check_dates(data = aq_capitals,
+                                                          file_name = 'aq data from database - compliance'))
+
   aqs = tibble(pollutant=c('pm25', 'no2', 'o3'), aqs=c(35,40,160))
 
   aq_capitals %<>% add_location_names(country = 'CN', lang = lang)
