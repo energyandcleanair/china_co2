@@ -1,5 +1,5 @@
 steel_indicator_plots <- function(lang=parent.frame()$lang,
-                                  start_year=year(today())-6,
+                                  start_year=year(today())-5,
                                   output_dir=get('output_dir', envir=.GlobalEnv)) {
 
   library(directlabels)
@@ -23,7 +23,12 @@ steel_indicator_plots <- function(lang=parent.frame()$lang,
     filter(!grepl('Estimated.*Crude|Stove', Name)) %>% #remove duplicated datasets
     mutate(plotdate = 'year<-'(date, 2020),
            yr=as.character(year(date)),
-           Name=gsub('Custeel: | \\(.*|: National|: China|China: |Refining Production | Steel Mills| of Major Steel Mills|: [0-9]+$', '', Name)) %>%
+           Name=gsub('Custeel: | \\(.*|: National|: China|China: |Refining Production | Steel Mills| of Major Steel Mills|: [0-9]+$', '', Name),
+           Name = case_match(Name,
+                             'Daily Average Output: Crude Steel' ~ 'Average Daily Output: Crude Steel',
+                             'Operating Rate: Deformed Steel Bar: Major' ~ 'Deformed Steel Bar: Operating Rate',
+                             'Operating Rate: Wire Rod: Major' ~ 'Operating Rate: Wire Rod',
+                             .default = Name)) %>%
     ggplot(aes(plotdate, Value, col=yr)) +
     facet_wrap(~trans(Name), scales='free_y') +
     geom_line(linewidth=1, alpha=.75) +
