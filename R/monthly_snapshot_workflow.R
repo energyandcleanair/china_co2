@@ -11,6 +11,7 @@ build_snapshot <- function(focus_month = NULL,
   # "data/fuel supply.xlsx"
   # "steel plant operating rates.xlsx"
 
+  data_summary <<- list()
 
   trans_file = get_data_file('label_translations.xlsx')
   assign("trans_file", trans_file, envir = .GlobalEnv)
@@ -50,6 +51,19 @@ build_snapshot <- function(focus_month = NULL,
     # set lang in global environment
     assign("lang", target_lang, envir = .GlobalEnv)
 
+    # Non month-specific charts
+    steel_indicator_plots(start_year=year(today())-5, #first year shown in plots
+                          output_dir=base_dir,
+                          lang=target_lang)
+
+    aq_compliance_plots(cities = china_admin_capitals,
+                        one_month_plots=T,
+                        update_data = T,
+                        output_dir=base_dir,
+                        lang=target_lang,
+                        aq_cache = NULL,
+                        focus_month = focus_month)
+
     # Month-specific charts
     capacity_plots(focus_month = focus_month,
                    output_dir=month_dir,
@@ -72,18 +86,7 @@ build_snapshot <- function(focus_month = NULL,
                       aq_dw = aq_dw,
                       output_dir=month_dir,
                       lang=target_lang)
-
-    # Non month-specific charts
-    steel_indicator_plots(start_year=year(today())-6, #first year shown in plots
-                          output_dir=base_dir,
-                          lang=target_lang)
-
-    aq_compliance_plots(cities = china_admin_capitals,
-                        one_month_plots=T,
-                        update_data = T,
-                        output_dir=base_dir,
-                        lang=target_lang,
-                        aq_cache = NULL,
-                        focus_month = focus_month)
   }
+
+  write.csv(data_summary, file.path(month_dir, "data_summary.csv"), row.names = F)
 }
