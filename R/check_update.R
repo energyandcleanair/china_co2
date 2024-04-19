@@ -1,4 +1,4 @@
-check_wind_update <- function(){
+check_wind_update <- function(output_dir){
   data_summary <- list()
 
   # industry plot data
@@ -44,6 +44,6 @@ check_wind_update <- function(){
                                                          file_name = "fuel supply.xlsx"))
 
   write.csv(data_summary,
-            file.path(paste0("data_summary_", today(), ".csv")),
+            file.path(output_dir, paste0("data_summary_", today(), ".csv")),
             row.names = F)
 }
