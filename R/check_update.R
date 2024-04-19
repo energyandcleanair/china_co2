@@ -44,6 +44,6 @@ check_wind_update <- function(){
                                                          file_name = "fuel supply.xlsx"))
 
   write.csv(data_summary,
-            file.path(month_dir, paste0("data_summary_", today(), ".csv")),
+            file.path(paste0("data_summary_", today(), ".csv")),
             row.names = F)
 }
