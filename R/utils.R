@@ -90,3 +90,16 @@ check_dates <- function(data, obv_date_threshold = Sys.Date() - 30, file_name){
 
   return(tibble(file = file_name, latest_data = max_date, latest_update = max_update_date))
 }
+
+
+#download Ember data from: https://ember-climate.org/data-catalogue/monthly-electricity-data/
+get_ember_monthly_data <- function(cached = get_data_file("monthly_full_release_long_format-4.csv"),
+                                   file_url="https://ember-climate.org/app/uploads/2022/07/monthly_full_release_long_format-4.csv") {
+  ember <- NULL
+
+  try(ember <- read_csv(file_url))
+  if(!is.null(ember)) ember %>% write_csv(cached)
+  if(is.null(ember)) ember <- cached %>% read_csv
+
+  return(ember)
+}
