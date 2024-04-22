@@ -88,6 +88,5 @@ build_snapshot <- function(focus_month = NULL,
                       lang=target_lang)
   }
 
-  write.csv(data_summary %>% distinct(),
-            file.path(month_dir, "data_summary.csv"), row.names = F)
+  write.csv(data_summary, file.path(month_dir, "data_summary.csv"), row.names = F)
 }
