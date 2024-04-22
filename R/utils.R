@@ -1,18 +1,18 @@
 get_data_file <- function(filename, data_folder="inst/extdata", inst_data_folder=gsub("inst/", "", data_folder)){
 
-    # First check locally if the file exists in data folder
-    if(file.exists(file.path(data_folder, filename))){
-        path <- file.path(data_folder, filename)
-    }else{
-        # look into installed package
-        path <- system.file(inst_data_folder, filename, package = "chinatracker")
-    }
+  # First check locally if the file exists in data folder
+  if(file.exists(file.path(data_folder, filename))){
+    path <- file.path(data_folder, filename)
+  }else{
+    # look into installed package
+    path <- system.file(inst_data_folder, filename, package = "chinatracker")
+  }
 
-    if(!file.exists(path) | (path=="")){
-        stop(paste0("File ", filename, " not found in ", data_folder, " folder or in installed package"))
-    }
+  if(!file.exists(path) | (path=="")){
+    stop(paste0("File ", filename, " not found in ", data_folder, " folder or in installed package"))
+  }
 
-    return(path)
+  return(path)
 }
 
 fuel_cols = rcrea::crea_palettes$CREA[c(1, 4, 2, 6, 5)]
@@ -73,24 +73,49 @@ fix_province_names <- function(x) {
   x %>% recode('Nei Mongol'='Inner Mongolia', 'Ningxia Hui'='Ningxia', 'Xinjiang Uygur'='Xinjiang', 'Xizang'='Tibet')
 }
 
-check_dates <- function(data, obv_date_threshold = Sys.Date() - 30, file_name){
+check_dates <- function(data, obv_date_threshold = Sys.Date() - 30, file_name,
+                        check_dates_stop = F){
+  problem_data <- NA
+  max_update_date <- NA
+  min_update_date <- NA
+
   max_date <- max(data$date)
-  if(max_date < Sys.Date() - 60) {
-    warning('Data is not up to date. Last date is ', max_date)
+  if(max_date < Sys.Date() - 60){
+    warning(glue('Data in file "{file_name}" is not up to date. Last row date is {max_date}'))
   }
 
   if('Update' %in% colnames(data)){
+    min_update_date <- min(data$Update)
     max_update_date <- max(data$Update)
-    if(max_date < Sys.Date() - 30) {
-      warning('Data is not up to date. Last date is ', max_date)
+
+    if(max_update_date < Sys.Date() - 60 | min_update_date < Sys.Date() - 60){
+      problem_data <- data %>% filter(Update < Sys.Date() - 60,
+                                      !Name %in% ignore_names) %>%
+        distinct(Name) %>%
+        pull
+
+      if(length(problem_data != 0)){
+        warning(paste('Problematic data:', paste(problem_data, collapse = ', ')))
+
+        if(check_dates_stop){
+          stop(glue(paste('Data in file "{file_name}" is not up to date.',
+                          'Lastest update date is {max_update_date}.',
+                          'Earliest update date is {min_update_date}.')))
+        } else {
+          warning(glue(paste('Data in file "{file_name}" is not up to date.',
+                             'Lastest update date is {max_update_date}.',
+                             'Earliest update date is {min_update_date}.')))
+        }
+      } else {
+        problem_data <- NA
+      }
     }
-  } else {
-    max_update_date <- NA
   }
 
-  return(tibble(file = file_name, latest_data = max_date, latest_update = max_update_date))
+  return(tibble(file = file_name, latest_data = max_date, latest_update = max_update_date,
+                earliest_update = min_update_date,
+                problem_data = paste(problem_data, collapse = ', ')))
 }
-
 
 #download Ember data from: https://ember-climate.org/data-catalogue/monthly-electricity-data/
 get_ember_monthly_data <- function(cached = get_data_file("monthly_full_release_long_format-4.csv"),
@@ -103,3 +128,10 @@ get_ember_monthly_data <- function(cached = get_data_file("monthly_full_release_
 
   return(ember)
 }
+
+ignore_names <- c(
+  'China: Output: Power and Energy Storage Batteries (Lithium Manganate): YTD',
+  'China: Output: Power and Energy Storage Batteries (Lithium Titanate): YTD',
+  'China: Output: Power and Energy Storage Batteries (Lithium Manganate): YTD: YoY',
+  'China: Output: Power and Energy Storage Batteries (Lithium Titanate): YTD: YoY'
+)
