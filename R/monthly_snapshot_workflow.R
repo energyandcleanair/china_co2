@@ -3,13 +3,18 @@ build_snapshot <- function(focus_month = NULL,
                            month_subdir = NULL, # Month-specific sub-directory
                            langs=c("EN","ZH"),
                            gis_dir=Sys.getenv('GIS_DIR'),
-                           update_aq_data=T) {
+                           update_aq_data=T,
+                           snapshot_precheck = F) {
   # required input data:
   # monthly industry stats with YoY.xlsx
-  # "data/Power Capacity.xlsx"
-  # "data/New power capacity by province and type.xlsx"
-  # "data/fuel supply.xlsx"
-  # "steel plant operating rates.xlsx"
+  # Power Capacity.xlsx
+  # New power capacity by province and type.xlsx
+  # fuel supply.xlsx
+  # steel plant operating rates.xlsx
+
+  if(snapshot_precheck){
+    check_wind_update()
+  }
 
   data_summary <<- list()
 

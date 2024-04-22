@@ -133,5 +133,7 @@ ignore_names <- c(
   'China: Output: Power and Energy Storage Batteries (Lithium Manganate): YTD',
   'China: Output: Power and Energy Storage Batteries (Lithium Titanate): YTD',
   'China: Output: Power and Energy Storage Batteries (Lithium Manganate): YTD: YoY',
-  'China: Output: Power and Energy Storage Batteries (Lithium Titanate): YTD: YoY'
+  'China: Output: Power and Energy Storage Batteries (Lithium Titanate): YTD: YoY',
+  'China: Estimated Daily Average Output: Coke',
+  'China: Operating Rate of Blast Furnaces (163 Steel Mills)'
 )
