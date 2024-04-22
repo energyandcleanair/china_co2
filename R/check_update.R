@@ -11,9 +11,11 @@ check_wind_update <- function(output_dir){
                              read_vardata = T, zero_as_NA = T, skip = 1)
 
   data_summary <- data_summary %>% bind_rows(check_dates(data = prod,
-                                                         file_name = "monthly industry stats with YoY.xlsx"))
+                                                         file_name = "monthly industry stats with YoY.xlsx",
+                                                         check_dates_stop = T))
   data_summary <- data_summary %>% bind_rows(check_dates(data = prod_compare,
-                                                         file_name = "monthly industry stats.xlsx"))
+                                                         file_name = "monthly industry stats.xlsx",
+                                                         check_dates_stop = T))
 
   # steel plot data
   in_file <- get_data_file("steel plant operating rates.xlsx")
@@ -22,7 +24,8 @@ check_wind_update <- function(output_dir){
                       read_vardata = T, zero_as_NA = T, force_last_of_month = F)
 
   data_summary <- data_summary %>% bind_rows(check_dates(data = steel,
-                                                         file_name = "steel plant operating rates.xlsx"))
+                                                         file_name = "steel plant operating rates.xlsx",
+                                                         check_dates_stop = T))
 
   # capacity plot data
   in_file <- get_data_file("Power Capacity.xlsx")
@@ -32,7 +35,8 @@ check_wind_update <- function(output_dir){
            fuel = ifelse(is.na(fuel) | fuel %in% c('YTD', 'National'), 'All', fuel))
 
   data_summary <- data_summary %>% bind_rows(check_dates(data = cap,
-                                                         file_name = "Power Capacity.xlsx"))
+                                                         file_name = "Power Capacity.xlsx",
+                                                         check_dates_stop = T))
 
   # fuel supply plot
   in_file <- get_data_file("fuel supply.xlsx")
@@ -41,9 +45,10 @@ check_wind_update <- function(output_dir){
     replace_na(list(type = 'M'))
 
   data_summary <- data_summary %>% bind_rows(check_dates(data = fuelsupply,
-                                                         file_name = "fuel supply.xlsx"))
+                                                         file_name = "fuel supply.xlsx",
+                                                         check_dates_stop = T))
 
   write.csv(data_summary,
-            file.path(output_dir, paste0("data_summary_", today(), ".csv")),
+            file.path(output_dir, paste0("wind_data_summary_", today(), ".csv")),
             row.names = F)
 }
