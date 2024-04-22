@@ -1,26 +1,5 @@
-
-industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
-                                   lang=parent.frame()$lang,
-                                   output_dir=get('output_dir', envir=.GlobalEnv),
-                                   plots=NULL, #list of plots to make, see default below
-                                   include_yoy_labels=F, #include labels with year-on-year growth in plots?
-                                   skip_yoy_adjustment = 'Copper|Glass|Chemical Fibers|Solar$' #these products aren't retroactively adjusted to fit reported yoy numbers because there are anomalies
-) {
-
-  if(is.null(plots)) {
-    plots = list(#'Industrial output'='',
-      #'Metals&cement output'='Steel Material|Crude Steel|Cement$|Coke|Pig Iron|Non-ferrous|Copper',
-      #'Heavy industry output'='Steel Material|Crude Steel|Cement$|Chemical|Plastic|Coke|Copper|Metals|Aluminous|Glass|Pig Iron',
-      'Heavy industry output'='Steel Material|Crude Steel|Cement$|Chemical|Plastics|Coke|Copper|Metals|Glass|Pig Iron',
-      #'Housing indicators'='Household|TV|Escalator',
-      #'Transport fuel production'='Diese|Gasoline|Kerosene',
-      #'Coal mine output'='Raw Coal',
-      #'Solar cell output'='Solar Cells',
-      'Power generation'='Solar$|Power$|Generating|Nuclear|Hydro')
-  }
-
-  data_to_include = plots %>% unlist %>% c('Solar Cells','Batter','Automob|Vehicle') %>% paste(collapse='|')
-
+read_industrial_output <- function(data_to_include=".*",
+                                   skip_yoy_adjustment = 'Copper|Glass|Chemical Fibers|Solar$') {
   in_file = get_data_file("monthly industry stats with YoY.xlsx")
   readwindEN(in_file, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=3) %>%
     filter(grepl(data_to_include, prod)) -> prod
@@ -59,7 +38,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
            'Rolled Steel'='Steel Materials',
            'Plate Glass'='Plain Glass')
 
-  prod %<>%
+  prod %>%
     mutate(YoY = !is.na(YoY),
            battery_type=case_when(!grepl('Batter', prod)~NA, !grepl('\\(', prod)~'Total', T~prod %>% gsub('.*\\(|\\)', '', .)),
            prod=disambiguate(prod, c('Battery'='Batter'))) %>%
@@ -71,7 +50,33 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
       if(!grepl(skip_yoy_adjustment, k$prod)) df %<>% unYoY()
       df %>% filter(!YoY) %>% unYTD %>% roll12m() %>% seasonal(year_range = 2012:2019)
     })
+}
 
+
+
+industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
+                                   lang=parent.frame()$lang,
+                                   output_dir=get('output_dir', envir=.GlobalEnv),
+                                   plots=NULL, #list of plots to make, see default below
+                                   include_yoy_labels=F, #include labels with year-on-year growth in plots?
+                                   skip_yoy_adjustment = 'Copper|Glass|Chemical Fibers|Solar$' #these products aren't retroactively adjusted to fit reported yoy numbers because there are anomalies
+) {
+
+  if(is.null(plots)) {
+    plots = list(#'Industrial output'='',
+      #'Metals&cement output'='Steel Material|Crude Steel|Cement$|Coke|Pig Iron|Non-ferrous|Copper',
+      #'Heavy industry output'='Steel Material|Crude Steel|Cement$|Chemical|Plastic|Coke|Copper|Metals|Aluminous|Glass|Pig Iron',
+      'Heavy industry output'='Steel Material|Crude Steel|Cement$|Chemical|Plastics|Coke|Copper|Metals|Glass|Pig Iron',
+      #'Housing indicators'='Household|TV|Escalator',
+      #'Transport fuel production'='Diese|Gasoline|Kerosene',
+      #'Coal mine output'='Raw Coal',
+      #'Solar cell output'='Solar Cells',
+      'Power generation'='Solar$|Power$|Generating|Nuclear|Hydro')
+  }
+
+  data_to_include = plots %>% unlist %>% c('Solar Cells','Batter','Automob|Vehicle') %>% paste(collapse='|')
+
+  prod <- read_industrial_output()
 
   prod$date %>% max -> latest_date
   prod %>% group_by(prod) %>%
