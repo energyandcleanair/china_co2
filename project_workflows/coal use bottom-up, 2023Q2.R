@@ -40,12 +40,8 @@ d %>% ungroup %>% filter(grepl('Coking|Steam', prod), sector != 'Total', !is.na(
                                  T~disambiguate(sector, coal_sectors))) ->
   d_coal
 
-#download Ember data from: https://ember-climate.org/data-catalogue/monthly-electricity-data/
-ember <- NULL
-ember_cached <- get_data_file("monthly_full_release_long_format-4.csv")
-try(ember <- read_csv("https://ember-climate.org/app/uploads/2022/07/monthly_full_release_long_format-4.csv"))
-if(!is.null(ember)) ember %>% write_csv(ember_cached)
-if(is.null(ember)) ember <- get_data_file("monthly_full_release_long_format-4.csv") %>% read_csv
+
+ember <- get_ember_monthly_data(last_month)
 
 ember %>%
   set_names(make.names(names(.))) %>%
@@ -54,7 +50,7 @@ ember %>%
 
 last_month_firstday <- last_month %>% 'day<-'(1)
 if(max(coal_gen$date) < last_month_firstday) {
-  message("The Ember dataset available locally has data until ", max(coal_gen$date), ' - backfilling')
+  message("The Ember dataset available locally has data until ", max(coal_gen$date), ' - extending')
 
   prod %>% group_by(prod) %>% mutate(YoY=get.yoy(Value1m, date)) %>% filter(date==last_month, prod=='Thermal Power') %>%
     use_series(YoY) -> thermal_power_growth
