@@ -51,26 +51,29 @@ elec_cons_sector %>%
   group_by(month(date), sector, subsector) %>% fill(Value, .direction='down') %>%
   filter(!is.na(Value), is.na(subsector)) %>%
   group_by(broad_sector, sector, subsector) %>%
-  summarise(change=Value12m[date=='2023-12-31']-Value12m[date=='2019-12-31']) %>%
+  #summarise(change=Value12m[date=='2023-12-31']-Value12m[date=='2019-12-31']) %>%
+  summarise(change=Value[date=='2024-03-31']-Value[date=='2023-03-31']) %>%
   ungroup %>% arrange(-change) -> elec_plot
 
 elec_plot %>% mutate(sector=case_when(sector %in% elec_plot$sector[1:20]~sector, T~'Others')) %>%
   group_by(broad_sector, sector) %>%
   summarise(across(change, sum)) %>%
-  mutate(share_within_broad_sector=change/sum(change)) %>%
+  mutate(share_within_broad_sector=change/sum(change),
+         change=change/1e5,
+         Unit='TWh') %>%
   ungroup %>%
   mutate(share_overall=change/sum(change)) %>%
-  write_csv(file.path(output_dir, 'Drivers of electricity consumption growth.csv')) %>%
+  write_csv(file.path(output_dir, 'Drivers of electricity consumption growth, March 2024.csv')) %>%
   #arrange(change_3m) %>% mutate(sector=factor(sector, levels=sector)) %>%
-  ggplot(aes(broad_sector, change*12/1e5, fill=sector)) + geom_col() +
+  ggplot(aes(broad_sector, change, fill=sector)) + geom_col() +
   geom_text(aes(label=str_wrap(sector, width=40)), position=position_stack(vjust=.5), size=3, color='white') + #, fill='white', check_overlap=F
   #geom_label(aes(label=str_wrap(sector, width=40)), position=position_stack(vjust=.5), size=3, fill='white', label.padding=unit(0, 'cm')) +
   scale_fill_manual(values=rep(unname(crea_palettes$CREA[c(1:7,14)]),100), guide='none') +
   x_at_zero() + theme_crea() +
   labs(title='Drivers of electricity consumption growth',
-       subtitle = 'Change from 2019 to 2023',
+       subtitle = 'Change from March 2023 to 2024',
        y='TWh', x='') -> p
-quicksave(file.path(output_dir, 'Drivers of electricity consumption growth.png'), plot=p, scale=1.33, footer_height=.03, logo=F)
+quicksave(file.path(output_dir, 'Drivers of electricity consumption growth, March 2024.png'), plot=p, scale=1.33, footer_height=.03, logo=F)
 
 
 elec_cons_sector %>%
