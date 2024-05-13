@@ -1,12 +1,10 @@
 read_industrial_output <- function(data_to_include=".*",
                                    skip_yoy_adjustment = 'Copper|Glass|Chemical Fibers|Solar$') {
   in_file = get_data_file("monthly industry stats with YoY.xlsx")
-  readwindEN(in_file, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=3) %>%
-    filter(grepl(data_to_include, prod)) -> prod
+  readwindEN(in_file, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=3) -> prod
 
   in_file_compare <- get_data_file('monthly industry stats.xlsx')
-  prod_compare <- readwindEN(in_file_compare, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=1) %>%
-    filter(grepl(data_to_include, prod))
+  prod_compare <- readwindEN(in_file_compare, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=1)
 
   if(max(prod$date) != max(prod_compare$date)){
     warning('The data in the two files do not match. Will merge_rows from the newer one.')
@@ -15,16 +13,11 @@ read_industrial_output <- function(data_to_include=".*",
     prod <- bind_rows(prod, prod_compare)
   }
 
-  data_summary <<- data_summary %>% bind_rows(check_dates(data = prod,
-                                                          file_name = "'monthly industry stats with YoY.xlsx' and 'monthly industry stats.xlsx'"))
-
-  yoy_2020M7 <- prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-07-31'] /
-    prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-07-31']
-
-  prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-05-31'] <-
-    prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-05-31'] * yoy_2020M7
-  prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-06-30'] <-
-    prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-06-30'] * yoy_2020M7
+  if(exists('data_summary')) {
+    data_summary <<- data_summary %>%
+      bind_rows(check_dates(data = prod,
+                            file_name = "'monthly industry stats with YoY.xlsx' and 'monthly industry stats.xlsx'"))
+  }
 
   #recode product names that differ between WIND data series
   prod$prod %<>%
@@ -38,9 +31,21 @@ read_industrial_output <- function(data_to_include=".*",
            'Rolled Steel'='Steel Materials',
            'Plate Glass'='Plain Glass')
 
+  prod %<>% filter(grepl(data_to_include, prod))
+
+  yoy_2020M7 <- prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-07-31'] /
+    prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-07-31']
+
+  prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-05-31'] <-
+    prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-05-31'] * yoy_2020M7
+  prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2020-06-30'] <-
+    prod$Value[grepl('Solar Cells', prod$prod) & prod$date=='2019-06-30'] * yoy_2020M7
+
   prod %>%
     mutate(YoY = !is.na(YoY),
-           battery_type=case_when(!grepl('Batter', prod)~NA, !grepl('\\(', prod)~'Total', T~prod %>% gsub('.*\\(|\\)', '', .)),
+           battery_type=case_when(!grepl('Batter', prod)~NA,
+                                  !grepl('\\(', prod)~'Total',
+                                  T~prod %>% gsub('.*\\(|\\)', '', .)),
            prod=disambiguate(prod, c('Battery'='Batter'))) %>%
     group_by(var, prod, battery_type) %>%
     filter(length(unique(YoY))==2,

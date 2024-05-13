@@ -172,9 +172,10 @@ seasonal <- function(df, year_range=0:9999) {
     })
 }
 
-roll12m <- function(df, months=12, outcol=paste0('Value', months, 'm'), incol='Value1m') {
+roll12m <- function(df, months=12, outcol=paste0('Value', months, 'm'), incol='Value1m', verbose=F) {
   df %>%
-    group_modify(function(df, ...) {
+    group_modify(function(df, group) {
+      if(verbose) message(group)
       addmonths(df) -> df
       df[[outcol]] <- zoo::rollapplyr(df[[incol]], width=months, mean, na.rm=T, fill=NA)
       return(df)
