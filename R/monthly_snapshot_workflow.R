@@ -12,21 +12,8 @@ build_snapshot <- function(focus_month = NULL,
   # fuel supply.xlsx
   # steel plant operating rates.xlsx
 
-  if (is.null(focus_month)) {
-    focus_month <- today() %>%
-      subtract(30) %>%
-      "day<-"(1)
-  }
-
-  if (is.null(month_subdir)) {
-    month_subdir <- paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m"))
-  }
-
-  month_dir <- file.path(base_dir, month_subdir)
-  dir.create(month_dir, showWarnings = F, recursive = T)
-
   if(snapshot_precheck){
-    check_wind_update(output_dir = month_dir)
+    check_wind_update()
   }
 
   data_summary <<- list()
@@ -46,6 +33,19 @@ build_snapshot <- function(focus_month = NULL,
   library(creahelpers)
   library(zoo)
   library(ggrepel)
+
+  if (is.null(focus_month)) {
+    focus_month <- today() %>%
+      subtract(30) %>%
+      "day<-"(1)
+  }
+
+  if (is.null(month_subdir)) {
+    month_subdir <- paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m"))
+  }
+
+  month_dir <- file.path(base_dir, month_subdir)
+  dir.create(month_dir, showWarnings = F, recursive = T)
 
   # preload air quality data
   aq <- get_aq(start_date = ymd("2019-01-01"), update_data = update_aq_data, source='mee')

@@ -277,8 +277,23 @@ d.quarter %>% filter(date==last_month) %>%
 
 
 d.quarter %>% ungroup %>%
-  dplyr::select(name, date, prod, sector, CO2, CO2_3m, CO2_12m) %>%
+  dplyr::select(basis_of_estimate=name, date, product=prod, sector,
+                CO2, CO2_3m_mean=CO2_3m, CO2_12m_mean=CO2_12m,
+                YoY_change_percent_1m_mean=YoY_1m,
+                YoY_change_percent_3m_mean=YoY_3m,
+                YoY_change_absolute_1m_mean=YoY_change_1m,
+                YoY_change_absolute_3m_mean=YoY_change_3m,
+                include_in_totals) %>%
+  mutate(unit='MtCO2/month') %>%
   write_csv(file.path(output_dir, 'CO2.csv'))
+
+old_path <- Sys.getenv("PATH")
+new_path <- "C:/Users/lauri/AppData/Local/GitHubDesktop/app-3.2.6/resources/app/git/cmd/git"
+Sys.setenv(PATH = paste(old_path, new_path, sep = ";"))
+
+system2('git', c('add', 'outputs/CO2.csv'))
+system2('git', c('commit', paste0("-m 'CO2 data until ",last_month,"'")))
+
 
 d.quarter %>% filter(include_in_totals | prod=='Total', name != 'reported') %>% ungroup %>%
   dplyr::select(name, date, prod, CO2_12m) %>% spread(prod, CO2_12m) %>%
