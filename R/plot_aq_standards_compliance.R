@@ -79,7 +79,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     labs(title=trans('PM2.5 concentrations in provincial capitals'),
          x='', y=trans('µg/m3'),
          subtitle=trans('12-month moving average'),
-         caption = paste(trans('Data until'), max(date(aq_capitals_12m$date)))) +
+         caption = paste(trans('Data until'), ceiling_date(focus_month, unit = 'month') - days(1))) +
     scale_linetype_manual(values='dotted', name='') -> p
   quicksave(file.path(output_dir, paste0('PM2.5 compliance in provincial capitals until ',
                                          ceiling_date(focus_month, unit = 'month') - days(1),
@@ -127,7 +127,7 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
     labs(title=trans('Ozone concentrations in provincial capitals'),
          x='', y=trans('µg/m3, 90th percentile of daily 8-hour maximum'),
          subtitle=trans('90th percentile over 12 months'),
-         caption = paste(trans('Data until'), max(date(aq_capitals_12m$date)))) +
+         caption = paste(trans('Data until'), ceiling_date(focus_month, unit = 'month') - days(1))) +
     scale_linetype_manual(values='dotted', name='') +
     scale_x_datetime(labels = yearlab) -> p
   quicksave(file.path(output_dir, paste0('Ozone compliance in provincial capitals until ',
