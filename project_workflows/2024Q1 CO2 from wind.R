@@ -273,26 +273,23 @@ d.quarter %<>% group_by(name, prod, sector) %>%
 
 
 d.quarter %>% filter(date==last_month) %>%
-  select(name, prod, sector, CO2_3m, YoY_1m, YoY_3m)
+  select(name, prod, sector, CO2_3m, YoY_1m, YoY_3m) %>% View
 
 
 d.quarter %>% ungroup %>%
   dplyr::select(basis_of_estimate=name, date, product=prod, sector,
                 CO2, CO2_3m_mean=CO2_3m, CO2_12m_mean=CO2_12m,
-                YoY_change_percent_1m_mean=YoY_1m,
+                YoY_change_percent_1m=YoY_1m,
                 YoY_change_percent_3m_mean=YoY_3m,
-                YoY_change_absolute_1m_mean=YoY_change_1m,
+                YoY_change_absolute_1m=YoY_change_1m,
                 YoY_change_absolute_3m_mean=YoY_change_3m,
                 include_in_totals) %>%
   mutate(unit='MtCO2/month') %>%
-  write_csv(file.path(output_dir, 'CO2.csv'))
+  write_csv(file.path('outputs', 'CO2.csv'))
 
-old_path <- Sys.getenv("PATH")
-new_path <- "C:/Users/lauri/AppData/Local/GitHubDesktop/app-3.2.6/resources/app/git/cmd/git"
-Sys.setenv(PATH = paste(old_path, new_path, sep = ";"))
-
-system2('git', c('add', 'outputs/CO2.csv'))
-system2('git', c('commit', paste0("-m 'CO2 data until ",last_month,"'")))
+system('git add outputs/CO2.csv')
+system(paste0('git commit -m "CO2 data until ',last_month,'"'))
+system('git push')
 
 
 d.quarter %>% filter(include_in_totals | prod=='Total', name != 'reported') %>% ungroup %>%
@@ -329,7 +326,7 @@ d.quarter %>%
   geom_area(aes(fill=prod)) +
   geom_line(aes(col='pre-COVID trend'),
             data=trend %>% filter(year(date)>=2012),
-            linetype='dashed', size=1) +
+            linetype='dashed', linewidth=1) +
   scale_x_date(expand=c(0,0)) +
   scale_y_continuous(expand=expansion(c(0,.05)), labels = scales::comma) +
   theme_crea() +
@@ -356,12 +353,6 @@ d.quarter %>% filter(prod=='Total', grepl('NBS', name),
   labs(title="China's CO2 emissions from energy and cement",
        subtitle="Quarterly", y='Mt CO2 / quarter', x='') -> plt
 quicksave(file.path(output_dir, 'CO2 quarterly.png'), plot=plt, footer_height=.025)
-
-
-
-
-d.quarter %>% group_by(name, sector, prod) %>%
-  mutate(YoY = get_yoy(CO2_3m, date)) %>% filter(date==last_month) %>% select(YoY) %>% data.frame
 
 
 
@@ -409,7 +400,8 @@ d.quarter %>% filter(prod=='Total', grepl('NBS', name)) %>%
        subtitle="monthly change, year-to-year", y='Mt CO2 / month', x='') +
   theme(plot.title = element_text(size=rel(1.8))) +
   scale_fill_crea_d('change', col.index = c(7, 1), guide='none') -> plt
-quicksave(file.path(output_dir, 'CO2 monthly change.png'), plot=plt, scale=1.33, footer_height=.03)
+quicksave(file.path(output_dir, 'CO2 monthly change.png'),
+          plot=plt, scale=1, logo=F)
 
 
 d.quarter %>% filter(include_in_totals, grepl('predicted', name)) %>%
@@ -450,6 +442,24 @@ d.changes %>% filter(prod != 'Total', date==last_month) %>%
   #x_at_zero() +
   scale_x_discrete(limits=rev) -> plt
 quicksave(file.path(output_dir, 'Contributions to emissions growth.png'), plot=plt, scale=1.33)
+
+d.changes %>% filter(prod != 'Total', date==last_month) %>%
+  mutate(prod=factor(prod, levels=names(prodcols)), Unit='Mt CO2') %>%
+  select(sector, prod, date, YoY_change_1m, Unit) %>%
+  write_csv(file.path(output_dir, 'Contributions to emissions growth, by sector.csv')) %>%
+  ggplot(aes(sector, YoY_change_1m, fill=prod)) +
+  geom_col() +
+  scale_y_continuous(expand=expansion(c(.05,.05))) +
+  theme_crea() +
+  scale_fill_manual(values=prodcols, name='Product') +
+  labs(title="Contributions to changes in emissions",
+       subtitle="in March 2024, compared with 2023", y='Mt CO2', x='') +
+  coord_flip() +
+  #x_at_zero() +
+  scale_x_discrete(limits=rev) -> plt
+quicksave(file.path(output_dir, 'Contributions to emissions growth, by sector.png'),
+          plot=plt, scale=1, logo=F)
+
 
 d.changes %>% filter(date==last_month) %>%
   select(sector, prod, YoY_change_1m, YoY_1m, CO2_1m) %T>% copy.xl %>%

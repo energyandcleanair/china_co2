@@ -12,7 +12,7 @@ prod %<>% mutate(sector_coal=
 
 
 #heating needs
-#read_csv('https://api.energyandcleanair.org/v1/weather?variable=HDD,CDD&format=csv&region_id=CN') -> dd
+read_csv('https://api.energyandcleanair.org/v1/weather?variable=HDD,CDD&format=csv&region_id=CN') -> dd
 
 dd %>% mutate(date = ymd(paste(year(date), month(date), days_in_month(date)))) %>%
   group_by(date, variable) %>% summarise(across(value, mean)) %>%

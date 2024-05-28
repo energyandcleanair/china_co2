@@ -36,6 +36,12 @@ read_power_generation <- function() {
     mutate(Value1m=na.approx(Value1m, date, date, na.rm=F)) %>%
     bind_rows(monthly %>% filter(var!='Capacity'))
 
+  #fill in biomass utilization
+  monthly %<>% filter(var=='Utilization') %>%
+    group_by(date) %>% filter("Biomass" %notin% subtype) %>%
+    filter(subtype=='Coal') %>%
+    mutate(Value1m=4515*days_in_month(date)/365, subtype='Biomass') %>%
+    bind_rows(monthly)
 
   monthly %<>% group_by(date, source, subtype) %>%
     summarise(Value1m=Value1m[var=='Capacity']*Value1m[var=='Utilization']/1e4*30/days_in_month(unique(date))) %>%
