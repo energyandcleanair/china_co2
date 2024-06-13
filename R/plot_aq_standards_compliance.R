@@ -143,21 +143,20 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
   if(one_month_plots) {
     for(poll in pollutants) {
       pollname_EN=recode(poll, o3='ozone', pm25='PM2.5', no2='NO2')
-      pollname=ifelse(poll=='o3', '臭氧', pollname_EN)
+      pollname=ifelse(poll=='o3', '\u81ed\u6c27', pollname_EN)
 
       plottitle_EN=paste(format(focus_month, '%B'),
                          ifelse(poll=='o3', '','average'),
                          pollname_EN,'levels in provincial capitals')
 
       plottitle = ifelse(lang=='EN', plottitle_EN,
-                         paste0("省会城市各年",month(focus_month), "月", pollname,
-                                ifelse(poll=='o3', '', '平均'),
-                                "浓度"))
-      subtitle=ifelse(poll=='o3', trans('average of daily 8-hour maximum'), '')
+                         paste0("\u7701\u4f1a\u57ce\u5e02\u5404\u5e74",
+                                month(focus_month), "\u6708", pollname,
+                                ifelse(poll=='o3', '', '\u5e73\u5747'),
+                                "\u6d53\u5ea6"))
+      subtitle=ifelse(poll=='o3', trans('90th percentile of daily 8-hour maximum'), '')
 
-      y_lab=case_when(poll=='o3' & lang=='EN'~'µg/m3, average of daily 8-hour maximum',
-                      poll=='o3' & lang=='ZH'~"微克/立方米，日最大8小时平均",
-                      T~trans('µg/m3'))
+      y_lab= trans('µg/m3')
 
       maxval=ifelse(poll=='pm25', 100, NA)
 
