@@ -99,6 +99,24 @@ pwr_growth_plot %>%
   select(date, label, broad_label, source, subtype, value=Value1m, contains('YoY'), Unit, data_source) %>%
   write_csv('outputs/power_data.csv')
 
-system('git add outputs/power_data.csv')
-system(paste0('git commit -m "power data until ',last_month,'"'))
-system('git push')
+pwr_data$monthly %>% filter(var=='Capacity', source %in% c('Wind', 'Solar')) %>%
+  group_by(source, subtype) %>%
+  mutate(change=Value1m-lag(Value1m),
+         plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1), year=as.factor(year(date))) %>%
+  group_by(source, subtype, year) %>%
+  mutate(change_cumulative=cumsum(change)) %>%
+  filter(year(date)>=2020) %>%
+  ggplot(aes(plotdate, change_cumulative/100, col=year)) + geom_line(linewidth=1) +
+  facet_wrap(~source, ncol=1, scales='free_y') +
+  theme_crea() + scale_color_crea_d('change', col.index = c(1:3,5:7)) +
+  x_at_zero() +
+  scale_x_date(date_labels = '%b') +
+  labs(title='Newly added power capacity, year-to-date', x='', y='GW') -> p
+quicksave(file.path(output_dir, 'Newly added wind and solar.png'),
+          plot=p, logo=F, scale=.8)
+
+if(F) {
+  system('git add outputs/power_data.csv')
+  system(paste0('git commit -m "power data until ',last_month,'"'))
+  system('git push')
+}
