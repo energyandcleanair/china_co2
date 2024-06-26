@@ -8,8 +8,10 @@ steel_indicator_plots <- function(lang=parent.frame()$lang,
 
   readwindEN(in_file, paste0('V', 1:3), read_vardata = T, zero_as_NA = T, force_last_of_month = F) -> steel
 
-  data_summary <<- data_summary %>% bind_rows(check_dates(data = steel,
-                                                          file_name = "steel plant operating rates.xlsx"))
+  if(exists('data_summary')) {
+    data_summary <<- data_summary %>% bind_rows(check_dates(data = steel,
+                                                            file_name = "steel plant operating rates.xlsx"))
+  }
 
   steel %>%
     filter(!is.na(Value), year(date)>=2015) %>%
