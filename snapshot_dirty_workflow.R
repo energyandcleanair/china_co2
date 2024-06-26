@@ -47,6 +47,9 @@ aq_compliance_plots(cities = china_admin_capitals,
                     lang=target_lang)
 
 
+last_month <- focus_month %>% 'day<-'(days_in_month(.))
+source('project_workflows/power generation plots 2024.R')
+
 shared_dir=file.path("G:/Shared drives/CREA-China/monthly snapshot",basename(output_dir))
 
 dir.create(shared_dir)
