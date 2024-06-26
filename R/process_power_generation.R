@@ -18,6 +18,7 @@ read_power_generation <- function() {
                                    Generation='Generation|Output'))) ->
     monthly
 
+  #calculate one-month heat rates from year-to-date averages
   monthly %<>% filter(var=='Heat rate') %>% addmonths() %>%
     group_by(year=year(date)) %>% group_modify(function(df, ...) {
       df %>% fill(Value, .direction='updown') %>%
@@ -27,13 +28,49 @@ read_power_generation <- function() {
 
   monthly %<>% group_by(var, source, subtype, type) %>% unYTD()
 
+  #fill missing data:
+  #Thermal utilization by fuel: last month's value
+  monthly %>% filter(var=='Utilization' & source=='Thermal' & !is.na(subtype)) %>%
+    group_by(subtype) %>% fill(Value1m, .direction='down') -> monthly_filled
+
+  #Solar utilization: last year's value * last month ytd yoy
+  monthly %>% filter(var=='Utilization' & source=='Solar') %>%
+    (function(df) {
+      for(i in which(is.na(df$Value1m))) {
+        last_month = df$date[i] %>% subtract(31) %>% 'day<-'(days_in_month(.))
+        last_month_value = df$Value1m[df$date==last_month]
+
+        last_year = df$date[i] %>% subtract(366) %>% 'day<-'(days_in_month(.))
+        last_year_value = df$Value1m[df$date==last_year]
+
+        last_month_last_year = df$date[i] %>% subtract(31+366) %>% 'day<-'(days_in_month(.))
+        last_month_last_year_value = df$Value1m[df$date==last_month]
+
+        filled_value = last_year_value * last_month_value / last_month_last_year_value
+
+        if(length(filled_value)==1) df$Value1m[i] <- filled_value
+      }
+      return(df)
+    }) %>%
+    bind_rows(monthly_filled) ->
+    monthly_filled
+
+  #Wind utilization: last year's value
+  monthly %>% filter(var=='Utilization' & source=='Wind') %>%
+    group_by(month=month(date)) %>% fill(Value1m, .direction='down') %>% ungroup %>% select(-month) %>%
+    bind_rows(monthly_filled) ->
+    monthly_filled
+
+  monthly %<>% anti_join(monthly_filled %>% select(var, source, subtype)) %>%
+    bind_rows(monthly_filled)
+
   #normalize consumption to 30 days
   monthly %<>% mutate(Value1m=Value1m*ifelse(var=='Consumption', 30/days_in_month(date), 1))
 
   #interpolate gaps in capacity data
   monthly %<>% filter(var=='Capacity') %>%
     group_by(source, subtype) %>% arrange(source, subtype, date) %>%
-    mutate(Value1m=na.approx(Value1m, date, date, na.rm=F)) %>%
+    mutate(Value1m=na.approx(Value1m, date, date, na.rm=F, rule=2)) %>%
     bind_rows(monthly %>% filter(var!='Capacity'))
 
   #fill in biomass utilization
@@ -69,10 +106,18 @@ read_power_generation <- function() {
     group_by(source, subtype, date) %>%
     filter((var=='Generation' & source %notin% c('Wind', 'Solar')) |
              (var=='Generation, calculated' & 'Generation' %notin% var) |
-             (var=='Generation, calculated' & source %in% c('Wind', 'Solar'))) %>%
+             (var=='Generation, calculated' & source %in% c('Wind', 'Solar')),
+           source != 'Total') %>%
     mutate(var='Generation, hybrid') %>%
+    #add totals
+    (function(df) {
+      df %>% filter(source!='Thermal' | !is.na(subtype)) %>%
+        group_by(var, Unit, date) %>%
+        summarise(across(Value1m, sum)) %>%
+        mutate(source='Total') %>%
+        bind_rows(df, .)
+    }) %>%
     bind_rows(monthly %>% filter(var!='Generation, hybrid'))
-
 
   "source	year	Value
 Wind	2022	7626.7
