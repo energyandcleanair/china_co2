@@ -1,11 +1,17 @@
 pwr_data <- read_power_generation()
 
+last_month <- max(pwr_data$monthly$date)
+
+ember <- read_csv(get_data_file("monthly_full_release_long_format-4.csv"))
+
 ember %>% filter(Area=='China', Unit=='TWh',
                  Variable %in% c('Wind', 'Solar', 'Coal', 'Gas', 'Hydro', 'Nuclear',
-                         'Biomass')) %>%
+                                 'Biomass')) %>%
   mutate(Value=Value*10,
          Variable=ifelse(Variable=='Bioenergy', 'Biomass', Variable),
-         source=ifelse(Variable %in% c('Coal', 'Gas', 'Biomass'), 'Thermal', Variable),
+         source=case_when(Variable %in% c('Coal', 'Gas', 'Biomass')~'Thermal',
+                          Variable=='Total Generation'~'Total',
+                          T~Variable),
          subtype=ifelse(Variable %in% c('Coal', 'Gas', 'Biomass'), Variable, NA),
          Date=Date %>% 'day<-'(days_in_month(Date))) %>%
   select(date=Date, Value1m=Value, source, subtype) %>%
@@ -21,17 +27,21 @@ pwr_data$monthly %>%
   pwr_growth_plot
 
 pwr_growth_plot %<>%
+  (function(df) {
+    df %>% filter(source!='Total',
+                  source!='Thermal' | !is.na(subtype)) %>%
+      group_by(var, Unit, date) %>%
+      summarise(across(Value1m, sum)) %>%
+      mutate(source='Total') %>%
+      bind_rows(df %>% filter(source!='Total'))
+  }) %>%
   group_by(source, subtype) %>%
   mutate(YoY_change_absolute_1m=get.yoy(Value1m, date, 'absolute'),
          label=na.cover(subtype, source)) %>%
-  filter(year(date)>2015, !is.na(YoY_change_absolute_1m)) -> #%>%
-  #filter(source != "Thermal" | (is.na(subtype) == (year(date)<2021)))
-  pwr_growth_plot
+  filter(year(date)>2015, !is.na(YoY_change_absolute_1m))
 
 
-pwr_growth_plot %<>% group_by(date, Unit) %>%
-  summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
-  mutate(label='Total', source='Total') %>% bind_rows(pwr_growth_plot) %>%
+pwr_growth_plot %<>%
   mutate(label=factor(label, levels=c('Coal', 'Gas', 'Thermal',
                                       'Biomass','Hydro', 'Nuclear',
                                       'Wind', 'Solar', 'Total')),
@@ -84,15 +94,36 @@ pwr_growth_plot %>%
   filter(!is.na(broad_label), broad_label!='Total') %>%
   group_by(date, broad_label, Unit) %>%
   summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
-  write_csv(file.path(output_dir, 'Growth in monthly power generation by source.csv')) %>%
-  ggplot(aes(date, YoY_change_absolute_1m/10, fill=broad_label)) +
-  geom_col() +
+  #write_csv(file.path(output_dir, 'Growth in monthly power generation by source.csv')) %>%
+  ggplot(aes(date, YoY_change_absolute_1m/10)) +
+  geom_col(aes(fill=broad_label)) +
+  geom_point(data=pwr_growth_plot %>% filter(label=='Total'),
+             mapping=aes(shape=label)) +
   theme_crea(legend.position='top') +
   labs(title='Growth in monthly power generation by source', y='TWh', fill='', x='') +
   scale_fill_crea_d('change', col.index = c(7,5,2,1),
                     guide=guide_legend(nrow=1)) +
-  scale_x_date(expand=expansion(mult=c(.01, .01))) -> p
+  scale_x_date(expand=expansion(mult=c(.01, .01))) +
+  scale_shape(name='') -> p
 quicksave(file.path(output_dir, 'Growth in monthly power generation by source.png'),
+          plot=p, logo=F, scale=1)
+
+
+pwr_growth_plot %>%
+  mutate(broad_label=case_when(label %in% c('Coal', 'Gas')~label, T~broad_label)) %>%
+  filter(!is.na(broad_label), broad_label!='Total') %>%
+  group_by(date, broad_label, Unit) %>%
+  summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
+  #write_csv(file.path(output_dir, 'Growth in monthly power generation by source.csv')) %>%
+  ggplot(aes(date, Value1m/10)) +
+  geom_col(aes(fill=broad_label), position='fill') +
+  theme_crea(legend.position='top') +
+  labs(title='Monthly power generation mix', y='TWh', fill='', x='') +
+  scale_fill_crea_d('change', col.index = c(7,5,2,1),
+                    guide=guide_legend(nrow=1)) +
+  scale_x_date(expand=expansion(mult=c(.01, .01))) +
+  x_at_zero(labels=scales::percent) -> p
+quicksave(file.path(output_dir, 'Monthly power generation mix.png'),
           plot=p, logo=F, scale=1)
 
 pwr_growth_plot %>%
