@@ -106,18 +106,18 @@ read_power_generation <- function() {
     group_by(source, subtype, date) %>%
     filter((var=='Generation' & source %notin% c('Wind', 'Solar')) |
              (var=='Generation, calculated' & 'Generation' %notin% var) |
-             (var=='Generation, calculated' & source %in% c('Wind', 'Solar')),
-           source != 'Total') %>%
+             (var=='Generation, calculated' & source %in% c('Wind', 'Solar'))) %>%
     mutate(var='Generation, hybrid') %>%
-    #add totals
-    (function(df) {
-      df %>% filter(source!='Thermal' | !is.na(subtype)) %>%
-        group_by(var, Unit, date) %>%
-        summarise(across(Value1m, sum)) %>%
-        mutate(source='Total') %>%
-        bind_rows(df, .)
-    }) %>%
     bind_rows(monthly %>% filter(var!='Generation, hybrid'))
+
+  #add totals
+  monthly %<>% filter(grepl('Generation', var),
+                     source != 'Total',
+                     source!='Thermal' | !is.na(subtype) | var=='Generation') %>%
+    group_by(var, Unit, date) %>%
+    summarise(across(Value1m, sum)) %>%
+    mutate(source='Total') %>%
+    bind_rows(monthly %>% filter(source != 'Total'), .)
 
   "source	year	Value
 Wind	2022	7626.7
