@@ -4,7 +4,7 @@ read_power_generation <- function() {
 
   #monthly_raw %>% distinct(var, source, subtype, type, Unit, Frequency) %>% print(n=30)
 
-  monthly_raw %>% filter(Frequency=='Month') %>%
+  monthly_raw %>% filter(Frequency=='Month', !(Source=='Wind' & var=='Electricity Generation')) %>%
     mutate(type=case_when(grepl('Coal Consumption Rate', var) ~ 'YTD mean',
                           grepl('YTD', Name) & !grepl('Capacity', var) ~ 'YTD',
                           T ~ 'single month'),
