@@ -1,4 +1,4 @@
-power_generation_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
+power_generation_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(days_in_month(.)),
                                    lang=parent.frame()$lang,
                                    output_dir=get('output_dir', envir=.GlobalEnv),
                                    make_additional_plots=F) { #make a number of plots in addition to the main ones
@@ -104,10 +104,11 @@ power_generation_plots <- function(focus_month=today() %>% subtract(30) %>% 'day
   }
 
   pwr_growth_plot %>%
-    filter(!is.na(broad_label), broad_label!='Total') %>%
+    filter(!is.na(broad_label)) %>%
     group_by(date, broad_label, Unit) %>%
     summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
     write_csv(file.path(output_dir, 'Growth in monthly power generation by source category.csv')) %>%
+    filter(broad_label!='Total') %>%
     ggplot(aes(date, YoY_change_absolute_1m/10)) +
     geom_col(aes(fill=broad_label)) +
     geom_point(data=pwr_growth_plot %>% filter(label=='Total'),
@@ -149,6 +150,7 @@ power_generation_plots <- function(focus_month=today() %>% subtract(30) %>% 'day
     group_by(source, subtype, year) %>%
     mutate(change_cumulative=cumsum(change)) %>%
     filter(year(date)>=2020) %>%
+    write_csv(file.path(output_dir, 'Newly added wind and solar.csv')) %>%
     ggplot(aes(plotdate, change_cumulative/100, col=year)) + geom_line(linewidth=1) +
     facet_wrap(~source, ncol=1, scales='free_y') +
     theme_crea() + scale_color_crea_d('change', col.index = c(1:3,5:7)) +
