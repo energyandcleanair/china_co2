@@ -101,6 +101,17 @@ power_generation_plots <- function(focus_month=today() %>% subtract(30) %>% 'day
       scale_fill_crea_d('change', col.index = c(7,5,2,1), guide='none')
     quicksave(file.path(output_dir, 'Growth in monthly clean and total power generation by source category, pivoted.png'),
               plot=p, logo=F, scale=1)
+
+    pwr_data$monthly %>% filter(var=='Utilization', year(date)>=2018) %>%
+      mutate(plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1), year=as.factor(year(date)),
+             label=na.cover(subtype, source)) %>%
+      ggplot(aes(plotdate, Value1m, col=year)) + facet_wrap(~label) + geom_line()
+
+    pwr_growth_plot %>% group_by(date) %>%
+      mutate(plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1), year=as.factor(year(date)),
+             generation_share = Value1m/Value1m[label=='Total']) %>%
+      filter(label %notin% c('Thermal', 'Total')) %>%
+      ggplot(aes(plotdate, generation_share, col=year)) + facet_wrap(~label, scales='free_y') + geom_line()
   }
 
   pwr_growth_plot %>%
