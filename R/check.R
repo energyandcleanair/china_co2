@@ -1,5 +1,5 @@
 check_aq_data <- function(aq, aq_dw, cities, focus_month = focus_month,
-                          n_polls=3, stop_if_fail = FALSE){
+                          n_polls=3, stop_if_fail = FALSE, threshold = 3){
 
   # Check that for each location_id and pollutant, there is data for the whole month
   aq_count <- aq %>%
@@ -26,7 +26,7 @@ check_aq_data <- function(aq, aq_dw, cities, focus_month = focus_month,
     group_by(location_id, pollutant) %>%
     summarise(n = n())
 
-  if(any(aq_dw_count$n != lubridate::days_in_month(focus_month))
+  if(any(aq_dw_count$n <= lubridate::days_in_month(focus_month) - threshold)
      || (nrow(aq_dw_count) != length(cities) * n_polls)){
     if(stop_if_fail){
       stop(glue(paste("Missing deweathered air quality data {min(aq_dw_count$n)}",
