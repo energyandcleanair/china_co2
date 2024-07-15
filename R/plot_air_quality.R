@@ -38,7 +38,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     filter(location_id %in% cities) %>%
     filter(month(date) == month(focus_month)) %>%
     group_by(city_name, pollutant_name, type, year=year(date)) %>%
-    dplyr::summarise(dplyr::across(c(value, anomaly), \(x) mean(x, na.rm = TRUE))) ->
+    dplyr::summarise(dplyr::across(c(value, anomaly), mean, na.rm=T)) ->
     aq_annual
 
   aq_dw$date %>% min() -> dw_start_date
@@ -47,7 +47,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     mutate(mean_value = mean(value[type=='measured' & year>=year(dw_start_date)]),
            value=case_when(type=='measured'~value, T~anomaly + mean_value))
 
-  aq_annual %>% filter(pollutant_name %in% c('PM2.5', 'NO2')) %>%
+  aq_annual %>% filter(pollutant_name %in% c('PM2.5', 'O3', 'NO2')) %>%
     group_by(pollutant_name) %>%
     group_map(function(plotdata, group) {
 
@@ -114,21 +114,21 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
       draw_label(trans(plot_title), size=22, fontface='bold', color=unname(pal_crea['Dark.blue']))
 
     title2 <- grid::textGrob(trans(plot_title),
-                           gp = gpar(fontface = "bold", cex = 1.5, col = unname(pal_crea['Dark.blue'])),
-                           just = 0,
-                           x = unit(0.02, "npc")
+                             gp = gpar(fontface = "bold", cex = 1.5, col = unname(pal_crea['Dark.blue'])),
+                             just = 0,
+                             x = unit(0.02, "npc")
     )
 
     subtitle <- grid::textGrob(trans(plot_subtitle),
-                              gp = gpar(cex = 1),
-                              just = 0,
-                              x = unit(0.02, "npc")
+                               gp = gpar(cex = 1),
+                               just = 0,
+                               x = unit(0.02, "npc")
     )
 
 
     plot_grid(title2, subtitle, g, ncol=1,
               rel_heights=c(0.06, 0.03, 1)
-              ) -> p
+    ) -> p
 
     quicksave(file.path(output_dir, paste0(plot_title, ', ', lang,'.png')), plot=p, footer_height=.05,
               png = T)
@@ -144,40 +144,9 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   plot_title="Year-on-year changes in pollutant concentrations in provincial capitals"
   plots %>% lapply('[[', 'plot_yoy') %>% rev() %>%
-    make_pollution_plot(plot_title=plot_title, plot_subtitle=plot_subtitle, rel_widths = c(0.33,0.67))
+    make_pollution_plot(plot_title=plot_title, plot_subtitle=plot_subtitle, rel_widths = c(.25,.25,.5))
 
   plots %>% lapply('[[', 'data_yoy') %>% bind_rows() %>% write_csv(file.path(output_dir, paste0(plot_title, '.csv')))
-
-  aq_all %>%
-    filter(location_id %in% cities) %>%
-    filter(month(date) == month(focus_month)) %>%
-    group_by(city_name, pollutant_name, type, year=year(date)) %>%
-    dplyr::summarise(dplyr::across(c(value), \(x) quantile(x, .9, na.rm = TRUE))) ->
-    aq_annual
-
-  aq_annual %>% filter(pollutant_name %in% c('O3')) %>%
-    group_by(pollutant_name) %>%
-    group_map(function(plotdata, group) {
-      plotdata %>% ungroup %>% filter(year==year(focus_month), type=='measured') %>% arrange(value) %>%
-        mutate(city_name = factor(city_name, levels=city_name), pollutant_name=group$pollutant_name) -> plotdata_means
-
-      plotdata_means %>%
-        ggplot(aes(city_name, value, fill=value)) + geom_col() + coord_flip() +
-        scale_fill_gradientn(colors=rcrea::pal_crea.change[c(1:2,5:7)], guide='none') +
-        theme_crea() +
-        lang_theme(lang=lang) +
-        x_at_zero() +
-        labs(x='',
-             y=trans('µg/m3'),
-             subtitle=toupper(trans(group$pollutant_name))) -> p_means
-    }) -> plots
-
-  plot_title="Monthly pollutant concentrations in provincial capitals (90th percentile)"
-  plot_subtitle=monthyearlab(focus_month)
-  plots %>% lapply('[[', 'plot_means') %>% rev %>% make_pollution_plot(plot_title=plot_title,
-                                                                       plot_subtitle=plot_subtitle)
-
-  plots %>% lapply('[[', 'data_means') %>% bind_rows() %>% write_csv(file.path(output_dir, paste0(plot_title, ', ', lang, '.csv')))
 
 
   #worst episodes (PM2.5, non-sandstorm PM2.5, O3)
@@ -197,7 +166,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
            & replace_nil_with_NA(value[pollutant_name=='NO2']) <20
            & replace_nil_with_NA(value[pollutant_name=='SO2']) <20,
            sand_storm = tidyr::replace_na(sand_storm, F)
-           ) ->
+    ) ->
     aq_episodes
 
   bind_rows(aq_episodes %>% filter(pollutant_name=='PM2.5') %>% mutate(value = ifelse(sand_storm, value, 0), pollutant_name='sandstorms (PM2.5)'),
@@ -333,9 +302,9 @@ get_aq <- function(start_date=ymd('2022-01-01'),
         #read 1-hour max NO2
         if(F) {
           source_url <- paste0("https://api.energyandcleanair.org/measurements?",
-                          glue("country={country}&source={source}"),
-                          "&pollutant=no2&process=city_max_day_mad",
-                          "&level=city&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv")
+                               glue("country={country}&source={source}"),
+                               "&pollutant=no2&process=city_max_day_mad",
+                               "&level=city&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv")
 
           read_csv_and_retry(url=source_url) -> conc_1h
         }
@@ -386,7 +355,7 @@ get_deweathered_aq <- function(cities,
               )
             }) %>%
             bind_rows()
-      }) %>%
+        }) %>%
       bind_rows %>%
       dplyr::rename(anomaly=value) %>%
       bind_rows(aq) -> aq
