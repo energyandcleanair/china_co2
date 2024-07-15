@@ -38,7 +38,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     filter(location_id %in% cities) %>%
     filter(month(date) == month(focus_month)) %>%
     group_by(city_name, pollutant_name, type, year=year(date)) %>%
-    dplyr::summarise(dplyr::across(c(value, anomaly), mean, na.rm=T)) ->
+    dplyr::summarise(dplyr::across(c(value, anomaly), \(x) mean(x, na.rm = TRUE))) ->
     aq_annual
 
   aq_dw$date %>% min() -> dw_start_date
@@ -47,7 +47,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     mutate(mean_value = mean(value[type=='measured' & year>=year(dw_start_date)]),
            value=case_when(type=='measured'~value, T~anomaly + mean_value))
 
-  aq_annual %>% filter(pollutant_name %in% c('PM2.5', 'O3', 'NO2')) %>%
+  aq_annual %>% filter(pollutant_name %in% c('PM2.5', 'NO2')) %>%
     group_by(pollutant_name) %>%
     group_map(function(plotdata, group) {
 
@@ -144,9 +144,40 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   plot_title="Year-on-year changes in pollutant concentrations in provincial capitals"
   plots %>% lapply('[[', 'plot_yoy') %>% rev() %>%
-    make_pollution_plot(plot_title=plot_title, plot_subtitle=plot_subtitle, rel_widths = c(.25,.25,.5))
+    make_pollution_plot(plot_title=plot_title, plot_subtitle=plot_subtitle, rel_widths = c(0.33,0.67))
 
   plots %>% lapply('[[', 'data_yoy') %>% bind_rows() %>% write_csv(file.path(output_dir, paste0(plot_title, '.csv')))
+
+  aq_all %>%
+    filter(location_id %in% cities) %>%
+    filter(month(date) == month(focus_month)) %>%
+    group_by(city_name, pollutant_name, type, year=year(date)) %>%
+    dplyr::summarise(dplyr::across(c(value), \(x) quantile(x, .9, na.rm = TRUE))) ->
+    aq_annual
+
+  aq_annual %>% filter(pollutant_name %in% c('O3')) %>%
+    group_by(pollutant_name) %>%
+    group_map(function(plotdata, group) {
+      plotdata %>% ungroup %>% filter(year==year(focus_month), type=='measured') %>% arrange(value) %>%
+        mutate(city_name = factor(city_name, levels=city_name), pollutant_name=group$pollutant_name) -> plotdata_means
+
+      plotdata_means %>%
+        ggplot(aes(city_name, value, fill=value)) + geom_col() + coord_flip() +
+        scale_fill_gradientn(colors=rcrea::pal_crea.change[c(1:2,5:7)], guide='none') +
+        theme_crea() +
+        lang_theme(lang=lang) +
+        x_at_zero() +
+        labs(x='',
+             y=trans('µg/m3'),
+             subtitle=toupper(trans(group$pollutant_name))) -> p_means
+    }) -> plots
+
+  plot_title="Monthly pollutant concentrations in provincial capitals (90th percentile)"
+  plot_subtitle=monthyearlab(focus_month)
+  plots %>% lapply('[[', 'plot_means') %>% rev %>% make_pollution_plot(plot_title=plot_title,
+                                                                       plot_subtitle=plot_subtitle)
+
+  plots %>% lapply('[[', 'data_means') %>% bind_rows() %>% write_csv(file.path(output_dir, paste0(plot_title, ', ', lang, '.csv')))
 
 
   #worst episodes (PM2.5, non-sandstorm PM2.5, O3)
