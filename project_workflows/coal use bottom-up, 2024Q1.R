@@ -34,7 +34,8 @@ d %>% ungroup %>% filter(grepl('Coking|Steam', prod), sector != 'Total', !is.na(
 
 #ember <- get_ember_monthly_data(last_month)
 pwr_data <- read_power_generation()
-ember <- read_csv(get_data_file("monthly_full_release_long_format-4.csv"))
+ember <- read_csv("https://ember-climate.org/app/uploads/2022/07/monthly_full_release_long_format-4.csv")
+#ember <- read_csv(get_data_file("monthly_full_release_long_format-4.csv"))
 
 ember %>%
   set_names(make.names(names(.))) %>%
@@ -175,7 +176,7 @@ pwr %>% group_by(date, source) %>%
 
 pwr_plot %>% filter(grepl('Electri|Hydro|Thermal', source), year(date) %in% 2019:year(last_month)) %>%
   mutate(year=year(date), month=month(date)) %>%
-  ggplot(aes(month, Value1m, col=as.factor(year))) + geom_line() + facet_wrap(~source, scales='free_y')
+  ggplot(aes(month, Value1m, col=as.factor(year))) + geom_line() + facet_wrap(~source+subtype, scales='free_y')
 
 #get effect of heating and cooling demands
 infile <- get_data_file('Electricity consumption by sector YTD.xlsx')
