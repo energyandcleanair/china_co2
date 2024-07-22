@@ -4,7 +4,8 @@ power_generation_plots <- function(focus_month=today() %>% subtract(30) %>% 'day
                                    make_additional_plots=F) { #make a number of plots in addition to the main ones
   pwr_data <- read_power_generation()
 
-  ember <- read_csv(get_data_file("monthly_full_release_long_format-4.csv"))
+  try(ember <- read_csv("https://ember-climate.org/app/uploads/2022/07/monthly_full_release_long_format-4.csv"))
+  if(!exists("ember")) ember <- read_csv(get_data_file("monthly_full_release_long_format-4.csv"))
 
   ember %>% filter(Area=='China', Unit=='TWh',
                    Variable %in% c('Wind', 'Solar', 'Coal', 'Gas', 'Hydro', 'Nuclear',
