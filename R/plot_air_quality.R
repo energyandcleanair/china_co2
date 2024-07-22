@@ -114,21 +114,21 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
       draw_label(trans(plot_title), size=22, fontface='bold', color=unname(pal_crea['Dark.blue']))
 
     title2 <- grid::textGrob(trans(plot_title),
-                           gp = gpar(fontface = "bold", cex = 1.5, col = unname(pal_crea['Dark.blue'])),
-                           just = 0,
-                           x = unit(0.02, "npc")
+                             gp = gpar(fontface = "bold", cex = 1.5, col = unname(pal_crea['Dark.blue'])),
+                             just = 0,
+                             x = unit(0.02, "npc")
     )
 
     subtitle <- grid::textGrob(trans(plot_subtitle),
-                              gp = gpar(cex = 1),
-                              just = 0,
-                              x = unit(0.02, "npc")
+                               gp = gpar(cex = 1),
+                               just = 0,
+                               x = unit(0.02, "npc")
     )
 
 
     plot_grid(title2, subtitle, g, ncol=1,
               rel_heights=c(0.06, 0.03, 1)
-              ) -> p
+    ) -> p
 
     quicksave(file.path(output_dir, paste0(plot_title, ', ', lang,'.png')), plot=p, footer_height=.05,
               png = T)
@@ -166,7 +166,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
            & replace_nil_with_NA(value[pollutant_name=='NO2']) <20
            & replace_nil_with_NA(value[pollutant_name=='SO2']) <20,
            sand_storm = tidyr::replace_na(sand_storm, F)
-           ) ->
+    ) ->
     aq_episodes
 
   bind_rows(aq_episodes %>% filter(pollutant_name=='PM2.5') %>% mutate(value = ifelse(sand_storm, value, 0), pollutant_name='sandstorms (PM2.5)'),
@@ -302,9 +302,9 @@ get_aq <- function(start_date=ymd('2022-01-01'),
         #read 1-hour max NO2
         if(F) {
           source_url <- paste0("https://api.energyandcleanair.org/measurements?",
-                          glue("country={country}&source={source}"),
-                          "&pollutant=no2&process=city_max_day_mad",
-                          "&level=city&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv")
+                               glue("country={country}&source={source}"),
+                               "&pollutant=no2&process=city_max_day_mad",
+                               "&level=city&sort_by=asc(location_id),asc(pollutant),asc(date)&format=csv")
 
           read_csv_and_retry(url=source_url) -> conc_1h
         }
@@ -355,7 +355,7 @@ get_deweathered_aq <- function(cities,
               )
             }) %>%
             bind_rows()
-      }) %>%
+        }) %>%
       bind_rows %>%
       dplyr::rename(anomaly=value) %>%
       bind_rows(aq) -> aq
