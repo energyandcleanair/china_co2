@@ -98,20 +98,28 @@ power_generation_plots <- function(focus_month=today() %>% subtract(30) %>% 'day
       geom_col() +
       theme_crea() +
       labs(title='Growth in monthly power generation by source', y='TWh', fill='') +
-      scale_fill_crea_d('change', col.index = c(7,5,2,1), guide='none')
+      scale_fill_crea_d('change', col.index = c(7,5,2,1), guide='none') -> p
     quicksave(file.path(output_dir, 'Growth in monthly clean and total power generation by source category, pivoted.png'),
               plot=p, logo=F, scale=1)
 
     pwr_data$monthly %>% filter(var=='Utilization', year(date)>=2018) %>%
       mutate(plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1), year=as.factor(year(date)),
              label=na.cover(subtype, source)) %>%
-      ggplot(aes(plotdate, Value1m, col=year)) + facet_wrap(~label) + geom_line()
+      ggplot(aes(plotdate, Value1m, col=year)) + facet_wrap(~label) + geom_line() +
+      labs(title='Monthly running hours') +
+      scale_x_date(date_labels = '%b') -> p
+    quicksave(file.path(output_dir, 'Monthly running hours.png'),
+              plot=p, logo=F, scale=1)
 
     pwr_growth_plot %>% group_by(date) %>%
       mutate(plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1), year=as.factor(year(date)),
              generation_share = Value1m/Value1m[label=='Total']) %>%
       filter(label %notin% c('Thermal', 'Total')) %>%
-      ggplot(aes(plotdate, generation_share, col=year)) + facet_wrap(~label, scales='free_y') + geom_line()
+      ggplot(aes(plotdate, generation_share, col=year)) + facet_wrap(~label, scales='free_y') + geom_line() +
+      labs(title='Monthly shares of generation by technology') +
+      scale_x_date(date_labels = '%b') -> p
+    quicksave(file.path(output_dir, 'Monthly shares of generation by technology.png'),
+              plot=p, logo=F, scale=1)
   }
 
   pwr_growth_plot %>%
@@ -157,7 +165,7 @@ power_generation_plots <- function(focus_month=today() %>% subtract(30) %>% 'day
   pwr_data$monthly %>% filter(var=='Capacity', source %in% c('Wind', 'Solar')) %>%
     group_by(source, subtype) %>%
     mutate(change=Value1m-lag(Value1m),
-           plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1), year=as.factor(year(date))) %>%
+           plotdate=date %>% 'year<-'(2022), year=as.factor(year(date))) %>%
     group_by(source, subtype, year) %>%
     mutate(change_cumulative=cumsum(change)) %>%
     filter(year(date)>=2020) %>%
