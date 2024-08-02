@@ -123,6 +123,13 @@ power_generation_plots <- function(focus_month=today() %>% subtract(30) %>% 'day
               plot=p, logo=F, scale=1)
   }
 
+  # power generation data with subtype
+  pwr_growth_plot %>%
+    filter(!is.na(broad_label)) %>%
+    group_by(date, source, subtype, Unit) %>%
+    summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
+    write_csv(file.path(output_dir, 'Growth in monthly power generation by source.csv'))
+
   pwr_growth_plot %>%
     filter(!is.na(broad_label)) %>%
     group_by(date, broad_label, Unit) %>%
