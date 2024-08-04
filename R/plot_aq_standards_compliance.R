@@ -162,9 +162,8 @@ aq_compliance_plots <- function(start_date=ymd('2019-01-01'),
 
       aq_capitals %>% filter(pollutant==poll) %>%
         group_by(city_name, month=date %>% 'day<-'(1), pollutant) %>%
+        summarise(across(value, ~ mean(.x, na.rm = TRUE))) %>%
         filter(month <= focus_month, month(month)==month(focus_month)) %>%
-        summarise(value = case_when(poll == 'o3' ~ quantile(value, .9, na.rm = TRUE),
-                                    T ~ mean(value, na.rm = TRUE))) %>%
         write_csv(file.path(output_dir, paste0(plottitle_EN, '.csv'))) %>%
         group_by(city_name) %>% mutate(rank=rank(value)) %>%
         ggplot(aes(year(month), value, fill=rank)) + geom_col() + facet_wrap(~city_name) +
