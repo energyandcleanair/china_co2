@@ -61,39 +61,53 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
                Coal = unname(crea_palettes$CREA['Black']),
                Gas = unname(crea_palettes$CREA['Light.gray']))
 
+  if(lang == 'ZH'){
+    names(pwr_cols) <- pwr_cols %>% names() %>% trans
+  }
+
   if(make_additional_plots) {
     p <- pwr_growth_plot %>% filter(label %notin% c('Total', 'Thermal')) %>%
-      ggplot(aes(date, YoY_change_absolute_1m / 10, fill = label)) +
+      ggplot(aes(date, YoY_change_absolute_1m / 10, fill = trans(label))) +
       geom_col() +
       scale_fill_manual(values = pwr_cols) +
       theme_crea() +
-      labs(title = 'Growth in monthly power generation by source', y = 'TWh', fill = '')
-    quicksave(file.path(output_dir, 'Growth in monthly power generation by source.png'),
+      labs(title = trans('Growth in monthly power generation by source'),
+           x = '', y = trans('TWh'), fill = '')
+    quicksave(file.path(output_dir,
+                        paste0('Growth in monthly power generation by source ',
+                               lang, '.png')),
               plot = p, logo = F, scale = 1)
 
 
-    p <- pwr_growth_plot %>% filter(label %in% c('Solar', 'Wind', 'Nuclear', 'Biomass')) %>%
+    p <- pwr_growth_plot %>%
+      filter(label %in% c('Solar', 'Wind', 'Nuclear', 'Biomass')) %>%
       ggplot(aes(date, YoY_change_absolute_1m / 10)) +
-      geom_col(aes(fill = label)) +
-      geom_point(data=pwr_growth_plot %>% filter(label == 'Total'), aes(col = label)) +
+      geom_col(aes(fill = trans(label))) +
+      geom_point(data = pwr_growth_plot %>% filter(label == 'Total'),
+                 aes(col = trans(label))) +
       scale_fill_manual(values = pwr_cols) +
       theme_crea() +
-      labs(title = 'Growth in monthly clean and total power generation by source',
-           y = 'TWh', fill = '', col = '')
-    quicksave(file.path(output_dir, 'Growth in monthly clean and total power generation by source.png'),
+      labs(title = trans('Growth in monthly clean and total power generation by source'),
+           x = '', y = trans('TWh'), fill = '', col = '')
+    quicksave(file.path(output_dir,
+                        paste0('Growth in monthly clean and total power generation by source ',
+                               lang, '.png')),
               plot = p, logo = F, scale = 1)
 
 
     p <- pwr_growth_plot %>%
       filter(label %in% c('Solar', 'Wind', 'Nuclear', 'Biomass', 'Coal',
                           'Gas', 'Hydro', 'Total')) %>%
-      ggplot(aes(date, YoY_change_absolute_1m / 10, fill = label)) +
-      facet_wrap(~label) +
+      ggplot(aes(date, YoY_change_absolute_1m / 10, fill = trans(label))) +
+      facet_wrap(~ trans(label)) +
       geom_col() +
       scale_fill_manual(values = pwr_cols) +
       theme_crea() +
-      labs(title = 'Growth in monthly power generation by source', y = 'TWh', fill = '')
-    quicksave(file.path(output_dir, 'Growth in monthly clean and total power generation by source, pivoted.png'),
+      labs(title = trans('Growth in monthly power generation by source'),
+           x = '', y = trans('TWh'), fill = '')
+    quicksave(file.path(output_dir,
+                        paste0('Growth in monthly clean and total power generation by source, pivoted',
+                               lang, '.png')),
               plot = p, logo = F, scale = 1)
 
 
@@ -101,13 +115,16 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
       filter(!is.na(broad_label)) %>%
       group_by(date, broad_label) %>%
       summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
-      ggplot(aes(date, YoY_change_absolute_1m / 10, fill = broad_label)) +
-      facet_wrap(~broad_label) +
+      ggplot(aes(date, YoY_change_absolute_1m / 10, fill = trans(broad_label))) +
+      facet_wrap(~ trans(broad_label)) +
       geom_col() +
       theme_crea() +
-      labs(title = 'Growth in monthly power generation by source', y = 'TWh', fill = '') +
+      labs(title = trans('Growth in monthly power generation by source'),
+           x = '', y = trans('TWh'), fill = '') +
       scale_fill_crea_d('change', col.index = c(7, 5, 2, 1), guide = 'none')
-    quicksave(file.path(output_dir, 'Growth in monthly clean and total power generation by source category, pivoted.png'),
+    quicksave(file.path(output_dir,
+                        paste0('Growth in monthly clean and total power generation by source category, pivoted',
+                               lang, '.png')),
               plot = p, logo = F, scale = 1)
 
     p <- pwr_data$monthly %>% filter(var == 'Utilization', year(date) >= 2018) %>%
@@ -115,11 +132,11 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
              year = as.factor(year(date)),
              label = na.cover(subtype, source)) %>%
       ggplot(aes(plotdate, Value1m, col = year)) +
-      facet_wrap(~label) +
+      facet_wrap(~ trans(label)) +
       geom_line() +
-      labs(title = 'Monthly running hours') +
-      scale_x_date(date_labels = '%b')
-    quicksave(file.path(output_dir, 'Monthly running hours.png'),
+      labs(title = 'Monthly running hours', x = '', y = trans('hours'), col = '') +
+      scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708'))
+    quicksave(file.path(output_dir, paste0('Monthly running hours ', lang, '.png')),
               plot = p, logo = F, scale = 1)
 
     p <- pwr_growth_plot %>% group_by(date) %>%
@@ -128,11 +145,15 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
              generation_share = Value1m / Value1m[label == 'Total']) %>%
       filter(label %notin% c('Thermal', 'Total')) %>%
       ggplot(aes(plotdate, generation_share, col = year)) +
-      facet_wrap(~label, scales = 'free_y') +
-      geom_line() +
-      labs(title = 'Monthly shares of generation by technology') +
-      scale_x_date(date_labels = '%b')
-    quicksave(file.path(output_dir, 'Monthly shares of generation by technology.png'),
+      facet_wrap(~ trans(label), scales = 'free_y') +
+      geom_line(labels = scales::percent) +
+      labs(title = trans('Monthly shares of generation by technology'),
+           x = '', y = '', col = '') +
+      scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708')) +
+      scale_y_continuous(labels = scales::percent)
+    quicksave(file.path(output_dir,
+                        paste0('Monthly shares of generation by technology ',
+                               lang, '.png')),
               plot = p, logo = F, scale = 1)
   }
 
@@ -147,33 +168,37 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     filter(!is.na(broad_label)) %>%
     group_by(date, broad_label, Unit) %>%
     summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
-    write_csv(file.path(output_dir, 'Growth in monthly power generation by source category.csv')) %>%
+    write_csv(file.path(output_dir,
+                        'Growth in monthly power generation by source category.csv')) %>%
     filter(broad_label != 'Total') %>%
     ggplot(aes(date, YoY_change_absolute_1m / 10)) +
-    geom_col(aes(fill = broad_label)) +
+    geom_col(aes(fill = trans(broad_label))) +
     geom_point(data = pwr_growth_plot %>% filter(label == 'Total'),
-               mapping = aes(shape = label)) +
+               mapping = aes(shape = trans(label))) +
     theme_crea(legend.position = 'top') +
-    labs(title = 'Growth in monthly power generation by source',
-         y = 'TWh', fill = '', x = '') +
+    labs(title = trans('Growth in monthly power generation by source'),
+         y = trans('TWh'), fill = '', x = '') +
     scale_fill_crea_d('change', col.index = c(7, 5, 2, 1),
                       guide = guide_legend(nrow = 1)) +
     scale_x_date(expand = expansion(mult = c(.01, .01))) +
     scale_shape(name = '')
-  quicksave(file.path(output_dir, 'Growth in monthly power generation by source category.png'),
+  quicksave(file.path(output_dir,
+                      paste0('Growth in monthly power generation by source category ',
+                             lang, '.png')),
             plot = p, logo = F, scale = 1)
 
 
   p <- pwr_growth_plot %>%
-    mutate(broad_label=case_when(label %in% c('Coal', 'Gas') ~ label,
-                                 T ~ broad_label)) %>%
+    mutate(broad_label = case_when(label %in% c('Coal', 'Gas') ~ label,
+                                   T ~ broad_label)) %>%
     filter(!is.na(broad_label), broad_label != 'Total') %>%
     group_by(date, broad_label, Unit) %>%
     summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
     ggplot(aes(date, Value1m / 10)) +
-    geom_col(aes(fill = broad_label), position = 'fill') +
+    geom_col(aes(fill = trans(broad_label)), position = 'fill') +
     theme_crea(legend.position = 'top') +
-    labs(title = 'Monthly power generation mix', y = 'TWh', fill = '', x = '') +
+    labs(title = trans('Monthly power generation mix'), y = trans('TWh'),
+         fill = '', x = '') +
     scale_fill_crea_d('change', col.index = c(7, 5, 2, 1),
                       guide = guide_legend(nrow = 1)) +
     scale_x_date(expand = expansion(mult=c(.01, .01))) +
@@ -198,12 +223,13 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     write_csv(file.path(output_dir, 'Newly added wind and solar.csv')) %>%
     ggplot(aes(plotdate, change_cumulative / 100, col = year)) +
     geom_line(linewidth = 1) +
-    facet_wrap(~source, ncol = 1, scales = 'free_y') +
+    facet_wrap(~ trans(source), ncol = 1, scales = 'free_y') +
     theme_crea() +
     scale_color_crea_d('change', col.index = c(1:3, 5:7)) +
     x_at_zero() +
-    scale_x_date(date_labels = '%b') +
-    labs(title = 'Newly added power capacity, year-to-date', x = '', y = 'GW')
+    scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708')) +
+    labs(title = trans('Newly added power capacity, year-to-date'),
+         x = '', y = trans('GW'), col = '')
   quicksave(file.path(output_dir, 'Newly added wind and solar.png'),
             plot = p, logo = F, scale = .8)
 
