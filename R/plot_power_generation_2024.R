@@ -168,8 +168,8 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     filter(!is.na(broad_label)) %>%
     group_by(date, broad_label, Unit) %>%
     summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
-    # write_csv(file.path(output_dir,
-    #                     'Growth in monthly power generation by source category.csv')) %>%
+    write_csv(file.path(output_dir,
+                        'Growth in monthly power generation by source category.csv')) %>%
     filter(broad_label != 'Total') %>%
     ggplot(aes(date, YoY_change_absolute_1m / 10)) +
     geom_col(aes(fill = trans(broad_label))) +
