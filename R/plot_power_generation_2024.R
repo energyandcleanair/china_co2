@@ -168,16 +168,17 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     filter(!is.na(broad_label)) %>%
     group_by(date, broad_label, Unit) %>%
     summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
-    write_csv(file.path(output_dir,
-                        'Growth in monthly power generation by source category.csv')) %>%
+    # write_csv(file.path(output_dir,
+    #                     'Growth in monthly power generation by source category.csv')) %>%
     filter(broad_label != 'Total') %>%
     ggplot(aes(date, YoY_change_absolute_1m / 10)) +
     geom_col(aes(fill = trans(broad_label))) +
-    geom_point(data = pwr_growth_plot %>% filter(label == 'Total'),
+    geom_point(data = pwr_growth_plot %>% filter(label == 'Total') %>%
+                 mutate(label = 'Total growth'),
                mapping = aes(shape = trans(label))) +
     theme_crea(legend.position = 'top') +
     labs(title = trans('Growth in monthly power generation by source'),
-         y = trans('TWh'), fill = '', x = '') +
+         y = trans('TWh'), fill = '', x = '', shape = 'test') +
     scale_fill_crea_d('change', col.index = c(7, 5, 2, 1),
                       guide = guide_legend(nrow = 1)) +
     scale_x_date(expand = expansion(mult = c(.01, .01))) +
@@ -203,7 +204,7 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
                       guide = guide_legend(nrow = 1)) +
     scale_x_date(expand = expansion(mult=c(.01, .01))) +
     x_at_zero(labels = scales::percent)
-  quicksave(file.path(output_dir, 'Monthly power generation mix.png'),
+  quicksave(file.path(output_dir, paste0('Monthly power generation mix ', lang, '.png')),
             plot = p, logo = F, scale = 1)
 
   pwr_growth_plot %>%
@@ -230,7 +231,7 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708')) +
     labs(title = trans('Newly added power capacity, year-to-date'),
          x = '', y = trans('GW'), col = '')
-  quicksave(file.path(output_dir, 'Newly added wind and solar.png'),
+  quicksave(file.path(output_dir, paste0('Newly added wind and solar ', lang, '.png')),
             plot = p, logo = F, scale = .8)
 
   # I couldn't get this to run in the function; it does run in the terminal -Lauri
