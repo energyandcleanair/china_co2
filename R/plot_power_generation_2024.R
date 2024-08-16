@@ -98,17 +98,20 @@ power_generation_plots <- function(focus_month=today() %>% subtract(30) %>% 'day
       facet_wrap(~broad_label) +
       geom_col() +
       theme_crea() +
-      labs(title='Growth in monthly power generation by source', y='TWh', fill='') +
+      labs(title='Growth in monthly power generation by source', y='TWh', fill='', x='') +
       scale_fill_crea_d('change', col.index = c(7,5,2,1), guide='none') -> p
     quicksave(file.path(output_dir, 'Growth in monthly clean and total power generation by source category, pivoted.png'),
               plot=p, logo=F, scale=1)
 
-    pwr_data$monthly %>% filter(var=='Utilization', year(date)>=2018) %>%
+    pwr_data$monthly %>% filter(var=='Utilization', !(subtype %eqna% 'Biomass'), year(date)>=2018,
+                                year(date)>=2020 | is.na(subtype) | subtype %notin% c('Coal', 'Gas')) %>%
       mutate(plotdate=date %>% 'year<-'(2022) %>% 'day<-'(1), year=as.factor(year(date)),
              label=na.cover(subtype, source)) %>%
       ggplot(aes(plotdate, Value1m, col=year)) + facet_wrap(~label) + geom_line() +
       labs(title='Monthly running hours') +
-      scale_x_date(date_labels = '%b') -> p
+      scale_x_date(date_labels = '%b') +
+      theme_crea() +
+      scale_color_crea_d('change') -> p
     quicksave(file.path(output_dir, 'Monthly running hours.png'),
               plot=p, logo=F, scale=1)
 
