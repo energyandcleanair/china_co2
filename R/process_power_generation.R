@@ -1,5 +1,5 @@
 read_power_generation <- function() {
-  readwindEN('inst/extdata/generation-consumption-utilization-capacity.xlsx',
+  readwindEN(get_data_file('generation-consumption-utilization-capacity.xlsx'),
              c('var', 'source', 'subtype'), read_vardata = T, skip=3, zero_as_NA = T) -> monthly_raw
 
   #monthly_raw %>% distinct(var, source, subtype, type, Unit, Frequency) %>% print(n=30)
