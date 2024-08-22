@@ -1,5 +1,5 @@
 # download AQ data --------------------------------------------------------
-get_aq <- function(date_from, date_to, cities = NULL){
+get_hourly_aq <- function(date_from, date_to, cities = NULL){
   seq.Date(ymd(date_from) - day(1), ymd(date_to), by = 'week') %>%
     pbapply::pblapply(function(start_date) {
       message(start_date)
@@ -50,7 +50,7 @@ get_sandstorm_dates <- function(date_from, date_to, cities = NULL){
   start_date <- date_from
   end_date <- date_to
 
-  aq_data <- get_aq(start_date, end_date, cities = cities)
+  aq_data <- get_hourly_aq(start_date, end_date, cities = cities)
 
 
   # sandstorm detection -----------------------------------------------------
