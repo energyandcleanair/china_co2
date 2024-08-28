@@ -1,15 +1,8 @@
+#wind and solar utilization prediction using data from CREA API
+
 source('load_package.R')
 
 pwr_data <- read_power_generation()
-
-read_csv('outputs/power_data.csv') -> pwr_growth_plot
-
-
-pwr_growth_plot %>%
-  filter(!is.na(broad_label), year(date)==2024, month(date)>0) %>%
-  group_by(broad_label) %>%
-  summarise(across(c(value, YoY_change_absolute_1m), sum)) %>%
-  mutate(share=YoY_change_absolute_1m/YoY_change_absolute_1m[broad_label=='Total'])
 
 
 read_csv("https://api.energyandcleanair.org/v1/weather?region_type=gadm1&region_iso2=CN&variable=wind_speed,temperature,solar_radiation&format=csv") ->
@@ -23,13 +16,19 @@ get_data_file("wind_solar_utilization_capacity_by_province.xlsx") %>%
 provdata %<>% filter(!grepl('Above.*Solar', Name)) %>%
   mutate(source=disambiguate(paste(source, source2), c('Wind', 'Solar')),
                     var=disambiguate(var, c('Capacity', 'Utilization')),
-         type=ifelse(var=='Capacity', NA, 'YTD')) %>%
+         type=ifelse(var=='Capacity', 'cumulative', 'YTD')) %>%
   #calculate monthly utilization from YTD
-  group_by(source, var) %>% unYTD %>%
+  group_by(source, var, prov, type) %>% unYTD %>%
   mutate(Value1m=Value1m * ifelse(var=='Utilization'&month(date)==2, 2, 1)) %>%
   filter(month(date)!=1)
 
-#aggregate Jan-Feb to Feb
+#add cubed wind speed
+met_from_API %<>% filter(variable=='wind_speed') %>%
+  mutate(value=value^3, variable='wind_speed_cubed') %>%
+  bind_rows(met_from_API %>% filter(variable!='wind_speed_cubed'))
+
+
+#aggregate to monthly averages and Jan-Feb to Feb
 met_from_API %>%
   rename(data_source=source) %>%
   mutate(prov=region_name %>% fix_province_names(),
@@ -41,17 +40,23 @@ met_from_API %>%
 
 #merge datasets
 inner_join(met_for_model %>% spread(variable, value),
-           provdata %>%
+           provdata %>% ungroup %>%
              select(date, Value1m, var, source, prov) %>%
              spread(var, Value1m) %>%
-             filter(Utilization>0)) -> alldata
+             filter(!is.na(Capacity))) %>%
+  mutate(is_sane=Utilization>30*24*0.03 & Utilization<30*24*0.35) -> alldata
 
-alldata %>% filter(source=='Solar') %>%
-  lm(Utilization~(solar_radiation+temperature+as.factor(month(date))):prov, data=.) %>% summary
+alldata %>% filter(source=='Solar', is_sane) %>%
+  lm(Utilization~(solar_radiation+temperature):prov, data=.) %>% summary
 
-alldata %>% filter(source=='Wind') %>%
-  lm(Utilization~wind_speed:prov, data=.) %>% summary
+alldata %>% filter(source=='Solar', is_sane) %>%
+  ggplot(aes(solar_radiation, Utilization)) + geom_point()
 
+alldata %>% filter(source=='Wind', is_sane) %>%
+  lm(Utilization~wind_speed:prov+temperature, data=.) %>% summary
+
+alldata %>% filter(source=='Wind', is_sane) %>%
+  ggplot(aes(wind_speed, Utilization)) + geom_point()
 
 alldata %>%
   group_by(source, date) %>%
@@ -66,11 +71,13 @@ pwr_data$monthly %>% filter(source %in% c('Wind','Solar'), var=='Utilization') %
 
 
 national_data %>% filter(source=='Solar') %>%
-  lm(Utilization~solar_radiation+temperature+as.factor(month(date)), data=.) %>% summary
+  lm(Utilization~solar_radiation+temperature, data=.) %>% summary
 
 national_data %>% filter(source=='Wind') %>%
-  lm(Utilization~wind_speed+temperature+as.factor(month(date)), data=.) %>% summary
+  lm(Utilization~wind_speed_cubed+temperature, data=.) %>% summary
 
+national_data %>% filter(source=='Wind', wind_speed<10) %>%
+  ggplot(aes(wind_speed_cubed, Utilization)) + geom_point()
 
 
 list.files('inst/extdata/wind_solar_utilization_prediction', pattern='\\.csv$', full.names = T) %>%
