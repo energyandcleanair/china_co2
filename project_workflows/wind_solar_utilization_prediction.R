@@ -39,7 +39,9 @@ alldata %>% lm(wind_utilization~as.factor(month(date)), data=.) %>% summary
 
 predict(m_ws, alldata) -> alldata$wind_utilization_predicted
 
-alldata %>% ggplot(aes(wind_utilization, wind_utilization_predicted)) + geom_point() + geom_smooth()
+alldata %>% filter(!is.na(wind_utilization)) %>%
+  ggplot(aes(wind_utilization_predicted, wind_utilization)) +
+  geom_point(aes(col=as.factor(year(date)))) + geom_smooth(method='lm')
 
 
 alldata %>% filter(month(date)<=6) %>%
@@ -52,7 +54,7 @@ met %>% pivot_longer(-date) %>%
   inner_join(alldata %>% select(date, solar_utilization)) %>% na.omit %>%
   ggplot(aes(value, solar_utilization)) + geom_point() + facet_wrap(~name, scales='free_x')
 
-sr %>% ggplot(aes(month(date), value, col=year(date))) + geom_point() + geom_smooth()
+alldata %>% ggplot(aes(month(date), solar_utilization, col=year(date))) + geom_point() + geom_smooth()
 
 alldata %>%
   lm(solar_utilization~
@@ -70,4 +72,6 @@ alldata %>% lm(solar_utilization~as.factor(month(date)), data=.) %>% summary
 
 predict(m_sr, alldata) -> alldata$solar_utilization_predicted
 
-alldata %>% ggplot(aes(solar_utilization, solar_utilization_predicted)) + geom_point() + geom_smooth()
+alldata %>% filter(!is.na(solar_utilization)) %>%
+  ggplot(aes(solar_utilization, solar_utilization_predicted)) +
+  geom_point(aes(col=as.factor(year(date)))) + geom_smooth()
