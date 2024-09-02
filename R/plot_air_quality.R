@@ -282,9 +282,8 @@ get_aq <- function(start_date=ymd('2022-01-01'),
 
         if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
 
-        read_csv_and_retry(url=source_url) %>%
-          select(-any_of('...1')) %>%
-          mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_24h
+        conc_24h <- read_csv_and_retry(url=source_url) %>%
+          select(-any_of('...1'))
 
         #read 8-hour max ozone
         source_url <- paste0("https://api.energyandcleanair.org/measurements?",
@@ -294,9 +293,8 @@ get_aq <- function(start_date=ymd('2022-01-01'),
 
         if(!is.null(cities)) source_url %<>% paste0('&city=', paste(cities, collapse = ","))
 
-        read_csv_and_retry(url=source_url) %>%
-          select(-any_of('...1')) %>%
-          mutate(across(date, convert_dt), across(value, as.numeric)) -> conc_8h
+        conc_8h <- read_csv_and_retry(url=source_url) %>%
+          select(-any_of('...1'))
 
 
         #read 1-hour max NO2
