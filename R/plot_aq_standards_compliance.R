@@ -95,7 +95,8 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
          caption = paste(trans('Data until'),
                          ceiling_date(focus_month, unit = 'month') - days(1))) +
     scale_linetype_manual(values = 'dotted', name = '')
-  quicksave(file.path(paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m")),
+  quicksave(file.path(output_dir,
+                      paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m")),
                       paste0('PM2.5 compliance in provincial capitals until ',
                              ceiling_date(focus_month, unit = 'month') - days(1),
                              ',', lang, '.png')),
@@ -154,7 +155,8 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                          ceiling_date(focus_month, unit = 'month') - days(1))) +
     scale_linetype_manual(values = 'dotted', name = '') +
     scale_x_datetime(labels = yearlab)
-  quicksave(file.path(paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m")),
+  quicksave(file.path(output_dir,
+                      paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m")),
                       paste0('Ozone compliance in provincial capitals until ',
                              ceiling_date(focus_month, unit = 'month') - days(1),
                              ',', lang, '.png')),
@@ -203,7 +205,8 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
         scale_fill_crea_c('change', guide = 'none', col.index = 5:7) +
         lang_theme(lang = lang) +
         x_at_zero()
-      quicksave(file.path(paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m")),
+      quicksave(file.path(output_dir,
+                          paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m")),
                           paste0(plottitle_EN, ', ', lang, '.png')),
                 plot = p, footer_height = .0, png = T)
     }
