@@ -65,7 +65,8 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
          x = '', y = trans('µg/m3'),
          subtitle = trans('12-month moving average'),
          caption = paste(trans('Data until'), max(date(aq_capitals_12m$date)))) +
-    scale_linetype_manual(values = 'dotted', name = '')
+    scale_linetype_manual(values = 'dotted', name = '') +
+    scale_x_date(labels = yearlab)
   quicksave(file.path(output_dir, paste0('PM2.5 compliance in provincial capitals, ',
                                          lang, '.png')),
             plot = p, footer_height = .03, png = T)
@@ -94,7 +95,8 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
          subtitle = trans('12-month moving average'),
          caption = paste(trans('Data until'),
                          ceiling_date(focus_month, unit = 'month') - days(1))) +
-    scale_linetype_manual(values = 'dotted', name = '')
+    scale_linetype_manual(values = 'dotted', name = '') +
+    scale_x_date(labels = yearlab)
   quicksave(file.path(output_dir,
                       paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m")),
                       paste0('PM2.5 compliance in provincial capitals until ',
@@ -124,7 +126,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
          subtitle = trans('90th percentile over 12 months'),
          caption = paste(trans('Data until'), max(date(aq_capitals_12m$date)))) +
     scale_linetype_manual(values = 'dotted', name = '') +
-    scale_x_datetime(labels = yearlab)
+    scale_x_date(labels = yearlab)
   quicksave(file.path(output_dir, paste0('Ozone compliance in provincial capitals, ', lang, '.png')),
             plot = p, footer_height = .03, png = T)
 
@@ -154,7 +156,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
          caption = paste(trans('Data until'),
                          ceiling_date(focus_month, unit = 'month') - days(1))) +
     scale_linetype_manual(values = 'dotted', name = '') +
-    scale_x_datetime(labels = yearlab)
+    scale_x_date(labels = yearlab)
   quicksave(file.path(output_dir,
                       paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m")),
                       paste0('Ozone compliance in provincial capitals until ',
