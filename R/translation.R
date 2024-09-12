@@ -115,7 +115,7 @@ unit_label <- function(original_unit, lang=get('lang', envir=.GlobalEnv)) {
 
 lang_theme <- function(lang=get('lang', envir=.GlobalEnv)) {
   if(lang == 'ZH'){
-    theme(text = element_text(face = 'bold', family = 'Noto Sans'))
+    theme(text = element_text(face = 'bold', family = 'wqy-microhei'))
   } else {
     theme()
   }
