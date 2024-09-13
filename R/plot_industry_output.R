@@ -149,11 +149,11 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
            x='', y=unit_label(unique(plotdata$Unit, lang=lang))) +
       facet_wrap(~trans(prod), scales='free_y') +
       # scale_color_manual(values=colorspace::darken(crea_palettes$change), name=trans('year')) +
-      scale_color_crea_d(palette = "change", name=trans('year')) +
+      # scale_color_crea_d(palette = "change", name=trans('year')) +
       theme_crea() +
       lang_theme(lang=lang) +
       #geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
-      scale_linetype_manual(values='dashed', name='') +
+      # scale_linetype_manual(values='dashed', name='') +
       expand_limits(y=0) +
       x_at_zero() +
       scale_x_date(labels = monthlab) -> p
@@ -163,7 +163,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
     quicksave(file.path(output_dir, paste0(names(plots)[i], '_monthly_by_year, ',lang,'.png')),
               plot=p,
-              scale=1.3)
+              scale=1.2)
   }
 
   #solar cell output
