@@ -83,12 +83,12 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
   prod <- read_industrial_output()
 
+
+
   prod$date %>% max -> latest_date
   prod %>% group_by(prod) %>%
     filter(latest_date %in% date | grepl('Battery', prod)) ->
     prod_withlatest
-
-
 
   prod_withlatest %<>%
     group_by(prod, type) %>%
@@ -108,12 +108,13 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     labscale=1.15
     if(length(unique(plotdata$prod))>3) labscale=.9
 
-    plotdata %>% write_csv(file.path(output_dir, paste0(names(plots)[i], '.csv')))
-
     plotdata %<>% mutate(across(c(Value.seasonadj, Value1m), ~convert_value(.x, Unit) * Unit_multiplier),
                          YoY_3m = (Value3m.seasonadj/lag(Value3m.seasonadj, 12)-1)  %>% pmax(-.2) %>% pmin(.2),
                          plotdate=date %>% 'year<-'(2020) %>% 'day<-'(1), #use 2020 since its a leap year
                          year=as.factor(year(date)))
+
+    # Write after transformation to see what's potentially wrong
+    plotdata %>% write_csv(file.path(output_dir, paste0(names(plots)[i], '.csv')))
 
     plotdata %>% mutate(YoY=get.yoy(Value1m, date) %>% scales::percent(accuracy = 1, style_positive='plus')) %>%
       filter(date %>% 'day<-'(1) %>% equals(focus_month)) -> yoy_labels
