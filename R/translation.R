@@ -119,6 +119,7 @@ lang_theme <- function(lang=get('lang', envir=.GlobalEnv)) {
     if(!"Noto Sans Sc" %in% sysfonts::font_families()) {
       sysfonts::font_add_google(name = "Noto Sans SC", family = "Noto Sans SC")
     }
+    showtext::showtext_auto()
     theme(text = element_text(family = 'Noto Sans SC'))
   } else {
     theme()

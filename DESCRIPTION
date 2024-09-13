@@ -36,7 +36,8 @@ Imports:
     cowplot,
     openxlsx,
     glue,
-    sysfonts
+    sysfonts,
+    showtext
 Remotes:
     energyandcleanair/creahelpers,
     energyandcleanair/rcrea
