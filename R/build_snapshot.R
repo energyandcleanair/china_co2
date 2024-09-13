@@ -55,18 +55,6 @@ build_snapshot <- function(focus_month = NULL,
   library(zoo)
   library(ggrepel)
 
-  # preload air quality data
-  aq <- get_aq(
-    start_date = ymd("2019-01-01"),
-    update_data = update_aq_data,
-    source = "mee"
-  )
-  aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = update_aq_data)
-
-  check_aq_data(
-    aq = aq, aq_dw = aq_dw, focus_month = focus_month,
-    cities = china_admin_capitals, stop_if_fail = snapshot_precheck
-  )
 
   for (target_lang in langs) {
     # set lang in global environment
@@ -78,17 +66,6 @@ build_snapshot <- function(focus_month = NULL,
         start_year = year(today()) - 5, # first year shown in plots
         output_dir = output_dir,
         lang = target_lang
-      )
-    }
-
-    if ("aq_compliance" %in% plots) {
-      aq_compliance_plots(
-        cities = china_admin_capitals,
-        one_month_plots = T,
-        update_data = update_aq_data,
-        output_dir = output_dir,
-        lang = target_lang,
-        focus_month = focus_month
       )
     }
 
@@ -128,6 +105,24 @@ build_snapshot <- function(focus_month = NULL,
       )
     }
 
+
+    if(any(c("air_quality", "aq_compliance") %in% plots)) {
+      # preload air quality data
+      aq <- get_aq(
+        start_date = ymd("2019-01-01"),
+        update_data = update_aq_data,
+        source = "mee"
+      )
+
+      aq_dw <- get_deweathered_aq(china_admin_capitals, update_data = update_aq_data)
+
+      check_aq_data(
+        aq = aq, aq_dw = aq_dw, focus_month = focus_month,
+        cities = china_admin_capitals,
+        stop_if_fail = snapshot_precheck
+      )
+    }
+
     if ("air_quality" %in% plots) {
       air_quality_plots(
         focus_month = focus_month,
@@ -136,6 +131,17 @@ build_snapshot <- function(focus_month = NULL,
         aq_dw = aq_dw,
         output_dir = output_dir,
         lang = target_lang
+      )
+    }
+
+    if ("aq_compliance" %in% plots) {
+      aq_compliance_plots(
+        cities = china_admin_capitals,
+        one_month_plots = T,
+        update_data = update_aq_data,
+        output_dir = output_dir,
+        lang = target_lang,
+        focus_month = focus_month
       )
     }
   }
