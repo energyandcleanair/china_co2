@@ -1,13 +1,28 @@
 check_aq_data <- function(aq, aq_dw, cities, focus_month = focus_month,
-                          n_polls=3, stop_if_fail = FALSE, threshold = 3){
+                          n_polls=3, stop_if_fail = FALSE,
+                          allowed_missing = list(
+                            no2 = 3,
+                            pm25 = 3,
+                            pm10 = 3,
+                            so2 = 3,
+                            o3 = 6
+                          )){
+
+
+  # Allowed missing tible (two columns pollutant min)
+  allowed_missing_tbl <- tibble(
+    pollutant = names(allowed_missing),
+    allowed_missing = unlist(allowed_missing))
 
   # Check that for each location_id and pollutant, there is data for the whole month
   aq_count <- aq %>%
     filter(floor_date(date, unit="month") == focus_month) %>%
     group_by(location_id, pollutant) %>%
-    summarise(n = n())
+    summarise(n = n()) %>%
+    left_join(allowed_missing_tbl, by = 'pollutant') %>%
+    mutate(min_n =  unname(lubridate::days_in_month(focus_month)) - allowed_missing)
 
-  if(any(aq_count$n != days_in_month(focus_month))){
+  if(any(aq_count$n < aq_count$min_n)){
     if(stop_if_fail){
       stop(glue(paste("Missing air quality data {min(aq_count$n)}",
                       "/ {days_in_month(focus_month)}")))
@@ -24,9 +39,11 @@ check_aq_data <- function(aq, aq_dw, cities, focus_month = focus_month,
   aq_dw_count <- aq_dw %>%
     filter(floor_date(date, unit="month") == focus_month) %>%
     group_by(location_id, pollutant) %>%
-    summarise(n = n())
+    summarise(n = n()) %>%
+    left_join(allowed_missing_tbl, by = 'pollutant') %>%
+    mutate(min_n =  unname(lubridate::days_in_month(focus_month)) - allowed_missing)
 
-  if(any(aq_dw_count$n <= lubridate::days_in_month(focus_month) - threshold)
+  if(any(aq_dw_count$n < aq_dw_count$min_n)
      || (nrow(aq_dw_count) != length(cities) * n_polls)){
     if(stop_if_fail){
       stop(glue(paste("Missing deweathered air quality data {min(aq_dw_count$n)}",
