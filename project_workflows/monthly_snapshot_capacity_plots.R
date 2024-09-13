@@ -35,7 +35,9 @@ cap %>%
   lang_theme(lang=lang) +
   scale_color_crea_d(col.index = c(7, 2:5, 1), labels=yearlab, guide='none') +
   geom_dl(aes(label=yearlab(year)), method=list('last.bumpup', cex=.7)) -> plt
-quicksave(file.path(output_dir, 'Newly added power capacity, year-to-date.png'), plot=plt, scale=1.2)
+quicksave(file.path(output_dir, 'Newly added power capacity, year-to-date.png'),
+          plot=plt,
+          scale=1.2)
 
 fuel_cols = crea_palettes$CREA[c(1, 4, 2, 6, 5)]
 names(fuel_cols) = cap$source %>% unique %>% subset(.!='All') %>% sort
