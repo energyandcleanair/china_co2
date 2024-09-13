@@ -35,7 +35,8 @@ Imports:
     directlabels,
     cowplot,
     openxlsx,
-    glue
+    glue,
+    sysfonts
 Remotes:
     energyandcleanair/creahelpers,
     energyandcleanair/rcrea
