@@ -73,7 +73,7 @@ elec_plot %>% mutate(sector=case_when(sector %in% elec_plot$sector[1:20]~sector,
   labs(title='Drivers of electricity consumption growth',
        subtitle = 'Change from March 2023 to 2024',
        y='TWh', x='') -> p
-quicksave(file.path(output_dir, 'Drivers of electricity consumption growth, March 2024.png'), plot=p, scale=1.33, footer_height=.03, logo=F)
+quicksave(file.path(output_dir, 'Drivers of electricity consumption growth, March 2024.png'), plot=p, scale=1.33, logo=F)
 
 
 elec_cons_sector %>%

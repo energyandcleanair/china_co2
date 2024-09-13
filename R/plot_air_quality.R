@@ -130,8 +130,9 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
               rel_heights=c(0.06, 0.03, 1)
     ) -> p
 
-    quicksave(file.path(output_dir, paste0(plot_title, ', ', lang,'.png')), plot=p, footer_height=.05,
-              png = T)
+    quicksave(
+      file.path(output_dir, paste0(plot_title, ', ', lang,'.png')),
+      plot=p)
   }
 
   plot_title="Monthly average pollutant concentrations in provincial capitals"
@@ -270,7 +271,7 @@ get_aq <- function(start_date=ymd('2022-01-01'),
     start_date <- aq$date %>% max %>% lubridate::date()
   }
 
-  if(update_data) {
+  if(update_data | is.null(aq)) {
     seq.Date(start_date, today(), by='month') %>%
       pbapply::pblapply(function(start_date) {
         message(start_date)

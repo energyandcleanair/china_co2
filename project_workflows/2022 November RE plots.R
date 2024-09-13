@@ -142,7 +142,7 @@ scatterplotdata %>%
                     '各年前几个月与全年新增发电容量对比'),
        x=ifelse(lang=='EN', 'Capacity added, GW, Jan-Nov', '新增发电容量，前五个月'),
        y=ifelse(lang=='EN', 'Capacity added, GW, full year', '新增发电容量，全年')) -> plt
-quicksave(file.path(output_dir, paste0('YTD vs full year wind&solar, ',lang,'.png')), plot=plt, footer_height=.03)
+quicksave(file.path(output_dir, paste0('YTD vs full year wind&solar, ',lang,'.png')), plot=plt)
 
 
 provcap %>% filter(grepl('Wind|Solar', source)) %>%

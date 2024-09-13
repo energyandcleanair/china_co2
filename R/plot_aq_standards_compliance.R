@@ -15,12 +15,13 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
 
   # Collect data
   aq_capitals <- get_aq(start_date = start_date-365,
-                        update_data = T,
+                        update_data = update_data,
                         aq_file = aq_cache,
                         country = 'CN',
                         cities = cities,
                         source = 'mee') %>%
-    filter(pollutant %in% pollutants, location_id %in% cities)
+    filter(pollutant %in% pollutants,
+           location_id %in% cities)
 
   data_summary <<- data_summary %>%
     bind_rows(check_dates(data = aq_capitals,
@@ -67,9 +68,10 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
          caption = paste(trans('Data until'), max(date(aq_capitals_12m$date)))) +
     scale_linetype_manual(values = 'dotted', name = '') +
     scale_x_date(labels = yearlab)
+
   quicksave(file.path(output_dir, paste0('PM2.5 compliance in provincial capitals, ',
                                          lang, '.png')),
-            plot = p, footer_height = .03, png = T)
+            plot = p)
 
   p <- aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), pollutant == 'pm25', date >= start_date,
@@ -102,7 +104,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                       paste0('PM2.5 compliance in provincial capitals until ',
                              ceiling_date(focus_month, unit = 'month') - days(1),
                              ',', lang, '.png')),
-            plot = p, footer_height = .03, png = T)
+            plot = p)
 
   p <- aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), pollutant == 'o3', date >= start_date) %>%
@@ -128,7 +130,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     scale_linetype_manual(values = 'dotted', name = '') +
     scale_x_date(labels = yearlab)
   quicksave(file.path(output_dir, paste0('Ozone compliance in provincial capitals, ', lang, '.png')),
-            plot = p, footer_height = .03, png = T)
+            plot = p)
 
   p <- aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), pollutant == 'o3', date >= start_date,
@@ -162,7 +164,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                       paste0('Ozone compliance in provincial capitals until ',
                              ceiling_date(focus_month, unit = 'month') - days(1),
                              ',', lang, '.png')),
-            plot = p, footer_height = .03, png = T)
+            plot = p)
 
   aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), date >= start_date) %>%
@@ -210,7 +212,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
       quicksave(file.path(output_dir,
                           paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m")),
                           paste0(plottitle_EN, ', ', lang, '.png')),
-                plot = p, footer_height = .0, png = T)
+                plot = p)
     }
   }
 }

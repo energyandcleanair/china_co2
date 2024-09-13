@@ -224,7 +224,7 @@ for(yesno in c(F, T)) {
     geom_vline(aes(xintercept=last_month), linetype='dashed', linewidth=.75) -> p
   quicksave(file.path(output_dir, paste0('Chinas CO2 emissions quarterly growth past and projected, ',
                                          ifelse(yesno, 'total', 'by sector'),
-                                         '.png')), plot=p, footer_height=.03)
+                                         '.png')), plot=p)
 }
 
 
@@ -238,5 +238,5 @@ for(yesno in c(F, T)) {
     geom_vline(aes(xintercept=ymd(paste(year(last_month),1,1))-180), linetype='dashed', linewidth=.75) -> p
   quicksave(file.path(output_dir, paste0('Chinas CO2 emissions annual growth past and projected, ',
                                          ifelse(yesno, 'total', 'by sector'),
-                                         '.png')), plot=p, footer_height=.03)
+                                         '.png')), plot=p)
 }

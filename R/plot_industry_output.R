@@ -139,8 +139,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
     if(include_yoy_labels) p = p + geom_label(data=yoy_labels, aes(label=YoY), vjust=4, hjust=1)
 
-    quicksave(file.path(output_dir, paste0(names(plots)[i], '_seasonal, ',lang,'.png')), plot=p, scale=1.2,
-              png = T)
+    quicksave(file.path(output_dir, paste0(names(plots)[i], '_seasonal, ',lang,'.png')), plot=p, scale=1.2)
 
     plotdata %>%
       ggplot(aes(plotdate, Value1m, col=year))+
@@ -160,8 +159,9 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     if(include_yoy_labels) p = p + geom_label(data=yoy_labels, aes(label=YoY), vjust=ifelse(i==2, -.5, 5), hjust=1, key_glyph="path") +
       labs(caption=trans('Labels show year-on-year changes in the latest month of data'))
 
-    quicksave(file.path(output_dir, paste0(names(plots)[i], '_monthly_by_year, ',lang,'.png')), plot=p, scale=ifelse(lang=='ZH', 1.2, 1.33),
-              png = T)
+    quicksave(file.path(output_dir, paste0(names(plots)[i], '_monthly_by_year, ',lang,'.png')),
+              plot=p,
+              scale=1.3)
   }
 
   #solar cell output
@@ -186,8 +186,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     scale_color_crea_c('change', labels=scales::percent, guide='none') +
     scale_y_continuous(expand=expansion(mult=c(0,.05))) +
     scale_x_date(labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('solar cell output, ',lang,'.png')), plot=p, footer_height=.03,
-            png = T)
+  quicksave(file.path(output_dir, paste0('solar cell output, ',lang,'.png')), plot=p)
 
   if(lang=='EN') {
     solar_plotdata %>%
@@ -226,8 +225,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
       scale_color_crea_d(col.index = c(1,2,5, 6:12)) +
       scale_y_continuous(expand=expansion(mult=c(0,.05))) +
       scale_x_date(labels = yearlab) -> p
-    quicksave(file.path(output_dir, paste0('battery output, ',lang,'.png')), plot=p,
-              png = T)
+    quicksave(file.path(output_dir, paste0('battery output, ',lang,'.png')), plot=p)
 
     if(lang=='EN') {
       battery_plotdata %>%
@@ -299,8 +297,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     expand_limits(y=0) -> p2
 
   plot_grid(p1,p2, nrow=1) -> g
-  quicksave(file.path(output_dir, paste0('Vehicle production, ',lang,'.png')), plot=g, footer_height=.01,
-            png = T)
+  quicksave(file.path(output_dir, paste0('Vehicle production, ',lang,'.png')), plot=g)
 
   bind_rows(plotdata1 %>% mutate(value=Value12m*12, prod = paste0(prod, ': Output: 12-month moving sum')),
             plotdata2 %>% mutate(value=share, prod = paste0('New Energy Vehicle share: ', prod))) %>%

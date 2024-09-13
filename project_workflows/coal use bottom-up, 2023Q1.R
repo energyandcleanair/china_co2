@@ -106,7 +106,7 @@ pwr_plot %>%
                       y="TWh/year, 12-month moving sum", x="", linetype='') +
   theme(legend.position = 'top') +
   scale_linetype_manual(values='dashed') -> p
-quicksave(file.path(output_dir, 'Trends in power generation in China.png'), plot=p, footer_height = .03)
+quicksave(file.path(output_dir, 'Trends in power generation in China.png'), plot=p)
 
 
 readwindEN('data/Power Capacity.xlsx', c('var', 'prod'), columnExclude = 'New|Conventional|Coal|Gas',
