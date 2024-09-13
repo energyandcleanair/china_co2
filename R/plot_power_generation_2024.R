@@ -76,7 +76,8 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     quicksave(file.path(output_dir,
                         paste0('Growth in monthly power generation by source ',
                                lang, '.png')),
-              plot = p, logo = T, scale = 1)
+              plot = p, logo = T, scale = 1) +
+              lang_theme()
 
 
     p <- pwr_growth_plot %>%
@@ -121,7 +122,8 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
       theme_crea() +
       labs(title = trans('Growth in monthly power generation by source'),
            x = '', y = trans('TWh'), fill = '') +
-      scale_fill_crea_d('change', col.index = c(7, 5, 2, 1), guide = 'none')
+      scale_fill_crea_d('change', col.index = c(7, 5, 2, 1), guide = 'none') +
+              lang_theme()
     quicksave(file.path(output_dir,
                         paste0('Growth in monthly clean and total power generation by source category, pivoted',
                                lang, '.png')),
@@ -139,7 +141,9 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
       labs(title = 'Monthly running hours', x = '', y = trans('hours'), col = '') +
       scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708')) +
       theme_crea() +
-      scale_color_crea_d('change')
+      scale_color_crea_d('change') +
+      lang_theme()
+
     quicksave(file.path(output_dir, paste0('Monthly running hours ', lang, '.png')),
               plot = p, logo = T, scale = 1)
 
@@ -154,7 +158,8 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
       labs(title = trans('Monthly shares of generation by technology'),
            x = '', y = '', col = '') +
       scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708')) +
-      scale_y_continuous(labels = scales::percent)
+      scale_y_continuous(labels = scales::percent) +
+      lang_theme()
     quicksave(file.path(output_dir,
                         paste0('Monthly shares of generation by technology ',
                                lang, '.png')),
@@ -186,7 +191,9 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     scale_fill_crea_d('change', col.index = c(7, 5, 2, 1),
                       guide = guide_legend(nrow = 1)) +
     scale_x_date(expand = expansion(mult = c(.01, .01))) +
-    scale_shape(name = '')
+    scale_shape(name = '') +
+    lang_theme()
+
   quicksave(file.path(output_dir,
                       paste0('Growth in monthly power generation by source category ',
                              lang, '.png')),
@@ -207,7 +214,9 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     scale_fill_crea_d('change', col.index = c(7, 5, 2, 1),
                       guide = guide_legend(nrow = 1)) +
     scale_x_date(expand = expansion(mult=c(.01, .01))) +
-    x_at_zero(labels = scales::percent)
+    x_at_zero(labels = scales::percent) +
+    lang_theme()
+
   quicksave(file.path(output_dir, paste0('Monthly power generation mix ', lang, '.png')),
             plot = p, logo = T, scale = 1)
 
@@ -234,7 +243,8 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     x_at_zero() +
     scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708')) +
     labs(title = trans('Newly added power capacity, year-to-date'),
-         x = '', y = trans('GW'), col = '')
+         x = '', y = trans('GW'), col = '') +
+    lang_theme()
   quicksave(file.path(output_dir, paste0('Newly added wind and solar ', lang, '.png')),
             plot = p, logo = T, scale = .8)
 
