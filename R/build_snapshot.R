@@ -64,7 +64,7 @@ build_snapshot <- function(focus_month = NULL,
     if ("steel_indicator" %in% plots) {
       steel_indicator_plots(
         start_year = year(today()) - 5, # first year shown in plots
-        output_dir = output_dir,
+        output_dir = month_dir,
         lang = target_lang
       )
     }
@@ -72,7 +72,7 @@ build_snapshot <- function(focus_month = NULL,
     if ("capacity" %in% plots) {
       capacity_plots(
         focus_month = focus_month,
-        output_dir = output_dir,
+        output_dir = month_dir,
         lang = target_lang
       )
     }
@@ -81,7 +81,7 @@ build_snapshot <- function(focus_month = NULL,
     if ("power_generation" %in% plots) {
       power_generation_plots(
         focus_month = focus_month,
-        output_dir = output_dir,
+        output_dir = month_dir,
         lang = target_lang
       )
     }
@@ -92,7 +92,7 @@ build_snapshot <- function(focus_month = NULL,
         include_yoy_labels = F, # include labels with year-on-year growth in plots?
         skip_yoy_adjustment = "Copper|Glass|Chemical Fibers|Solar$", # these products aren't retroactively adjusted to fit reported yoy numbers because there are anomalies
         focus_month = focus_month,
-        output_dir = output_dir,
+        output_dir = month_dir,
         lang = target_lang
       )
     }
@@ -100,7 +100,7 @@ build_snapshot <- function(focus_month = NULL,
     if ("fuel_supply" %in% plots) {
       fuel_supply_plots(
         focus_month = focus_month,
-        output_dir = output_dir,
+        output_dir = month_dir,
         lang = target_lang
       )
     }
@@ -129,7 +129,7 @@ build_snapshot <- function(focus_month = NULL,
         update_data = F,
         aq = aq,
         aq_dw = aq_dw,
-        output_dir = output_dir,
+        output_dir = month_dir,
         lang = target_lang
       )
     }
