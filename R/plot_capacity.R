@@ -87,58 +87,35 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
   period_name = case_when(lang=='EN'~paste('January -', month.name[ytd_month], year(ytd_date)),
                           lang=='ZH'~paste0(year(ytd_date),'\u5e741-',ytd_month,'\u6708'))
 
-  provcap %>%
-    filter(Value>0, year(date)==year(focus_month), month(date)<=month(focus_month), prov != 'National') %>%
+  p <- provcap %>%
+    filter(Value > 0,
+           year(date) == year(focus_month),
+           month(date) <= month(focus_month),
+           prov != 'National') %>%
     mutate(source = source %>% gsub(' Energy| Power|power', '', .)) %>%
     group_by(source) %>%
-    group_by(source, prov) %>% summarise(across(Value, max)) %>%
-    slice_max(Value, n=10) %>%
-    group_split %>%
-    lapply(function(df) {
-      df %>%
-        mutate(prov=translateProvinces(prov, lang=lang)) %>%
-        mutate(prov = factor(prov, levels=rev(prov))) %>%
-        ggplot(aes(prov, convert_value(Value, '10MW'))) +
-        geom_col(fill=fuel_cols[unique(df$source)]) +
-        facet_wrap(~translateSources(source, lang=lang)) +
-        coord_flip() +
-        theme_crea() +
-        theme(#strip.text = element_text(size=rel(2)),
-          #axis.text = element_text(size=rel(1.8)),
-          #axis.title = element_text(size=rel(2)),
-          plot.margin = unit(c(.5, 1.5, .2, .2), 'line')) +
-        lang_theme(lang=lang) +
-        labs(y=unit_label('10MW', lang=lang), x='') +
-        scale_y_continuous(expand=expansion(mult=c(0,.05)))
-    }) -> p
-
-  if(length(p) != 0){
-    if(lang == 'ZH'){
-      title.grob = textGrob(trans("Newly installed power capacity by province"),
-                            gp = gpar(fontface = 'bold', cex = 2, col = "#35416C",
-                                      fontFamily = 'Noto Sans SC'),
-                            just = .5)
-      subtitle.grob = textGrob(period_name,
-                               gp = gpar(fontface = 'italic', cex = 1.33,
-                                         fontFamily = 'Noto Sans SC'),
-                               just = .5)
-    } else {
-      title.grob = textGrob(trans("Newly installed power capacity by province"),
-                            gp = gpar(fontface = 'bold', cex = 2, col = "#35416C"),
-                            just = .5)
-      subtitle.grob = textGrob(period_name,
-                               gp = gpar(fontface = 'italic', cex = 1.33),
-                               just = .5)
-    }
-    p.grid = plot_grid(plotlist = p, ncol = 2, align = "v")
-    margin <- unit(1, "line")
-
-    grid.arrange(title.grob, subtitle.grob, p.grid,
-                 heights = unit.c(grobHeight(title.grob) + 2 * margin,
-                                  grobHeight(subtitle.grob) + .5 * margin,
-                                  unit(1, "null"))) -> plt
+    group_by(source, prov) %>%
+    summarise(across(Value, max)) %>%
+    slice_max(Value, n = 10) %>%
+    arrange(desc(Value)) %>%
+    ungroup %>%
+    mutate(prov = translateProvinces(prov, lang = lang)) %>%
+    mutate(prov = factor(paste(prov, source, sep = '_'),
+                         levels = rev(paste(prov, source, sep = '_')))) %>%
+    ggplot(aes(prov, convert_value(Value, '10MW'))) +
+    geom_col(aes(fill = source)) +
+    scale_x_discrete(labels = function(x) str_split_i(x, '_', 1)) +
+    scale_fill_manual(values = fuel_cols, guide = 'none') +
+    facet_wrap(~translateSources(source, lang = lang), scales = 'free', ncol = 2) +
+    coord_flip() +
+    theme_crea() +
+    theme(plot.margin = unit(c(.5, 1.5, .2, .2), 'line')) +
+    lang_theme(lang = lang) +
+    labs(y = unit_label('10MW', lang = lang), x = '',
+         title = trans("Newly installed power capacity by province"),
+         subtitle = period_name) +
+    scale_y_continuous(expand = expansion(mult = c(0, .05)))
 
     quicksave(file.path(output_dir, paste0('power capacity additions by province, ', lang, '.png')),
-              plot = plt)
-  }
+              plot = p)
 }
