@@ -103,30 +103,42 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
         facet_wrap(~translateSources(source, lang=lang)) +
         coord_flip() +
         theme_crea() +
-        lang_theme(lang=lang) +
         theme(#strip.text = element_text(size=rel(2)),
           #axis.text = element_text(size=rel(1.8)),
           #axis.title = element_text(size=rel(2)),
           plot.margin = unit(c(.5, 1.5, .2, .2), 'line')) +
+        lang_theme(lang=lang) +
         labs(y=unit_label('10MW', lang=lang), x='') +
         scale_y_continuous(expand=expansion(mult=c(0,.05)))
     }) -> p
 
   if(length(p) != 0){
-    title.grob = textGrob(trans("Newly installed power capacity by province"),
-                          gp=gpar(fontface='bold', cex=2, col="#35416C"),
-                          just=.5)
-    subtitle.grob = textGrob(period_name,
-                             gp=gpar(fontface='italic',cex=1.33),
-                             just=.5)
-    p.grid = plot_grid(plotlist=p,ncol=2,align="v")
+    if(lang == 'ZH'){
+      title.grob = textGrob(trans("Newly installed power capacity by province"),
+                            gp = gpar(fontface = 'bold', cex = 2, col = "#35416C",
+                                      fontFamily = 'Noto Sans SC'),
+                            just = .5)
+      subtitle.grob = textGrob(period_name,
+                               gp = gpar(fontface = 'italic', cex = 1.33,
+                                         fontFamily = 'Noto Sans SC'),
+                               just = .5)
+    } else {
+      title.grob = textGrob(trans("Newly installed power capacity by province"),
+                            gp = gpar(fontface = 'bold', cex = 2, col = "#35416C"),
+                            just = .5)
+      subtitle.grob = textGrob(period_name,
+                               gp = gpar(fontface = 'italic', cex = 1.33),
+                               just = .5)
+    }
+    p.grid = plot_grid(plotlist = p, ncol = 2, align = "v")
     margin <- unit(1, "line")
 
     grid.arrange(title.grob, subtitle.grob, p.grid,
-                 heights = unit.c(grobHeight(title.grob) + 2*margin,
-                                  grobHeight(subtitle.grob) + .5*margin,
-                                  unit(1,"null"))) -> plt
-    quicksave(file.path(output_dir, paste0('power capacity additions by province, ',lang,'.png')),
-              plot=plt)
+                 heights = unit.c(grobHeight(title.grob) + 2 * margin,
+                                  grobHeight(subtitle.grob) + .5 * margin,
+                                  unit(1, "null"))) -> plt
+
+    quicksave(file.path(output_dir, paste0('power capacity additions by province, ', lang, '.png')),
+              plot = plt)
   }
 }
