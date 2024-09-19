@@ -1,915 +1,933 @@
-date,label,broad_label,source,subtype,value,YoY_change_absolute_1m,Unit,data_source
-2016-01-31,Total,Total,Total,NA,4456.432803054634,9.903627888924348,100 million kwh,NA
-2016-02-29,Total,Total,Total,NA,4469.987488984567,114.71317411176824,100 million kwh,NA
-2016-03-31,Total,Total,Total,NA,4921.472302255691,274.8571522358052,100 million kwh,NA
-2016-04-30,Total,Total,Total,NA,4622.500705980987,33.13945542372676,100 million kwh,NA
-2016-05-31,Total,Total,Total,NA,4806.79346899879,62.201378439513974,100 million kwh,NA
-2016-06-30,Total,Total,Total,NA,5026.333778712189,99.15265301218915,100 million kwh,NA
-2016-07-31,Total,Total,Total,NA,5636.842076848102,403.15538035477493,100 million kwh,NA
-2016-08-31,Total,Total,Total,NA,5730.9484081894825,434.60401788972104,100 million kwh,NA
-2016-09-30,Total,Total,Total,NA,5044.568552461096,334.69384021134283,100 million kwh,NA
-2016-10-31,Total,Total,Total,NA,5003.159814081418,371.16703525515004,100 million kwh,NA
-2016-11-30,Total,Total,Total,NA,5173.266746074565,358.4971205719903,100 million kwh,NA
-2016-12-31,Total,Total,Total,NA,5493.767408902387,433.47503786129164,100 million kwh,NA
-2017-01-31,Total,Total,Total,NA,4807.129793853888,350.6969907992543,100 million kwh,NA
-2017-02-28,Total,Total,Total,NA,4832.565955435102,362.5784664505354,100 million kwh,NA
-2017-03-31,Total,Total,Total,NA,5266.177493857357,344.70519160166623,100 million kwh,NA
-2017-04-30,Total,Total,Total,NA,4920.498547715206,297.99784173421904,100 million kwh,NA
-2017-05-31,Total,Total,Total,NA,5086.036839821255,279.2433708224653,100 million kwh,NA
-2017-06-30,Total,Total,Total,NA,5304.366844244384,278.033065532195,100 million kwh,NA
-2017-07-31,Total,Total,Total,NA,6169.784443055104,532.9423662070021,100 million kwh,NA
-2017-08-31,Total,Total,Total,NA,6073.7556557482985,342.807247558816,100 million kwh,NA
-2017-09-30,Total,Total,Total,NA,5377.121199504657,332.5526470435607,100 million kwh,NA
-2017-10-31,Total,Total,Total,NA,5226.503165990058,223.34335190864022,100 million kwh,NA
-2017-11-30,Total,Total,Total,NA,5469.59309342644,296.3263473518746,100 million kwh,NA
-2017-12-31,Total,Total,Total,NA,5919.8972464410945,426.12983753870776,100 million kwh,NA
-2018-01-31,Total,Total,Total,NA,5539.321077551922,732.1912836980337,100 million kwh,NA
-2018-02-28,Total,Total,Total,NA,5599.26137646771,766.6954210326076,100 million kwh,NA
-2018-03-31,Total,Total,Total,NA,5644.63185682722,378.4543629698628,100 million kwh,NA
-2018-04-30,Total,Total,Total,NA,5534.889115068493,614.3905673532872,100 million kwh,NA
-2018-05-31,Total,Total,Total,NA,5836.218243040212,750.1814032189568,100 million kwh,NA
-2018-06-30,Total,Total,Total,NA,5904.840575342466,600.4737310980818,100 million kwh,NA
-2018-07-31,Total,Total,Total,NA,6718.200699955811,548.4162569007067,100 million kwh,NA
-2018-08-31,Total,Total,Total,NA,6761.880225806452,688.124570058153,100 million kwh,NA
-2018-09-30,Total,Total,Total,NA,5903.1026260273975,525.9814265227405,100 million kwh,NA
-2018-10-31,Total,Total,Total,NA,5687.225954043305,460.7227880532473,100 million kwh,NA
-2018-11-30,Total,Total,Total,NA,5883.322075342466,413.728981916026,100 million kwh,NA
-2018-12-31,Total,Total,Total,NA,6462.238847105613,542.3416006645184,100 million kwh,NA
-2019-01-31,Total,Total,Total,NA,5652.01477414936,112.69369659743825,100 million kwh,NA
-2019-02-28,Total,Total,Total,NA,5711.394497602741,112.1331211350307,100 million kwh,NA
-2019-03-31,Total,Total,Total,NA,5999.025511710119,354.3936548828988,100 million kwh,NA
-2019-04-30,Total,Total,Total,NA,5721.350521917806,186.46140684931288,100 million kwh,NA
-2019-05-31,Total,Total,Total,NA,5856.29014927088,20.07190623066799,100 million kwh,NA
-2019-06-30,Total,Total,Total,NA,6101.432417808219,196.59184246575296,100 million kwh,NA
-2019-07-31,Total,Total,Total,NA,6832.688003358377,114.48730340256589,100 million kwh,NA
-2019-08-31,Total,Total,Total,NA,6951.444312240385,189.56408643393388,100 million kwh,NA
-2019-09-30,Total,Total,Total,NA,6151.543328493151,248.44070246575393,100 million kwh,NA
-2019-10-31,Total,Total,Total,NA,5985.770355192226,298.54440114892077,100 million kwh,NA
-2019-11-30,Total,Total,Total,NA,6245.385193972599,362.06311863013343,100 million kwh,NA
-2019-12-31,Total,Total,Total,NA,6780.804806451618,318.565959346005,100 million kwh,NA
-2020-01-31,Total,Total,Total,NA,5273.4704365473235,-378.54433760203665,100 million kwh,NA
-2020-02-29,Total,Total,Total,NA,5311.74963679424,-399.6448608085002,100 million kwh,NA
-2020-03-31,Total,Total,Total,NA,5785.135709677419,-213.88980203269966,100 million kwh,NA
-2020-04-30,Total,Total,Total,NA,5835.116212087913,113.76569017010661,100 million kwh,NA
-2020-05-31,Total,Total,Total,NA,6166.587433888691,310.2972846178109,100 million kwh,NA
-2020-06-30,Total,Total,Total,NA,6510.263900000002,408.8314821917829,100 million kwh,NA
-2020-07-31,Total,Total,Total,NA,6996.3970967741925,163.70909341581591,100 million kwh,NA
-2020-08-31,Total,Total,Total,NA,7467.242258064514,515.7979458241289,100 million kwh,NA
-2020-09-30,Total,Total,Total,NA,6540.5148,388.9714715068485,100 million kwh,NA
-2020-10-31,Total,Total,Total,NA,6382.520193548391,396.7498383561651,100 million kwh,NA
-2020-11-30,Total,Total,Total,NA,6683.387400000001,438.0022060274023,100 million kwh,NA
-2020-12-31,Total,Total,Total,NA,7450.546806451608,669.7419999999902,100 million kwh,NA
-2021-01-31,Total,Total,Total,NA,6446.028510661564,1172.5580741142403,100 million kwh,NA
-2021-02-28,Total,Total,Total,NA,6536.3664285714285,1224.6167917771882,100 million kwh,NA
-2021-03-31,Total,Total,Total,NA,6822.661677419355,1037.5259677419363,100 million kwh,NA
-2021-04-30,Total,Total,Total,NA,6486.134900000001,651.0186879120884,100 million kwh,NA
-2021-05-31,Total,Total,Total,NA,6794.591870967742,628.0044370790511,100 million kwh,NA
-2021-06-30,Total,Total,Total,NA,7128.1087,617.844799999998,100 million kwh,NA
-2021-07-31,Total,Total,Total,NA,7843.221612903227,846.8245161290342,100 million kwh,NA
-2021-08-31,Total,Total,Total,NA,7599.129290322581,131.88703225806694,100 million kwh,NA
-2021-09-30,Total,Total,Total,NA,7017.562999999999,477.04819999999927,100 million kwh,NA
-2021-10-31,Total,Total,Total,NA,6601.398870967743,218.87867741935224,100 million kwh,NA
-2021-11-30,Total,Total,Total,NA,6820.160299999996,136.77289999999448,100 million kwh,NA
-2021-12-31,Total,Total,Total,NA,7424.549935483871,-25.996870967736868,100 million kwh,NA
-2022-01-31,Total,Total,Total,NA,6744.360964461454,298.3324537998906,100 million kwh,NA
-2022-02-28,Total,Total,Total,NA,6838.430785714286,302.06435714285726,100 million kwh,NA
-2022-03-31,Total,Total,Total,NA,7031.2052258064505,208.54354838709514,100 million kwh,NA
-2022-04-30,Total,Total,Total,NA,6445.7122,-40.42270000000099,100 million kwh,NA
-2022-05-31,Total,Total,Total,NA,6705.337451612904,-89.25441935483741,100 million kwh,NA
-2022-06-30,Total,Total,Total,NA,7411.185099999998,283.0763999999981,100 million kwh,NA
-2022-07-31,Total,Total,Total,NA,8344.725677419356,501.5040645161289,100 million kwh,NA
-2022-08-31,Total,Total,Total,NA,8504.363870967738,905.2345806451567,100 million kwh,NA
-2022-09-30,Total,Total,Total,NA,7142.374000000002,124.81100000000242,100 million kwh,NA
-2022-10-31,Total,Total,Total,NA,6911.845322580647,310.44645161290373,100 million kwh,NA
-2022-11-30,Total,Total,Total,NA,6918.8112,98.65090000000419,100 million kwh,NA
-2022-12-31,Total,Total,Total,NA,7759.335709677422,334.7857741935504,100 million kwh,NA
-2023-01-31,Total,Total,Total,NA,6965.622224712958,221.2612602515037,100 million kwh,NA
-2023-02-28,Total,Total,Total,NA,7095.674035714286,257.24325000000044,100 million kwh,NA
-2023-03-31,Total,Total,Total,NA,7505.239161290321,474.03393548387066,100 million kwh,NA
-2023-04-30,Total,Total,Total,NA,6981.1676,535.4553999999998,100 million kwh,NA
-2023-05-31,Total,Total,Total,NA,7245.587741935483,540.2502903225786,100 million kwh,NA
-2023-06-30,Total,Total,Total,NA,7789.646700000003,378.4616000000051,100 million kwh,NA
-2023-07-31,Total,Total,Total,NA,8870.03896774193,525.3132903225742,100 million kwh,NA
-2023-08-31,Total,Total,Total,NA,8857.499970967747,353.1361000000088,100 million kwh,NA
-2023-09-30,Total,Total,Total,NA,7830.611599999998,688.2375999999967,100 million kwh,NA
-2023-10-31,Total,Total,Total,NA,7384.993032258061,473.14770967741424,100 million kwh,NA
-2023-11-30,Total,Total,Total,NA,7722.495500000001,803.6843000000008,100 million kwh,NA
-2023-12-31,Total,Total,Total,NA,8531.66016451613,772.3244548387083,100 million kwh,NA
-2024-01-31,Total,Total,Total,NA,7757.829528225807,792.2073035128487,100 million kwh,NA
-2024-02-29,Total,Total,Total,NA,7873.150293103448,777.4762573891621,100 million kwh,NA
-2024-03-31,Total,Total,Total,NA,7980.780032258064,475.5408709677431,100 million kwh,NA
-2024-04-30,Total,Total,Total,NA,7310.479700000002,329.3121000000019,100 million kwh,NA
-2024-05-31,Total,Total,Total,NA,7832.300129032255,586.7123870967725,100 million kwh,NA
-2024-06-30,Total,Total,Total,NA,8217.656800000002,428.0100999999995,100 million kwh,NA
-2016-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2016-01-31,Wind,Solar & wind,Wind,NA,165.4762140135378,20.033627888924457,100 million kwh,CREA
-2016-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,644.5,79.23000000000002,100 million kwh,CREA
-2016-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,142.45,18.139999999999986,100 million kwh,CREA
-2016-01-31,Thermal,NA,Thermal,NA,3392.75,-637.75,100 million kwh,CREA
-2016-02-29,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2016-02-29,Wind,Solar & wind,Wind,NA,179.03089994347084,14.103174111768254,100 million kwh,CREA
-2016-02-29,Hydro,"Hydro, nuclear & biomass",Hydro,NA,644.5,172.74,100 million kwh,CREA
-2016-02-29,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,142.45,35.370000000000005,100 million kwh,CREA
-2016-02-29,Thermal,NA,Thermal,NA,3392.75,478.46000000000004,100 million kwh,CREA
-2016-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2016-03-31,Wind,Solar & wind,Wind,NA,204.8903132145954,21.75175223580618,100 million kwh,CREA
-2016-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,743.7146,65.74459999999999,100 million kwh,CREA
-2016-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,185.6608,64.26079999999996,100 million kwh,CREA
-2016-03-31,Thermal,NA,Thermal,NA,3707.4055000000008,183.19550000000072,100 million kwh,CREA
-2016-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2016-04-30,Wind,Solar & wind,Wind,NA,237.3695169398907,34.12485542372633,100 million kwh,CREA
-2016-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,783.2854,84.28539999999998,100 million kwh,CREA
-2016-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,150.03920000000005,25.72920000000005,100 million kwh,CREA
-2016-04-30,Thermal,NA,Thermal,NA,3279.0944999999992,-170.90550000000076,100 million kwh,CREA
-2016-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2016-05-31,Wind,Solar & wind,Wind,NA,257.6868799576943,61.50137843951484,100 million kwh,CREA
-2016-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,927,159,100 million kwh,CREA
-2016-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,164.39999999999998,27.600000000000023,100 million kwh,CREA
-2016-05-31,Thermal,NA,Thermal,NA,3350,-124,100 million kwh,CREA
-2016-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2016-06-30,Wind,Solar & wind,Wind,NA,170.92718967109292,7.752653012188858,100 million kwh,CREA
-2016-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1068,16,100 million kwh,CREA
-2016-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,179.5,21.299999999999955,100 million kwh,CREA
-2016-06-30,Thermal,NA,Thermal,NA,3457,-29,100 million kwh,CREA
-2016-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2016-07-31,Wind,Solar & wind,Wind,NA,164.63548780700683,48.055380354775366,100 million kwh,CREA
-2016-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1238,124,100 million kwh,CREA
-2016-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,198.0999999999999,36.19999999999993,100 million kwh,CREA
-2016-07-31,Thermal,NA,Thermal,NA,3908,232,100 million kwh,CREA
-2016-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2016-08-31,Wind,Solar & wind,Wind,NA,145.04181914838708,32.00401788972141,100 million kwh,CREA
-2016-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1108,60,100 million kwh,CREA
-2016-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,201.60000000000014,33.00000000000023,100 million kwh,CREA
-2016-08-31,Thermal,NA,Thermal,NA,4152,370,100 million kwh,CREA
-2016-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2016-09-30,Wind,Solar & wind,Wind,NA,152.9619634199999,19.193840211342632,100 million kwh,CREA
-2016-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,951,-125,100 million kwh,CREA
-2016-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,180,21,100 million kwh,CREA
-2016-09-30,Thermal,NA,Thermal,NA,3650,455,100 million kwh,CREA
-2016-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2016-10-31,Wind,Solar & wind,Wind,NA,210.35322504032257,24.307735255152295,100 million kwh,CREA
-2016-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,929,-73.38440000000082,100 million kwh,CREA
-2016-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,174.5999999999999,31.643699999999853,100 million kwh,CREA
-2016-10-31,Thermal,NA,Thermal,NA,3579,449.3493000000017,100 million kwh,CREA
-2016-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2016-11-30,Wind,Solar & wind,Wind,NA,251.36015703347005,77.84612057199072,100 million kwh,CREA
-2016-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,803.3999999999996,19.184400000000096,100 million kwh,CREA
-2016-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,194.9000000000001,50.36660000000006,100 million kwh,CREA
-2016-11-30,Thermal,NA,Thermal,NA,3811.4000000000015,241.45070000000123,100 million kwh,CREA
-2016-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2016-12-31,Wind,Solar & wind,Wind,NA,242.76081986129037,102.97283786129032,100 million kwh,CREA
-2016-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,678,-23.399999999999636,100 million kwh,CREA
-2016-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,213.60000000000014,54.802200000000084,100 million kwh,CREA
-2016-12-31,Thermal,NA,Thermal,NA,4278.299999999996,407.8999999999942,100 million kwh,CREA
-2017-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2017-01-31,Wind,Solar & wind,Wind,NA,219.37320481279278,53.89699079925498,100 million kwh,CREA
-2017-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,614.5,-30,100 million kwh,CREA
-2017-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,166.75,24.30000000000001,100 million kwh,CREA
-2017-01-31,Thermal,NA,Thermal,NA,3640,247.25,100 million kwh,CREA
-2017-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2017-02-28,Wind,Solar & wind,Wind,NA,244.80936639400684,65.778466450536,100 million kwh,CREA
-2017-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,614.5,-30,100 million kwh,CREA
-2017-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,166.75,24.30000000000001,100 million kwh,CREA
-2017-02-28,Thermal,NA,Thermal,NA,3640,247.25,100 million kwh,CREA
-2017-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2017-03-31,Wind,Solar & wind,Wind,NA,242.77090481626158,37.88059160166617,100 million kwh,CREA
-2017-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,709.4000000000001,-34.31459999999993,100 million kwh,CREA
-2017-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,214,28.339200000000005,100 million kwh,CREA
-2017-03-31,Thermal,NA,Thermal,NA,4076.8999999999996,369.4944999999989,100 million kwh,CREA
-2017-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2017-04-30,Wind,Solar & wind,Wind,NA,297.99195867410964,60.62244173421894,100 million kwh,CREA
-2017-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,745.5999999999999,-37.68540000000007,100 million kwh,CREA
-2017-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,202.60000000000002,52.56079999999997,100 million kwh,CREA
-2017-04-30,Thermal,NA,Thermal,NA,3546.2000000000007,267.1055000000015,100 million kwh,CREA
-2017-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2017-05-31,Wind,Solar & wind,Wind,NA,283.1302507801591,25.44337082246477,100 million kwh,CREA
-2017-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,886,-41,100 million kwh,CREA
-2017-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,204.79999999999995,40.39999999999998,100 million kwh,CREA
-2017-05-31,Thermal,NA,Thermal,NA,3592.8999999999996,242.89999999999964,100 million kwh,CREA
-2017-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2017-06-30,Wind,Solar & wind,Wind,NA,205.26025520328764,34.33306553219472,100 million kwh,CREA
-2017-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1043,-25,100 million kwh,CREA
-2017-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,199.0000000000001,19.500000000000114,100 million kwh,CREA
-2017-06-30,Thermal,NA,Thermal,NA,3719,262,100 million kwh,CREA
-2017-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2017-07-31,Wind,Solar & wind,Wind,NA,203.77785401400786,39.14236620700103,100 million kwh,CREA
-2017-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1244,6,100 million kwh,CREA
-2017-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,230.79999999999995,32.700000000000045,100 million kwh,CREA
-2017-07-31,Thermal,NA,Thermal,NA,4366,458,100 million kwh,CREA
-2017-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2017-08-31,Wind,Solar & wind,Wind,NA,195.949066707203,50.907247558815925,100 million kwh,CREA
-2017-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1167,59,100 million kwh,CREA
-2017-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,230.20000000000005,28.59999999999991,100 million kwh,CREA
-2017-08-31,Thermal,NA,Thermal,NA,4313,161,100 million kwh,CREA
-2017-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2017-09-30,Wind,Solar & wind,Wind,NA,225.31461046356145,72.35264704356155,100 million kwh,CREA
-2017-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1123.1999999999998,172.19999999999982,100 million kwh,CREA
-2017-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,219.39999999999986,39.399999999999864,100 million kwh,CREA
-2017-09-30,Thermal,NA,Thermal,NA,3631,-19,100 million kwh,CREA
-2017-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2017-10-31,Wind,Solar & wind,Wind,NA,258.2965769489615,47.94335190863893,100 million kwh,CREA
-2017-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1086.8000000000002,157.80000000000018,100 million kwh,CREA
-2017-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,201.20000000000005,26.600000000000136,100 million kwh,CREA
-2017-10-31,Thermal,NA,Thermal,NA,3468,-111,100 million kwh,CREA
-2017-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2017-11-30,Wind,Solar & wind,Wind,NA,324.6865043853425,73.32634735187247,100 million kwh,CREA
-2017-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,871.2000000000007,67.80000000000109,100 million kwh,CREA
-2017-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,223.5,28.59999999999991,100 million kwh,CREA
-2017-11-30,Thermal,NA,Thermal,NA,3734.9000000000015,-76.5,100 million kwh,CREA
-2017-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2017-12-31,Wind,Solar & wind,Wind,NA,310.19065740000013,67.42983753870976,100 million kwh,CREA
-2017-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,713.7999999999993,35.79999999999927,100 million kwh,CREA
-2017-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,221.69999999999982,8.099999999999682,100 million kwh,CREA
-2017-12-31,Thermal,NA,Thermal,NA,4387.0999999999985,108.80000000000291,100 million kwh,CREA
-2018-01-31,Solar,Solar & wind,Solar,NA,219.1029677419355,143.6029677419355,100 million kwh,CREA
-2018-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2018-01-31,Wind,Solar & wind,Wind,NA,309.7615207688908,90.38831595609804,100 million kwh,CREA
-2018-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,637.5,23,100 million kwh,CREA
-2018-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,196.65,29.900000000000006,100 million kwh,CREA
-2018-01-31,Thermal,NA,Thermal,NA,4043.25,403.25,100 million kwh,CREA
-2018-02-28,Solar,Solar & wind,Solar,NA,242.57828571428573,167.07828571428573,100 million kwh,CREA
-2018-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2018-02-28,Wind,Solar & wind,Wind,NA,346.2265017123288,101.41713531832195,100 million kwh,CREA
-2018-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,637.5,23,100 million kwh,CREA
-2018-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,196.65,29.900000000000006,100 million kwh,CREA
-2018-02-28,Thermal,NA,Thermal,NA,4043.25,403.25,100 million kwh,CREA
-2018-03-31,Solar,Solar & wind,Solar,NA,281.3481290322581,186.0481290322581,100 million kwh,CREA
-2018-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2018-03-31,Wind,Solar & wind,Wind,NA,334.7771387538666,92.00623393760503,100 million kwh,CREA
-2018-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,658.4000000000001,-51,100 million kwh,CREA
-2018-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,217.7,3.6999999999999886,100 million kwh,CREA
-2018-03-31,Thermal,NA,Thermal,NA,4061.2000000000007,-15.699999999998909,100 million kwh,CREA
-2018-04-30,Solar,Solar & wind,Solar,NA,311.3088,216.10880000000003,100 million kwh,CREA
-2018-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2018-04-30,Wind,Solar & wind,Wind,NA,374.9737260273973,76.98176735328764,100 million kwh,CREA
-2018-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,699.9000000000001,-45.69999999999982,100 million kwh,CREA
-2018-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,215.79999999999995,13.199999999999932,100 million kwh,CREA
-2018-04-30,Thermal,NA,Thermal,NA,3803.2999999999993,257.09999999999854,100 million kwh,CREA
-2018-05-31,Solar,Solar & wind,Solar,NA,301.2665806451613,195.7665806451613,100 million kwh,CREA
-2018-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2018-05-31,Wind,Solar & wind,Wind,NA,314.9450733539549,31.814822573795823,100 million kwh,CREA
-2018-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,919.8999999999996,33.899999999999636,100 million kwh,CREA
-2018-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,236.20000000000005,31.40000000000009,100 million kwh,CREA
-2018-05-31,Thermal,NA,Thermal,NA,3963.2000000000007,370.3000000000011,100 million kwh,CREA
-2018-06-30,Solar,Solar & wind,Solar,NA,272.7168,170.5168,100 million kwh,CREA
-2018-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2018-06-30,Wind,Solar & wind,Wind,NA,246.91718630136987,41.656931098082225,100 million kwh,CREA
-2018-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1064.8000000000002,21.800000000000182,100 million kwh,CREA
-2018-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,237,37.999999999999886,100 million kwh,CREA
-2018-06-30,Thermal,NA,Thermal,NA,3972.899999999998,253.89999999999782,100 million kwh,CREA
-2018-07-31,Solar,Solar & wind,Solar,NA,258.9398709677419,150.1398709677419,100 million kwh,CREA
-2018-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2018-07-31,Wind,Solar & wind,Wind,NA,253.2542399469731,49.47638593296523,100 million kwh,CREA
-2018-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1283.1000000000004,39.100000000000364,100 million kwh,CREA
-2018-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,264,33.200000000000045,100 million kwh,CREA
-2018-07-31,Thermal,NA,Thermal,NA,4569,203,100 million kwh,CREA
-2018-08-31,Solar,Solar & wind,Solar,NA,273.87870967741935,169.17870967741936,100 million kwh,CREA
-2018-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2018-08-31,Wind,Solar & wind,Wind,NA,205.99492708793636,10.045860380733359,100 million kwh,CREA
-2018-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1257.6999999999998,90.69999999999982,100 million kwh,CREA
-2018-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,270.9000000000001,40.700000000000045,100 million kwh,CREA
-2018-08-31,Thermal,NA,Thermal,NA,4647,334,100 million kwh,CREA
-2018-09-30,Solar,Solar & wind,Solar,NA,254.7072,146.9072,100 million kwh,CREA
-2018-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2018-09-30,Wind,Solar & wind,Wind,NA,273.98883698630135,48.6742265227399,100 million kwh,CREA
-2018-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1167.4000000000005,44.20000000000073,100 million kwh,CREA
-2018-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,253.79999999999973,34.399999999999864,100 million kwh,CREA
-2018-09-30,Thermal,NA,Thermal,NA,3815,184,100 million kwh,CREA
-2018-10-31,Solar,Solar & wind,Solar,NA,273.87870967741935,169.27870967741933,100 million kwh,CREA
-2018-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2018-10-31,Wind,Solar & wind,Wind,NA,278.24065532479005,19.944078375828553,100 million kwh,CREA
-2018-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1092.199999999999,5.399999999998727,100 million kwh,CREA
-2018-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,252.30000000000018,51.100000000000136,100 million kwh,CREA
-2018-10-31,Thermal,NA,Thermal,NA,3767.5,299.5,100 million kwh,CREA
-2018-11-30,Solar,Solar & wind,Solar,NA,226.4064,118.90639999999999,100 million kwh,CREA
-2018-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,100 million kwh,CREA
-2018-11-30,Wind,Solar & wind,Wind,NA,304.80908630136986,-19.877418083972657,100 million kwh,CREA
-2018-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,878.8999999999996,7.699999999998909,100 million kwh,CREA
-2018-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,297,73.5,100 million kwh,CREA
-2018-11-30,Thermal,NA,Thermal,NA,4277.200000000004,542.3000000000029,100 million kwh,CREA
-2018-12-31,Solar,Solar & wind,Solar,NA,159.3476129032258,63.94761290322582,100 million kwh,CREA
-2018-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,100 million kwh,CREA
-2018-12-31,Wind,Solar & wind,Wind,NA,363.7846451612903,53.59398776129018,100 million kwh,CREA
-2018-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,730.2000000000007,16.400000000001455,100 million kwh,CREA
-2018-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,306,84.30000000000018,100 million kwh,CREA
-2018-12-31,Thermal,NA,Thermal,NA,4831.899999999994,444.79999999999563,100 million kwh,CREA
-2019-01-31,Solar,Solar & wind,Solar,NA,204.16412903225807,-14.938838709677412,100 million kwh,CREA
-2019-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,133.5219415804166,7.015352539320716,100 million kwh,CREA
-2019-01-31,Coal,Coal & gas,Thermal,Coal,3908.9078751981688,28.20787519816895,100 million kwh,CREA
-2019-01-31,Gas,Coal & gas,Thermal,Gas,170.92018322141516,1.8201832214151636,100 million kwh,CREA
-2019-01-31,Wind,Solar & wind,Wind,NA,316.55064511710117,6.7891243482103505,100 million kwh,CREA
-2019-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,676.1,38.60000000000002,100 million kwh,CREA
-2019-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,241.85,45.19999999999999,100 million kwh,CREA
-2019-01-31,Thermal,NA,Thermal,NA,4213.35,170.10000000000036,100 million kwh,CREA
-2019-02-28,Solar,Solar & wind,Solar,NA,226.03885714285715,-16.539428571428573,100 million kwh,CREA
-2019-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,120.66744271425675,-5.839146326839142,100 million kwh,CREA
-2019-02-28,Coal,Coal & gas,Thermal,Coal,3920.6574731822475,39.95747318224767,100 million kwh,CREA
-2019-02-28,Gas,Coal & gas,Thermal,Gas,172.02508410349625,2.9250841034962605,100 million kwh,CREA
-2019-02-28,Wind,Solar & wind,Wind,NA,354.05564045988257,7.82913874755377,100 million kwh,CREA
-2019-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,676.1,38.60000000000002,100 million kwh,CREA
-2019-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,241.85,45.19999999999999,100 million kwh,CREA
-2019-02-28,Thermal,NA,Thermal,NA,4213.35,170.10000000000036,100 million kwh,CREA
-2019-03-31,Solar,Solar & wind,Solar,NA,296.2869677419355,14.938838709677384,100 million kwh,CREA
-2019-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,137.7355874349333,11.228998393837415,100 million kwh,CREA
-2019-03-31,Coal,Coal & gas,Thermal,Coal,3908.5116384121757,50.711638412175944,100 million kwh,CREA
-2019-03-31,Gas,Coal & gas,Thermal,Gas,185.25277415289085,17.152774152890856,100 million kwh,CREA
-2019-03-31,Wind,Solar & wind,Wind,NA,377.7385439681839,42.96140521431727,100 million kwh,CREA
-2019-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,806.8,148.39999999999986,100 million kwh,CREA
-2019-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,286.7,69,100 million kwh,CREA
-2019-03-31,Thermal,NA,Thermal,NA,4231.5,170.29999999999927,100 million kwh,CREA
-2019-04-30,Solar,Solar & wind,Solar,NA,313.8816,2.5727999999999724,100 million kwh,CREA
-2019-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,131.89566472556768,5.389075684471777,100 million kwh,CREA
-2019-04-30,Coal,Coal & gas,Thermal,Coal,3601.432821320476,-46.067178679524204,100 million kwh,CREA
-2019-04-30,Gas,Coal & gas,Thermal,Gas,162.0715139539545,3.171513953954502,100 million kwh,CREA
-2019-04-30,Wind,Solar & wind,Wind,NA,406.06892191780827,31.09519589041099,100 million kwh,CREA
-2019-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,828,128.0999999999999,100 million kwh,CREA
-2019-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,278.0000000000001,62.20000000000016,100 million kwh,CREA
-2019-04-30,Thermal,NA,Thermal,NA,3895.399999999998,92.09999999999854,100 million kwh,CREA
-2019-05-31,Solar,Solar & wind,Solar,NA,316.20541935483874,14.93883870967744,100 million kwh,CREA
-2019-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,134.36390839734824,7.857319356252347,100 million kwh,CREA
-2019-05-31,Coal,Coal & gas,Thermal,Coal,3560.0321194858066,-212.96788051419344,100 million kwh,CREA
-2019-05-31,Gas,Coal & gas,Thermal,Gas,160.803972116846,-3.596027883153994,100 million kwh,CREA
-2019-05-31,Wind,Solar & wind,Wind,NA,397.28472991604065,82.33965656208574,100 million kwh,CREA
-2019-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1015.6999999999998,95.80000000000018,100 million kwh,CREA
-2019-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,271.89999999999986,35.69999999999982,100 million kwh,CREA
-2019-05-31,Thermal,NA,Thermal,NA,3855.2000000000007,-108,100 million kwh,CREA
-2019-06-30,Solar,Solar & wind,Solar,NA,303.5904,30.87360000000001,100 million kwh,CREA
-2019-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,137.34409837814283,10.837509337046924,100 million kwh,CREA
-2019-06-30,Coal,Coal & gas,Thermal,Coal,3770.0580685963328,-21.641931403667513,100 million kwh,CREA
-2019-06-30,Gas,Coal & gas,Thermal,Gas,170.8978330255237,5.697833025523721,100 million kwh,CREA
-2019-06-30,Wind,Solar & wind,Wind,NA,304.7420178082192,57.824831506849335,100 million kwh,CREA
-2019-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1135.1000000000004,70.30000000000018,100 million kwh,CREA
-2019-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,279.70000000000005,42.700000000000045,100 million kwh,CREA
-2019-06-30,Thermal,NA,Thermal,NA,4078.2999999999993,105.40000000000146,100 million kwh,CREA
-2019-07-31,Solar,Solar & wind,Solar,NA,298.77677419354836,39.83690322580645,100 million kwh,CREA
-2019-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,159.53397822422457,33.027389183128676,100 million kwh,CREA
-2019-07-31,Coal,Coal & gas,Thermal,Coal,4249.243174630399,-93.956825369600665,100 million kwh,CREA
-2019-07-31,Gas,Coal & gas,Thermal,Gas,193.32284714537914,4.122847145379126,100 million kwh,CREA
-2019-07-31,Wind,Solar & wind,Wind,NA,242.31122916482548,-10.94301078214761,100 million kwh,CREA
-2019-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1376.3000000000002,93.19999999999982,100 million kwh,CREA
-2019-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,313.20000000000005,49.200000000000045,100 million kwh,CREA
-2019-07-31,Thermal,NA,Thermal,NA,4602.100000000002,33.10000000000218,100 million kwh,CREA
-2019-08-31,Solar,Solar & wind,Solar,NA,311.2258064516129,37.347096774193574,100 million kwh,CREA
-2019-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,164.69683409068918,38.19024504959329,100 million kwh,CREA
-2019-08-31,Coal,Coal & gas,Thermal,Coal,4398.4670171813705,-35.23298281862935,100 million kwh,CREA
-2019-08-31,Gas,Coal & gas,Thermal,Gas,200.83614872793706,7.636148727937069,100 million kwh,CREA
-2019-08-31,Wind,Solar & wind,Wind,NA,250.71850578877604,44.72357870083968,100 million kwh,CREA
-2019-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1297,39.30000000000018,100 million kwh,CREA
-2019-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,328.4999999999998,57.59999999999968,100 million kwh,CREA
-2019-08-31,Thermal,NA,Thermal,NA,4763.999999999996,116.99999999999636,100 million kwh,CREA
-2019-09-30,Solar,Solar & wind,Solar,NA,295.872,41.164800000000014,100 million kwh,CREA
-2019-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,139.17939427637492,12.672805235279014,100 million kwh,CREA
-2019-09-30,Coal,Coal & gas,Thermal,Coal,3850.781639333307,183.8816393333068,100 million kwh,CREA
-2019-09-30,Gas,Coal & gas,Thermal,Gas,176.43896639031976,16.63896639031975,100 million kwh,CREA
-2019-09-30,Wind,Solar & wind,Wind,NA,265.7713284931507,-8.21750849315066,100 million kwh,CREA
-2019-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1126.7999999999993,-40.60000000000127,100 million kwh,CREA
-2019-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,296.7000000000003,42.900000000000546,100 million kwh,CREA
-2019-09-30,Thermal,NA,Thermal,NA,4166.4000000000015,351.40000000000146,100 million kwh,CREA
-2019-10-31,Solar,Solar & wind,Solar,NA,266.40929032258066,-7.469419354838692,100 million kwh,CREA
-2019-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.29747026910474,11.790881228008843,100 million kwh,CREA
-2019-10-31,Coal,Coal & gas,Thermal,Coal,3712.7816139505176,201.6816139505172,100 million kwh,CREA
-2019-10-31,Gas,Coal & gas,Thermal,Gas,170.72091578038032,17.720915780380324,100 million kwh,CREA
-2019-10-31,Wind,Solar & wind,Wind,NA,335.2610648696421,57.02040954485204,100 million kwh,CREA
-2019-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1074.7000000000007,-17.49999999999818,100 million kwh,CREA
-2019-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,287.5999999999999,35.29999999999973,100 million kwh,CREA
-2019-10-31,Thermal,NA,Thermal,NA,4021.800000000003,254.3000000000029,100 million kwh,CREA
-2019-11-30,Solar,Solar & wind,Solar,NA,223.8336,-2.572800000000001,100 million kwh,CREA
-2019-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,148.88248988399832,22.37590084290241,100 million kwh,CREA
-2019-11-30,Coal,Coal & gas,Thermal,Coal,4140.767423548397,260.16742354839744,100 million kwh,CREA
-2019-11-30,Gas,Coal & gas,Thermal,Gas,191.05008656760182,21.95008656760183,100 million kwh,CREA
-2019-11-30,Wind,Solar & wind,Wind,NA,401.6515939726027,96.84250767123285,100 million kwh,CREA
-2019-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,813.7999999999993,-65.10000000000036,100 million kwh,CREA
-2019-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,325.4000000000001,28.40000000000009,100 million kwh,CREA
-2019-11-30,Thermal,NA,Thermal,NA,4480.699999999997,203.49999999999272,100 million kwh,CREA
-2019-12-31,Solar,Solar & wind,Solar,NA,201.67432258064517,42.32670967741936,100 million kwh,CREA
-2019-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,128.25625122338963,1.7496621822937328,100 million kwh,CREA
-2019-12-31,Coal,Coal & gas,Thermal,Coal,4757.811318908021,180.81131890802135,100 million kwh,CREA
-2019-12-31,Gas,Coal & gas,Thermal,Gas,246.132429868594,46.73242986859398,100 million kwh,CREA
-2019-12-31,Wind,Solar & wind,Wind,NA,406.8304838709678,43.04583870967747,100 million kwh,CREA
-2019-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,708,-22.200000000000728,100 million kwh,CREA
-2019-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,332.0999999999999,26.09999999999991,100 million kwh,CREA
-2019-12-31,Thermal,NA,Thermal,NA,5132.200000000004,300.3000000000102,100 million kwh,CREA
-2020-01-31,Solar,Solar & wind,Solar,NA,207.8988387096774,3.7347096774193176,100 million kwh,CREA
-2020-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.26408329617456,4.742141715757953,100 million kwh,CREA
-2020-01-31,Coal,Coal & gas,Thermal,Coal,3572.8948954447733,-336.0129797533955,100 million kwh,CREA
-2020-01-31,Gas,Coal & gas,Thermal,Gas,192.14102125905228,21.220838037637122,100 million kwh,CREA
-2020-01-31,Wind,Solar & wind,Wind,NA,318.72159783764624,2.170952720545074,100 million kwh,CREA
-2020-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,606.95,-69.14999999999998,100 million kwh,CREA
-2020-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,236.6,-5.25,100 million kwh,CREA
-2020-01-31,Thermal,NA,Thermal,NA,3903.3,-310.0500000000002,100 million kwh,CREA
-2020-02-29,Solar,Solar & wind,Solar,NA,222.2366896551724,-3.8021674876847555,100 million kwh,CREA
-2020-02-29,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,129.39095805856124,8.723515344304488,100 million kwh,CREA
-2020-02-29,Coal,Coal & gas,Thermal,Coal,3580.527958190259,-340.12951499198834,100 million kwh,CREA
-2020-02-29,Gas,Coal & gas,Thermal,Gas,193.3810837511798,21.355999647683547,100 million kwh,CREA
-2020-02-29,Wind,Solar & wind,Wind,NA,342.66294713906785,-11.392693320814715,100 million kwh,CREA
-2020-02-29,Hydro,"Hydro, nuclear & biomass",Hydro,NA,606.95,-69.14999999999998,100 million kwh,CREA
-2020-02-29,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,236.6,-5.25,100 million kwh,CREA
-2020-02-29,Thermal,NA,Thermal,NA,3903.3,-310.0500000000002,100 million kwh,CREA
-2020-03-31,Solar,Solar & wind,Solar,NA,306.24619354838717,9.959225806451684,100 million kwh,CREA
-2020-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,140.06936294109803,2.333775506164727,100 million kwh,CREA
-2020-03-31,Coal,Coal & gas,Thermal,Coal,3599.172876704862,-309.33876170731355,100 million kwh,CREA
-2020-03-31,Gas,Coal & gas,Thermal,Gas,200.05776035403952,14.804986201148665,100 million kwh,CREA
-2020-03-31,Wind,Solar & wind,Wind,NA,484.2895161290323,106.5509721608484,100 million kwh,CREA
-2020-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,749,-57.799999999999955,100 million kwh,CREA
-2020-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,306.3,19.600000000000023,100 million kwh,CREA
-2020-03-31,Thermal,NA,Thermal,NA,3939.2999999999993,-292.2000000000007,100 million kwh,CREA
-2020-04-30,Solar,Solar & wind,Solar,NA,337.0368,23.155200000000036,100 million kwh,CREA
-2020-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,136.17009198032054,4.274427254752851,100 million kwh,CREA
-2020-04-30,Coal,Coal & gas,Thermal,Coal,3701.201214477051,99.76839315657526,100 million kwh,CREA
-2020-04-30,Gas,Coal & gas,Thermal,Gas,174.32869354262917,12.25717958867466,100 million kwh,CREA
-2020-04-30,Wind,Solar & wind,Wind,NA,421.9794120879121,15.910490170103856,100 million kwh,CREA
-2020-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,756.6999999999998,-71.30000000000018,100 million kwh,CREA
-2020-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,307.70000000000005,29.699999999999932,100 million kwh,CREA
-2020-04-30,Thermal,NA,Thermal,NA,4011.7000000000007,116.30000000000291,100 million kwh,CREA
-2020-05-31,Solar,Solar & wind,Solar,NA,321.18503225806455,4.979612903225814,100 million kwh,CREA
-2020-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,141.4720138088447,7.108105411496467,100 million kwh,CREA
-2020-05-31,Coal,Coal & gas,Thermal,Coal,3910.1436400452217,350.1115205594151,100 million kwh,CREA
-2020-05-31,Gas,Coal & gas,Thermal,Gas,200.58434614593222,39.780374029086204,100 million kwh,CREA
-2020-05-31,Wind,Solar & wind,Wind,NA,444.2024016306275,46.917671714586845,100 million kwh,CREA
-2020-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,838.2000000000003,-177.49999999999955,100 million kwh,CREA
-2020-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,310.79999999999995,38.90000000000009,100 million kwh,CREA
-2020-05-31,Thermal,NA,Thermal,NA,4252.199999999999,396.9999999999982,100 million kwh,CREA
-2020-06-30,Solar,Solar & wind,Solar,NA,290.72640000000007,-12.863999999999919,100 million kwh,CREA
-2020-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,135.47483324386468,-1.8692651342781517,100 million kwh,CREA
-2020-06-30,Coal,Coal & gas,Thermal,Coal,3977.6515619523825,207.59349335604975,100 million kwh,CREA
-2020-06-30,Gas,Coal & gas,Thermal,Gas,219.77360480375458,48.87577177823087,100 million kwh,CREA
-2020-06-30,Wind,Solar & wind,Wind,NA,357.6375,52.895482191780786,100 million kwh,CREA
-2020-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1211.3000000000002,76.19999999999982,100 million kwh,CREA
-2020-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,317.70000000000005,38,100 million kwh,CREA
-2020-06-30,Thermal,NA,Thermal,NA,4332.9000000000015,254.60000000000218,100 million kwh,CREA
-2020-07-31,Solar,Solar & wind,Solar,NA,281.3481290322581,-17.428645161290262,100 million kwh,CREA
-2020-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,139.68094464349255,-19.853033580732017,100 million kwh,CREA
-2020-07-31,Coal,Coal & gas,Thermal,Coal,4241.364731521905,-7.878443108494139,100 million kwh,CREA
-2020-07-31,Gas,Coal & gas,Thermal,Gas,233.0543238346012,39.73147668922206,100 million kwh,CREA
-2020-07-31,Wind,Solar & wind,Wind,NA,318.6489677419355,76.33773857711003,100 million kwh,CREA
-2020-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1448.1999999999998,71.89999999999964,100 million kwh,CREA
-2020-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,334.10000000000014,20.90000000000009,100 million kwh,CREA
-2020-07-31,Thermal,NA,Thermal,NA,4614.0999999999985,11.999999999996362,100 million kwh,CREA
-2020-08-31,Solar,Solar & wind,Solar,NA,301.2665806451613,-9.959225806451627,100 million kwh,CREA
-2020-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.27742292968557,-26.41941116100361,100 million kwh,CREA
-2020-08-31,Coal,Coal & gas,Thermal,Coal,4685.284369457494,286.81735227612353,100 million kwh,CREA
-2020-08-31,Gas,Coal & gas,Thermal,Gas,288.3382076128183,87.50205888488122,100 million kwh,CREA
-2020-08-31,Wind,Solar & wind,Wind,NA,305.4756774193549,54.75717163057885,100 million kwh,CREA
-2020-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1417,120,100 million kwh,CREA
-2020-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,331.5999999999999,3.1000000000001364,100 million kwh,CREA
-2020-08-31,Thermal,NA,Thermal,NA,5111.899999999998,347.90000000000146,100 million kwh,CREA
-2020-09-30,Solar,Solar & wind,Solar,NA,288.1536,-7.718400000000031,100 million kwh,CREA
-2020-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,137.80982417671493,-1.3695700996599953,100 million kwh,CREA
-2020-09-30,Coal,Coal & gas,Thermal,Coal,3876.633329206841,25.85168987353427,100 million kwh,CREA
-2020-09-30,Gas,Coal & gas,Thermal,Gas,233.05684661644426,56.6178802261245,100 million kwh,CREA
-2020-09-30,Wind,Solar & wind,Wind,NA,295.5612,29.789871506849295,100 million kwh,CREA
-2020-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1390.5999999999995,263.8000000000002,100 million kwh,CREA
-2020-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,318.6999999999998,21.999999999999545,100 million kwh,CREA
-2020-09-30,Thermal,NA,Thermal,NA,4247.5,81.09999999999854,100 million kwh,CREA
-2020-10-31,Solar,Solar & wind,Solar,NA,263.9194838709677,-2.4898064516129352,100 million kwh,CREA
-2020-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,141.84263890248795,3.545168633383213,100 million kwh,CREA
-2020-10-31,Coal,Coal & gas,Thermal,Coal,3675.7669581637224,-37.014655786795174,100 million kwh,CREA
-2020-10-31,Gas,Coal & gas,Thermal,Gas,199.19040293379263,28.469487153412302,100 million kwh,CREA
-2020-10-31,Wind,Solar & wind,Wind,NA,395.90070967741934,60.639644807777245,100 million kwh,CREA
-2020-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1419.2000000000007,344.5,100 million kwh,CREA
-2020-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,286.7000000000003,-0.8999999999996362,100 million kwh,CREA
-2020-10-31,Thermal,NA,Thermal,NA,4016.800000000003,-5,100 million kwh,CREA
-2020-11-30,Solar,Solar & wind,Solar,NA,226.4064,2.572800000000001,100 million kwh,CREA
-2020-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,136.46975849678597,-12.412731387212347,100 million kwh,CREA
-2020-11-30,Coal,Coal & gas,Thermal,Coal,4372.92352167897,232.1560981305729,100 million kwh,CREA
-2020-11-30,Gas,Coal & gas,Thermal,Gas,253.5067198242454,62.456633256643585,100 million kwh,CREA
-2020-11-30,Wind,Solar & wind,Wind,NA,437.081,35.429406027397306,100 million kwh,CREA
-2020-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,934.1000000000004,120.30000000000109,100 million kwh,CREA
-2020-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,322.89999999999964,-2.5000000000004547,100 million kwh,CREA
-2020-11-30,Thermal,NA,Thermal,NA,4762.9000000000015,282.20000000000437,100 million kwh,CREA
-2020-12-31,Solar,Solar & wind,Solar,NA,194.20490322580648,-7.469419354838692,100 million kwh,CREA
-2020-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,123.01663308478024,-5.239618138609387,100 million kwh,CREA
-2020-12-31,Coal,Coal & gas,Thermal,Coal,5345.4907161714455,587.6793972634241,100 million kwh,CREA
-2020-12-31,Gas,Coal & gas,Thermal,Gas,234.29265074377034,-11.83977912482365,100 million kwh,CREA
-2020-12-31,Wind,Solar & wind,Wind,NA,438.6419032258065,31.811419354838733,100 million kwh,CREA
-2020-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,762.0999999999985,54.099999999998545,100 million kwh,CREA
-2020-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,352.8000000000002,20.700000000000273,100 million kwh,CREA
-2020-12-31,Thermal,NA,Thermal,NA,5702.799999999996,570.5999999999913,100 million kwh,CREA
-2021-01-31,Solar,Solar & wind,Solar,NA,239.0214193548387,31.12258064516132,100 million kwh,CREA
-2021-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.1309369382169,-0.1331463579576564,100 million kwh,CREA
-2021-01-31,Coal,Coal & gas,Thermal,Coal,4356.316301085533,783.42140564076,100 million kwh,CREA
-2021-01-31,Gas,Coal & gas,Thermal,Gas,200.50276197625004,8.361740717197762,100 million kwh,CREA
-2021-01-31,Wind,Solar & wind,Wind,NA,574.007091306725,255.28549346907874,100 million kwh,CREA
-2021-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,646.15,39.19999999999993,100 million kwh,CREA
-2021-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,291.9,55.29999999999998,100 million kwh,CREA
-2021-01-31,Thermal,NA,Thermal,NA,4694.95,791.6499999999996,100 million kwh,CREA
-2021-02-28,Solar,Solar & wind,Solar,NA,264.6308571428571,42.39416748768471,100 million kwh,CREA
-2021-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,124.80898974512385,-4.581968313437386,100 million kwh,CREA
-2021-02-28,Coal,Coal & gas,Thermal,Coal,4365.743496269449,785.2155380791896,100 million kwh,CREA
-2021-02-28,Gas,Coal & gas,Thermal,Gas,204.39751398542708,11.01643023424728,100 million kwh,CREA
-2021-02-28,Wind,Solar & wind,Wind,NA,638.7355714285713,296.0726242895035,100 million kwh,CREA
-2021-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,646.15,39.19999999999993,100 million kwh,CREA
-2021-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,291.9,55.29999999999998,100 million kwh,CREA
-2021-02-28,Thermal,NA,Thermal,NA,4694.95,791.6499999999996,100 million kwh,CREA
-2021-03-31,Solar,Solar & wind,Solar,NA,270.8326451612904,-35.413548387096796,100 million kwh,CREA
-2021-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.7172246756504,-1.3521382654476213,100 million kwh,CREA
-2021-03-31,Coal,Coal & gas,Thermal,Coal,4583.5046480886795,984.3317713838173,100 million kwh,CREA
-2021-03-31,Gas,Coal & gas,Thermal,Gas,266.478127235671,66.42036688163151,100 million kwh,CREA
-2021-03-31,Wind,Solar & wind,Wind,NA,554.7290322580645,70.43951612903226,100 million kwh,CREA
-2021-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,666.3,-82.70000000000005,100 million kwh,CREA
-2021-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,342.1,35.80000000000001,100 million kwh,CREA
-2021-03-31,Thermal,NA,Thermal,NA,4988.700000000001,1049.4000000000015,100 million kwh,CREA
-2021-04-30,Solar,Solar & wind,Solar,NA,284.4573,-52.57950000000005,100 million kwh,CREA
-2021-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,134.26368032496845,-1.9064116553520876,100 million kwh,CREA
-2021-04-30,Coal,Coal & gas,Thermal,Coal,4121.488412617403,420.28719814035185,100 million kwh,CREA
-2021-04-30,Gas,Coal & gas,Thermal,Gas,267.04790705762946,92.71921351500029,100 million kwh,CREA
-2021-04-30,Wind,Solar & wind,Wind,NA,586.3776,164.3981879120879,100 million kwh,CREA
-2021-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,768.8000000000002,12.100000000000364,100 million kwh,CREA
-2021-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,323.69999999999993,15.999999999999886,100 million kwh,CREA
-2021-04-30,Thermal,NA,Thermal,NA,4522.800000000001,511.10000000000036,100 million kwh,CREA
-2021-05-31,Solar,Solar & wind,Solar,NA,336.7021935483871,15.51716129032252,100 million kwh,CREA
-2021-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,139.63166594865942,-1.8403478601852896,100 million kwh,CREA
-2021-05-31,Coal,Coal & gas,Thermal,Coal,4094.933580510396,184.78994046517437,100 million kwh,CREA
-2021-05-31,Gas,Coal & gas,Thermal,Gas,281.23475354094387,80.65040739501165,100 million kwh,CREA
-2021-05-31,Wind,Solar & wind,Wind,NA,642.1896774193549,197.9872757887274,100 million kwh,CREA
-2021-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,957.4000000000001,119.19999999999982,100 million kwh,CREA
-2021-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,342.5,31.700000000000045,100 million kwh,CREA
-2021-05-31,Thermal,NA,Thermal,NA,4515.799999999999,263.60000000000036,100 million kwh,CREA
-2021-06-30,Solar,Solar & wind,Solar,NA,318.4559,27.729499999999916,100 million kwh,CREA
-2021-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,134.43243113657257,-1.042402107292105,100 million kwh,CREA
-2021-06-30,Coal,Coal & gas,Thermal,Coal,4462.837752301412,485.18619034902986,100 million kwh,CREA
-2021-06-30,Gas,Coal & gas,Thermal,Gas,247.52981656201484,27.756211758260264,100 million kwh,CREA
-2021-06-30,Wind,Solar & wind,Wind,NA,464.1528,106.51530000000002,100 million kwh,CREA
-2021-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1141.8999999999996,-69.40000000000055,100 million kwh,CREA
-2021-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,358.8000000000002,41.100000000000136,100 million kwh,CREA
-2021-06-30,Thermal,NA,Thermal,NA,4844.799999999999,511.8999999999978,100 million kwh,CREA
-2021-07-31,Solar,Solar & wind,Solar,NA,314.8258064516129,33.47767741935479,100 million kwh,CREA
-2021-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.63302488120985,-1.047919762282703,100 million kwh,CREA
-2021-07-31,Coal,Coal & gas,Thermal,Coal,4840.787419814317,599.4226882924122,100 million kwh,CREA
-2021-07-31,Gas,Coal & gas,Thermal,Gas,295.5795553044735,62.525231469872296,100 million kwh,CREA
-2021-07-31,Wind,Solar & wind,Wind,NA,450.99580645161285,132.34683870967734,100 million kwh,CREA
-2021-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1420.3000000000002,-27.899999999999636,100 million kwh,CREA
-2021-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,382.0999999999999,47.99999999999977,100 million kwh,CREA
-2021-07-31,Thermal,NA,Thermal,NA,5275,660.9000000000015,100 million kwh,CREA
-2021-08-31,Solar,Solar & wind,Solar,NA,308.8556129032258,7.589032258064492,100 million kwh,CREA
-2021-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,139.16757497340933,0.8901520437237593,100 million kwh,CREA
-2021-08-31,Coal,Coal & gas,Thermal,Coal,4757.177803248397,71.89343379090315,100 million kwh,CREA
-2021-08-31,Gas,Coal & gas,Thermal,Gas,289.65462177819416,1.3164141653758747,100 million kwh,CREA
-2021-08-31,Wind,Solar & wind,Wind,NA,368.6736774193548,63.19799999999992,100 million kwh,CREA
-2021-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1370.1000000000004,-46.899999999999636,100 million kwh,CREA
-2021-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,365.5,33.90000000000009,100 million kwh,CREA
-2021-08-31,Thermal,NA,Thermal,NA,5186,74.10000000000218,100 million kwh,CREA
-2021-09-30,Solar,Solar & wind,Solar,NA,306.185,18.03140000000002,100 million kwh,CREA
-2021-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,137.53971341606024,-0.2701107606546884,100 million kwh,CREA
-2021-09-30,Coal,Coal & gas,Thermal,Coal,4161.128627716646,284.49529850980525,100 million kwh,CREA
-2021-09-30,Gas,Coal & gas,Thermal,Gas,251.3316588672929,18.27481225084864,100 million kwh,CREA
-2021-09-30,Wind,Solar & wind,Wind,NA,416.178,120.61680000000001,100 million kwh,CREA
-2021-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1412.7999999999993,22.199999999999818,100 million kwh,CREA
-2021-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,332.4000000000001,13.700000000000273,100 million kwh,CREA
-2021-09-30,Thermal,NA,Thermal,NA,4550,302.5,100 million kwh,CREA
-2021-10-31,Solar,Solar & wind,Solar,NA,248.46522580645163,-15.454258064516097,100 million kwh,CREA
-2021-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,144.07910357164351,2.2364646691555663,100 million kwh,CREA
-2021-10-31,Coal,Coal & gas,Thermal,Coal,3928.8442279114556,253.07726974773323,100 million kwh,CREA
-2021-10-31,Gas,Coal & gas,Thermal,Gas,210.47666851690212,11.286265583109497,100 million kwh,CREA
-2021-10-31,Wind,Solar & wind,Wind,NA,542.2336451612903,146.33293548387093,100 million kwh,CREA
-2021-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1192,-227.20000000000073,100 million kwh,CREA
-2021-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,335.2999999999997,48.599999999999454,100 million kwh,CREA
-2021-10-31,Thermal,NA,Thermal,NA,4283.4000000000015,266.59999999999854,100 million kwh,CREA
-2021-11-30,Solar,Solar & wind,Solar,NA,278.8459,52.43949999999998,100 million kwh,CREA
-2021-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,141.77147847121398,5.301719974428011,100 million kwh,CREA
-2021-11-30,Coal,Coal & gas,Thermal,Coal,4321.040293620687,-51.88322805828284,100 million kwh,CREA
-2021-11-30,Gas,Coal & gas,Thermal,Gas,207.98822790809425,-45.51849191615116,100 million kwh,CREA
-2021-11-30,Wind,Solar & wind,Wind,NA,621.9144,184.83339999999998,100 million kwh,CREA
-2021-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,912.3999999999996,-21.700000000000728,100 million kwh,CREA
-2021-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,336.2000000000003,13.300000000000637,100 million kwh,CREA
-2021-11-30,Thermal,NA,Thermal,NA,4670.799999999996,-92.10000000000582,100 million kwh,CREA
-2021-12-31,Solar,Solar & wind,Solar,NA,231.4033548387097,37.19845161290323,100 million kwh,CREA
-2021-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,145.6607727082698,22.644139623489565,100 million kwh,CREA
-2021-12-31,Coal,Coal & gas,Thermal,Coal,4914.503148612124,-430.9875675593212,100 million kwh,CREA
-2021-12-31,Gas,Coal & gas,Thermal,Gas,415.33607867960524,181.0434279358349,100 million kwh,CREA
-2021-12-31,Wind,Solar & wind,Wind,NA,638.9465806451614,200.30467741935485,100 million kwh,CREA
-2021-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,705.9000000000015,-56.19999999999709,100 million kwh,CREA
-2021-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,372.7999999999997,19.999999999999545,100 million kwh,CREA
-2021-12-31,Thermal,NA,Thermal,NA,5475.5,-227.29999999999563,100 million kwh,CREA
-2022-01-31,Solar,Solar & wind,Solar,NA,274.250665390924,35.22924603608527,100 million kwh,CREA
-2022-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,150.1543748177227,12.023437879505792,100 million kwh,CREA
-2022-01-31,Coal,Coal & gas,Thermal,Coal,4559.02583586415,202.70953477861713,100 million kwh,CREA
-2022-01-31,Gas,Coal & gas,Thermal,Gas,222.66978931812721,22.167027341877173,100 million kwh,CREA
-2022-01-31,Wind,Solar & wind,Wind,NA,518.2602990705303,-55.746792236194665,100 million kwh,CREA
-2022-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,700,53.85000000000002,100 million kwh,CREA
-2022-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,320,28.100000000000023,100 million kwh,CREA
-2022-01-31,Thermal,NA,Thermal,NA,4931.85,236.90000000000055,100 million kwh,CREA
-2022-02-28,Solar,Solar & wind,Solar,NA,307.91474999999997,43.28389285714286,100 million kwh,CREA
-2022-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,139.2263566030942,14.417366857970336,100 million kwh,CREA
-2022-02-28,Coal,Coal & gas,Thermal,Coal,4569.662426899133,203.91893062968393,100 million kwh,CREA
-2022-02-28,Gas,Coal & gas,Thermal,Gas,222.96121649777328,18.563702512346197,100 million kwh,CREA
-2022-02-28,Wind,Solar & wind,Wind,NA,578.6660357142857,-60.06953571428562,100 million kwh,CREA
-2022-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,700,53.85000000000002,100 million kwh,CREA
-2022-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,320,28.100000000000023,100 million kwh,CREA
-2022-02-28,Thermal,NA,Thermal,NA,4931.85,236.90000000000055,100 million kwh,CREA
-2022-03-31,Solar,Solar & wind,Solar,NA,363.76354838709676,92.93090322580639,100 million kwh,CREA
-2022-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,158.55696919987233,19.839744524221913,100 million kwh,CREA
-2022-03-31,Coal,Coal & gas,Thermal,Coal,4386.03552910121,-197.4691189874693,100 million kwh,CREA
-2022-03-31,Gas,Coal & gas,Thermal,Gas,205.80750169891678,-60.670625536754244,100 million kwh,CREA
-2022-03-31,Wind,Solar & wind,Wind,NA,755.5416774193549,200.81264516129033,100 million kwh,CREA
-2022-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,811.6999999999998,145.39999999999986,100 million kwh,CREA
-2022-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,349.79999999999995,7.699999999999932,100 million kwh,CREA
-2022-03-31,Thermal,NA,Thermal,NA,4750.4,-238.3000000000011,100 million kwh,CREA
-2022-04-30,Solar,Solar & wind,Solar,NA,425.7924,141.3351,100 million kwh,CREA
-2022-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,155.13423995860919,20.870559633640738,100 million kwh,CREA
-2022-04-30,Coal,Coal & gas,Thermal,Coal,3675.884565823465,-445.6038467939379,100 million kwh,CREA
-2022-04-30,Gas,Coal & gas,Thermal,Gas,189.5811942179258,-77.46671283970366,100 million kwh,CREA
-2022-04-30,Wind,Solar & wind,Wind,NA,754.3198,167.94219999999996,100 million kwh,CREA
-2022-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,918.3000000000002,149.5,100 million kwh,CREA
-2022-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,326.70000000000005,3.0000000000001137,100 million kwh,CREA
-2022-04-30,Thermal,NA,Thermal,NA,4020.6000000000004,-502.2000000000007,100 million kwh,CREA
-2022-05-31,Solar,Solar & wind,Solar,NA,415.67990322580647,78.9777096774194,100 million kwh,CREA
-2022-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,161.83373516836483,22.202069219705407,100 million kwh,CREA
-2022-05-31,Coal,Coal & gas,Thermal,Coal,3728.842271947607,-366.091308562789,100 million kwh,CREA
-2022-05-31,Gas,Coal & gas,Thermal,Gas,186.32399288402854,-94.91076065691533,100 million kwh,CREA
-2022-05-31,Wind,Solar & wind,Wind,NA,650.2575483870968,8.067870967741896,100 million kwh,CREA
-2022-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1215.6000000000004,258.2000000000003,100 million kwh,CREA
-2022-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,346.79999999999995,4.2999999999999545,100 million kwh,CREA
-2022-05-31,Thermal,NA,Thermal,NA,4077,-438.7999999999993,100 million kwh,CREA
-2022-06-30,Solar,Solar & wind,Solar,NA,427.6979,109.24200000000002,100 million kwh,CREA
-2022-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,158.50347339252886,24.071042255956286,100 million kwh,CREA
-2022-06-30,Coal,Coal & gas,Thermal,Coal,4177.010730005077,-285.8270222963356,100 million kwh,CREA
-2022-06-30,Gas,Coal & gas,Thermal,Gas,229.58579660239292,-17.944019959621926,100 million kwh,CREA
-2022-06-30,Wind,Solar & wind,Wind,NA,609.1872,145.03439999999995,100 million kwh,CREA
-2022-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1482.5999999999995,340.6999999999998,100 million kwh,CREA
-2022-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,326.60000000000014,-32.200000000000045,100 million kwh,CREA
-2022-06-30,Thermal,NA,Thermal,NA,4565.0999999999985,-279.7000000000007,100 million kwh,CREA
-2022-07-31,Solar,Solar & wind,Solar,NA,438.80632258064514,123.98051612903225,100 million kwh,CREA
-2022-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,159.5832050997033,20.950180218493443,100 million kwh,CREA
-2022-07-31,Coal,Coal & gas,Thermal,Coal,5078.837775745019,238.0503559307017,100 million kwh,CREA
-2022-07-31,Gas,Coal & gas,Thermal,Gas,338.67901915527915,43.09946385080565,100 million kwh,CREA
-2022-07-31,Wind,Solar & wind,Wind,NA,498.91935483870964,47.92354838709679,100 million kwh,CREA
-2022-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1460.1000000000004,39.80000000000018,100 million kwh,CREA
-2022-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,369.7999999999997,-12.300000000000182,100 million kwh,CREA
-2022-07-31,Thermal,NA,Thermal,NA,5577.100000000002,302.1000000000022,100 million kwh,CREA
-2022-08-31,Solar,Solar & wind,Solar,NA,419.87999999999994,111.02438709677415,100 million kwh,CREA
-2022-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,158.21518044016906,19.047605466759734,100 million kwh,CREA
-2022-08-31,Coal,Coal & gas,Thermal,Coal,5478.0464102223,720.8686069739033,100 million kwh,CREA
-2022-08-31,Gas,Coal & gas,Thermal,Gas,336.538409337526,46.883787559331836,100 million kwh,CREA
-2022-08-31,Wind,Solar & wind,Wind,NA,520.0838709677419,151.41019354838704,100 million kwh,CREA
-2022-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1228.4000000000005,-141.69999999999982,100 million kwh,CREA
-2022-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,363.2000000000003,-2.299999999999727,100 million kwh,CREA
-2022-08-31,Thermal,NA,Thermal,NA,5972.799999999996,786.7999999999956,100 million kwh,CREA
-2022-09-30,Solar,Solar & wind,Solar,NA,419.6088,113.42379999999997,100 million kwh,CREA
-2022-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,158.55856885711822,21.01885544105798,100 million kwh,CREA
-2022-09-30,Coal,Coal & gas,Thermal,Coal,4521.062358282215,359.933730565569,100 million kwh,CREA
-2022-09-30,Gas,Coal & gas,Thermal,Gas,187.1790728606697,-64.15258600662321,100 million kwh,CREA
-2022-09-30,Wind,Solar & wind,Wind,NA,542.3652,126.18719999999996,100 million kwh,CREA
-2022-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,990.0999999999985,-422.7000000000007,100 million kwh,CREA
-2022-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,323.5,-8.900000000000091,100 million kwh,CREA
-2022-09-30,Thermal,NA,Thermal,NA,4866.800000000003,316.8000000000029,100 million kwh,CREA
-2022-10-31,Solar,Solar & wind,Solar,NA,384.4254193548387,135.96019354838708,100 million kwh,CREA
-2022-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,172.16961026025047,28.09050668860695,100 million kwh,CREA
-2022-10-31,Coal,Coal & gas,Thermal,Coal,4114.041503814299,185.19727590284356,100 million kwh,CREA
-2022-10-31,Gas,Coal & gas,Thermal,Gas,208.188885925452,-2.28778259145011,100 million kwh,CREA
-2022-10-31,Wind,Solar & wind,Wind,NA,679.6199032258065,137.38625806451626,100 million kwh,CREA
-2022-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,993,-199,100 million kwh,CREA
-2022-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,360.4000000000001,25.100000000000364,100 million kwh,CREA
-2022-10-31,Thermal,NA,Thermal,NA,4494.4000000000015,211,100 million kwh,CREA
-2022-11-30,Solar,Solar & wind,Solar,NA,327.3776,48.5317,100 million kwh,CREA
-2022-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,158.46430063885813,16.692822167644152,100 million kwh,CREA
-2022-11-30,Coal,Coal & gas,Thermal,Coal,4360.047403723181,39.00711010249324,100 million kwh,CREA
-2022-11-30,Gas,Coal & gas,Thermal,Gas,246.58829563796024,38.600067729866,100 million kwh,CREA
-2022-11-30,Wind,Solar & wind,Wind,NA,670.3336,48.419200000000046,100 million kwh,CREA
-2022-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,782.4000000000015,-129.99999999999818,100 million kwh,CREA
-2022-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,373.5999999999999,37.399999999999636,100 million kwh,CREA
-2022-11-30,Thermal,NA,Thermal,NA,4765.0999999999985,94.30000000000291,100 million kwh,CREA
-2022-12-31,Solar,Solar & wind,Solar,NA,292.5577741935484,61.15441935483872,100 million kwh,CREA
-2022-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,162.00312237125507,16.34234966298527,100 million kwh,CREA
-2022-12-31,Coal,Coal & gas,Thermal,Coal,5149.737881071685,235.2347324595603,100 million kwh,CREA
-2022-12-31,Gas,Coal & gas,Thermal,Gas,266.5589965570632,-148.77708212254203,100 million kwh,CREA
-2022-12-31,Wind,Solar & wind,Wind,NA,753.277935483871,114.33135483870967,100 million kwh,CREA
-2022-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,737.7999999999993,31.899999999997817,100 million kwh,CREA
-2022-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,397.4000000000001,24.600000000000364,100 million kwh,CREA
-2022-12-31,Thermal,NA,Thermal,NA,5578.300000000003,102.80000000000291,100 million kwh,CREA
-2023-01-31,Solar,Solar & wind,Solar,NA,355.20330016402403,80.95263477310004,100 million kwh,CREA
-2023-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,164.66590964529095,14.511534827568255,100 million kwh,CREA
-2023-01-31,Coal,Coal & gas,Thermal,Coal,4495.908483251071,-63.117352613079674,100 million kwh,CREA
-2023-01-31,Gas,Coal & gas,Thermal,Gas,217.7343571036381,-4.935432214489111,100 million kwh,CREA
-2023-01-31,Wind,Solar & wind,Wind,NA,715.0049245489339,196.74462547840358,100 million kwh,CREA
-2023-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,683.33545,-16.664549999999963,100 million kwh,CREA
-2023-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,333.7698,13.769799999999975,100 million kwh,CREA
-2023-01-31,Thermal,NA,Thermal,NA,4878.30875,-53.54125000000022,100 million kwh,CREA
-2023-02-28,Solar,Solar & wind,Solar,NA,402.714,94.79925000000003,100 million kwh,CREA
-2023-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,150.01315312929938,10.786796526205194,100 million kwh,CREA
-2023-02-28,Coal,Coal & gas,Thermal,Coal,4510.2845874886425,-59.377839410490196,100 million kwh,CREA
-2023-02-28,Gas,Coal & gas,Thermal,Gas,218.0110093820588,-4.950207115714477,100 million kwh,CREA
-2023-02-28,Wind,Solar & wind,Wind,NA,797.5460357142857,218.88,100 million kwh,CREA
-2023-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,683.33545,-16.664549999999963,100 million kwh,CREA
-2023-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,333.7698,13.769799999999975,100 million kwh,CREA
-2023-02-28,Thermal,NA,Thermal,NA,4878.30875,-53.54125000000022,100 million kwh,CREA
-2023-03-31,Solar,Solar & wind,Solar,NA,498.7034516129032,134.93990322580646,100 million kwh,CREA
-2023-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,177.50999404725042,18.95302484737809,100 million kwh,CREA
-2023-03-31,Coal,Coal & gas,Thermal,Coal,4782.4077529694305,396.3722238682203,100 million kwh,CREA
-2023-03-31,Gas,Coal & gas,Thermal,Gas,234.3915529833176,28.58405128440083,100 million kwh,CREA
-2023-03-31,Wind,Solar & wind,Wind,NA,778.1247096774193,22.583032258064463,100 million kwh,CREA
-2023-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,668.3924,-143.30759999999987,100 million kwh,CREA
-2023-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,365.7093000000001,15.909300000000144,100 million kwh,CREA
-2023-03-31,Thermal,NA,Thermal,NA,5194.309299999999,443.90929999999935,100 million kwh,CREA
-2023-04-30,Solar,Solar & wind,Solar,NA,493.36,67.56760000000003,100 million kwh,CREA
-2023-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,168.44251568439464,13.30827572578545,100 million kwh,CREA
-2023-04-30,Coal,Coal & gas,Thermal,Coal,4130.815915277869,454.93134945440397,100 million kwh,CREA
-2023-04-30,Gas,Coal & gas,Thermal,Gas,216.81476903773657,27.23357481981077,100 million kwh,CREA
-2023-04-30,Wind,Solar & wind,Wind,NA,952.9466,198.6268,100 million kwh,CREA
-2023-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,673.6366999999998,-244.6633000000004,100 million kwh,CREA
-2023-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,345.15110000000004,18.451099999999997,100 million kwh,CREA
-2023-04-30,Thermal,NA,Thermal,NA,4516.073200000001,495.47320000000036,100 million kwh,CREA
-2023-05-31,Solar,Solar & wind,Solar,NA,527.1329032258064,111.45299999999997,100 million kwh,CREA
-2023-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,176.24043928533817,14.406704116973344,100 million kwh,CREA
-2023-05-31,Coal,Coal & gas,Thermal,Coal,4313.052004278721,584.2097323311141,100 million kwh,CREA
-2023-05-31,Gas,Coal & gas,Thermal,Gas,249.50755643593968,63.183563551911135,100 million kwh,CREA
-2023-05-31,Wind,Solar & wind,Wind,NA,796.0548387096775,145.7972903225807,100 million kwh,CREA
-2023-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,814.7000000000003,-400.9000000000001,100 million kwh,CREA
-2023-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,368.89999999999986,22.09999999999991,100 million kwh,CREA
-2023-05-31,Thermal,NA,Thermal,NA,4738.799999999999,661.7999999999993,100 million kwh,CREA
-2023-06-30,Solar,Solar & wind,Solar,NA,578.9241,151.22619999999995,100 million kwh,CREA
-2023-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,170.70691294197536,12.2034395494465,100 million kwh,CREA
-2023-06-30,Coal,Coal & gas,Thermal,Coal,4800.456669795295,623.4459397902183,100 million kwh,CREA
-2023-06-30,Gas,Coal & gas,Thermal,Gas,280.00941726273186,50.42362066033894,100 million kwh,CREA
-2023-06-30,Wind,Solar & wind,Wind,NA,607.1676,-2.0195999999999685,100 million kwh,CREA
-2023-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,980.8191000000002,-501.7808999999993,100 million kwh,CREA
-2023-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,371.5629000000001,44.96289999999999,100 million kwh,CREA
-2023-06-30,Thermal,NA,Thermal,NA,5251.1730000000025,686.073000000004,100 million kwh,CREA
-2023-07-31,Solar,Solar & wind,Solar,NA,579.4724516129032,140.66612903225808,100 million kwh,CREA
-2023-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,175.73733222235106,16.154127122647765,100 million kwh,CREA
-2023-07-31,Coal,Coal & gas,Thermal,Coal,5477.837024487166,398.99924874214685,100 million kwh,CREA
-2023-07-31,Gas,Coal & gas,Thermal,Gas,363.1526432904786,24.47362413519943,100 million kwh,CREA
-2023-07-31,Wind,Solar & wind,Wind,NA,680.6215161290322,181.70216129032258,100 million kwh,CREA
-2023-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1212.7808999999997,-247.31910000000062,100 million kwh,CREA
-2023-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,380.4371000000001,10.637100000000373,100 million kwh,CREA
-2023-07-31,Thermal,NA,Thermal,NA,6016.726999999995,439.62699999999313,100 million kwh,CREA
-2023-08-31,Solar,Solar & wind,Solar,NA,621.1651935483872,201.2851935483872,100 million kwh,CREA
-2023-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,175.23042839232986,17.01524795216079,100 million kwh,CREA
-2023-08-31,Coal,Coal & gas,Thermal,Coal,5401.057533549439,-76.9888766728618,100 million kwh,CREA
-2023-08-31,Gas,Coal & gas,Thermal,Gas,339.54503805823737,3.006628720711376,100 million kwh,CREA
-2023-08-31,Wind,Solar & wind,Wind,NA,466.79167741935487,-53.29219354838699,100 million kwh,CREA
-2023-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1470.4197999999997,242.01979999999912,100 million kwh,CREA
-2023-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,383.29029999999966,20.090299999999388,100 million kwh,CREA
-2023-08-31,Thermal,NA,Thermal,NA,5915.833000000006,-56.96699999998964,100 million kwh,CREA
-2023-09-30,Solar,Solar & wind,Solar,NA,573.188,153.57920000000001,100 million kwh,CREA
-2023-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,177.40853200009178,18.849963142973564,100 million kwh,CREA
-2023-09-30,Coal,Coal & gas,Thermal,Coal,4575.212570184201,54.15021190198513,100 million kwh,CREA
-2023-09-30,Gas,Coal & gas,Thermal,Gas,254.74589781570626,67.56682495503657,100 million kwh,CREA
-2023-09-30,Wind,Solar & wind,Wind,NA,508.2667,-34.098499999999945,100 million kwh,CREA
-2023-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1396.4802,406.3802000000014,100 million kwh,CREA
-2023-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,345.30970000000025,21.809700000000248,100 million kwh,CREA
-2023-09-30,Thermal,NA,Thermal,NA,5007.366999999998,140.56699999999546,100 million kwh,CREA
-2023-10-31,Solar,Solar & wind,Solar,NA,534.0317419354839,149.60632258064516,100 million kwh,CREA
-2023-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,178.9619397389164,6.792329478665948,100 million kwh,CREA
-2023-10-31,Coal,Coal & gas,Thermal,Coal,4287.1607260015935,173.11922218729433,100 million kwh,CREA
-2023-10-31,Gas,Coal & gas,Thermal,Gas,214.07733425948712,5.888448334035104,100 million kwh,CREA
-2023-10-31,Wind,Solar & wind,Wind,NA,590.3612903225805,-89.25861290322598,100 million kwh,CREA
-2023-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1221,228,100 million kwh,CREA
-2023-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,359.4000000000001,-1,100 million kwh,CREA
-2023-10-31,Thermal,NA,Thermal,NA,4680.199999999997,185.79999999999563,100 million kwh,CREA
-2023-11-30,Solar,Solar & wind,Solar,NA,546.4676,219.08999999999997,100 million kwh,CREA
-2023-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,172.14558165665102,13.681281017792884,100 million kwh,CREA
-2023-11-30,Coal,Coal & gas,Thermal,Coal,4673.488871920328,313.4414681971475,100 million kwh,CREA
-2023-11-30,Gas,Coal & gas,Thermal,Gas,255.26554642302187,8.67725078506163,100 million kwh,CREA
-2023-11-30,Wind,Solar & wind,Wind,NA,879.3279,208.99429999999995,100 million kwh,CREA
-2023-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,831.1000000000004,48.69999999999891,100 million kwh,CREA
-2023-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,364.6999999999998,-8.900000000000091,100 million kwh,CREA
-2023-11-30,Thermal,NA,Thermal,NA,5100.9000000000015,335.8000000000029,100 million kwh,CREA
-2023-12-31,Solar,Solar & wind,Solar,NA,401.08374193548383,108.5259677419354,100 million kwh,CREA
-2023-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,181.66160430710036,19.658481935845288,100 million kwh,CREA
-2023-12-31,Coal,Coal & gas,Thermal,Coal,5688.731794907591,538.9939138359068,100 million kwh,CREA
-2023-12-31,Gas,Coal & gas,Thermal,Gas,269.6454007853103,3.0864042282470905,100 million kwh,CREA
-2023-12-31,Wind,Solar & wind,Wind,NA,837.1223225806451,83.84438709677408,100 million kwh,CREA
-2023-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,772.8598999999995,35.0599000000002,100 million kwh,CREA
-2023-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,380.5554000000002,-16.8445999999999,100 million kwh,CREA
-2023-12-31,Thermal,NA,Thermal,NA,6140.038800000002,561.7387999999992,100 million kwh,CREA
-2024-01-31,Solar,Solar & wind,Solar,NA,511.58018709677424,156.3768869327502,100 million kwh,CREA
-2024-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,179.32104194428365,14.655132298992697,100 million kwh,CREA
-2024-01-31,Coal,Coal & gas,Thermal,Coal,4959.789475128009,463.8809918769384,100 million kwh,CREA
-2024-01-31,Gas,Coal & gas,Thermal,Gas,261.8394829277074,44.10512582406932,100 million kwh,CREA
-2024-01-31,Wind,Solar & wind,Wind,NA,804.9493411290324,89.9444165800985,100 million kwh,CREA
-2024-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,694.8,11.464549999999917,100 million kwh,CREA
-2024-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,345.55,11.780200000000036,100 million kwh,CREA
-2024-01-31,Thermal,NA,Thermal,NA,5400.95,522.6412499999997,100 million kwh,CREA
-2024-02-29,Solar,Solar & wind,Solar,NA,562.9853793103449,160.2713793103449,100 million kwh,CREA
-2024-02-29,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,168.90052912750835,18.887375998208967,100 million kwh,CREA
-2024-02-29,Coal,Coal & gas,Thermal,Coal,4969.351780731083,459.0671932424402,100 million kwh,CREA
-2024-02-29,Gas,Coal & gas,Thermal,Gas,262.697690141409,44.686680759350196,100 million kwh,CREA
-2024-02-29,Wind,Solar & wind,Wind,NA,868.8649137931035,71.31887807881776,100 million kwh,CREA
-2024-02-29,Hydro,"Hydro, nuclear & biomass",Hydro,NA,694.8,11.464549999999917,100 million kwh,CREA
-2024-02-29,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,345.55,11.780200000000036,100 million kwh,CREA
-2024-02-29,Thermal,NA,Thermal,NA,5400.95,522.6412499999997,100 million kwh,CREA
-2024-03-31,Solar,Solar & wind,Solar,NA,709.0214516129031,210.31799999999987,100 million kwh,CREA
-2024-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,183.31479731841597,5.804803271165554,100 million kwh,CREA
-2024-03-31,Coal,Coal & gas,Thermal,Coal,4790.3742659918935,7.966513022463005,100 million kwh,CREA
-2024-03-31,Gas,Coal & gas,Thermal,Gas,252.4109366896907,18.019383706373077,100 million kwh,CREA
-2024-03-31,Wind,Solar & wind,Wind,NA,985.4585806451613,207.33387096774197,100 million kwh,CREA
-2024-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,712.0999999999999,43.70759999999996,100 million kwh,CREA
-2024-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,348.1,-17.609300000000076,100 million kwh,CREA
-2024-03-31,Thermal,NA,Thermal,NA,5226.1,31.79070000000138,100 million kwh,CREA
-2024-04-30,Solar,Solar & wind,Solar,NA,631.1818,137.82179999999994,100 million kwh,CREA
-2024-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,179.6872812867641,11.244765602369455,100 million kwh,CREA
-2024-04-30,Coal,Coal & gas,Thermal,Coal,4166.765851896816,35.949936618946595,100 million kwh,CREA
-2024-04-30,Gas,Coal & gas,Thermal,Gas,247.44686681642224,30.632097778685676,100 million kwh,CREA
-2024-04-30,Wind,Solar & wind,Wind,NA,883.9979,-68.94870000000003,100 million kwh,CREA
-2024-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,835.7000000000003,162.06330000000048,100 million kwh,CREA
-2024-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,365.70000000000005,20.548900000000003,100 million kwh,CREA
-2024-04-30,Thermal,NA,Thermal,NA,4593.9000000000015,77.82680000000073,100 million kwh,CREA
-2024-05-31,Solar,Solar & wind,Solar,NA,936.1664516129032,409.03354838709674,100 million kwh,CREA
-2024-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,188.20205252863082,11.961613243292646,100 million kwh,CREA
-2024-05-31,Coal,Coal & gas,Thermal,Coal,4153.45063207585,-159.60137220287106,100 million kwh,CREA
-2024-05-31,Gas,Coal & gas,Thermal,Gas,209.04731539551668,-40.460241040423,100 million kwh,CREA
-2024-05-31,Wind,Solar & wind,Wind,NA,834.3336774193549,38.278838709677416,100 million kwh,CREA
-2024-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1151.1,336.39999999999964,100 million kwh,CREA
-2024-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,360,-8.899999999999864,100 million kwh,CREA
-2024-05-31,Thermal,NA,Thermal,NA,4550.699999999997,-188.10000000000218,100 million kwh,CREA
-2024-06-30,Solar,Solar & wind,Solar,NA,806.255,227.33090000000004,100 million kwh,CREA
-2024-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,181.25290501211995,10.545992070144592,100 million kwh,CREA
-2024-06-30,Coal,Coal & gas,Thermal,Coal,4448.710198940672,-351.7464708546231,100 million kwh,CREA
-2024-06-30,Gas,Coal & gas,Thermal,Gas,250.13689604721088,-29.872521215520976,100 million kwh,CREA
-2024-06-30,Wind,Solar & wind,Wind,NA,737.4018,130.2342,100 million kwh,CREA
-2024-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1437.3000000000002,456.4809,100 million kwh,CREA
-2024-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,356.5999999999999,-14.962900000000218,100 million kwh,CREA
-2024-06-30,Thermal,NA,Thermal,NA,4880.100000000002,-371.0730000000003,100 million kwh,CREA
-2016-01-31,Coal,Coal & gas,Thermal,Coal,3207.5,-156,100 million kwh,Ember
-2016-01-31,Gas,Coal & gas,Thermal,Gas,128.9,7.400000000000006,100 million kwh,Ember
-2016-02-29,Coal,Coal & gas,Thermal,Coal,3207.5,-156,100 million kwh,Ember
-2016-02-29,Gas,Coal & gas,Thermal,Gas,128.9,7.400000000000006,100 million kwh,Ember
-2016-03-31,Coal,Coal & gas,Thermal,Coal,3467.6,53.29999999999973,100 million kwh,Ember
-2016-03-31,Gas,Coal & gas,Thermal,Gas,139.4,16.10000000000001,100 million kwh,Ember
-2016-04-30,Coal,Coal & gas,Thermal,Coal,3141.6000000000004,-174.89999999999964,100 million kwh,Ember
-2016-04-30,Gas,Coal & gas,Thermal,Gas,126.30000000000001,6.5,100 million kwh,Ember
-2016-05-31,Coal,Coal & gas,Thermal,Coal,3145.2999999999997,-199.70000000000027,100 million kwh,Ember
-2016-05-31,Gas,Coal & gas,Thermal,Gas,126.4,5.6000000000000085,100 million kwh,Ember
-2016-05-31,Solar,Solar & wind,Solar,NA,59.5,8.200000000000003,100 million kwh,Ember
-2016-06-30,Coal,Coal & gas,Thermal,Coal,3290.5,30.5,100 million kwh,Ember
-2016-06-30,Gas,Coal & gas,Thermal,Gas,132.3,14.500000000000014,100 million kwh,Ember
-2016-06-30,Solar,Solar & wind,Solar,NA,58.6,9.100000000000001,100 million kwh,Ember
-2016-07-31,Coal,Coal & gas,Thermal,Coal,3698.3999999999996,164.69999999999982,100 million kwh,Ember
-2016-07-31,Gas,Coal & gas,Thermal,Gas,148.6,20.900000000000006,100 million kwh,Ember
-2016-07-31,Solar,Solar & wind,Solar,NA,62.599999999999994,9.299999999999997,100 million kwh,Ember
-2016-08-31,Coal,Coal & gas,Thermal,Coal,3926.3999999999996,274.59999999999945,100 million kwh,Ember
-2016-08-31,Gas,Coal & gas,Thermal,Gas,157.79999999999998,25.899999999999977,100 million kwh,Ember
-2016-08-31,Solar,Solar & wind,Solar,NA,65.6,9.099999999999994,100 million kwh,Ember
-2016-09-30,Coal,Coal & gas,Thermal,Coal,3432.9,378.4000000000001,100 million kwh,Ember
-2016-09-30,Gas,Coal & gas,Thermal,Gas,138,27.700000000000003,100 million kwh,Ember
-2016-09-30,Solar,Solar & wind,Solar,NA,63.2,13.399999999999999,100 million kwh,Ember
-2016-10-31,Coal,Coal & gas,Thermal,Coal,3370.8999999999996,356.49999999999955,100 million kwh,Ember
-2016-10-31,Gas,Coal & gas,Thermal,Gas,135.5,26.599999999999994,100 million kwh,Ember
-2016-10-31,Solar,Solar & wind,Solar,NA,56.3,5.5,100 million kwh,Ember
-2016-11-30,Coal,Coal & gas,Thermal,Coal,3597.7999999999997,176.69999999999936,100 million kwh,Ember
-2016-11-30,Gas,Coal & gas,Thermal,Gas,144.60000000000002,21.00000000000003,100 million kwh,Ember
-2016-11-30,Solar,Solar & wind,Solar,NA,54.699999999999996,13.399999999999999,100 million kwh,Ember
-2016-12-31,Coal,Coal & gas,Thermal,Coal,4019.9,264.10000000000036,100 million kwh,Ember
-2016-12-31,Gas,Coal & gas,Thermal,Gas,161.6,25.900000000000006,100 million kwh,Ember
-2016-12-31,Solar,Solar & wind,Solar,NA,51.4,9.099999999999994,100 million kwh,Ember
-2017-01-31,Coal,Coal & gas,Thermal,Coal,3465.6,258.0999999999999,100 million kwh,Ember
-2017-01-31,Gas,Coal & gas,Thermal,Gas,138.9,10,100 million kwh,Ember
-2017-01-31,Solar,Solar & wind,Solar,NA,75.5,34.4,100 million kwh,Ember
-2017-02-28,Coal,Coal & gas,Thermal,Coal,3465.6,258.0999999999999,100 million kwh,Ember
-2017-02-28,Gas,Coal & gas,Thermal,Gas,138.9,10,100 million kwh,Ember
-2017-02-28,Solar,Solar & wind,Solar,NA,75.5,34.4,100 million kwh,Ember
-2017-03-31,Coal,Coal & gas,Thermal,Coal,3728.7,261.0999999999999,100 million kwh,Ember
-2017-03-31,Gas,Coal & gas,Thermal,Gas,149.5,10.099999999999994,100 million kwh,Ember
-2017-03-31,Solar,Solar & wind,Solar,NA,95.3,41.599999999999994,100 million kwh,Ember
-2017-04-30,Coal,Coal & gas,Thermal,Coal,3319.5,177.89999999999964,100 million kwh,Ember
-2017-04-30,Gas,Coal & gas,Thermal,Gas,133.1,6.799999999999983,100 million kwh,Ember
-2017-04-30,Solar,Solar & wind,Solar,NA,95.19999999999999,37.79999999999998,100 million kwh,Ember
-2017-05-31,Coal,Coal & gas,Thermal,Coal,3346,200.70000000000027,100 million kwh,Ember
-2017-05-31,Gas,Coal & gas,Thermal,Gas,134.1,7.699999999999989,100 million kwh,Ember
-2017-05-31,Solar,Solar & wind,Solar,NA,105.5,46,100 million kwh,Ember
-2017-06-30,Coal,Coal & gas,Thermal,Coal,3488.6000000000004,198.10000000000036,100 million kwh,Ember
-2017-06-30,Gas,Coal & gas,Thermal,Gas,139.8,7.5,100 million kwh,Ember
-2017-06-30,Solar,Solar & wind,Solar,NA,102.2,43.6,100 million kwh,Ember
-2017-07-31,Coal,Coal & gas,Thermal,Coal,4091.9,393.50000000000045,100 million kwh,Ember
-2017-07-31,Gas,Coal & gas,Thermal,Gas,164,15.400000000000006,100 million kwh,Ember
-2017-07-31,Solar,Solar & wind,Solar,NA,108.80000000000001,46.20000000000002,100 million kwh,Ember
-2017-08-31,Coal,Coal & gas,Thermal,Coal,4085.6,159.20000000000027,100 million kwh,Ember
-2017-08-31,Gas,Coal & gas,Thermal,Gas,163.79999999999998,6,100 million kwh,Ember
-2017-08-31,Solar,Solar & wind,Solar,NA,104.7,39.10000000000001,100 million kwh,Ember
-2017-09-30,Coal,Coal & gas,Thermal,Coal,3437.1,4.199999999999818,100 million kwh,Ember
-2017-09-30,Gas,Coal & gas,Thermal,Gas,137.79999999999998,-0.20000000000001705,100 million kwh,Ember
-2017-09-30,Solar,Solar & wind,Solar,NA,107.8,44.599999999999994,100 million kwh,Ember
-2017-10-31,Coal,Coal & gas,Thermal,Coal,3316.2,-54.69999999999982,100 million kwh,Ember
-2017-10-31,Gas,Coal & gas,Thermal,Gas,132.89999999999998,-2.6000000000000227,100 million kwh,Ember
-2017-10-31,Solar,Solar & wind,Solar,NA,104.60000000000001,48.30000000000001,100 million kwh,Ember
-2017-11-30,Coal,Coal & gas,Thermal,Coal,3669.1000000000004,71.30000000000064,100 million kwh,Ember
-2017-11-30,Gas,Coal & gas,Thermal,Gas,147.10000000000002,2.5,100 million kwh,Ember
-2017-11-30,Solar,Solar & wind,Solar,NA,107.5,52.800000000000004,100 million kwh,Ember
-2017-12-31,Coal,Coal & gas,Thermal,Coal,4280.7,260.7999999999997,100 million kwh,Ember
-2017-12-31,Gas,Coal & gas,Thermal,Gas,171.6,10,100 million kwh,Ember
-2017-12-31,Solar,Solar & wind,Solar,NA,95.39999999999999,43.99999999999999,100 million kwh,Ember
-2018-01-31,Coal,Coal & gas,Thermal,Coal,3880.7,415.0999999999999,100 million kwh,Ember
-2018-01-31,Gas,Coal & gas,Thermal,Gas,169.1,30.19999999999999,100 million kwh,Ember
-2018-02-28,Coal,Coal & gas,Thermal,Coal,3880.7,415.0999999999999,100 million kwh,Ember
-2018-02-28,Gas,Coal & gas,Thermal,Gas,169.1,30.19999999999999,100 million kwh,Ember
-2018-03-31,Coal,Coal & gas,Thermal,Coal,3857.7999999999997,129.0999999999999,100 million kwh,Ember
-2018-03-31,Gas,Coal & gas,Thermal,Gas,168.1,18.599999999999994,100 million kwh,Ember
-2018-04-30,Coal,Coal & gas,Thermal,Coal,3647.5,328,100 million kwh,Ember
-2018-04-30,Gas,Coal & gas,Thermal,Gas,158.9,25.80000000000001,100 million kwh,Ember
-2018-05-31,Coal,Coal & gas,Thermal,Coal,3773,427,100 million kwh,Ember
-2018-05-31,Gas,Coal & gas,Thermal,Gas,164.4,30.30000000000001,100 million kwh,Ember
-2018-06-30,Coal,Coal & gas,Thermal,Coal,3791.7000000000003,303.0999999999999,100 million kwh,Ember
-2018-06-30,Gas,Coal & gas,Thermal,Gas,165.2,25.399999999999977,100 million kwh,Ember
-2018-07-31,Coal,Coal & gas,Thermal,Coal,4343.2,251.29999999999973,100 million kwh,Ember
-2018-07-31,Gas,Coal & gas,Thermal,Gas,189.20000000000002,25.200000000000017,100 million kwh,Ember
-2018-08-31,Coal,Coal & gas,Thermal,Coal,4433.7,348.0999999999999,100 million kwh,Ember
-2018-08-31,Gas,Coal & gas,Thermal,Gas,193.2,29.400000000000006,100 million kwh,Ember
-2018-09-30,Coal,Coal & gas,Thermal,Coal,3666.9,229.80000000000018,100 million kwh,Ember
-2018-09-30,Gas,Coal & gas,Thermal,Gas,159.8,22.00000000000003,100 million kwh,Ember
-2018-10-31,Coal,Coal & gas,Thermal,Coal,3511.1000000000004,194.90000000000055,100 million kwh,Ember
-2018-10-31,Gas,Coal & gas,Thermal,Gas,153,20.100000000000023,100 million kwh,Ember
-2018-11-30,Coal,Coal & gas,Thermal,Coal,3880.6,211.49999999999955,100 million kwh,Ember
-2018-11-30,Gas,Coal & gas,Thermal,Gas,169.1,21.99999999999997,100 million kwh,Ember
-2018-12-31,Coal,Coal & gas,Thermal,Coal,4577,296.3000000000002,100 million kwh,Ember
-2018-12-31,Gas,Coal & gas,Thermal,Gas,199.4,27.80000000000001,100 million kwh,Ember
+date,label,broad_label,source,subtype,value,YoY_change_absolute_1m,YoY_change_percent_1m,Unit,data_source
+2016-01-31,Total,Total,Total,NA,4456.432803054634,9.903627888924348,0.002227271541191511,100 million kwh,NA
+2016-02-29,Total,Total,Total,NA,4469.987488984567,114.71317411176824,0.02633890906022507,100 million kwh,NA
+2016-03-31,Total,Total,Total,NA,4921.472302255691,274.8571522358052,0.0591521232901393,100 million kwh,NA
+2016-04-30,Total,Total,Total,NA,4622.500705980987,33.13945542372676,0.007220929801440956,100 million kwh,NA
+2016-05-31,Total,Total,Total,NA,4806.79346899879,62.201378439513974,0.01310995281623506,100 million kwh,NA
+2016-06-30,Total,Total,Total,NA,5026.333778712189,99.15265301218915,0.020123606273577455,100 million kwh,NA
+2016-07-31,Total,Total,Total,NA,5636.842076848102,403.15538035477493,0.07703085869180848,100 million kwh,NA
+2016-08-31,Total,Total,Total,NA,5730.9484081894825,434.60401788972104,0.08205735614279486,100 million kwh,NA
+2016-09-30,Total,Total,Total,NA,5044.568552461096,334.69384021134283,0.07106215359420265,100 million kwh,NA
+2016-10-31,Total,Total,Total,NA,5003.159814081418,371.16703525515004,0.08013117743875298,100 million kwh,NA
+2016-11-30,Total,Total,Total,NA,5173.266746074565,358.4971205719903,0.07445779309421674,100 million kwh,NA
+2016-12-31,Total,Total,Total,NA,5493.767408902387,433.47503786129164,0.08566205390462622,100 million kwh,NA
+2017-01-31,Total,Total,Total,NA,4807.129793853888,350.6969907992543,0.07869455376032408,100 million kwh,NA
+2017-02-28,Total,Total,Total,NA,4832.565955435102,362.5784664505354,0.08111397791247543,100 million kwh,NA
+2017-03-31,Total,Total,Total,NA,5266.177493857357,344.70519160166623,0.07004107113305813,100 million kwh,NA
+2017-04-30,Total,Total,Total,NA,4920.498547715206,297.99784173421904,0.06446680286033146,100 million kwh,NA
+2017-05-31,Total,Total,Total,NA,5086.036839821255,279.2433708224653,0.05809348219835808,100 million kwh,NA
+2017-06-30,Total,Total,Total,NA,5304.366844244384,278.033065532195,0.055315281032416896,100 million kwh,NA
+2017-07-31,Total,Total,Total,NA,6169.784443055104,532.9423662070021,0.09454626525655696,100 million kwh,NA
+2017-08-31,Total,Total,Total,NA,6073.7556557482985,342.807247558816,0.05981684411413424,100 million kwh,NA
+2017-09-30,Total,Total,Total,NA,5377.121199504657,332.5526470435607,0.06592291165937625,100 million kwh,NA
+2017-10-31,Total,Total,Total,NA,5226.503165990058,223.34335190864022,0.04464045927136673,100 million kwh,NA
+2017-11-30,Total,Total,Total,NA,5469.59309342644,296.3263473518746,0.0572803147212011,100 million kwh,NA
+2017-12-31,Total,Total,Total,NA,5919.8972464410945,426.12983753870776,0.07756605000207784,100 million kwh,NA
+2018-01-31,Total,Total,Total,NA,5539.321077551922,732.1912836980337,0.15231360813976158,100 million kwh,NA
+2018-02-28,Total,Total,Total,NA,5599.26137646771,766.6954210326076,0.1586518276424802,100 million kwh,NA
+2018-03-31,Total,Total,Total,NA,5644.63185682722,378.4543629698628,0.07186509824465737,100 million kwh,NA
+2018-04-30,Total,Total,Total,NA,5534.889115068493,614.3905673532872,0.12486347905509998,100 million kwh,NA
+2018-05-31,Total,Total,Total,NA,5836.218243040212,750.1814032189568,0.14749822442208682,100 million kwh,NA
+2018-06-30,Total,Total,Total,NA,5904.840575342466,600.4737310980818,0.11320365818017253,100 million kwh,NA
+2018-07-31,Total,Total,Total,NA,6718.200699955811,548.4162569007067,0.08888742580269904,100 million kwh,NA
+2018-08-31,Total,Total,Total,NA,6761.880225806452,688.124570058153,0.11329474036495046,100 million kwh,NA
+2018-09-30,Total,Total,Total,NA,5903.1026260273975,525.9814265227405,0.09781840635676842,100 million kwh,NA
+2018-10-31,Total,Total,Total,NA,5687.225954043305,460.7227880532473,0.088151250161153,100 million kwh,NA
+2018-11-30,Total,Total,Total,NA,5883.322075342466,413.728981916026,0.07564163820765035,100 million kwh,NA
+2018-12-31,Total,Total,Total,NA,6462.238847105613,542.3416006645184,0.0916133470037106,100 million kwh,NA
+2019-01-31,Total,Total,Total,NA,5652.01477414936,112.69369659743825,0.020344315669681867,100 million kwh,NA
+2019-02-28,Total,Total,Total,NA,5711.394497602741,112.1331211350307,0.02002641305624664,100 million kwh,NA
+2019-03-31,Total,Total,Total,NA,5999.025511710119,354.3936548828988,0.06278419281750991,100 million kwh,NA
+2019-04-30,Total,Total,Total,NA,5721.350521917806,186.46140684931288,0.03368837260744395,100 million kwh,NA
+2019-05-31,Total,Total,Total,NA,5856.29014927088,20.07190623066799,0.003439197335467048,100 million kwh,NA
+2019-06-30,Total,Total,Total,NA,6101.432417808219,196.59184246575296,0.03329333619720143,100 million kwh,NA
+2019-07-31,Total,Total,Total,NA,6832.688003358377,114.48730340256589,0.017041363977607693,100 million kwh,NA
+2019-08-31,Total,Total,Total,NA,6951.444312240385,189.56408643393388,0.02803422718291726,100 million kwh,NA
+2019-09-30,Total,Total,Total,NA,6151.543328493151,248.44070246575393,0.04208646168039709,100 million kwh,NA
+2019-10-31,Total,Total,Total,NA,5985.770355192226,298.54440114892077,0.05249385263771211,100 million kwh,NA
+2019-11-30,Total,Total,Total,NA,6245.385193972599,362.06311863013343,0.061540591181906024,100 million kwh,NA
+2019-12-31,Total,Total,Total,NA,6780.804806451618,318.565959346005,0.04929653126155942,100 million kwh,NA
+2020-01-31,Total,Total,Total,NA,5273.4704365473235,-378.54433760203665,-0.06697511466767325,100 million kwh,NA
+2020-02-29,Total,Total,Total,NA,5311.74963679424,-399.6448608085002,-0.06997325451362957,100 million kwh,NA
+2020-03-31,Total,Total,Total,NA,5785.135709677419,-213.88980203269966,-0.035654091087825135,100 million kwh,NA
+2020-04-30,Total,Total,Total,NA,5835.116212087913,113.76569017010661,0.019884411859452333,100 million kwh,NA
+2020-05-31,Total,Total,Total,NA,6166.587433888691,310.2972846178109,0.05298529900477078,100 million kwh,NA
+2020-06-30,Total,Total,Total,NA,6510.263900000002,408.8314821917829,0.06700581997737598,100 million kwh,NA
+2020-07-31,Total,Total,Total,NA,6996.3970967741925,163.70909341581591,0.023959691022823026,100 million kwh,NA
+2020-08-31,Total,Total,Total,NA,7467.242258064514,515.7979458241289,0.07420011189845699,100 million kwh,NA
+2020-09-30,Total,Total,Total,NA,6540.5148,388.9714715068485,0.0632315259335301,100 million kwh,NA
+2020-10-31,Total,Total,Total,NA,6382.520193548391,396.7498383561651,0.06628216834480005,100 million kwh,NA
+2020-11-30,Total,Total,Total,NA,6683.387400000001,438.0022060274023,0.07013213635727644,100 million kwh,NA
+2020-12-31,Total,Total,Total,NA,7450.546806451608,669.7419999999902,0.09877028156934431,100 million kwh,NA
+2021-01-31,Total,Total,Total,NA,6446.028510661564,1172.5580741142403,0.2223503645697773,100 million kwh,NA
+2021-02-28,Total,Total,Total,NA,6536.3664285714285,1224.6167917771882,0.23054866579070765,100 million kwh,NA
+2021-03-31,Total,Total,Total,NA,6822.661677419355,1037.5259677419363,0.17934341038989898,100 million kwh,NA
+2021-04-30,Total,Total,Total,NA,6486.134900000001,651.0186879120884,0.1115691040674478,100 million kwh,NA
+2021-05-31,Total,Total,Total,NA,6794.591870967742,628.0044370790511,0.10183986585965377,100 million kwh,NA
+2021-06-30,Total,Total,Total,NA,7128.1087,617.844799999998,0.09490318817951415,100 million kwh,NA
+2021-07-31,Total,Total,Total,NA,7843.221612903227,846.8245161290342,0.12103722879301371,100 million kwh,NA
+2021-08-31,Total,Total,Total,NA,7599.129290322581,131.88703225806694,0.017662080283471493,100 million kwh,NA
+2021-09-30,Total,Total,Total,NA,7017.562999999999,477.04819999999927,0.07293740853548702,100 million kwh,NA
+2021-10-31,Total,Total,Total,NA,6601.398870967743,218.87867741935224,0.034293456312226134,100 million kwh,NA
+2021-11-30,Total,Total,Total,NA,6820.160299999996,136.77289999999448,0.020464607513249078,100 million kwh,NA
+2021-12-31,Total,Total,Total,NA,7438.1465806451615,-12.400225806446542,-0.0016643376826662726,100 million kwh,NA
+2022-01-31,Total,Total,Total,NA,6744.360964461454,298.3324537998906,0.04628159079756733,100 million kwh,NA
+2022-02-28,Total,Total,Total,NA,6838.430785714286,302.06435714285726,0.04621288608032881,100 million kwh,NA
+2022-03-31,Total,Total,Total,NA,7031.2052258064505,208.54354838709514,0.030566303628582592,100 million kwh,NA
+2022-04-30,Total,Total,Total,NA,6445.7122,-40.42270000000099,-0.00623217071849691,100 million kwh,NA
+2022-05-31,Total,Total,Total,NA,6705.337451612904,-89.25441935483741,-0.013136097215229015,100 million kwh,NA
+2022-06-30,Total,Total,Total,NA,7411.185099999998,283.0763999999981,0.03971269405585787,100 million kwh,NA
+2022-07-31,Total,Total,Total,NA,8344.725677419356,501.5040645161289,0.06394108049823344,100 million kwh,NA
+2022-08-31,Total,Total,Total,NA,8504.363870967738,905.2345806451567,0.11912346086780823,100 million kwh,NA
+2022-09-30,Total,Total,Total,NA,7142.374000000002,124.81100000000242,0.017785518989997362,100 million kwh,NA
+2022-10-31,Total,Total,Total,NA,6911.845322580647,310.44645161290373,0.04702737369472021,100 million kwh,NA
+2022-11-30,Total,Total,Total,NA,6918.8112,98.65090000000419,0.014464601367214724,100 million kwh,NA
+2022-12-31,Total,Total,Total,NA,7759.335709677422,321.1891290322601,0.04318133900023269,100 million kwh,NA
+2023-01-31,Total,Total,Total,NA,6965.622224712958,221.2612602515037,0.03280685322410992,100 million kwh,NA
+2023-02-28,Total,Total,Total,NA,7095.674035714286,257.24325000000044,0.03761729233808886,100 million kwh,NA
+2023-03-31,Total,Total,Total,NA,7505.239161290321,474.03393548387066,0.06741858902710396,100 million kwh,NA
+2023-04-30,Total,Total,Total,NA,6981.1676,535.4553999999998,0.08307156500099389,100 million kwh,NA
+2023-05-31,Total,Total,Total,NA,7245.587741935483,540.2502903225786,0.08057018669397853,100 million kwh,NA
+2023-06-30,Total,Total,Total,NA,7789.646700000003,378.4616000000051,0.0510662727881408,100 million kwh,NA
+2023-07-31,Total,Total,Total,NA,8870.03896774193,525.3132903225742,0.06295153497305006,100 million kwh,NA
+2023-08-31,Total,Total,Total,NA,8857.499970967747,353.1361000000088,0.04152410519563343,100 million kwh,NA
+2023-09-30,Total,Total,Total,NA,7830.611599999998,688.2375999999967,0.09635978177563875,100 million kwh,NA
+2023-10-31,Total,Total,Total,NA,7384.993032258061,473.14770967741424,0.06845461488145066,100 million kwh,NA
+2023-11-30,Total,Total,Total,NA,7722.495500000001,803.6843000000008,0.11615930493955395,100 million kwh,NA
+2023-12-31,Total,Total,Total,NA,8531.66016451613,772.3244548387083,0.0995348678979655,100 million kwh,NA
+2024-01-31,Total,Total,Total,NA,7757.829528225807,792.2073035128487,0.11373101755392634,100 million kwh,NA
+2024-02-29,Total,Total,Total,NA,7873.150293103448,777.4762573891621,0.10957045849005054,100 million kwh,NA
+2024-03-31,Total,Total,Total,NA,7980.780032258064,475.5408709677431,0.06336118819776382,100 million kwh,NA
+2024-04-30,Total,Total,Total,NA,7310.479700000002,329.3121000000019,0.04717149320408831,100 million kwh,NA
+2024-05-31,Total,Total,Total,NA,7832.300129032255,586.7123870967725,0.0809751269315313,100 million kwh,NA
+2024-06-30,Total,Total,Total,NA,8217.656800000002,428.0100999999995,0.054946022134739314,100 million kwh,NA
+2024-07-31,Total,Total,Total,NA,9355.608870967742,485.5699032258126,0.05474270237049761,100 million kwh,NA
+2024-08-31,Total,Total,Total,NA,9673.845050535856,816.3450795681092,0.09216427685507722,100 million kwh,NA
+2016-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2016-01-31,Wind,Solar & wind,Wind,NA,165.4762140135378,20.033627888924457,0.1377425169802735,100 million kwh,CREA
+2016-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,644.5,79.23000000000002,0.14016310789534203,100 million kwh,CREA
+2016-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,142.45,18.139999999999986,0.14592550880862354,100 million kwh,CREA
+2016-01-31,Thermal,NA,Thermal,NA,3392.75,-637.75,-0.158230988711078,100 million kwh,CREA
+2016-02-29,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2016-02-29,Wind,Solar & wind,Wind,NA,179.03089994347084,14.103174111768254,0.08551123857828236,100 million kwh,CREA
+2016-02-29,Hydro,"Hydro, nuclear & biomass",Hydro,NA,644.5,172.74,0.3661607597083263,100 million kwh,CREA
+2016-02-29,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,142.45,35.370000000000005,0.33031378408666434,100 million kwh,CREA
+2016-02-29,Thermal,NA,Thermal,NA,3392.75,478.46000000000004,0.16417720954331938,100 million kwh,CREA
+2016-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2016-03-31,Wind,Solar & wind,Wind,NA,204.8903132145954,21.75175223580618,0.11877210413554273,100 million kwh,CREA
+2016-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,743.7146,65.74459999999999,0.0969727274068175,100 million kwh,CREA
+2016-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,185.6608,64.26079999999996,0.5293311367380555,100 million kwh,CREA
+2016-03-31,Thermal,NA,Thermal,NA,3707.4055000000008,183.19550000000072,0.051982004477599375,100 million kwh,CREA
+2016-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2016-04-30,Wind,Solar & wind,Wind,NA,237.3695169398907,34.12485542372633,0.16790037764909416,100 million kwh,CREA
+2016-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,783.2854,84.28539999999998,0.12057997138769672,100 million kwh,CREA
+2016-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,150.03920000000005,25.72920000000005,0.2069761081168051,100 million kwh,CREA
+2016-04-30,Thermal,NA,Thermal,NA,3279.0944999999992,-170.90550000000076,-0.04953782608695678,100 million kwh,CREA
+2016-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2016-05-31,Wind,Solar & wind,Wind,NA,257.6868799576943,61.50137843951484,0.31348584866662965,100 million kwh,CREA
+2016-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,927,159,0.20703125,100 million kwh,CREA
+2016-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,164.39999999999998,27.600000000000023,0.20175438596491246,100 million kwh,CREA
+2016-05-31,Thermal,NA,Thermal,NA,3350,-124,-0.03569372481289579,100 million kwh,CREA
+2016-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2016-06-30,Wind,Solar & wind,Wind,NA,170.92718967109292,7.752653012188858,0.047511414286377285,100 million kwh,CREA
+2016-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1068,16,0.015209125475285079,100 million kwh,CREA
+2016-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,179.5,21.299999999999955,0.13463969658659902,100 million kwh,CREA
+2016-06-30,Thermal,NA,Thermal,NA,3457,-29,-0.00831899024670113,100 million kwh,CREA
+2016-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2016-07-31,Wind,Solar & wind,Wind,NA,164.63548780700683,48.055380354775366,0.4122090930004161,100 million kwh,CREA
+2016-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1238,124,0.11131059245960495,100 million kwh,CREA
+2016-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,198.0999999999999,36.19999999999993,0.22359481161210581,100 million kwh,CREA
+2016-07-31,Thermal,NA,Thermal,NA,3908,232,0.06311207834602839,100 million kwh,CREA
+2016-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2016-08-31,Wind,Solar & wind,Wind,NA,145.04181914838708,32.00401788972141,0.28312668446625433,100 million kwh,CREA
+2016-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1108,60,0.057251908396946494,100 million kwh,CREA
+2016-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,201.60000000000014,33.00000000000023,0.19572953736654952,100 million kwh,CREA
+2016-08-31,Thermal,NA,Thermal,NA,4152,370,0.09783183500793236,100 million kwh,CREA
+2016-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2016-09-30,Wind,Solar & wind,Wind,NA,152.9619634199999,19.193840211342632,0.14348590494465752,100 million kwh,CREA
+2016-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,951,-125,-0.11617100371747213,100 million kwh,CREA
+2016-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,180,21,0.13207547169811318,100 million kwh,CREA
+2016-09-30,Thermal,NA,Thermal,NA,3650,455,0.14241001564945233,100 million kwh,CREA
+2016-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2016-10-31,Wind,Solar & wind,Wind,NA,210.35322504032257,24.307735255152295,0.13065479460545282,100 million kwh,CREA
+2016-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,929,-73.38440000000082,-0.0732098384611739,100 million kwh,CREA
+2016-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,174.5999999999999,31.643699999999853,0.22135225939675163,100 million kwh,CREA
+2016-10-31,Thermal,NA,Thermal,NA,3579,449.3493000000017,0.14357809962626233,100 million kwh,CREA
+2016-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2016-11-30,Wind,Solar & wind,Wind,NA,251.36015703347005,77.84612057199072,0.4486445140665771,100 million kwh,CREA
+2016-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,803.3999999999996,19.184400000000096,0.02446317058727221,100 million kwh,CREA
+2016-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,194.9000000000001,50.36660000000006,0.34847723778725226,100 million kwh,CREA
+2016-11-30,Thermal,NA,Thermal,NA,3811.4000000000015,241.45070000000123,0.06763420981917068,100 million kwh,CREA
+2016-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2016-12-31,Wind,Solar & wind,Wind,NA,242.76081986129037,102.97283786129032,0.7366358422807067,100 million kwh,CREA
+2016-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,678,-23.399999999999636,-0.03336184773310469,100 million kwh,CREA
+2016-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,213.60000000000014,54.802200000000084,0.34510679618987217,100 million kwh,CREA
+2016-12-31,Thermal,NA,Thermal,NA,4278.299999999996,407.8999999999942,0.10538962381149086,100 million kwh,CREA
+2017-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2017-01-31,Wind,Solar & wind,Wind,NA,219.37320481279278,53.89699079925498,0.32570838727822005,100 million kwh,CREA
+2017-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,614.5,-30,-0.04654771140418934,100 million kwh,CREA
+2017-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,166.75,24.30000000000001,0.17058617058617065,100 million kwh,CREA
+2017-01-31,Thermal,NA,Thermal,NA,3640,247.25,0.07287598555743857,100 million kwh,CREA
+2017-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2017-02-28,Wind,Solar & wind,Wind,NA,244.80936639400684,65.778466450536,0.3674140412147042,100 million kwh,CREA
+2017-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,614.5,-30,-0.04654771140418934,100 million kwh,CREA
+2017-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,166.75,24.30000000000001,0.17058617058617065,100 million kwh,CREA
+2017-02-28,Thermal,NA,Thermal,NA,3640,247.25,0.07287598555743857,100 million kwh,CREA
+2017-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2017-03-31,Wind,Solar & wind,Wind,NA,242.77090481626158,37.88059160166617,0.18488229632403996,100 million kwh,CREA
+2017-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,709.4000000000001,-34.31459999999993,-0.046139473394767205,100 million kwh,CREA
+2017-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,214,28.339200000000005,0.15263965252762035,100 million kwh,CREA
+2017-03-31,Thermal,NA,Thermal,NA,4076.8999999999996,369.4944999999989,0.09966390242448497,100 million kwh,CREA
+2017-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2017-04-30,Wind,Solar & wind,Wind,NA,297.99195867410964,60.62244173421894,0.25539269960081024,100 million kwh,CREA
+2017-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,745.5999999999999,-37.68540000000007,-0.048111965319409866,100 million kwh,CREA
+2017-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,202.60000000000002,52.56079999999997,0.3503137846642741,100 million kwh,CREA
+2017-04-30,Thermal,NA,Thermal,NA,3546.2000000000007,267.1055000000015,0.08145709127931555,100 million kwh,CREA
+2017-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2017-05-31,Wind,Solar & wind,Wind,NA,283.1302507801591,25.44337082246477,0.09873754855754369,100 million kwh,CREA
+2017-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,886,-41,-0.0442286947141316,100 million kwh,CREA
+2017-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,204.79999999999995,40.39999999999998,0.24574209245742074,100 million kwh,CREA
+2017-05-31,Thermal,NA,Thermal,NA,3592.8999999999996,242.89999999999964,0.07250746268656716,100 million kwh,CREA
+2017-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2017-06-30,Wind,Solar & wind,Wind,NA,205.26025520328764,34.33306553219472,0.20086368703692026,100 million kwh,CREA
+2017-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1043,-25,-0.023408239700374533,100 million kwh,CREA
+2017-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,199.0000000000001,19.500000000000114,0.10863509749303679,100 million kwh,CREA
+2017-06-30,Thermal,NA,Thermal,NA,3719,262,0.07578825571304604,100 million kwh,CREA
+2017-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2017-07-31,Wind,Solar & wind,Wind,NA,203.77785401400786,39.14236620700103,0.23775169453675438,100 million kwh,CREA
+2017-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1244,6,0.004846526655896577,100 million kwh,CREA
+2017-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,230.79999999999995,32.700000000000045,0.1650681474003033,100 million kwh,CREA
+2017-07-31,Thermal,NA,Thermal,NA,4366,458,0.11719549641760496,100 million kwh,CREA
+2017-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2017-08-31,Wind,Solar & wind,Wind,NA,195.949066707203,50.907247558815925,0.35098323957681843,100 million kwh,CREA
+2017-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1167,59,0.05324909747292428,100 million kwh,CREA
+2017-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,230.20000000000005,28.59999999999991,0.14186507936507886,100 million kwh,CREA
+2017-08-31,Thermal,NA,Thermal,NA,4313,161,0.03877649325626198,100 million kwh,CREA
+2017-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2017-09-30,Wind,Solar & wind,Wind,NA,225.31461046356145,72.35264704356155,0.4730107108059085,100 million kwh,CREA
+2017-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1123.1999999999998,172.19999999999982,0.18107255520504717,100 million kwh,CREA
+2017-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,219.39999999999986,39.399999999999864,0.21888888888888802,100 million kwh,CREA
+2017-09-30,Thermal,NA,Thermal,NA,3631,-19,-0.00520547945205474,100 million kwh,CREA
+2017-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2017-10-31,Wind,Solar & wind,Wind,NA,258.2965769489615,47.94335190863893,0.22791831168478005,100 million kwh,CREA
+2017-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1086.8000000000002,157.80000000000018,0.16986006458557612,100 million kwh,CREA
+2017-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,201.20000000000005,26.600000000000136,0.15234822451317376,100 million kwh,CREA
+2017-10-31,Thermal,NA,Thermal,NA,3468,-111,-0.031014249790444204,100 million kwh,CREA
+2017-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2017-11-30,Wind,Solar & wind,Wind,NA,324.6865043853425,73.32634735187247,0.29171825884127145,100 million kwh,CREA
+2017-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,871.2000000000007,67.80000000000109,0.08439133681852273,100 million kwh,CREA
+2017-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,223.5,28.59999999999991,0.14674191893278543,100 million kwh,CREA
+2017-11-30,Thermal,NA,Thermal,NA,3734.9000000000015,-76.5,-0.020071364852810025,100 million kwh,CREA
+2017-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2017-12-31,Wind,Solar & wind,Wind,NA,310.19065740000013,67.42983753870976,0.2777624394959537,100 million kwh,CREA
+2017-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,713.7999999999993,35.79999999999927,0.05280235988200488,100 million kwh,CREA
+2017-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,221.69999999999982,8.099999999999682,0.03792134831460525,100 million kwh,CREA
+2017-12-31,Thermal,NA,Thermal,NA,4387.0999999999985,108.80000000000291,0.02543066171142816,100 million kwh,CREA
+2018-01-31,Solar,Solar & wind,Solar,NA,219.1029677419355,143.6029677419355,1.9020260628070926,100 million kwh,CREA
+2018-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2018-01-31,Wind,Solar & wind,Wind,NA,309.7615207688908,90.38831595609804,0.4120298831994227,100 million kwh,CREA
+2018-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,637.5,23,0.037428803905614316,100 million kwh,CREA
+2018-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,196.65,29.900000000000006,0.17931034482758634,100 million kwh,CREA
+2018-01-31,Thermal,NA,Thermal,NA,4043.25,403.25,0.11078296703296697,100 million kwh,CREA
+2018-02-28,Solar,Solar & wind,Solar,NA,242.57828571428573,167.07828571428573,2.212957426679281,100 million kwh,CREA
+2018-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2018-02-28,Wind,Solar & wind,Wind,NA,346.2265017123288,101.41713531832195,0.414269832940529,100 million kwh,CREA
+2018-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,637.5,23,0.037428803905614316,100 million kwh,CREA
+2018-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,196.65,29.900000000000006,0.17931034482758634,100 million kwh,CREA
+2018-02-28,Thermal,NA,Thermal,NA,4043.25,403.25,0.11078296703296697,100 million kwh,CREA
+2018-03-31,Solar,Solar & wind,Solar,NA,281.3481290322581,186.0481290322581,1.9522364011779443,100 million kwh,CREA
+2018-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2018-03-31,Wind,Solar & wind,Wind,NA,334.7771387538666,92.00623393760503,0.3789837748771374,100 million kwh,CREA
+2018-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,658.4000000000001,-51,-0.0718917394981674,100 million kwh,CREA
+2018-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,217.7,3.6999999999999886,0.0172897196261681,100 million kwh,CREA
+2018-03-31,Thermal,NA,Thermal,NA,4061.2000000000007,-15.699999999998909,-0.0038509651941422973,100 million kwh,CREA
+2018-04-30,Solar,Solar & wind,Solar,NA,311.3088,216.10880000000003,2.270050420168068,100 million kwh,CREA
+2018-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2018-04-30,Wind,Solar & wind,Wind,NA,374.9737260273973,76.98176735328764,0.2583350493611023,100 million kwh,CREA
+2018-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,699.9000000000001,-45.69999999999982,-0.06129291845493534,100 million kwh,CREA
+2018-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,215.79999999999995,13.199999999999932,0.06515301085883474,100 million kwh,CREA
+2018-04-30,Thermal,NA,Thermal,NA,3803.2999999999993,257.09999999999854,0.07250014099599533,100 million kwh,CREA
+2018-05-31,Solar,Solar & wind,Solar,NA,301.2665806451613,195.7665806451613,1.8556073994802018,100 million kwh,CREA
+2018-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2018-05-31,Wind,Solar & wind,Wind,NA,314.9450733539549,31.814822573795823,0.11236815029877878,100 million kwh,CREA
+2018-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,919.8999999999996,33.899999999999636,0.03826185101580104,100 million kwh,CREA
+2018-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,236.20000000000005,31.40000000000009,0.15332031250000044,100 million kwh,CREA
+2018-05-31,Thermal,NA,Thermal,NA,3963.2000000000007,370.3000000000011,0.10306437696568271,100 million kwh,CREA
+2018-06-30,Solar,Solar & wind,Solar,NA,272.7168,170.5168,1.6684618395303326,100 million kwh,CREA
+2018-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2018-06-30,Wind,Solar & wind,Wind,NA,246.91718630136987,41.656931098082225,0.2029468932347649,100 million kwh,CREA
+2018-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1064.8000000000002,21.800000000000182,0.020901246404602336,100 million kwh,CREA
+2018-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,237,37.999999999999886,0.190954773869346,100 million kwh,CREA
+2018-06-30,Thermal,NA,Thermal,NA,3972.899999999998,253.89999999999782,0.06827104060231193,100 million kwh,CREA
+2018-07-31,Solar,Solar & wind,Solar,NA,258.9398709677419,150.1398709677419,1.3799620493358629,100 million kwh,CREA
+2018-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2018-07-31,Wind,Solar & wind,Wind,NA,253.2542399469731,49.47638593296523,0.2427956961876936,100 million kwh,CREA
+2018-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1283.1000000000004,39.100000000000364,0.03143086816720286,100 million kwh,CREA
+2018-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,264,33.200000000000045,0.14384748700173322,100 million kwh,CREA
+2018-07-31,Thermal,NA,Thermal,NA,4569,203,0.0464956481905634,100 million kwh,CREA
+2018-08-31,Solar,Solar & wind,Solar,NA,273.87870967741935,169.17870967741936,1.6158424993067748,100 million kwh,CREA
+2018-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2018-08-31,Wind,Solar & wind,Wind,NA,205.99492708793636,10.045860380733359,0.05126771231701954,100 million kwh,CREA
+2018-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1257.6999999999998,90.69999999999982,0.07772065124250194,100 million kwh,CREA
+2018-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,270.9000000000001,40.700000000000045,0.17680278019113826,100 million kwh,CREA
+2018-08-31,Thermal,NA,Thermal,NA,4647,334,0.07744029677718522,100 million kwh,CREA
+2018-09-30,Solar,Solar & wind,Solar,NA,254.7072,146.9072,1.3627755102040817,100 million kwh,CREA
+2018-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2018-09-30,Wind,Solar & wind,Wind,NA,273.98883698630135,48.6742265227399,0.21602783069680975,100 million kwh,CREA
+2018-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1167.4000000000005,44.20000000000073,0.039351851851852526,100 million kwh,CREA
+2018-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,253.79999999999973,34.399999999999864,0.1567912488605281,100 million kwh,CREA
+2018-09-30,Thermal,NA,Thermal,NA,3815,184,0.05067474524924265,100 million kwh,CREA
+2018-10-31,Solar,Solar & wind,Solar,NA,273.87870967741935,169.27870967741933,1.618343304755443,100 million kwh,CREA
+2018-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2018-10-31,Wind,Solar & wind,Wind,NA,278.24065532479005,19.944078375828553,0.0772138702394396,100 million kwh,CREA
+2018-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1092.199999999999,5.399999999998727,0.004968715495030196,100 million kwh,CREA
+2018-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,252.30000000000018,51.100000000000136,0.2539761431411538,100 million kwh,CREA
+2018-10-31,Thermal,NA,Thermal,NA,3767.5,299.5,0.08636101499423288,100 million kwh,CREA
+2018-11-30,Solar,Solar & wind,Solar,NA,226.4064,118.90639999999999,1.106106046511628,100 million kwh,CREA
+2018-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109591,0,0,100 million kwh,CREA
+2018-11-30,Wind,Solar & wind,Wind,NA,304.80908630136986,-19.877418083972657,-0.06122033966765017,100 million kwh,CREA
+2018-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,878.8999999999996,7.699999999998909,0.008838383838382535,100 million kwh,CREA
+2018-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,297,73.5,0.32885906040268464,100 million kwh,CREA
+2018-11-30,Thermal,NA,Thermal,NA,4277.200000000004,542.3000000000029,0.14519799726900384,100 million kwh,CREA
+2018-12-31,Solar,Solar & wind,Solar,NA,159.3476129032258,63.94761290322582,0.670310407790627,100 million kwh,CREA
+2018-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,126.50658904109589,0,0,100 million kwh,CREA
+2018-12-31,Wind,Solar & wind,Wind,NA,363.7846451612903,53.59398776129018,0.1727775691586324,100 million kwh,CREA
+2018-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,730.2000000000007,16.400000000001455,0.022975623423930225,100 million kwh,CREA
+2018-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,306,84.30000000000018,0.3802435723951296,100 million kwh,CREA
+2018-12-31,Thermal,NA,Thermal,NA,4831.899999999994,444.79999999999563,0.10138816074399859,100 million kwh,CREA
+2019-01-31,Solar,Solar & wind,Solar,NA,204.16412903225807,-14.938838709677412,-0.06818181818181812,100 million kwh,CREA
+2019-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,133.5219415804166,7.015352539320716,0.05545444385542453,100 million kwh,CREA
+2019-01-31,Coal,Coal & gas,Thermal,Coal,3908.9078751981688,28.20787519816895,0.007268759553217041,100 million kwh,CREA
+2019-01-31,Gas,Coal & gas,Thermal,Gas,170.92018322141516,1.8201832214151636,0.010763945720964951,100 million kwh,CREA
+2019-01-31,Wind,Solar & wind,Wind,NA,316.55064511710117,6.7891243482103505,0.021917261806303046,100 million kwh,CREA
+2019-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,676.1,38.60000000000002,0.06054901960784309,100 million kwh,CREA
+2019-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,241.85,45.19999999999999,0.22984998728705808,100 million kwh,CREA
+2019-01-31,Thermal,NA,Thermal,NA,4213.35,170.10000000000036,0.04207011686143591,100 million kwh,CREA
+2019-02-28,Solar,Solar & wind,Solar,NA,226.03885714285715,-16.539428571428573,-0.06818181818181823,100 million kwh,CREA
+2019-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,120.66744271425675,-5.839146326839142,-0.04615685531559377,100 million kwh,CREA
+2019-02-28,Coal,Coal & gas,Thermal,Coal,3920.6574731822475,39.95747318224767,0.010296460221673298,100 million kwh,CREA
+2019-02-28,Gas,Coal & gas,Thermal,Gas,172.02508410349625,2.9250841034962605,0.01729795448548943,100 million kwh,CREA
+2019-02-28,Wind,Solar & wind,Wind,NA,354.05564045988257,7.82913874755377,0.022612765657259892,100 million kwh,CREA
+2019-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,676.1,38.60000000000002,0.06054901960784309,100 million kwh,CREA
+2019-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,241.85,45.19999999999999,0.22984998728705808,100 million kwh,CREA
+2019-02-28,Thermal,NA,Thermal,NA,4213.35,170.10000000000036,0.04207011686143591,100 million kwh,CREA
+2019-03-31,Solar,Solar & wind,Solar,NA,296.2869677419355,14.938838709677384,0.05309734513274322,100 million kwh,CREA
+2019-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,137.7355874349333,11.228998393837415,0.08876216234230805,100 million kwh,CREA
+2019-03-31,Coal,Coal & gas,Thermal,Coal,3908.5116384121757,50.711638412175944,0.013145222254180133,100 million kwh,CREA
+2019-03-31,Gas,Coal & gas,Thermal,Gas,185.25277415289085,17.152774152890856,0.10203910858352683,100 million kwh,CREA
+2019-03-31,Wind,Solar & wind,Wind,NA,377.7385439681839,42.96140521431727,0.12832837204544956,100 million kwh,CREA
+2019-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,806.8,148.39999999999986,0.22539489671931934,100 million kwh,CREA
+2019-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,286.7,69,0.316949931097841,100 million kwh,CREA
+2019-03-31,Thermal,NA,Thermal,NA,4231.5,170.29999999999927,0.04193341869398193,100 million kwh,CREA
+2019-04-30,Solar,Solar & wind,Solar,NA,313.8816,2.5727999999999724,0.008264462809917328,100 million kwh,CREA
+2019-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,131.89566472556768,5.389075684471777,0.042599169935102266,100 million kwh,CREA
+2019-04-30,Coal,Coal & gas,Thermal,Coal,3601.432821320476,-46.067178679524204,-0.012629795388491849,100 million kwh,CREA
+2019-04-30,Gas,Coal & gas,Thermal,Gas,162.0715139539545,3.171513953954502,0.019959181585616825,100 million kwh,CREA
+2019-04-30,Wind,Solar & wind,Wind,NA,406.06892191780827,31.09519589041099,0.08292633251893244,100 million kwh,CREA
+2019-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,828,128.0999999999999,0.18302614659237015,100 million kwh,CREA
+2019-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,278.0000000000001,62.20000000000016,0.2882298424467107,100 million kwh,CREA
+2019-04-30,Thermal,NA,Thermal,NA,3895.399999999998,92.09999999999854,0.024215812583808338,100 million kwh,CREA
+2019-05-31,Solar,Solar & wind,Solar,NA,316.20541935483874,14.93883870967744,0.04958677685950419,100 million kwh,CREA
+2019-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,134.36390839734824,7.857319356252347,0.062109961353079335,100 million kwh,CREA
+2019-05-31,Coal,Coal & gas,Thermal,Coal,3560.0321194858066,-212.96788051419344,-0.05644523734805018,100 million kwh,CREA
+2019-05-31,Gas,Coal & gas,Thermal,Gas,160.803972116846,-3.596027883153994,-0.02187364892429433,100 million kwh,CREA
+2019-05-31,Wind,Solar & wind,Wind,NA,397.28472991604065,82.33965656208574,0.26144132272089005,100 million kwh,CREA
+2019-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1015.6999999999998,95.80000000000018,0.10414175453853702,100 million kwh,CREA
+2019-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,271.89999999999986,35.69999999999982,0.15114309906858514,100 million kwh,CREA
+2019-05-31,Thermal,NA,Thermal,NA,3855.2000000000007,-108,-0.027250706499798105,100 million kwh,CREA
+2019-06-30,Solar,Solar & wind,Solar,NA,303.5904,30.87360000000001,0.1132075471698113,100 million kwh,CREA
+2019-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,137.34409837814283,10.837509337046924,0.08566754837984236,100 million kwh,CREA
+2019-06-30,Coal,Coal & gas,Thermal,Coal,3770.0580685963328,-21.641931403667513,-0.005707711950752259,100 million kwh,CREA
+2019-06-30,Gas,Coal & gas,Thermal,Gas,170.8978330255237,5.697833025523721,0.03449051468234687,100 million kwh,CREA
+2019-06-30,Wind,Solar & wind,Wind,NA,304.7420178082192,57.824831506849335,0.2341871474117334,100 million kwh,CREA
+2019-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1135.1000000000004,70.30000000000018,0.06602178812922621,100 million kwh,CREA
+2019-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,279.70000000000005,42.700000000000045,0.18016877637130824,100 million kwh,CREA
+2019-06-30,Thermal,NA,Thermal,NA,4078.2999999999993,105.40000000000146,0.026529738981600826,100 million kwh,CREA
+2019-07-31,Solar,Solar & wind,Solar,NA,298.77677419354836,39.83690322580645,0.15384615384615397,100 million kwh,CREA
+2019-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,159.53397822422457,33.027389183128676,0.26107248194321064,100 million kwh,CREA
+2019-07-31,Coal,Coal & gas,Thermal,Coal,4249.243174630399,-93.956825369600665,-0.02163308744004433,100 million kwh,CREA
+2019-07-31,Gas,Coal & gas,Thermal,Gas,193.32284714537914,4.122847145379126,0.021790946857183524,100 million kwh,CREA
+2019-07-31,Wind,Solar & wind,Wind,NA,242.31122916482548,-10.94301078214761,-0.043209585689222396,100 million kwh,CREA
+2019-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1376.3000000000002,93.19999999999982,0.07263658327488098,100 million kwh,CREA
+2019-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,313.20000000000005,49.200000000000045,0.1863636363636365,100 million kwh,CREA
+2019-07-31,Thermal,NA,Thermal,NA,4602.100000000002,33.10000000000218,0.007244473626614623,100 million kwh,CREA
+2019-08-31,Solar,Solar & wind,Solar,NA,311.2258064516129,37.347096774193574,0.13636363636363646,100 million kwh,CREA
+2019-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,164.69683409068918,38.19024504959329,0.3018834460645139,100 million kwh,CREA
+2019-08-31,Coal,Coal & gas,Thermal,Coal,4398.4670171813705,-35.23298281862935,-0.007946632117335262,100 million kwh,CREA
+2019-08-31,Gas,Coal & gas,Thermal,Gas,200.83614872793706,7.636148727937069,0.03952457933714837,100 million kwh,CREA
+2019-08-31,Wind,Solar & wind,Wind,NA,250.71850578877604,44.72357870083968,0.21711009748190446,100 million kwh,CREA
+2019-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1297,39.30000000000018,0.03124751530571701,100 million kwh,CREA
+2019-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,328.4999999999998,57.59999999999968,0.2126245847176067,100 million kwh,CREA
+2019-08-31,Thermal,NA,Thermal,NA,4763.999999999996,116.99999999999636,0.02517753389283328,100 million kwh,CREA
+2019-09-30,Solar,Solar & wind,Solar,NA,295.872,41.164800000000014,0.16161616161616177,100 million kwh,CREA
+2019-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,139.17939427637492,12.672805235279014,0.10017506069318038,100 million kwh,CREA
+2019-09-30,Coal,Coal & gas,Thermal,Coal,3850.781639333307,183.8816393333068,0.05014634686882835,100 million kwh,CREA
+2019-09-30,Gas,Coal & gas,Thermal,Gas,176.43896639031976,16.63896639031975,0.10412369455769555,100 million kwh,CREA
+2019-09-30,Wind,Solar & wind,Wind,NA,265.7713284931507,-8.21750849315066,-0.029992128816406893,100 million kwh,CREA
+2019-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1126.7999999999993,-40.60000000000127,-0.034778139455200696,100 million kwh,CREA
+2019-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,296.7000000000003,42.900000000000546,0.1690307328605225,100 million kwh,CREA
+2019-09-30,Thermal,NA,Thermal,NA,4166.4000000000015,351.40000000000146,0.09211009174311968,100 million kwh,CREA
+2019-10-31,Solar,Solar & wind,Solar,NA,266.40929032258066,-7.469419354838692,-0.027272727272727226,100 million kwh,CREA
+2019-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.29747026910474,11.790881228008843,0.09320369253002747,100 million kwh,CREA
+2019-10-31,Coal,Coal & gas,Thermal,Coal,3712.7816139505176,201.6816139505172,0.057441147774349055,100 million kwh,CREA
+2019-10-31,Gas,Coal & gas,Thermal,Gas,170.72091578038032,17.720915780380324,0.11582297895673421,100 million kwh,CREA
+2019-10-31,Wind,Solar & wind,Wind,NA,335.2610648696421,57.02040954485204,0.20493198407073976,100 million kwh,CREA
+2019-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1074.7000000000007,-17.49999999999818,-0.016022706464015934,100 million kwh,CREA
+2019-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,287.5999999999999,35.29999999999973,0.13991280221957858,100 million kwh,CREA
+2019-10-31,Thermal,NA,Thermal,NA,4021.800000000003,254.3000000000029,0.06749834107498409,100 million kwh,CREA
+2019-11-30,Solar,Solar & wind,Solar,NA,223.8336,-2.572800000000001,-0.011363636363636354,100 million kwh,CREA
+2019-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,148.88248988399832,22.37590084290241,0.17687537868587655,100 million kwh,CREA
+2019-11-30,Coal,Coal & gas,Thermal,Coal,4140.767423548397,260.16742354839744,0.06704309218893911,100 million kwh,CREA
+2019-11-30,Gas,Coal & gas,Thermal,Gas,191.05008656760182,21.95008656760183,0.1298053611330683,100 million kwh,CREA
+2019-11-30,Wind,Solar & wind,Wind,NA,401.6515939726027,96.84250767123285,0.317715291385648,100 million kwh,CREA
+2019-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,813.7999999999993,-65.10000000000036,-0.07406986005233862,100 million kwh,CREA
+2019-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,325.4000000000001,28.40000000000009,0.09562289562289594,100 million kwh,CREA
+2019-11-30,Thermal,NA,Thermal,NA,4480.699999999997,203.49999999999272,0.04757785467127862,100 million kwh,CREA
+2019-12-31,Solar,Solar & wind,Solar,NA,201.67432258064517,42.32670967741936,0.265625,100 million kwh,CREA
+2019-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,128.25625122338963,1.7496621822937328,0.01383060120074342,100 million kwh,CREA
+2019-12-31,Coal,Coal & gas,Thermal,Coal,4757.811318908021,180.81131890802135,0.039504330108809604,100 million kwh,CREA
+2019-12-31,Gas,Coal & gas,Thermal,Gas,246.132429868594,46.73242986859398,0.23436524507820455,100 million kwh,CREA
+2019-12-31,Wind,Solar & wind,Wind,NA,406.8304838709678,43.04583870967747,0.11832780542618093,100 million kwh,CREA
+2019-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,708,-22.200000000000728,-0.030402629416599214,100 million kwh,CREA
+2019-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,332.0999999999999,26.09999999999991,0.08529411764705852,100 million kwh,CREA
+2019-12-31,Thermal,NA,Thermal,NA,5132.200000000004,300.3000000000102,0.06214946501376484,100 million kwh,CREA
+2020-01-31,Solar,Solar & wind,Solar,NA,207.8988387096774,3.7347096774193176,0.018292682926829062,100 million kwh,CREA
+2020-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.26408329617456,4.742141715757953,0.03551582353902405,100 million kwh,CREA
+2020-01-31,Coal,Coal & gas,Thermal,Coal,3572.8948954447733,-336.0129797533955,-0.08596083368589513,100 million kwh,CREA
+2020-01-31,Gas,Coal & gas,Thermal,Gas,192.14102125905228,21.220838037637122,0.12415641990125303,100 million kwh,CREA
+2020-01-31,Wind,Solar & wind,Wind,NA,318.72159783764624,2.170952720545074,0.006858152886537239,100 million kwh,CREA
+2020-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,606.95,-69.14999999999998,-0.10227776956071588,100 million kwh,CREA
+2020-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,236.6,-5.25,-0.02170767004341534,100 million kwh,CREA
+2020-01-31,Thermal,NA,Thermal,NA,3903.3,-310.0500000000002,-0.0735875253658016,100 million kwh,CREA
+2020-02-29,Solar,Solar & wind,Solar,NA,222.2366896551724,-3.8021674876847555,-0.016820857863751204,100 million kwh,CREA
+2020-02-29,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,129.39095805856124,8.723515344304488,0.07229386111183245,100 million kwh,CREA
+2020-02-29,Coal,Coal & gas,Thermal,Coal,3580.527958190259,-340.12951499198834,-0.08675318293386092,100 million kwh,CREA
+2020-02-29,Gas,Coal & gas,Thermal,Gas,193.3810837511798,21.355999647683547,0.12414468366040765,100 million kwh,CREA
+2020-02-29,Wind,Solar & wind,Wind,NA,342.66294713906785,-11.392693320814715,-0.03217769191875253,100 million kwh,CREA
+2020-02-29,Hydro,"Hydro, nuclear & biomass",Hydro,NA,606.95,-69.14999999999998,-0.10227776956071588,100 million kwh,CREA
+2020-02-29,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,236.6,-5.25,-0.02170767004341534,100 million kwh,CREA
+2020-02-29,Thermal,NA,Thermal,NA,3903.3,-310.0500000000002,-0.0735875253658016,100 million kwh,CREA
+2020-03-31,Solar,Solar & wind,Solar,NA,306.24619354838717,9.959225806451684,0.033613445378151585,100 million kwh,CREA
+2020-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,140.06936294109803,2.333775506164727,0.01694388174927708,100 million kwh,CREA
+2020-03-31,Coal,Coal & gas,Thermal,Coal,3599.172876704862,-309.33876170731355,-0.0791448997278621,100 million kwh,CREA
+2020-03-31,Gas,Coal & gas,Thermal,Gas,200.05776035403952,14.804986201148665,0.07991775706921378,100 million kwh,CREA
+2020-03-31,Wind,Solar & wind,Wind,NA,484.2895161290323,106.5509721608484,0.2820759857903803,100 million kwh,CREA
+2020-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,749,-57.799999999999955,-0.07164105106593943,100 million kwh,CREA
+2020-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,306.3,19.600000000000023,0.06836414370422061,100 million kwh,CREA
+2020-03-31,Thermal,NA,Thermal,NA,3939.2999999999993,-292.2000000000007,-0.06905352711804347,100 million kwh,CREA
+2020-04-30,Solar,Solar & wind,Solar,NA,337.0368,23.155200000000036,0.07377049180327888,100 million kwh,CREA
+2020-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,136.17009198032054,4.274427254752851,0.03240764026358689,100 million kwh,CREA
+2020-04-30,Coal,Coal & gas,Thermal,Coal,3701.201214477051,99.76839315657526,0.027702416817536157,100 million kwh,CREA
+2020-04-30,Gas,Coal & gas,Thermal,Gas,174.32869354262917,12.25717958867466,0.07562821676458831,100 million kwh,CREA
+2020-04-30,Wind,Solar & wind,Wind,NA,421.9794120879121,15.910490170103856,0.03918174800218832,100 million kwh,CREA
+2020-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,756.6999999999998,-71.30000000000018,-0.08611111111111136,100 million kwh,CREA
+2020-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,307.70000000000005,29.699999999999932,0.10683453237410045,100 million kwh,CREA
+2020-04-30,Thermal,NA,Thermal,NA,4011.7000000000007,116.30000000000291,0.029855727268060628,100 million kwh,CREA
+2020-05-31,Solar,Solar & wind,Solar,NA,321.18503225806455,4.979612903225814,0.015748031496062964,100 million kwh,CREA
+2020-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,141.4720138088447,7.108105411496467,0.0529018952803606,100 million kwh,CREA
+2020-05-31,Coal,Coal & gas,Thermal,Coal,3910.1436400452217,350.1115205594151,0.09834504544020328,100 million kwh,CREA
+2020-05-31,Gas,Coal & gas,Thermal,Gas,200.58434614593222,39.780374029086204,0.24738427481244263,100 million kwh,CREA
+2020-05-31,Wind,Solar & wind,Wind,NA,444.2024016306275,46.917671714586845,0.11809583450263017,100 million kwh,CREA
+2020-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,838.2000000000003,-177.49999999999955,-0.17475632568671806,100 million kwh,CREA
+2020-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,310.79999999999995,38.90000000000009,0.14306730415594004,100 million kwh,CREA
+2020-05-31,Thermal,NA,Thermal,NA,4252.199999999999,396.9999999999982,0.10297779622328229,100 million kwh,CREA
+2020-06-30,Solar,Solar & wind,Solar,NA,290.72640000000007,-12.863999999999919,-0.04237288135593198,100 million kwh,CREA
+2020-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,135.47483324386468,-1.8692651342781517,-0.013610087046707964,100 million kwh,CREA
+2020-06-30,Coal,Coal & gas,Thermal,Coal,3977.6515619523825,207.59349335604975,0.05506373896074779,100 million kwh,CREA
+2020-06-30,Gas,Coal & gas,Thermal,Gas,219.77360480375458,48.87577177823087,0.2859940990061076,100 million kwh,CREA
+2020-06-30,Wind,Solar & wind,Wind,NA,357.6375,52.895482191780786,0.17357462739210794,100 million kwh,CREA
+2020-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1211.3000000000002,76.19999999999982,0.06713064928200141,100 million kwh,CREA
+2020-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,317.70000000000005,38,0.13585984983911326,100 million kwh,CREA
+2020-06-30,Thermal,NA,Thermal,NA,4332.9000000000015,254.60000000000218,0.06242797243949738,100 million kwh,CREA
+2020-07-31,Solar,Solar & wind,Solar,NA,281.3481290322581,-17.428645161290262,-0.058333333333333126,100 million kwh,CREA
+2020-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,139.68094464349255,-19.853033580732017,-0.12444391973243862,100 million kwh,CREA
+2020-07-31,Coal,Coal & gas,Thermal,Coal,4241.364731521905,-7.878443108494139,-0.0018540814880945167,100 million kwh,CREA
+2020-07-31,Gas,Coal & gas,Thermal,Gas,233.0543238346012,39.73147668922206,0.20551878516119682,100 million kwh,CREA
+2020-07-31,Wind,Solar & wind,Wind,NA,318.6489677419355,76.33773857711003,0.315040036898923,100 million kwh,CREA
+2020-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1448.1999999999998,71.89999999999964,0.05224151711109459,100 million kwh,CREA
+2020-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,334.10000000000014,20.90000000000009,0.06673052362707566,100 million kwh,CREA
+2020-07-31,Thermal,NA,Thermal,NA,4614.0999999999985,11.999999999996362,0.0026075052693328438,100 million kwh,CREA
+2020-08-31,Solar,Solar & wind,Solar,NA,301.2665806451613,-9.959225806451627,-0.03200000000000003,100 million kwh,CREA
+2020-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.27742292968557,-26.41941116100361,-0.1604123801581756,100 million kwh,CREA
+2020-08-31,Coal,Coal & gas,Thermal,Coal,4685.284369457494,286.81735227612353,0.06520848085384112,100 million kwh,CREA
+2020-08-31,Gas,Coal & gas,Thermal,Gas,288.3382076128183,87.50205888488122,0.4356887912813743,100 million kwh,CREA
+2020-08-31,Wind,Solar & wind,Wind,NA,305.4756774193549,54.75717163057885,0.21840099699983995,100 million kwh,CREA
+2020-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1417,120,0.09252120277563614,100 million kwh,CREA
+2020-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,331.5999999999999,3.1000000000001364,0.009436834094368685,100 million kwh,CREA
+2020-08-31,Thermal,NA,Thermal,NA,5111.899999999998,347.90000000000146,0.07302686817800197,100 million kwh,CREA
+2020-09-30,Solar,Solar & wind,Solar,NA,288.1536,-7.718400000000031,-0.026086956521739202,100 million kwh,CREA
+2020-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,137.80982417671493,-1.3695700996599953,-0.009840322317687167,100 million kwh,CREA
+2020-09-30,Coal,Coal & gas,Thermal,Coal,3876.633329206841,25.85168987353427,0.00671336167428338,100 million kwh,CREA
+2020-09-30,Gas,Coal & gas,Thermal,Gas,233.05684661644426,56.6178802261245,0.3208921554259956,100 million kwh,CREA
+2020-09-30,Wind,Solar & wind,Wind,NA,295.5612,29.789871506849295,0.11208835684326668,100 million kwh,CREA
+2020-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1390.5999999999995,263.8000000000002,0.23411430599929028,100 million kwh,CREA
+2020-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,318.6999999999998,21.999999999999545,0.07414897202561344,100 million kwh,CREA
+2020-09-30,Thermal,NA,Thermal,NA,4247.5,81.09999999999854,0.01946524577572939,100 million kwh,CREA
+2020-10-31,Solar,Solar & wind,Solar,NA,263.9194838709677,-2.4898064516129352,-0.009345794392523477,100 million kwh,CREA
+2020-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,141.84263890248795,3.545168633383213,0.025634370798575556,100 million kwh,CREA
+2020-10-31,Coal,Coal & gas,Thermal,Coal,3675.7669581637224,-37.014655786795174,-0.009969521408885185,100 million kwh,CREA
+2020-10-31,Gas,Coal & gas,Thermal,Gas,199.19040293379263,28.469487153412302,0.16676039384673969,100 million kwh,CREA
+2020-10-31,Wind,Solar & wind,Wind,NA,395.90070967741934,60.639644807777245,0.18087291117850346,100 million kwh,CREA
+2020-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1419.2000000000007,344.5,0.32055457336931226,100 million kwh,CREA
+2020-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,286.7000000000003,-0.8999999999996362,-0.003129346314324155,100 million kwh,CREA
+2020-10-31,Thermal,NA,Thermal,NA,4016.800000000003,-5,-0.0012432244268735237,100 million kwh,CREA
+2020-11-30,Solar,Solar & wind,Solar,NA,226.4064,2.572800000000001,0.011494252873563315,100 million kwh,CREA
+2020-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,136.46975849678597,-12.412731387212347,-0.0833726746300637,100 million kwh,CREA
+2020-11-30,Coal,Coal & gas,Thermal,Coal,4372.92352167897,232.1560981305729,0.056065959370311225,100 million kwh,CREA
+2020-11-30,Gas,Coal & gas,Thermal,Gas,253.5067198242454,62.456633256643585,0.3269123525601949,100 million kwh,CREA
+2020-11-30,Wind,Solar & wind,Wind,NA,437.081,35.429406027397306,0.08820930019716045,100 million kwh,CREA
+2020-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,934.1000000000004,120.30000000000109,0.14782501843204865,100 million kwh,CREA
+2020-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,322.89999999999964,-2.5000000000004547,-0.007682851874617258,100 million kwh,CREA
+2020-11-30,Thermal,NA,Thermal,NA,4762.9000000000015,282.20000000000437,0.06298123061128935,100 million kwh,CREA
+2020-12-31,Solar,Solar & wind,Solar,NA,194.20490322580648,-7.469419354838692,-0.03703703703703698,100 million kwh,CREA
+2020-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,123.01663308478024,-5.239618138609387,-0.04085273106480647,100 million kwh,CREA
+2020-12-31,Coal,Coal & gas,Thermal,Coal,5345.4907161714455,587.6793972634241,0.12351885307597787,100 million kwh,CREA
+2020-12-31,Gas,Coal & gas,Thermal,Gas,234.29265074377034,-11.83977912482365,-0.04810328785664164,100 million kwh,CREA
+2020-12-31,Wind,Solar & wind,Wind,NA,438.6419032258065,31.811419354838733,0.07819330314718553,100 million kwh,CREA
+2020-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,762.0999999999985,54.099999999998545,0.0764124293785291,100 million kwh,CREA
+2020-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,352.8000000000002,20.700000000000273,0.062330623306233957,100 million kwh,CREA
+2020-12-31,Thermal,NA,Thermal,NA,5702.799999999996,570.5999999999913,0.11118039047581751,100 million kwh,CREA
+2021-01-31,Solar,Solar & wind,Solar,NA,239.0214193548387,31.12258064516132,0.1497005988023954,100 million kwh,CREA
+2021-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.1309369382169,-0.1331463579576564,-9.629858657684842e-4,100 million kwh,CREA
+2021-01-31,Coal,Coal & gas,Thermal,Coal,4356.316301085533,783.42140564076,0.2192679685706891,100 million kwh,CREA
+2021-01-31,Gas,Coal & gas,Thermal,Gas,200.50276197625004,8.361740717197762,0.04351876898751428,100 million kwh,CREA
+2021-01-31,Wind,Solar & wind,Wind,NA,574.007091306725,255.28549346907874,0.8009670358113565,100 million kwh,CREA
+2021-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,646.15,39.19999999999993,0.06458522118790655,100 million kwh,CREA
+2021-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,291.9,55.29999999999998,0.23372781065088755,100 million kwh,CREA
+2021-01-31,Thermal,NA,Thermal,NA,4694.95,791.6499999999996,0.20281556631568143,100 million kwh,CREA
+2021-02-28,Solar,Solar & wind,Solar,NA,264.6308571428571,42.39416748768471,0.1907613344739092,100 million kwh,CREA
+2021-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,124.80898974512385,-4.581968313437386,-0.03541181224860879,100 million kwh,CREA
+2021-02-28,Coal,Coal & gas,Thermal,Coal,4365.743496269449,785.2155380791896,0.2193016078210066,100 million kwh,CREA
+2021-02-28,Gas,Coal & gas,Thermal,Gas,204.39751398542708,11.01643023424728,0.0569674655894572,100 million kwh,CREA
+2021-02-28,Wind,Solar & wind,Wind,NA,638.7355714285713,296.0726242895035,0.864034546954807,100 million kwh,CREA
+2021-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,646.15,39.19999999999993,0.06458522118790655,100 million kwh,CREA
+2021-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,291.9,55.29999999999998,0.23372781065088755,100 million kwh,CREA
+2021-02-28,Thermal,NA,Thermal,NA,4694.95,791.6499999999996,0.20281556631568143,100 million kwh,CREA
+2021-03-31,Solar,Solar & wind,Solar,NA,270.8326451612904,-35.413548387096796,-0.11563751365125596,100 million kwh,CREA
+2021-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.7172246756504,-1.3521382654476213,-0.009653347720416372,100 million kwh,CREA
+2021-03-31,Coal,Coal & gas,Thermal,Coal,4583.5046480886795,984.3317713838173,0.27348832776407206,100 million kwh,CREA
+2021-03-31,Gas,Coal & gas,Thermal,Gas,266.478127235671,66.42036688163151,0.3320059505019364,100 million kwh,CREA
+2021-03-31,Wind,Solar & wind,Wind,NA,554.7290322580645,70.43951612903226,0.14544918645371752,100 million kwh,CREA
+2021-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,666.3,-82.70000000000005,-0.11041388518024042,100 million kwh,CREA
+2021-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,342.1,35.80000000000001,0.11687887691805421,100 million kwh,CREA
+2021-03-31,Thermal,NA,Thermal,NA,4988.700000000001,1049.4000000000015,0.2663925062828425,100 million kwh,CREA
+2021-04-30,Solar,Solar & wind,Solar,NA,284.4573,-52.57950000000005,-0.15600521960806668,100 million kwh,CREA
+2021-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,134.26368032496845,-1.9064116553520876,-0.014000223012462953,100 million kwh,CREA
+2021-04-30,Coal,Coal & gas,Thermal,Coal,4121.488412617403,420.28719814035185,0.1135542689482596,100 million kwh,CREA
+2021-04-30,Gas,Coal & gas,Thermal,Gas,267.04790705762946,92.71921351500029,0.5318643284177849,100 million kwh,CREA
+2021-04-30,Wind,Solar & wind,Wind,NA,586.3776,164.3981879120879,0.3895881723202135,100 million kwh,CREA
+2021-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,768.8000000000002,12.100000000000364,0.01599048500066136,100 million kwh,CREA
+2021-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,323.69999999999993,15.999999999999886,0.051998700032498846,100 million kwh,CREA
+2021-04-30,Thermal,NA,Thermal,NA,4522.800000000001,511.10000000000036,0.1274023481317148,100 million kwh,CREA
+2021-05-31,Solar,Solar & wind,Solar,NA,336.7021935483871,15.51716129032252,0.048312217979867844,100 million kwh,CREA
+2021-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,139.63166594865942,-1.8403478601852896,-0.013008564808244971,100 million kwh,CREA
+2021-05-31,Coal,Coal & gas,Thermal,Coal,4094.933580510396,184.78994046517437,0.04725911820033213,100 million kwh,CREA
+2021-05-31,Gas,Coal & gas,Thermal,Gas,281.23475354094387,80.65040739501165,0.4020772754436961,100 million kwh,CREA
+2021-05-31,Wind,Solar & wind,Wind,NA,642.1896774193549,197.9872757887274,0.44571410479081996,100 million kwh,CREA
+2021-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,957.4000000000001,119.19999999999982,0.14220949654020498,100 million kwh,CREA
+2021-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,342.5,31.700000000000045,0.10199485199485214,100 million kwh,CREA
+2021-05-31,Thermal,NA,Thermal,NA,4515.799999999999,263.60000000000036,0.06199143972531873,100 million kwh,CREA
+2021-06-30,Solar,Solar & wind,Solar,NA,318.4559,27.729499999999916,0.09538005492449231,100 million kwh,CREA
+2021-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,134.43243113657257,-1.042402107292105,-0.00769443358838251,100 million kwh,CREA
+2021-06-30,Coal,Coal & gas,Thermal,Coal,4462.837752301412,485.18619034902986,0.12197805232363845,100 million kwh,CREA
+2021-06-30,Gas,Coal & gas,Thermal,Gas,247.52981656201484,27.756211758260264,0.12629456473194312,100 million kwh,CREA
+2021-06-30,Wind,Solar & wind,Wind,NA,464.1528,106.51530000000002,0.2978303449722135,100 million kwh,CREA
+2021-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1141.8999999999996,-69.40000000000055,-0.0572938165607203,100 million kwh,CREA
+2021-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,358.8000000000002,41.100000000000136,0.12936732766761128,100 million kwh,CREA
+2021-06-30,Thermal,NA,Thermal,NA,4844.799999999999,511.8999999999978,0.11814258348911766,100 million kwh,CREA
+2021-07-31,Solar,Solar & wind,Solar,NA,314.8258064516129,33.47767741935479,0.11899022586184116,100 million kwh,CREA
+2021-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,138.63302488120985,-1.047919762282703,-0.007502238511898018,100 million kwh,CREA
+2021-07-31,Coal,Coal & gas,Thermal,Coal,4840.787419814317,599.4226882924122,0.14132778627536813,100 million kwh,CREA
+2021-07-31,Gas,Coal & gas,Thermal,Gas,295.5795553044735,62.525231469872296,0.26828608215072847,100 million kwh,CREA
+2021-07-31,Wind,Solar & wind,Wind,NA,450.99580645161285,132.34683870967734,0.41533741548744385,100 million kwh,CREA
+2021-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1420.3000000000002,-27.899999999999636,-0.019265294848777592,100 million kwh,CREA
+2021-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,382.0999999999999,47.99999999999977,0.14366956001197173,100 million kwh,CREA
+2021-07-31,Thermal,NA,Thermal,NA,5275,660.9000000000015,0.1432348670379926,100 million kwh,CREA
+2021-08-31,Solar,Solar & wind,Solar,NA,308.8556129032258,7.589032258064492,0.025190421857653744,100 million kwh,CREA
+2021-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,139.16757497340933,0.8901520437237593,0.006437435879727227,100 million kwh,CREA
+2021-08-31,Coal,Coal & gas,Thermal,Coal,4757.177803248397,71.89343379090315,0.015344518736058577,100 million kwh,CREA
+2021-08-31,Gas,Coal & gas,Thermal,Gas,289.65462177819416,1.3164141653758747,0.00456552108121433,100 million kwh,CREA
+2021-08-31,Wind,Solar & wind,Wind,NA,368.6736774193548,63.19799999999992,0.20688390163791048,100 million kwh,CREA
+2021-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1370.1000000000004,-46.899999999999636,-0.033098094565984226,100 million kwh,CREA
+2021-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,365.5,33.90000000000009,0.10223160434258172,100 million kwh,CREA
+2021-08-31,Thermal,NA,Thermal,NA,5186,74.10000000000218,0.014495588724349417,100 million kwh,CREA
+2021-09-30,Solar,Solar & wind,Solar,NA,306.185,18.03140000000002,0.06257565409559351,100 million kwh,CREA
+2021-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,137.53971341606024,-0.2701107606546884,-0.001960025435547519,100 million kwh,CREA
+2021-09-30,Coal,Coal & gas,Thermal,Coal,4161.128627716646,284.49529850980525,0.07338720852611891,100 million kwh,CREA
+2021-09-30,Gas,Coal & gas,Thermal,Gas,251.3316588672929,18.27481225084864,0.07841353951263486,100 million kwh,CREA
+2021-09-30,Wind,Solar & wind,Wind,NA,416.178,120.61680000000001,0.4080941612092521,100 million kwh,CREA
+2021-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1412.7999999999993,22.199999999999818,0.01596433194304603,100 million kwh,CREA
+2021-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,332.4000000000001,13.700000000000273,0.0429871352369009,100 million kwh,CREA
+2021-09-30,Thermal,NA,Thermal,NA,4550,302.5,0.07121836374337853,100 million kwh,CREA
+2021-10-31,Solar,Solar & wind,Solar,NA,248.46522580645163,-15.454258064516097,-0.05855671524453199,100 million kwh,CREA
+2021-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,144.07910357164351,2.2364646691555663,0.0157672240622444,100 million kwh,CREA
+2021-10-31,Coal,Coal & gas,Thermal,Coal,3928.8442279114556,253.07726974773323,0.06885019442967111,100 million kwh,CREA
+2021-10-31,Gas,Coal & gas,Thermal,Gas,210.47666851690212,11.286265583109497,0.05666068955571535,100 million kwh,CREA
+2021-10-31,Wind,Solar & wind,Wind,NA,542.2336451612903,146.33293548387093,0.3696202909136064,100 million kwh,CREA
+2021-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1192,-227.20000000000073,-0.16009019165727212,100 million kwh,CREA
+2021-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,335.2999999999997,48.599999999999454,0.16951517265434046,100 million kwh,CREA
+2021-10-31,Thermal,NA,Thermal,NA,4283.4000000000015,266.59999999999854,0.06637124078868717,100 million kwh,CREA
+2021-11-30,Solar,Solar & wind,Solar,NA,278.8459,52.43949999999998,0.23161668574739935,100 million kwh,CREA
+2021-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,141.77147847121398,5.301719974428011,0.03884904635888886,100 million kwh,CREA
+2021-11-30,Coal,Coal & gas,Thermal,Coal,4321.040293620687,-51.88322805828284,-0.011864654801546193,100 million kwh,CREA
+2021-11-30,Gas,Coal & gas,Thermal,Gas,207.98822790809425,-45.51849191615116,-0.17955536621557344,100 million kwh,CREA
+2021-11-30,Wind,Solar & wind,Wind,NA,621.9144,184.83339999999998,0.42288134235988295,100 million kwh,CREA
+2021-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,912.3999999999996,-21.700000000000728,-0.023230917460658085,100 million kwh,CREA
+2021-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,336.2000000000003,13.300000000000637,0.041189222669559156,100 million kwh,CREA
+2021-11-30,Thermal,NA,Thermal,NA,4670.799999999996,-92.10000000000582,-0.01933695857565887,100 million kwh,CREA
+2021-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,145.6607727082698,22.644139623489565,0.18407380413251717,100 million kwh,CREA
+2021-12-31,Coal,Coal & gas,Thermal,Coal,4914.503148612124,-430.9875675593212,-0.08062638033501324,100 million kwh,CREA
+2021-12-31,Gas,Coal & gas,Thermal,Gas,415.33607867960524,181.0434279358349,0.7727234608559257,100 million kwh,CREA
+2021-12-31,Wind,Solar & wind,Wind,NA,638.9465806451614,200.30467741935485,0.4566473835406484,100 million kwh,CREA
+2021-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,705.9000000000015,-56.19999999999709,-0.07374360320167594,100 million kwh,CREA
+2021-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,372.7999999999997,19.999999999999545,0.056689342403626775,100 million kwh,CREA
+2021-12-31,Thermal,NA,Thermal,NA,5475.5,-227.29999999999563,-0.03985761380374475,100 million kwh,CREA
+2022-01-31,Solar,Solar & wind,Solar,NA,274.250665390924,35.22924603608527,0.1473894939255873,100 million kwh,CREA
+2022-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,150.1543748177227,12.023437879505792,0.08704377271315855,100 million kwh,CREA
+2022-01-31,Coal,Coal & gas,Thermal,Coal,4559.02583586415,202.70953477861713,0.04653232703238386,100 million kwh,CREA
+2022-01-31,Gas,Coal & gas,Thermal,Gas,222.66978931812721,22.167027341877173,0.11055721688513653,100 million kwh,CREA
+2022-01-31,Wind,Solar & wind,Wind,NA,518.2602990705303,-55.746792236194665,-0.09711864727888164,100 million kwh,CREA
+2022-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,700,53.85000000000002,0.08333978178441548,100 million kwh,CREA
+2022-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,320,28.100000000000023,0.09626584446728348,100 million kwh,CREA
+2022-01-31,Thermal,NA,Thermal,NA,4931.85,236.90000000000055,0.050458471336223054,100 million kwh,CREA
+2022-02-28,Solar,Solar & wind,Solar,NA,307.91474999999997,43.28389285714286,0.16356328708022394,100 million kwh,CREA
+2022-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,139.2263566030942,14.417366857970336,0.11551545195111723,100 million kwh,CREA
+2022-02-28,Coal,Coal & gas,Thermal,Coal,4569.662426899133,203.91893062968393,0.04670886661205209,100 million kwh,CREA
+2022-02-28,Gas,Coal & gas,Thermal,Gas,222.96121649777328,18.563702512346197,0.09082156700628818,100 million kwh,CREA
+2022-02-28,Wind,Solar & wind,Wind,NA,578.6660357142857,-60.06953571428562,-0.09404445031914599,100 million kwh,CREA
+2022-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,700,53.85000000000002,0.08333978178441548,100 million kwh,CREA
+2022-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,320,28.100000000000023,0.09626584446728348,100 million kwh,CREA
+2022-02-28,Thermal,NA,Thermal,NA,4931.85,236.90000000000055,0.050458471336223054,100 million kwh,CREA
+2022-03-31,Solar,Solar & wind,Solar,NA,363.76354838709676,92.93090322580639,0.34313036070840996,100 million kwh,CREA
+2022-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,158.55696919987233,19.839744524221913,0.14302293439485503,100 million kwh,CREA
+2022-03-31,Coal,Coal & gas,Thermal,Coal,4386.03552910121,-197.4691189874693,-0.04308256108561248,100 million kwh,CREA
+2022-03-31,Gas,Coal & gas,Thermal,Gas,205.80750169891678,-60.670625536754244,-0.22767581777208168,100 million kwh,CREA
+2022-03-31,Wind,Solar & wind,Wind,NA,755.5416774193549,200.81264516129033,0.36200132584348066,100 million kwh,CREA
+2022-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,811.6999999999998,145.39999999999986,0.21822002101155613,100 million kwh,CREA
+2022-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,349.79999999999995,7.699999999999932,0.02250803858520878,100 million kwh,CREA
+2022-03-31,Thermal,NA,Thermal,NA,4750.4,-238.3000000000011,-0.04776795557961011,100 million kwh,CREA
+2022-04-30,Solar,Solar & wind,Solar,NA,425.7924,141.3351,0.49685875525078815,100 million kwh,CREA
+2022-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,155.13423995860919,20.870559633640738,0.15544456686369812,100 million kwh,CREA
+2022-04-30,Coal,Coal & gas,Thermal,Coal,3675.884565823465,-445.6038467939379,-0.10811721450672518,100 million kwh,CREA
+2022-04-30,Gas,Coal & gas,Thermal,Gas,189.5811942179258,-77.46671283970366,-0.29008545205705805,100 million kwh,CREA
+2022-04-30,Wind,Solar & wind,Wind,NA,754.3198,167.94219999999996,0.28640623379883534,100 million kwh,CREA
+2022-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,918.3000000000002,149.5,0.19445889698231,100 million kwh,CREA
+2022-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,326.70000000000005,3.0000000000001137,0.009267840593142118,100 million kwh,CREA
+2022-04-30,Thermal,NA,Thermal,NA,4020.6000000000004,-502.2000000000007,-0.11103741045370141,100 million kwh,CREA
+2022-05-31,Solar,Solar & wind,Solar,NA,415.67990322580647,78.9777096774194,0.23456250416755786,100 million kwh,CREA
+2022-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,161.83373516836483,22.202069219705407,0.15900454290840305,100 million kwh,CREA
+2022-05-31,Coal,Coal & gas,Thermal,Coal,3728.842271947607,-366.091308562789,-0.08940103700464885,100 million kwh,CREA
+2022-05-31,Gas,Coal & gas,Thermal,Gas,186.32399288402854,-94.91076065691533,-0.33747877693607187,100 million kwh,CREA
+2022-05-31,Wind,Solar & wind,Wind,NA,650.2575483870968,8.067870967741896,0.012563065479598956,100 million kwh,CREA
+2022-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1215.6000000000004,258.2000000000003,0.2696887403384167,100 million kwh,CREA
+2022-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,346.79999999999995,4.2999999999999545,0.01255474452554739,100 million kwh,CREA
+2022-05-31,Thermal,NA,Thermal,NA,4077,-438.7999999999993,-0.09716993666681417,100 million kwh,CREA
+2022-06-30,Solar,Solar & wind,Solar,NA,427.6979,109.24200000000002,0.34303650835170596,100 million kwh,CREA
+2022-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,158.50347339252886,24.071042255956286,0.17905680982219274,100 million kwh,CREA
+2022-06-30,Coal,Coal & gas,Thermal,Coal,4177.010730005077,-285.8270222963356,-0.06404602590558872,100 million kwh,CREA
+2022-06-30,Gas,Coal & gas,Thermal,Gas,229.58579660239292,-17.944019959621926,-0.07249235752221517,100 million kwh,CREA
+2022-06-30,Wind,Solar & wind,Wind,NA,609.1872,145.03439999999995,0.31247123791992615,100 million kwh,CREA
+2022-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1482.5999999999995,340.6999999999998,0.2983623784919869,100 million kwh,CREA
+2022-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,326.60000000000014,-32.200000000000045,-0.08974358974358987,100 million kwh,CREA
+2022-06-30,Thermal,NA,Thermal,NA,4565.0999999999985,-279.7000000000007,-0.05773200132100409,100 million kwh,CREA
+2022-07-31,Solar,Solar & wind,Solar,NA,438.80632258064514,123.98051612903225,0.39380671338989304,100 million kwh,CREA
+2022-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,159.5832050997033,20.950180218493443,0.15111969342402332,100 million kwh,CREA
+2022-07-31,Coal,Coal & gas,Thermal,Coal,5078.837775745019,238.0503559307017,0.049175957398235104,100 million kwh,CREA
+2022-07-31,Gas,Coal & gas,Thermal,Gas,338.67901915527915,43.09946385080565,0.14581341326672392,100 million kwh,CREA
+2022-07-31,Wind,Solar & wind,Wind,NA,498.91935483870964,47.92354838709679,0.10626162749528456,100 million kwh,CREA
+2022-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1460.1000000000004,39.80000000000018,0.028022248820671836,100 million kwh,CREA
+2022-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,369.7999999999997,-12.300000000000182,-0.032190526040304035,100 million kwh,CREA
+2022-07-31,Thermal,NA,Thermal,NA,5577.100000000002,302.1000000000022,0.057270142180095185,100 million kwh,CREA
+2022-08-31,Solar,Solar & wind,Solar,NA,419.87999999999994,111.02438709677415,0.3594701940274001,100 million kwh,CREA
+2022-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,158.21518044016906,19.047605466759734,0.13686812801329018,100 million kwh,CREA
+2022-08-31,Coal,Coal & gas,Thermal,Coal,5478.0464102223,720.8686069739033,0.15153282824149739,100 million kwh,CREA
+2022-08-31,Gas,Coal & gas,Thermal,Gas,336.538409337526,46.883787559331836,0.16186100284370242,100 million kwh,CREA
+2022-08-31,Wind,Solar & wind,Wind,NA,520.0838709677419,151.41019354838704,0.4106889176581019,100 million kwh,CREA
+2022-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1228.4000000000005,-141.69999999999982,-0.10342310780234998,100 million kwh,CREA
+2022-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,363.2000000000003,-2.299999999999727,-0.006292749658001973,100 million kwh,CREA
+2022-08-31,Thermal,NA,Thermal,NA,5972.799999999996,786.7999999999956,0.15171615888931655,100 million kwh,CREA
+2022-09-30,Solar,Solar & wind,Solar,NA,419.6088,113.42379999999997,0.3704420530071688,100 million kwh,CREA
+2022-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,158.55856885711822,21.01885544105798,0.15282026491850798,100 million kwh,CREA
+2022-09-30,Coal,Coal & gas,Thermal,Coal,4521.062358282215,359.933730565569,0.0864990637799814,100 million kwh,CREA
+2022-09-30,Gas,Coal & gas,Thermal,Gas,187.1790728606697,-64.15258600662321,-0.2552507165064183,100 million kwh,CREA
+2022-09-30,Wind,Solar & wind,Wind,NA,542.3652,126.18719999999996,0.30320487868171786,100 million kwh,CREA
+2022-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,990.0999999999985,-422.7000000000007,-0.29919309173273,100 million kwh,CREA
+2022-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,323.5,-8.900000000000091,-0.026774969915764446,100 million kwh,CREA
+2022-09-30,Thermal,NA,Thermal,NA,4866.800000000003,316.8000000000029,0.06962637362637425,100 million kwh,CREA
+2022-10-31,Solar,Solar & wind,Solar,NA,384.4254193548387,135.96019354838708,0.5472000884916457,100 million kwh,CREA
+2022-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,172.16961026025047,28.09050668860695,0.1949658624481856,100 million kwh,CREA
+2022-10-31,Coal,Coal & gas,Thermal,Coal,4114.041503814299,185.19727590284356,0.047137851530777874,100 million kwh,CREA
+2022-10-31,Gas,Coal & gas,Thermal,Gas,208.188885925452,-2.28778259145011,-0.010869530611495759,100 million kwh,CREA
+2022-10-31,Wind,Solar & wind,Wind,NA,679.6199032258065,137.38625806451626,0.2533709578712142,100 million kwh,CREA
+2022-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,993,-199,-0.16694630872483218,100 million kwh,CREA
+2022-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,360.4000000000001,25.100000000000364,0.07485833581867096,100 million kwh,CREA
+2022-10-31,Thermal,NA,Thermal,NA,4494.4000000000015,211,0.0492599336975299,100 million kwh,CREA
+2022-11-30,Solar,Solar & wind,Solar,NA,327.3776,48.5317,0.1740448756822317,100 million kwh,CREA
+2022-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,158.46430063885813,16.692822167644152,0.11774457279877737,100 million kwh,CREA
+2022-11-30,Coal,Coal & gas,Thermal,Coal,4360.047403723181,39.00711010249324,0.009027249794472114,100 million kwh,CREA
+2022-11-30,Gas,Coal & gas,Thermal,Gas,246.58829563796024,38.600067729866,0.1855877523362648,100 million kwh,CREA
+2022-11-30,Wind,Solar & wind,Wind,NA,670.3336,48.419200000000046,0.07785508745254988,100 million kwh,CREA
+2022-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,782.4000000000015,-129.99999999999818,-0.1424813678211292,100 million kwh,CREA
+2022-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,373.5999999999999,37.399999999999636,0.11124330755502565,100 million kwh,CREA
+2022-11-30,Thermal,NA,Thermal,NA,4765.0999999999985,94.30000000000291,0.020189260940310705,100 million kwh,CREA
+2022-12-31,Solar,Solar & wind,Solar,NA,292.5577741935484,47.557774193548426,0.19411336405529966,100 million kwh,CREA
+2022-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,162.00312237125507,16.34234966298527,0.112194583065379,100 million kwh,CREA
+2022-12-31,Coal,Coal & gas,Thermal,Coal,5149.737881071685,235.2347324595603,0.04786541494555596,100 million kwh,CREA
+2022-12-31,Gas,Coal & gas,Thermal,Gas,266.5589965570632,-148.77708212254203,-0.3582089054134646,100 million kwh,CREA
+2022-12-31,Wind,Solar & wind,Wind,NA,753.277935483871,114.33135483870967,0.17893726690463896,100 million kwh,CREA
+2022-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,737.7999999999993,31.899999999997817,0.04519053690324082,100 million kwh,CREA
+2022-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,397.4000000000001,24.600000000000364,0.0659871244635204,100 million kwh,CREA
+2022-12-31,Thermal,NA,Thermal,NA,5578.300000000003,102.80000000000291,0.018774541137796197,100 million kwh,CREA
+2023-01-31,Solar,Solar & wind,Solar,NA,355.20330016402403,80.95263477310004,0.29517753277902914,100 million kwh,CREA
+2023-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,164.66590964529095,14.511534827568255,0.0966441027454863,100 million kwh,CREA
+2023-01-31,Coal,Coal & gas,Thermal,Coal,4495.908483251071,-63.117352613079674,-0.01384448232702673,100 million kwh,CREA
+2023-01-31,Gas,Coal & gas,Thermal,Gas,217.7343571036381,-4.935432214489111,-0.022164803899095142,100 million kwh,CREA
+2023-01-31,Wind,Solar & wind,Wind,NA,715.0049245489339,196.74462547840358,0.379625114698644,100 million kwh,CREA
+2023-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,683.33545,-16.664549999999963,-0.023806499999999953,100 million kwh,CREA
+2023-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,333.7698,13.769799999999975,0.04303062499999988,100 million kwh,CREA
+2023-01-31,Thermal,NA,Thermal,NA,4878.30875,-53.54125000000022,-0.010856220282449813,100 million kwh,CREA
+2023-02-28,Solar,Solar & wind,Solar,NA,402.714,94.79925000000003,0.30787498812577185,100 million kwh,CREA
+2023-02-28,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,150.01315312929938,10.786796526205194,0.07747668465501922,100 million kwh,CREA
+2023-02-28,Coal,Coal & gas,Thermal,Coal,4510.2845874886425,-59.377839410490196,-0.012993922496542631,100 million kwh,CREA
+2023-02-28,Gas,Coal & gas,Thermal,Gas,218.0110093820588,-4.950207115714477,-0.02220209951071883,100 million kwh,CREA
+2023-02-28,Wind,Solar & wind,Wind,NA,797.5460357142857,218.88,0.37824926035242745,100 million kwh,CREA
+2023-02-28,Hydro,"Hydro, nuclear & biomass",Hydro,NA,683.33545,-16.664549999999963,-0.023806499999999953,100 million kwh,CREA
+2023-02-28,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,333.7698,13.769799999999975,0.04303062499999988,100 million kwh,CREA
+2023-02-28,Thermal,NA,Thermal,NA,4878.30875,-53.54125000000022,-0.010856220282449813,100 million kwh,CREA
+2023-03-31,Solar,Solar & wind,Solar,NA,498.7034516129032,134.93990322580646,0.37095498937186244,100 million kwh,CREA
+2023-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,177.50999404725042,18.95302484737809,0.11953447989716848,100 million kwh,CREA
+2023-03-31,Coal,Coal & gas,Thermal,Coal,4782.4077529694305,396.3722238682203,0.09037141200482823,100 million kwh,CREA
+2023-03-31,Gas,Coal & gas,Thermal,Gas,234.3915529833176,28.58405128440083,0.13888731483761685,100 million kwh,CREA
+2023-03-31,Wind,Solar & wind,Wind,NA,778.1247096774193,22.583032258064463,0.029889856420892036,100 million kwh,CREA
+2023-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,668.3924,-143.30759999999987,-0.17655242084513967,100 million kwh,CREA
+2023-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,365.7093000000001,15.909300000000144,0.04548113207547222,100 million kwh,CREA
+2023-03-31,Thermal,NA,Thermal,NA,5194.309299999999,443.90929999999935,0.09344672027618706,100 million kwh,CREA
+2023-04-30,Solar,Solar & wind,Solar,NA,493.36,67.56760000000003,0.15868672151029473,100 million kwh,CREA
+2023-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,168.44251568439464,13.30827572578545,0.0857855475963023,100 million kwh,CREA
+2023-04-30,Coal,Coal & gas,Thermal,Coal,4130.815915277869,454.93134945440397,0.12376105432801898,100 million kwh,CREA
+2023-04-30,Gas,Coal & gas,Thermal,Gas,216.81476903773657,27.23357481981077,0.14365124627554282,100 million kwh,CREA
+2023-04-30,Wind,Solar & wind,Wind,NA,952.9466,198.6268,0.2633190856185932,100 million kwh,CREA
+2023-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,673.6366999999998,-244.6633000000004,-0.2664306871392794,100 million kwh,CREA
+2023-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,345.15110000000004,18.451099999999997,0.056477196204469005,100 million kwh,CREA
+2023-04-30,Thermal,NA,Thermal,NA,4516.073200000001,495.47320000000036,0.1232336467193953,100 million kwh,CREA
+2023-05-31,Solar,Solar & wind,Solar,NA,527.1329032258064,111.45299999999997,0.2681221755853236,100 million kwh,CREA
+2023-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,176.24043928533817,14.406704116973344,0.08902163755897519,100 million kwh,CREA
+2023-05-31,Coal,Coal & gas,Thermal,Coal,4313.052004278721,584.2097323311141,0.15667322180028176,100 million kwh,CREA
+2023-05-31,Gas,Coal & gas,Thermal,Gas,249.50755643593968,63.183563551911135,0.33910589062589347,100 million kwh,CREA
+2023-05-31,Wind,Solar & wind,Wind,NA,796.0548387096775,145.7972903225807,0.22421468337309935,100 million kwh,CREA
+2023-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,814.7000000000003,-400.9000000000001,-0.3297959855215531,100 million kwh,CREA
+2023-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,368.89999999999986,22.09999999999991,0.0637254901960782,100 million kwh,CREA
+2023-05-31,Thermal,NA,Thermal,NA,4738.799999999999,661.7999999999993,0.16232523914643093,100 million kwh,CREA
+2023-06-30,Solar,Solar & wind,Solar,NA,578.9241,151.22619999999995,0.3535818155759005,100 million kwh,CREA
+2023-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,170.70691294197536,12.2034395494465,0.07699162225439093,100 million kwh,CREA
+2023-06-30,Coal,Coal & gas,Thermal,Coal,4800.456669795295,623.4459397902183,0.14925648510111933,100 million kwh,CREA
+2023-06-30,Gas,Coal & gas,Thermal,Gas,280.00941726273186,50.42362066033894,0.21962865911807627,100 million kwh,CREA
+2023-06-30,Wind,Solar & wind,Wind,NA,607.1676,-2.0195999999999685,-0.003315237089682732,100 million kwh,CREA
+2023-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,980.8191000000002,-501.7808999999993,-0.33844658033184916,100 million kwh,CREA
+2023-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,371.5629000000001,44.96289999999999,0.1376696264543784,100 million kwh,CREA
+2023-06-30,Thermal,NA,Thermal,NA,5251.1730000000025,686.073000000004,0.15028652165341483,100 million kwh,CREA
+2023-07-31,Solar,Solar & wind,Solar,NA,579.4724516129032,140.66612903225808,0.32056541073745826,100 million kwh,CREA
+2023-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,175.73733222235106,16.154127122647765,0.10122698759280535,100 million kwh,CREA
+2023-07-31,Coal,Coal & gas,Thermal,Coal,5477.837024487166,398.99924874214685,0.07856113275514431,100 million kwh,CREA
+2023-07-31,Gas,Coal & gas,Thermal,Gas,363.1526432904786,24.47362413519943,0.07226200251861092,100 million kwh,CREA
+2023-07-31,Wind,Solar & wind,Wind,NA,680.6215161290322,181.70216129032258,0.36419144602851317,100 million kwh,CREA
+2023-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1212.7808999999997,-247.31910000000062,-0.16938504212040306,100 million kwh,CREA
+2023-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,380.4371000000001,10.637100000000373,0.028764467279611683,100 million kwh,CREA
+2023-07-31,Thermal,NA,Thermal,NA,6016.726999999995,439.62699999999313,0.078827168241558,100 million kwh,CREA
+2023-08-31,Solar,Solar & wind,Solar,NA,621.1651935483872,201.2851935483872,0.47938742866625517,100 million kwh,CREA
+2023-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,175.23042839232986,17.01524795216079,0.10754497706745214,100 million kwh,CREA
+2023-08-31,Coal,Coal & gas,Thermal,Coal,5401.057533549439,-76.9888766728618,-0.014054075286619838,100 million kwh,CREA
+2023-08-31,Gas,Coal & gas,Thermal,Gas,339.54503805823737,3.006628720711376,0.008933983870161866,100 million kwh,CREA
+2023-08-31,Wind,Solar & wind,Wind,NA,466.79167741935487,-53.29219354838699,-0.10246846042201607,100 million kwh,CREA
+2023-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1470.4197999999997,242.01979999999912,0.1970203516769773,100 million kwh,CREA
+2023-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,383.29029999999966,20.090299999999388,0.05531470264317018,100 million kwh,CREA
+2023-08-31,Thermal,NA,Thermal,NA,5915.833000000006,-56.96699999998964,-0.009537737744439778,100 million kwh,CREA
+2023-09-30,Solar,Solar & wind,Solar,NA,573.188,153.57920000000001,0.3660056700431451,100 million kwh,CREA
+2023-09-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,177.40853200009178,18.849963142973564,0.11888328255510316,100 million kwh,CREA
+2023-09-30,Coal,Coal & gas,Thermal,Coal,4575.212570184201,54.15021190198513,0.011977320286853832,100 million kwh,CREA
+2023-09-30,Gas,Coal & gas,Thermal,Gas,254.74589781570626,67.56682495503657,0.3609742474006761,100 million kwh,CREA
+2023-09-30,Wind,Solar & wind,Wind,NA,508.2667,-34.098499999999945,-0.06286999977137164,100 million kwh,CREA
+2023-09-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1396.4802,406.3802000000014,0.4104435915564104,100 million kwh,CREA
+2023-09-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,345.30970000000025,21.809700000000248,0.06741792890262821,100 million kwh,CREA
+2023-09-30,Thermal,NA,Thermal,NA,5007.366999999998,140.56699999999546,0.02888283882633247,100 million kwh,CREA
+2023-10-31,Solar,Solar & wind,Solar,NA,534.0317419354839,149.60632258064516,0.3891686528734799,100 million kwh,CREA
+2023-10-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,178.9619397389164,6.792329478665948,0.039451384413304424,100 million kwh,CREA
+2023-10-31,Coal,Coal & gas,Thermal,Coal,4287.1607260015935,173.11922218729433,0.042080086461643296,100 million kwh,CREA
+2023-10-31,Gas,Coal & gas,Thermal,Gas,214.07733425948712,5.888448334035104,0.028284162758542397,100 million kwh,CREA
+2023-10-31,Wind,Solar & wind,Wind,NA,590.3612903225805,-89.25861290322598,-0.13133607841612815,100 million kwh,CREA
+2023-10-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1221,228,0.2296072507552871,100 million kwh,CREA
+2023-10-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,359.4000000000001,-1,-0.002774694783573839,100 million kwh,CREA
+2023-10-31,Thermal,NA,Thermal,NA,4680.199999999997,185.79999999999563,0.04134033463866049,100 million kwh,CREA
+2023-11-30,Solar,Solar & wind,Solar,NA,546.4676,219.08999999999997,0.6692272165230608,100 million kwh,CREA
+2023-11-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,172.14558165665102,13.681281017792884,0.08633667622698615,100 million kwh,CREA
+2023-11-30,Coal,Coal & gas,Thermal,Coal,4673.488871920328,313.4414681971475,0.07188946338736812,100 million kwh,CREA
+2023-11-30,Gas,Coal & gas,Thermal,Gas,255.26554642302187,8.67725078506163,0.035189224057096125,100 million kwh,CREA
+2023-11-30,Wind,Solar & wind,Wind,NA,879.3279,208.99429999999995,0.31177655424105244,100 million kwh,CREA
+2023-11-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,831.1000000000004,48.69999999999891,0.062244376278117075,100 million kwh,CREA
+2023-11-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,364.6999999999998,-8.900000000000091,-0.02382226980728075,100 million kwh,CREA
+2023-11-30,Thermal,NA,Thermal,NA,5100.9000000000015,335.8000000000029,0.07047071415080541,100 million kwh,CREA
+2023-12-31,Solar,Solar & wind,Solar,NA,401.08374193548383,108.5259677419354,0.3709556788948549,100 million kwh,CREA
+2023-12-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,181.66160430710036,19.658481935845288,0.12134631510863625,100 million kwh,CREA
+2023-12-31,Coal,Coal & gas,Thermal,Coal,5688.731794907591,538.9939138359068,0.10466433948357379,100 million kwh,CREA
+2023-12-31,Gas,Coal & gas,Thermal,Gas,269.6454007853103,3.0864042282470905,0.011578690901870914,100 million kwh,CREA
+2023-12-31,Wind,Solar & wind,Wind,NA,837.1223225806451,83.84438709677408,0.11130604408705569,100 million kwh,CREA
+2023-12-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,772.8598999999995,35.0599000000002,0.04751951748441341,100 million kwh,CREA
+2023-12-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,380.5554000000002,-16.8445999999999,-0.042387015601408895,100 million kwh,CREA
+2023-12-31,Thermal,NA,Thermal,NA,6140.038800000002,561.7387999999992,0.10070071527167745,100 million kwh,CREA
+2024-01-31,Solar,Solar & wind,Solar,NA,511.58018709677424,156.3768869327502,0.4402461544150611,100 million kwh,CREA
+2024-01-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,179.32104194428365,14.655132298992697,0.08899918829927533,100 million kwh,CREA
+2024-01-31,Coal,Coal & gas,Thermal,Coal,4959.789475128009,463.8809918769384,0.10317847741008679,100 million kwh,CREA
+2024-01-31,Gas,Coal & gas,Thermal,Gas,261.8394829277074,44.10512582406932,0.2025639242734485,100 million kwh,CREA
+2024-01-31,Wind,Solar & wind,Wind,NA,804.9493411290324,89.9444165800985,0.12579552041105257,100 million kwh,CREA
+2024-01-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,694.8,11.464549999999917,0.016777338275073994,100 million kwh,CREA
+2024-01-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,345.55,11.780200000000036,0.03529438553158504,100 million kwh,CREA
+2024-01-31,Thermal,NA,Thermal,NA,5400.95,522.6412499999997,0.10713574658430547,100 million kwh,CREA
+2024-02-29,Solar,Solar & wind,Solar,NA,562.9853793103449,160.2713793103449,0.3979781664167248,100 million kwh,CREA
+2024-02-29,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,168.90052912750835,18.887375998208967,0.1259047997073266,100 million kwh,CREA
+2024-02-29,Coal,Coal & gas,Thermal,Coal,4969.351780731083,459.0671932424402,0.10178231203323063,100 million kwh,CREA
+2024-02-29,Gas,Coal & gas,Thermal,Gas,262.697690141409,44.686680759350196,0.20497442255788978,100 million kwh,CREA
+2024-02-29,Wind,Solar & wind,Wind,NA,868.8649137931035,71.31887807881776,0.08942289834710837,100 million kwh,CREA
+2024-02-29,Hydro,"Hydro, nuclear & biomass",Hydro,NA,694.8,11.464549999999917,0.016777338275073994,100 million kwh,CREA
+2024-02-29,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,345.55,11.780200000000036,0.03529438553158504,100 million kwh,CREA
+2024-02-29,Thermal,NA,Thermal,NA,5400.95,522.6412499999997,0.10713574658430547,100 million kwh,CREA
+2024-03-31,Solar,Solar & wind,Solar,NA,709.0214516129031,210.31799999999987,0.42172958562807383,100 million kwh,CREA
+2024-03-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,183.31479731841597,5.804803271165554,0.032701275791944484,100 million kwh,CREA
+2024-03-31,Coal,Coal & gas,Thermal,Coal,4790.3742659918935,7.966513022463005,0.0016657954390268959,100 million kwh,CREA
+2024-03-31,Gas,Coal & gas,Thermal,Gas,252.4109366896907,18.019383706373077,0.07687727427470725,100 million kwh,CREA
+2024-03-31,Wind,Solar & wind,Wind,NA,985.4585806451613,207.33387096774197,0.2664532669238773,100 million kwh,CREA
+2024-03-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,712.0999999999999,43.70759999999996,0.06539212594278454,100 million kwh,CREA
+2024-03-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,348.1,-17.609300000000076,-0.04815108612222896,100 million kwh,CREA
+2024-03-31,Thermal,NA,Thermal,NA,5226.1,31.79070000000138,0.006120293991734638,100 million kwh,CREA
+2024-04-30,Solar,Solar & wind,Solar,NA,631.1818,137.82179999999994,0.2793534133290092,100 million kwh,CREA
+2024-04-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,179.6872812867641,11.244765602369455,0.06675728842377548,100 million kwh,CREA
+2024-04-30,Coal,Coal & gas,Thermal,Coal,4166.765851896816,35.949936618946595,0.008702865815439775,100 million kwh,CREA
+2024-04-30,Gas,Coal & gas,Thermal,Gas,247.44686681642224,30.632097778685676,0.14128233936570145,100 million kwh,CREA
+2024-04-30,Wind,Solar & wind,Wind,NA,883.9979,-68.94870000000003,-0.07235316228632327,100 million kwh,CREA
+2024-04-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,835.7000000000003,162.06330000000048,0.24057967744334663,100 million kwh,CREA
+2024-04-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,365.70000000000005,20.548900000000003,0.059535953963351096,100 million kwh,CREA
+2024-04-30,Thermal,NA,Thermal,NA,4593.9000000000015,77.82680000000073,0.01723329019556208,100 million kwh,CREA
+2024-05-31,Solar,Solar & wind,Solar,NA,936.1664516129032,409.03354838709674,0.7759590529902478,100 million kwh,CREA
+2024-05-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,188.20205252863082,11.961613243292646,0.06787099085656756,100 million kwh,CREA
+2024-05-31,Coal,Coal & gas,Thermal,Coal,4153.45063207585,-159.60137220287106,-0.037004277259940266,100 million kwh,CREA
+2024-05-31,Gas,Coal & gas,Thermal,Gas,209.04731539551668,-40.460241040423,-0.1621603835105132,100 million kwh,CREA
+2024-05-31,Wind,Solar & wind,Wind,NA,834.3336774193549,38.278838709677416,0.04808568059422069,100 million kwh,CREA
+2024-05-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1151.1,336.39999999999964,0.41291272861175843,100 million kwh,CREA
+2024-05-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,360,-8.899999999999864,-0.02412577934399529,100 million kwh,CREA
+2024-05-31,Thermal,NA,Thermal,NA,4550.699999999997,-188.10000000000218,-0.03969359331476374,100 million kwh,CREA
+2024-06-30,Solar,Solar & wind,Solar,NA,806.255,227.33090000000004,0.3926782457320399,100 million kwh,CREA
+2024-06-30,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,181.25290501211995,10.545992070144592,0.06177835383696073,100 million kwh,CREA
+2024-06-30,Coal,Coal & gas,Thermal,Coal,4448.710198940672,-351.7464708546231,-0.07327354355010196,100 million kwh,CREA
+2024-06-30,Gas,Coal & gas,Thermal,Gas,250.13689604721088,-29.872521215520976,-0.10668398765849973,100 million kwh,CREA
+2024-06-30,Wind,Solar & wind,Wind,NA,737.4018,130.2342,0.21449464694756437,100 million kwh,CREA
+2024-06-30,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1437.3000000000002,456.4809,0.46540784126247137,100 million kwh,CREA
+2024-06-30,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,356.5999999999999,-14.962900000000218,-0.04027016690848362,100 million kwh,CREA
+2024-06-30,Thermal,NA,Thermal,NA,4880.100000000002,-371.0730000000003,-0.07066478289707845,100 million kwh,CREA
+2024-07-31,Solar,Solar & wind,Solar,NA,811.4998064516128,232.02735483870958,0.40041136415179834,100 million kwh,CREA
+2024-07-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,184.87397642002082,9.136644197669767,0.0519903430997215,100 million kwh,CREA
+2024-07-31,Coal,Coal & gas,Thermal,Coal,5192.252267533057,-285.58475695410834,-0.0521345844495702,100 million kwh,CREA
+2024-07-31,Gas,Coal & gas,Thermal,Gas,384.07375604692237,20.92111275644379,0.05760969427863816,100 million kwh,CREA
+2024-07-31,Wind,Solar & wind,Wind,NA,724.009064516129,43.387548387096786,0.06374695386337348,100 million kwh,CREA
+2024-07-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1662.1999999999998,449.41910000000007,0.3705690780585349,100 million kwh,CREA
+2024-07-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,396.6999999999998,16.262899999999718,0.04274793388972764,100 million kwh,CREA
+2024-07-31,Thermal,NA,Thermal,NA,5761.200000000001,-255.5269999999946,-0.04246943562504912,100 million kwh,CREA
+2024-08-31,Solar,Solar & wind,Solar,NA,915.6056634752073,294.44046992682013,0.47401314977878584,100 million kwh,CREA
+2024-08-31,Biomass,"Hydro, nuclear & biomass",Thermal,Biomass,197.48193749330866,22.251509100978808,0.1269842761050557,100 million kwh,CREA
+2024-08-31,Coal,Coal & gas,Thermal,Coal,5546.351398949035,145.29386539959614,0.026901003090058273,100 million kwh,CREA
+2024-08-31,Gas,Coal & gas,Thermal,Gas,410.2666635576554,70.72162549941805,0.20828348988356638,100 million kwh,CREA
+2024-08-31,Wind,Solar & wind,Wind,NA,568.339387060649,101.54770964129409,0.21754395922973147,100 million kwh,CREA
+2024-08-31,Hydro,"Hydro, nuclear & biomass",Hydro,NA,1634,163.58020000000033,0.11124727781821253,100 million kwh,CREA
+2024-08-31,Nuclear,"Hydro, nuclear & biomass",Nuclear,NA,401.8000000000002,18.50970000000052,0.048291595169511314,100 million kwh,CREA
+2024-08-31,Thermal,NA,Thermal,NA,6154.0999999999985,238.26699999999255,0.04027615384004113,100 million kwh,CREA
+2016-01-31,Coal,Coal & gas,Thermal,Coal,3207.5,-156,-0.046380258659134865,100 million kwh,Ember
+2016-01-31,Gas,Coal & gas,Thermal,Gas,128.9,7.400000000000006,0.06090534979423867,100 million kwh,Ember
+2016-02-29,Coal,Coal & gas,Thermal,Coal,3207.5,-156,-0.046380258659134865,100 million kwh,Ember
+2016-02-29,Gas,Coal & gas,Thermal,Gas,128.9,7.400000000000006,0.06090534979423867,100 million kwh,Ember
+2016-03-31,Coal,Coal & gas,Thermal,Coal,3467.6,53.29999999999973,0.015610813343877039,100 million kwh,Ember
+2016-03-31,Gas,Coal & gas,Thermal,Gas,139.4,16.10000000000001,0.13057583130575834,100 million kwh,Ember
+2016-04-30,Coal,Coal & gas,Thermal,Coal,3141.6000000000004,-174.89999999999964,-0.052736318407960114,100 million kwh,Ember
+2016-04-30,Gas,Coal & gas,Thermal,Gas,126.30000000000001,6.5,0.05425709515859767,100 million kwh,Ember
+2016-05-31,Coal,Coal & gas,Thermal,Coal,3145.2999999999997,-199.70000000000027,-0.0597010463378177,100 million kwh,Ember
+2016-05-31,Gas,Coal & gas,Thermal,Gas,126.4,5.6000000000000085,0.04635761589403975,100 million kwh,Ember
+2016-05-31,Solar,Solar & wind,Solar,NA,59.5,8.200000000000003,0.1598440545808968,100 million kwh,Ember
+2016-06-30,Coal,Coal & gas,Thermal,Coal,3290.5,30.5,0.009355828220858786,100 million kwh,Ember
+2016-06-30,Gas,Coal & gas,Thermal,Gas,132.3,14.500000000000014,0.12308998302207153,100 million kwh,Ember
+2016-06-30,Solar,Solar & wind,Solar,NA,58.6,9.100000000000001,0.1838383838383839,100 million kwh,Ember
+2016-07-31,Coal,Coal & gas,Thermal,Coal,3698.3999999999996,164.69999999999982,0.04660837082944225,100 million kwh,Ember
+2016-07-31,Gas,Coal & gas,Thermal,Gas,148.6,20.900000000000006,0.163664839467502,100 million kwh,Ember
+2016-07-31,Solar,Solar & wind,Solar,NA,62.599999999999994,9.299999999999997,0.17448405253283306,100 million kwh,Ember
+2016-08-31,Coal,Coal & gas,Thermal,Coal,3926.3999999999996,274.59999999999945,0.0751957938550849,100 million kwh,Ember
+2016-08-31,Gas,Coal & gas,Thermal,Gas,157.79999999999998,25.899999999999977,0.19636087945413183,100 million kwh,Ember
+2016-08-31,Solar,Solar & wind,Solar,NA,65.6,9.099999999999994,0.16106194690265485,100 million kwh,Ember
+2016-09-30,Coal,Coal & gas,Thermal,Coal,3432.9,378.4000000000001,0.12388279587493867,100 million kwh,Ember
+2016-09-30,Gas,Coal & gas,Thermal,Gas,138,27.700000000000003,0.2511332728921125,100 million kwh,Ember
+2016-09-30,Solar,Solar & wind,Solar,NA,63.2,13.399999999999999,0.26907630522088355,100 million kwh,Ember
+2016-10-31,Coal,Coal & gas,Thermal,Coal,3370.8999999999996,356.49999999999955,0.11826565817409751,100 million kwh,Ember
+2016-10-31,Gas,Coal & gas,Thermal,Gas,135.5,26.599999999999994,0.24426078971533505,100 million kwh,Ember
+2016-10-31,Solar,Solar & wind,Solar,NA,56.3,5.5,0.1082677165354331,100 million kwh,Ember
+2016-11-30,Coal,Coal & gas,Thermal,Coal,3597.7999999999997,176.69999999999936,0.05165005407617418,100 million kwh,Ember
+2016-11-30,Gas,Coal & gas,Thermal,Gas,144.60000000000002,21.00000000000003,0.16990291262135937,100 million kwh,Ember
+2016-11-30,Solar,Solar & wind,Solar,NA,54.699999999999996,13.399999999999999,0.32445520581113807,100 million kwh,Ember
+2016-12-31,Coal,Coal & gas,Thermal,Coal,4019.9,264.10000000000036,0.0703179083018266,100 million kwh,Ember
+2016-12-31,Gas,Coal & gas,Thermal,Gas,161.6,25.900000000000006,0.1908621960206338,100 million kwh,Ember
+2016-12-31,Solar,Solar & wind,Solar,NA,51.4,9.099999999999994,0.2151300236406617,100 million kwh,Ember
+2017-01-31,Coal,Coal & gas,Thermal,Coal,3465.6,258.0999999999999,0.08046765393608735,100 million kwh,Ember
+2017-01-31,Gas,Coal & gas,Thermal,Gas,138.9,10,0.07757951900698212,100 million kwh,Ember
+2017-01-31,Solar,Solar & wind,Solar,NA,75.5,34.4,0.8369829683698295,100 million kwh,Ember
+2017-02-28,Coal,Coal & gas,Thermal,Coal,3465.6,258.0999999999999,0.08046765393608735,100 million kwh,Ember
+2017-02-28,Gas,Coal & gas,Thermal,Gas,138.9,10,0.07757951900698212,100 million kwh,Ember
+2017-02-28,Solar,Solar & wind,Solar,NA,75.5,34.4,0.8369829683698295,100 million kwh,Ember
+2017-03-31,Coal,Coal & gas,Thermal,Coal,3728.7,261.0999999999999,0.07529703541354249,100 million kwh,Ember
+2017-03-31,Gas,Coal & gas,Thermal,Gas,149.5,10.099999999999994,0.0724533715925395,100 million kwh,Ember
+2017-03-31,Solar,Solar & wind,Solar,NA,95.3,41.599999999999994,0.7746741154562382,100 million kwh,Ember
+2017-04-30,Coal,Coal & gas,Thermal,Coal,3319.5,177.89999999999964,0.056627196333078667,100 million kwh,Ember
+2017-04-30,Gas,Coal & gas,Thermal,Gas,133.1,6.799999999999983,0.0538400633412508,100 million kwh,Ember
+2017-04-30,Solar,Solar & wind,Solar,NA,95.19999999999999,37.79999999999998,0.6585365853658534,100 million kwh,Ember
+2017-05-31,Coal,Coal & gas,Thermal,Coal,3346,200.70000000000027,0.06380949353002907,100 million kwh,Ember
+2017-05-31,Gas,Coal & gas,Thermal,Gas,134.1,7.699999999999989,0.06091772151898733,100 million kwh,Ember
+2017-05-31,Solar,Solar & wind,Solar,NA,105.5,46,0.7731092436974789,100 million kwh,Ember
+2017-06-30,Coal,Coal & gas,Thermal,Coal,3488.6000000000004,198.10000000000036,0.06020361647166106,100 million kwh,Ember
+2017-06-30,Gas,Coal & gas,Thermal,Gas,139.8,7.5,0.05668934240362811,100 million kwh,Ember
+2017-06-30,Solar,Solar & wind,Solar,NA,102.2,43.6,0.7440273037542662,100 million kwh,Ember
+2017-07-31,Coal,Coal & gas,Thermal,Coal,4091.9,393.50000000000045,0.10639736102098207,100 million kwh,Ember
+2017-07-31,Gas,Coal & gas,Thermal,Gas,164,15.400000000000006,0.10363391655450882,100 million kwh,Ember
+2017-07-31,Solar,Solar & wind,Solar,NA,108.80000000000001,46.20000000000002,0.7380191693290739,100 million kwh,Ember
+2017-08-31,Coal,Coal & gas,Thermal,Coal,4085.6,159.20000000000027,0.04054604726976363,100 million kwh,Ember
+2017-08-31,Gas,Coal & gas,Thermal,Gas,163.79999999999998,6,0.03802281368821303,100 million kwh,Ember
+2017-08-31,Solar,Solar & wind,Solar,NA,104.7,39.10000000000001,0.5960365853658538,100 million kwh,Ember
+2017-09-30,Coal,Coal & gas,Thermal,Coal,3437.1,4.199999999999818,0.0012234553875731802,100 million kwh,Ember
+2017-09-30,Gas,Coal & gas,Thermal,Gas,137.79999999999998,-0.20000000000001705,-0.0014492753623189802,100 million kwh,Ember
+2017-09-30,Solar,Solar & wind,Solar,NA,107.8,44.599999999999994,0.7056962025316456,100 million kwh,Ember
+2017-10-31,Coal,Coal & gas,Thermal,Coal,3316.2,-54.69999999999982,-0.016227120353614732,100 million kwh,Ember
+2017-10-31,Gas,Coal & gas,Thermal,Gas,132.89999999999998,-2.6000000000000227,-0.019188191881919003,100 million kwh,Ember
+2017-10-31,Solar,Solar & wind,Solar,NA,104.60000000000001,48.30000000000001,0.857904085257549,100 million kwh,Ember
+2017-11-30,Coal,Coal & gas,Thermal,Coal,3669.1000000000004,71.30000000000064,0.019817666351659602,100 million kwh,Ember
+2017-11-30,Gas,Coal & gas,Thermal,Gas,147.10000000000002,2.5,0.017289073305670755,100 million kwh,Ember
+2017-11-30,Solar,Solar & wind,Solar,NA,107.5,52.800000000000004,0.9652650822669107,100 million kwh,Ember
+2017-12-31,Coal,Coal & gas,Thermal,Coal,4280.7,260.7999999999997,0.064877235752133,100 million kwh,Ember
+2017-12-31,Gas,Coal & gas,Thermal,Gas,171.6,10,0.061881188118811936,100 million kwh,Ember
+2017-12-31,Solar,Solar & wind,Solar,NA,95.39999999999999,43.99999999999999,0.8560311284046691,100 million kwh,Ember
+2018-01-31,Coal,Coal & gas,Thermal,Coal,3880.7,415.0999999999999,0.11977723915050786,100 million kwh,Ember
+2018-01-31,Gas,Coal & gas,Thermal,Gas,169.1,30.19999999999999,0.21742260619150455,100 million kwh,Ember
+2018-02-28,Coal,Coal & gas,Thermal,Coal,3880.7,415.0999999999999,0.11977723915050786,100 million kwh,Ember
+2018-02-28,Gas,Coal & gas,Thermal,Gas,169.1,30.19999999999999,0.21742260619150455,100 million kwh,Ember
+2018-03-31,Coal,Coal & gas,Thermal,Coal,3857.7999999999997,129.0999999999999,0.034623327164963635,100 million kwh,Ember
+2018-03-31,Gas,Coal & gas,Thermal,Gas,168.1,18.599999999999994,0.1244147157190636,100 million kwh,Ember
+2018-04-30,Coal,Coal & gas,Thermal,Coal,3647.5,328,0.09881006175628859,100 million kwh,Ember
+2018-04-30,Gas,Coal & gas,Thermal,Gas,158.9,25.80000000000001,0.19383921863260722,100 million kwh,Ember
+2018-05-31,Coal,Coal & gas,Thermal,Coal,3773,427,0.12761506276150625,100 million kwh,Ember
+2018-05-31,Gas,Coal & gas,Thermal,Gas,164.4,30.30000000000001,0.22595078299776294,100 million kwh,Ember
+2018-06-30,Coal,Coal & gas,Thermal,Coal,3791.7000000000003,303.0999999999999,0.08688299031129953,100 million kwh,Ember
+2018-06-30,Gas,Coal & gas,Thermal,Gas,165.2,25.399999999999977,0.1816881258941343,100 million kwh,Ember
+2018-07-31,Coal,Coal & gas,Thermal,Coal,4343.2,251.29999999999973,0.061414013050172134,100 million kwh,Ember
+2018-07-31,Gas,Coal & gas,Thermal,Gas,189.20000000000002,25.200000000000017,0.153658536585366,100 million kwh,Ember
+2018-08-31,Coal,Coal & gas,Thermal,Coal,4433.7,348.0999999999999,0.08520168396318772,100 million kwh,Ember
+2018-08-31,Gas,Coal & gas,Thermal,Gas,193.2,29.400000000000006,0.17948717948717952,100 million kwh,Ember
+2018-09-30,Coal,Coal & gas,Thermal,Coal,3666.9,229.80000000000018,0.06685868901108494,100 million kwh,Ember
+2018-09-30,Gas,Coal & gas,Thermal,Gas,159.8,22.00000000000003,0.15965166908563155,100 million kwh,Ember
+2018-10-31,Coal,Coal & gas,Thermal,Coal,3511.1000000000004,194.90000000000055,0.05877208853507043,100 million kwh,Ember
+2018-10-31,Gas,Coal & gas,Thermal,Gas,153,20.100000000000023,0.1512415349887135,100 million kwh,Ember
+2018-11-30,Coal,Coal & gas,Thermal,Coal,3880.6,211.49999999999955,0.05764356381673963,100 million kwh,Ember
+2018-11-30,Gas,Coal & gas,Thermal,Gas,169.1,21.99999999999997,0.1495581237253567,100 million kwh,Ember
+2018-12-31,Coal,Coal & gas,Thermal,Coal,4577,296.3000000000002,0.0692176513187095,100 million kwh,Ember
+2018-12-31,Gas,Coal & gas,Thermal,Gas,199.4,27.80000000000001,0.16200466200466201,100 million kwh,Ember
+2021-12-31,Solar,Solar & wind,Solar,NA,245,50.795096774193524,0.26155414168473845,100 million kwh,Ember
