@@ -1,4 +1,4 @@
-read_power_generation <- function() {
+read_power_generation <- function(predict_solar_wind=F) {
   readwindEN(get_data_file('generation-consumption-utilization-capacity.xlsx'),
              c('var', 'source', 'subtype'), read_vardata = T, skip=3, zero_as_NA = T) -> monthly_raw
 
@@ -33,31 +33,60 @@ read_power_generation <- function() {
   monthly %>% filter(var=='Utilization' & source=='Thermal' & !is.na(subtype)) %>%
     group_by(subtype) %>% fill(Value1m, .direction='down') -> monthly_filled
 
-  #Solar utilization: last year's value * last month ytd yoy
-  monthly %>% filter(var=='Utilization' & source=='Solar') %>%
-    (function(df) {
-      for(i in which(is.na(df$Value1m))) {
-        last_month = df$date[i] %>% subtract(31) %>% 'day<-'(days_in_month(.))
-        last_month_value = df$Value1m[df$date==last_month]
+  if(predict_solar_wind) {
+    predict_solar_wind_utilization(monthly, output_plots=T) -> pred
 
+    monthly %>% filter(var=='Utilization' & source %in% c('Wind', 'Solar')) %>%
+      left_join(pred) %>% arrange(date) %>%
+      group_by(source, month=month(date)) %>%
+      mutate(Value1m = na.cover(Value1m, lag(Value1m) * (1+Utilization_predicted_YoY))) %>%
+      ungroup %>% select(-month, -starts_with('Utilization_predicted')) %>%
+      bind_rows(monthly_filled) ->
+      monthly_filled
+
+  } else {
+    #Wind&Solar utilization: last year's value
+    monthly %>% filter(var=='Utilization' & source %in% c('Solar', 'Wind')) %>%
+      group_by(source, month=month(date)) %>%
+      fill(Value1m, .direction='down') %>%
+      ngroup %>% select(-month) %>%
+      bind_rows(monthly_filled) ->
+      monthly_filled
+  }
+
+  #wind & solar capacity: last year's monthly addition * last three months yoy
+  monthly %>% filter(var=='Capacity' & source %in% c('Solar', 'Wind')) %>%
+    group_by(source) %>%
+    group_modify(function(df, group) {
+      monthly_capacity_filled = na.approx(df$Value1m, na.rm=F)
+      monthly_additions = monthly_capacity_filled - lag(monthly_capacity_filled)
+
+      first_nonna <- which(!is.na(monthly_capacity_filled))[1]
+      to_fill <- monthly_capacity_filled %>% is.na %>% which %>% subset(.>first_nonna)
+
+      for(i in to_fill) {
         last_year = df$date[i] %>% subtract(366) %>% 'day<-'(days_in_month(.))
-        last_year_value = df$Value1m[df$date==last_year]
+        last_year_additions = monthly_additions[df$date==last_year]
 
-        last_month_last_year = df$date[i] %>% subtract(31+366) %>% 'day<-'(days_in_month(.))
-        last_month_last_year_value = df$Value1m[df$date==last_month]
+        last_month = df$date[i] %>% subtract(31) %>% 'day<-'(days_in_month(.))
 
-        filled_value = last_year_value * last_month_value / last_month_last_year_value
+        last_months = df$date[i] %>% subtract(31*1:3) %>% 'day<-'(days_in_month(.))
+        last_months_additions = mean(monthly_additions[df$date %in% last_months])
 
-        if(length(filled_value)==1) df$Value1m[i] <- filled_value
+        last_months_last_year = df$date[i] %>% subtract(31*1:3+366) %>% 'day<-'(days_in_month(.))
+        last_months_last_year_additions = mean(monthly_additions[df$date %in% last_months_last_year])
+
+        filled_value = monthly_capacity_filled[df$date==last_month] +
+          last_year_additions * last_months_additions / last_months_last_year_additions
+
+        if(length(filled_value)==1 & !is.na(filled_value)) {
+          df$Value[i] <- filled_value
+          df$Value1m[i] <- filled_value
+          message('filling ', filled_value, ' for ', group$source, ' on ', df$date[i])
+        }
       }
       return(df)
     }) %>%
-    bind_rows(monthly_filled) ->
-    monthly_filled
-
-  #Wind utilization: last year's value
-  monthly %>% filter(var=='Utilization' & source=='Wind') %>%
-    group_by(month=month(date)) %>% fill(Value1m, .direction='down') %>% ungroup %>% select(-month) %>%
     bind_rows(monthly_filled) ->
     monthly_filled
 
@@ -81,6 +110,10 @@ read_power_generation <- function() {
     bind_rows(monthly)
 
   monthly %<>% group_by(date, source, subtype) %>%
+    mutate(days_in_feb = days_in_month(ymd(paste(year(date), 2, 1))),
+           days_in_month = ifelse(month(date)<=2,
+                                  (31 + days_in_feb)/2,
+                                  days_in_month(date))) %>%
     summarise(Value1m=Value1m[var=='Capacity']*Value1m[var=='Utilization']/1e4*30/days_in_month(unique(date))) %>%
     mutate(var='Generation, calculated', Unit='100 million kwh') %>%
     bind_rows(monthly %>% filter(var!='Generation, calculated'))
@@ -118,6 +151,40 @@ read_power_generation <- function() {
     summarise(across(Value1m, sum)) %>%
     mutate(source='Total') %>%
     bind_rows(monthly %>% filter(source != 'Total'), .)
+
+  #predict last month's consumption from generation growth
+  monthly %>% ungroup %>%
+    filter(var %in% c('Consumption', 'Generation, hybrid'),
+           source %in% c('Total', 'Whole Society')) %>%
+    mutate(var=ifelse(var=='Consumption', var, 'Generation')) %>%
+    select(date, var, Value1m) %>%
+    spread(var, Value1m) -> gen_cons
+
+  gen_cons %>% lm(Consumption~Generation+Generation:date, data=.) -> m_cons
+
+  gen_cons %<>%
+    mutate(Consumption_predicted=predict(m_cons, .)) %>%
+    group_by(month=month(date)) %>%
+    mutate(Consumption_predicted_YoY=Consumption_predicted/lag(Consumption_predicted)-1,
+           Consumption_YoY=Consumption/lag(Consumption)-1,
+           Generation_YoY=Generation/lag(Generation)-1)
+
+  gen_cons %>%
+    ggplot(aes(Consumption_YoY, Consumption_predicted_YoY)) + geom_point() + geom_abline()
+
+  gen_cons %>%
+    ggplot(aes(Consumption_YoY, Generation_YoY)) + geom_point() + geom_abline()
+
+  gen_cons %>%
+    ggplot(aes(Generation, Consumption)) + geom_point() + geom_abline()
+
+  monthly %>% filter(var=='Consumption') %>%
+    left_join(gen_cons %>% select(date, month, Consumption_predicted_YoY)) %>%
+    group_by(month) %>%
+    mutate(Value1m=na.cover(Value1m, lag(Value1m) * (1+Consumption_predicted_YoY))) ->
+    cons_filled
+
+  monthly %<>% filter(var !='Consumption') %>% bind_rows(cons_filled)
 
   "source	year	Value
 Wind	2022	7626.7

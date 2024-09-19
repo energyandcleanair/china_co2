@@ -2,7 +2,7 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
                                    lang = parent.frame()$lang,
                                    output_dir = get('output_dir', envir = .GlobalEnv),
                                    make_additional_plots=F) { #make a number of plots in addition to the main ones
-  pwr_data <- read_power_generation()
+  pwr_data <- read_power_generation(predict_solar_wind = T)
 
   try(ember <- read_csv("https://ember-climate.org/app/uploads/2022/07/monthly_full_release_long_format-4.csv"))
   if(!exists("ember")) ember <- read_csv(get_data_file("monthly_full_release_long_format-4.csv"))
@@ -41,6 +41,7 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     }) %>%
     group_by(source, subtype) %>%
     mutate(YoY_change_absolute_1m = get.yoy(Value1m, date, 'absolute'),
+           YoY_change_percent_1m = get.yoy(Value1m, date, 'relative'),
            label = na.cover(subtype, source)) %>%
     filter(year(date) > 2015, !is.na(YoY_change_absolute_1m))
 
@@ -244,6 +245,36 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     file.path(output_dir, paste0(basename, ' ', lang, '.png')),
     plot = p,
     logo = T)
+
+  #monthly generation by technology
+  pwr_growth_plot %>% group_by(date) %>%
+    filter(year(date)>=year(focus_month)-5) %>%
+    mutate(plotdate = date %>% 'year<-'(2022) %>% 'day<-'(1),
+           year = as.factor(year(date))) %>%
+    filter(label %notin% c('Thermal')) -> plotdata
+
+  p <- plotdata %>%
+    ggplot(aes(plotdate, Value1m/10)) +
+    theme_crea(legend.position = 'top') +
+    facet_wrap(~ trans(label), scales = 'free_y') +
+    geom_line(aes(col = year), linewidth=1) +
+    geom_label(aes(label=scales::percent(YoY_change_percent_1m, accuracy = 1.1)),
+               data=plotdata %>% filter(date==focus_month),
+               vjust=0, hjust=-.1) +
+    labs(title = trans('Monthly power generation by technology'),
+         x = '', y = 'TWh', col = '') +
+    scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708')) +
+    scale_color_crea_d('change', col.index = c(7, 6, 5, 3, 2, 1),
+                      guide = guide_legend(nrow = 1)) +
+    scale_y_continuous(expand=expansion(mult=c(0,.2))) +
+    lang_theme()
+
+  basename <- "Monthly generation by technology"
+  quicksave(
+    file.path(output_dir, paste0(basename, ' ', lang, '.png')),
+    plot = p,
+    logo = T,
+    scale = 1)
 
   pwr_growth_plot %>%
     select(date, label, broad_label, source, subtype, value = Value1m,
