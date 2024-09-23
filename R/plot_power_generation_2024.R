@@ -151,7 +151,7 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
              year = as.factor(year(date)),
              label = na.cover(subtype, source)) %>%
       ggplot(aes(plotdate, Value1m, col = year)) +
-      facet_wrap(~ trans(label)) +
+      facet_wrap(~ trans(label), scales='free_y') +
       geom_line() +
       labs(title = 'Monthly running hours', x = '', y = trans('hours'), col = '') +
       scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708')) +
