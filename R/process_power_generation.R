@@ -118,7 +118,7 @@ read_power_generation <- function(predict_solar_wind=F) {
     mutate(var='Generation, calculated', Unit='100 million kwh') %>%
     bind_rows(monthly %>% filter(var!='Generation, calculated'))
 
-  monthly %>%
+  monthly %<>%
     #normalize thermal generation by fuel to the reported total
     group_by(date) %>%
     group_modify(function(df, group) {
