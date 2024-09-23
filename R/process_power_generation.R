@@ -49,7 +49,7 @@ read_power_generation <- function(predict_solar_wind=F) {
     monthly %>% filter(var=='Utilization' & source %in% c('Solar', 'Wind')) %>%
       group_by(source, month=month(date)) %>%
       fill(Value1m, .direction='down') %>%
-      ngroup %>% select(-month) %>%
+      ungroup %>% select(-month) %>%
       bind_rows(monthly_filled) ->
       monthly_filled
   }
