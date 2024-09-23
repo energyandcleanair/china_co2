@@ -118,7 +118,7 @@ read_power_generation <- function(predict_solar_wind=F) {
     mutate(var='Generation, calculated', Unit='100 million kwh') %>%
     bind_rows(monthly %>% filter(var!='Generation, calculated'))
 
-  monthly %<>%
+  monthly %>%
     #normalize thermal generation by fuel to the reported total
     group_by(date) %>%
     group_modify(function(df, group) {
@@ -129,9 +129,10 @@ read_power_generation <- function(predict_solar_wind=F) {
       sum(df$Value1m[ind]) -> thermal_byfuel
 
       if(!is.na(thermal_byfuel)) {
-        adj = thermal_total/thermal_byfuel
-        df$Value1m[ind] %<>% multiply_by(adj)
-        message('adjusting thermal output on ', group$date, ' by ', adj)
+        adj = thermal_total - thermal_byfuel
+        df$Value1m[ind & df$subtype=='Coal'] -> orig_value
+        df$Value1m[ind & df$subtype=='Coal'] %<>% add(adj)
+        message('adjusting coal output on ', group$date, ' by ', adj/orig_value)
       }
       return(df)
     }) %>%
