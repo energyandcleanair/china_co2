@@ -275,7 +275,7 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     file.path(output_dir, paste0(basename, ' ', lang, '.png')),
     plot = p,
     logo = T,
-    scale = 1)
+    scale = 1.2)
 
   pwr_growth_plot %>%
     select(date, label, broad_label, source, subtype, value = Value1m,
