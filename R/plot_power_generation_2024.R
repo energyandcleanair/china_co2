@@ -267,6 +267,7 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     scale_color_crea_d('change', col.index = c(7, 6, 5, 3, 2, 1),
                       guide = guide_legend(nrow = 1)) +
     scale_y_continuous(expand=expansion(mult=c(0,.2))) +
+    expand_limits(y=0) +
     lang_theme()
 
   basename <- "Monthly generation by technology"
