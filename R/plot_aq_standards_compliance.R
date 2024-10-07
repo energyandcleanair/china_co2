@@ -58,8 +58,9 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     facet_wrap(~city_label) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 35),
                alpha = .5) +
-    theme_crea(legend.position = 'top',
-               axis.text.x = element_text(angle = 30, hjust=  1)) +
+    theme_crea() +
+    theme(legend.position = 'top',
+          axis.text.x = element_text(angle = 30, hjust = 1)) +
     lang_theme(lang = lang) +
     scale_color_crea_c('change', guide = 'none', darken = .15) +
     labs(title = trans('PM2.5 concentrations in provincial capitals'),
@@ -88,8 +89,9 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     facet_wrap(~city_label) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 35),
                alpha = .5) +
-    theme_crea(legend.position = 'top',
-               axis.text.x = element_text(angle = 30, hjust = 1)) +
+    theme_crea() +
+    theme(legend.position = 'top',
+          axis.text.x = element_text(angle = 30, hjust = 1)) +
     lang_theme(lang = lang) +
     scale_color_crea_c('change', guide = 'none', darken = .15) +
     labs(title = trans('PM2.5 concentrations in provincial capitals'),
@@ -119,8 +121,9 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     facet_wrap(~city_label) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 160),
                alpha = .5) +
-    theme_crea(legend.position = 'top',
-               axis.text.x = element_text(angle = 30, hjust = 1)) +
+    theme_crea() +
+    theme(legend.position = 'top',
+          axis.text.x = element_text(angle = 30, hjust = 1)) +
     lang_theme(lang = lang) +
     scale_color_crea_c('change', guide = 'none', darken = .3) +
     labs(title = trans('Ozone concentrations in provincial capitals'),
@@ -148,8 +151,9 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     facet_wrap(~city_label) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 160),
                alpha = .5) +
-    theme_crea(legend.position = 'top',
-               axis.text.x = element_text(angle = 30, hjust = 1)) +
+    theme_crea() +
+    theme(legend.position = 'top',
+          axis.text.x = element_text(angle = 30, hjust = 1)) +
     lang_theme(lang = lang) +
     scale_color_crea_c('change', guide = 'none', darken = .3) +
     labs(title = trans('Ozone concentrations in provincial capitals'),
