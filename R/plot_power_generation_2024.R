@@ -205,6 +205,7 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     write_csv(file.path(output_dir,
                         'Growth in monthly power generation by source category.csv')) %>%
     filter(broad_label != 'Total') %>%
+    mutate(broad_label = factor(broad_label)) %>%
     ggplot(aes(date, YoY_change_absolute_1m / 10)) +
     geom_col(aes(fill = trans(broad_label))) +
     geom_point(data = pwr_growth_plot %>% filter(label == 'Total') %>%
@@ -232,11 +233,12 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     filter(!is.na(broad_label), broad_label != 'Total') %>%
     group_by(date, broad_label, Unit) %>%
     summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
+    mutate(broad_label = factor(broad_label)) %>%
     ggplot(aes(date, Value1m / 10)) +
     geom_col(aes(fill = trans(broad_label)), position = 'fill') +
     theme_crea_new() +
-    labs(title = trans('Monthly power generation mix'), y = trans('TWh'),
-         fill = '', x = '') +
+    labs(title = trans('Monthly power generation mix'),
+         y = '', fill = '', x = '') +
     scale_fill_crea_d('change', col.index = c(7, 5, 2, 1),
                       guide = guide_legend(nrow = 1)) +
     scale_x_date(expand = expansion(mult=c(.01, .01))) +
