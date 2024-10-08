@@ -113,7 +113,9 @@ check_wind_update <- function(output_dir, stop_if_fail = F){
                           file_name = "fuel supply.xlsx",
                           check_dates_stop = stop_if_fail))
 
+  dir.create('wind_update_check', showWarnings = F)
   write.csv(data_summary,
-            file.path(output_dir, paste0("wind_data_summary_", today(), ".csv")),
+            file.path('wind_update_check',
+                      paste0("wind_data_summary_", today(), ".csv")),
             row.names = F)
 }
