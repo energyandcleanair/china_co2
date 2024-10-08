@@ -220,7 +220,6 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     lang_theme(lang = lang)
 
   basename <- "Growth in monthly power generation by source"
-  showtext::showtext_opts(dpi = 96)
   quicksave(
     file.path(output_dir, paste0(basename, ' ', lang, '.png')),
     plot = p,
