@@ -58,7 +58,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     facet_wrap(~city_label) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 35),
                alpha = .5) +
-    theme_crea() +
+    theme_crea_new() +
     theme(legend.position = 'top',
           axis.text.x = element_text(angle = 30, hjust = 1)) +
     lang_theme(lang = lang) +
@@ -72,7 +72,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
 
   quicksave(file.path(output_dir, paste0('PM2.5 compliance in provincial capitals, ',
                                          lang, '.png')),
-            plot = p)
+            plot = p, height = 10)
 
   p <- aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), pollutant == 'pm25', date >= start_date,
@@ -89,7 +89,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     facet_wrap(~city_label) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 35),
                alpha = .5) +
-    theme_crea() +
+    theme_crea_new() +
     theme(legend.position = 'top',
           axis.text.x = element_text(angle = 30, hjust = 1)) +
     lang_theme(lang = lang) +
@@ -106,7 +106,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                       paste0('PM2.5 compliance in provincial capitals until ',
                              ceiling_date(focus_month, unit = 'month') - days(1),
                              ',', lang, '.png')),
-            plot = p)
+            plot = p, height = 10)
 
   p <- aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), pollutant == 'o3', date >= start_date) %>%
@@ -121,7 +121,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     facet_wrap(~city_label) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 160),
                alpha = .5) +
-    theme_crea() +
+    theme_crea_new() +
     theme(legend.position = 'top',
           axis.text.x = element_text(angle = 30, hjust = 1)) +
     lang_theme(lang = lang) +
@@ -133,7 +133,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     scale_linetype_manual(values = 'dotted', name = '') +
     scale_x_date(labels = yearlab)
   quicksave(file.path(output_dir, paste0('Ozone compliance in provincial capitals, ', lang, '.png')),
-            plot = p)
+            plot = p, height = 10)
 
   p <- aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), pollutant == 'o3', date >= start_date,
@@ -151,7 +151,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     facet_wrap(~city_label) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 160),
                alpha = .5) +
-    theme_crea() +
+    theme_crea_new() +
     theme(legend.position = 'top',
           axis.text.x = element_text(angle = 30, hjust = 1)) +
     lang_theme(lang = lang) +
@@ -168,7 +168,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                       paste0('Ozone compliance in provincial capitals until ',
                              ceiling_date(focus_month, unit = 'month') - days(1),
                              ',', lang, '.png')),
-            plot = p)
+            plot = p, height = 10)
 
   aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), date >= start_date) %>%
@@ -209,14 +209,14 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
         facet_wrap(~city_name) +
         coord_cartesian(ylim = c(0, maxval)) +
         labs(title = plottitle, subtitle = subtitle, x = '', y = y_lab) +
-        theme_crea() +
+        theme_crea_new() +
         scale_fill_crea_c('change', guide = 'none', col.index = 5:7) +
         lang_theme(lang = lang) +
         x_at_zero()
       quicksave(file.path(output_dir,
                           paste0("monthly_snapshot_", format(as.Date(focus_month), "%Y_%m")),
                           paste0(plottitle_EN, ', ', lang, '.png')),
-                plot = p)
+                plot = p, height = 10)
     }
   }
 }

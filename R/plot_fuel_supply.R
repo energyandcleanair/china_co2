@@ -1,6 +1,6 @@
 fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
-                                  lang=parent.frame()$lang,
-                                  output_dir=get('output_dir', envir=.GlobalEnv)) {
+                              lang=parent.frame()$lang,
+                              output_dir=get('output_dir', envir=.GlobalEnv)) {
   in_file = get_data_file("fuel supply.xlsx")
 
   readwindEN(in_file, c('var', 'prod'), read_vardata = T, zero_as_NA = T) %>%
@@ -57,48 +57,65 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   if(lang=='EN') fuelsupply_plotdata %>% write_csv(file.path(output_dir, 'fossil fuel supply.csv'))
 
-  fuelsupply_plotdata %>%
-    filter(year(date)>=2017, !grepl('Diesel|Gasoline|Kerosene|Other', prod)) %>%
-    ggplot(aes(date, Value12m*12, col=trans(var))) + geom_line(aes(linewidth=var=='Total Supply')) +
-    facet_wrap(~prod_group, scales='free_y') +
-    theme_crea() +
-    lang_theme(lang=lang) +
-    labs(title=trans('Fossil fuel supply'), subtitle=trans('12-month moving sum'), y='', x='') +
-    scale_linewidth_discrete(range=c(1,2), guide='none') +
-    scale_color_crea_d('dramatic', name='') +
-    expand_limits(y=0) +
-    scale_x_date(expand=expansion(mult=c(0,.05)), labels = yearlab) -> p
+  p <- fuelsupply_plotdata %>%
+    filter(year(date) >= 2017, !grepl('Diesel|Gasoline|Kerosene|Other', prod)) %>%
+    ggplot(aes(date, Value12m * 12, col = trans(var))) +
+    geom_line(aes(linewidth = var == 'Total Supply')) +
+    facet_wrap(~prod_group, scales = 'free_y') +
+    theme_crea_new() +
+    lang_theme(lang = lang) +
+    labs(title = trans('Fossil fuel supply'),
+         subtitle = trans('12-month moving sum'),
+         y = '', x = '') +
+    scale_linewidth_discrete(range = c(1, 2), guide = 'none') +
+    scale_color_crea_d('dramatic', name = '') +
+    expand_limits(y = 0) +
+    scale_x_date(expand = expansion(mult = c(0, .05)), labels = yearlab)
   quicksave(file.path(output_dir, paste0('fossil fuel supply, ',lang,'.png')),
-            plot=p)
+            plot = p)
 
-  fuelsupply_plotdata %>% filter(year(date)>=2017, grepl('Diesel|Gasoline|Kerosene|Other', prod)) %>%
+  p <- fuelsupply_plotdata %>%
+    filter(year(date) >= 2017, grepl('Diesel|Gasoline|Kerosene|Other', prod)) %>%
     write_csv(file.path(output_dir, 'oil products output.csv')) %>%
-    ggplot(aes(date, Value12m*12, col=trans(prod))) + geom_line(linewidth=1.5) +
-    theme_crea() +
-    lang_theme(lang=lang) +
-    labs(title=trans('Output of different oil products'), subtitle=trans('12-month moving sum'),
-         y=ifelse(lang=='ZH', unit_label('100Mt', lang=lang), 'Mt'),
-         x='') +
-    scale_color_crea_d('dramatic', name='') +
-    expand_limits(y=0) + x_at_zero() +
-    scale_x_date(expand=expansion(mult=c(0,.05)), labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('oil products output, ', lang,'.png')), plot=p)
+    ggplot(aes(date, Value12m * 12, col = trans(prod))) +
+    geom_line(linewidth = 1.5) +
+    theme_crea_new() +
+    lang_theme(lang = lang) +
+    labs(title = trans('Output of different oil products'),
+         subtitle = trans('12-month moving sum'),
+         y = ifelse(lang == 'ZH', unit_label('100Mt', lang = lang), 'Mt'),
+         x = '') +
+    scale_color_crea_d('dramatic', name = '') +
+    expand_limits(y = 0) +
+    x_at_zero() +
+    scale_x_date(expand = expansion(mult = c(0, .05)), labels = yearlab)
+  quicksave(file.path(output_dir, paste0('oil products output, ', lang,'.png')),
+            plot = p)
 
 
-  fuelsupply_plotdata %>%
-    filter(year(date)>=2010, !grepl('Diesel|Gasoline|Kerosene|Other', prod), var=='Net Imports') %>%
-    group_by(prod_group=ifelse(grepl('Oil', prod_group), 'Oil, Mt', prod_group), date) %>%
+  p <- fuelsupply_plotdata %>%
+    filter(year(date) >= 2010, !grepl('Diesel|Gasoline|Kerosene|Other', prod),
+           var == 'Net Imports') %>%
+    group_by(prod_group = ifelse(grepl('Oil', prod_group), 'Oil, Mt', prod_group),
+             date) %>%
     summarise(across(Value12m, sum)) %>%
-    mutate(YoY_12m = get.yoy(Value12m, date, fun = (function(x1, x0) {(x1/x0-1) * sign(x0)})) %>% pmax(-.2) %>% pmin(.2)) %>%
-    ggplot(aes(date, Value12m*12, col=YoY_12m)) +
-    geom_line(linewidth=1.5) +
-    facet_wrap(~prod_group, scales='free_y') +
-    theme_crea(legend.position='bottom') +
-    lang_theme(lang=lang) +
-    labs(title=trans('Fossil fuel imports'), subtitle=trans('12-month moving sum'), y='', x='') +
-    scale_color_crea_c('change', labels=scales::percent, name=trans('year-on-year'),
-                       guide=guide_colorbar(direction = 'horizontal', barwidth = 10)) +
-    scale_x_date(expand=expansion(mult=c(0,.05)), labels = yearlab) +
-    x_at_zero() -> p
+    mutate(YoY_12m = get.yoy(Value12m, date,
+                             fun = (function(x1, x0) {(x1 / x0 - 1) * sign(x0)})) %>%
+             pmax(-.2) %>%
+             pmin(.2)) %>%
+    ggplot(aes(date, Value12m * 12, col = YoY_12m)) +
+    geom_line(linewidth = 1.5) +
+    facet_wrap(~prod_group, scales = 'free_y') +
+    theme_crea_new() +
+    lang_theme(lang = lang) +
+    labs(title = trans('Fossil fuel imports'),
+         subtitle = trans('12-month moving sum'),
+         y = '', x = '') +
+    scale_color_crea_c('change', labels = scales::percent,
+                       name = trans('year-on-year'),
+                       guide = guide_colorbar(direction = 'horizontal',
+                                              barwidth = 10)) +
+    scale_x_date(expand = expansion(mult = c(0, .05)), labels = yearlab) +
+    x_at_zero()
   quicksave(file.path(output_dir, paste0('Fossil fuel imports, ', lang,'.png')), plot=p)
 }

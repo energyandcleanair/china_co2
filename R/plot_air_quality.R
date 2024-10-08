@@ -47,66 +47,82 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     mutate(mean_value = mean(value[type=='measured' & year>=year(dw_start_date)]),
            value=case_when(type=='measured'~value, T~anomaly + mean_value))
 
-  aq_annual %>% filter(pollutant_name %in% c('PM2.5', 'O3', 'NO2')) %>%
+  plots <- aq_annual %>% filter(pollutant_name %in% c('PM2.5', 'O3', 'NO2')) %>%
     group_by(pollutant_name) %>%
     group_map(function(plotdata, group) {
 
+      plotdata_means <- plotdata %>% ungroup %>%
+        filter(year == year(focus_month), type == 'measured') %>%
+        arrange(value) %>%
+        mutate(city_name = factor(city_name, levels = city_name),
+               pollutant_name = group$pollutant_name) %>%
+        select(-anomaly, -mean_value)
 
-      plotdata %>% ungroup %>% filter(year==year(focus_month), type=='measured') %>% arrange(value) %>%
-        mutate(city_name = factor(city_name, levels=city_name), pollutant_name=group$pollutant_name) %>%
-        select(-anomaly, -mean_value) -> plotdata_means
-
-      plotdata_means %>%
-        ggplot(aes(city_name, value, fill=value)) + geom_col() + coord_flip() +
-        scale_fill_gradientn(colors=rcrea::pal_crea.change[c(1:2,5:7)], guide='none') +
-        theme_crea() +
-        lang_theme(lang=lang) +
+      p_means <- plotdata_means %>%
+        ggplot(aes(city_name, value, fill = value)) +
+        geom_col() +
+        coord_flip() +
+        scale_fill_gradientn(colors = rcrea::pal_crea.change[c(1:2, 5:7)],
+                             guide = 'none') +
+        theme_crea_new() +
+        lang_theme(lang = lang) +
         x_at_zero() +
-        labs(x='',
-             y=trans('µg/m3'),
-             subtitle=toupper(trans(group$pollutant_name))) -> p_means
+        labs(x = '',
+             y = trans('µg/m3'),
+             subtitle = toupper(trans(group$pollutant_name)))
 
-      plotdata %>%
+      yoy <- plotdata %>%
         # Only keep cities with values for both years
         group_by(city_name, type) %>%
-        filter(all(c(year(focus_month), year(focus_month)-1) %in% year)) %>%
+        filter(all(c(year(focus_month), year(focus_month) - 1) %in% year)) %>%
         # Create common denominator
         group_by(city_name) %>%
-        mutate(value_measured = value[year==year(focus_month) - 1 & (type=='measured')]) %>%
+        mutate(value_measured = value[year == year(focus_month) - 1 &
+                                        (type == 'measured')]) %>%
         # Compute y-o-y
         group_by(city_name, type) %>%
-        summarise(yoy=(value[year==year(focus_month)]-value[year==year(focus_month)-1]) / unique(value_measured)) -> yoy
+        summarise(yoy = (value[year == year(focus_month)] -
+                           value[year == year(focus_month) - 1]) /
+                    unique(value_measured))
 
 
-      yoy %<>% group_by(city_name) %>%
-        reframe(yoy = yoy[type=='measured']-yoy[type=='deweathered']) %>%
-        mutate(type='influence of weather') %>%
+      yoy <- yoy %>% group_by(city_name) %>%
+        reframe(yoy = yoy[type == 'measured'] - yoy[type == 'deweathered']) %>%
+        mutate(type = 'influence of weather') %>%
         bind_rows(yoy)
 
-      yoy$type %<>% recode(measured='total', deweathered='due to changes in emissions')
+      yoy$type <- yoy$type %>% recode(measured = 'total',
+                                      deweathered = 'due to changes in emissions')
 
-      yoy %<>% ungroup %>% arrange(yoy) %>%
-        mutate(city_name=factor(city_name, city_name[type=='total']),
-               pollutant_name=toupper(trans(group$pollutant_name)))
+      yoy <- yoy %>% ungroup %>%
+        arrange(yoy) %>%
+        mutate(city_name = factor(city_name, city_name[type == 'total']),
+               pollutant_name = toupper(trans(group$pollutant_name)),
+               type = factor(type))
 
-      guide_to_use <- case_when(group$pollutant_name=='NO2'~'legend', T~'none')
+      guide_to_use <- case_when(group$pollutant_name == 'NO2' ~ 'legend', T ~ 'none')
       levels <- levels(yoy$city_name)
-      ggplot(mapping=aes(city_name, yoy)) +
-        geom_col(data=yoy %>% filter(type!='total'),
-                 aes(fill=trans(type))) +
-        geom_point(data=yoy %>% filter(type=='total'),
-                   aes(shape=trans('year-on-year change')), size=3) +
-        scale_x_discrete(limits=levels) +
+      p_yoy <- ggplot(mapping = aes(city_name, yoy)) +
+        geom_col(data = yoy %>% filter(type != 'total'),
+                 aes(fill = trans(type))) +
+        geom_point(data = yoy %>% filter(type == 'total'),
+                   aes(shape = trans('year-on-year change')), size = 3) +
+        scale_x_discrete(limits = levels) +
         coord_flip() +
-        theme_crea() +
-        lang_theme(lang=lang) +
-        scale_fill_crea_d('change', col.index = c(5,2), name='', guide=guide_to_use) +
-        scale_shape_discrete(guide=guide_to_use, name='') +
-        scale_y_continuous(labels=scales::percent) +
-        labs(subtitle=toupper(trans(group$pollutant_name)), x='', y='') -> p_yoy
+        theme_crea_new() +
+        theme(legend.position = 'right', legend.direction = 'vertical',
+              legend.box = 'vertical') +
+        lang_theme(lang = lang) +
+        scale_fill_crea_d('change', col.index = c(5, 2), name = '',
+                          guide = guide_to_use) +
+        scale_shape_discrete(guide = guide_to_use, name = '') +
+        scale_y_continuous(labels = scales::percent) +
+        labs(subtitle = toupper(trans(group$pollutant_name)),
+             x = '', y = '')
 
-      return(list(plot_means=p_means, plot_yoy=p_yoy, data_means=plotdata_means, data_yoy=yoy))
-    }) -> plots
+      return(list(plot_means = p_means, plot_yoy = p_yoy,
+                  data_means = plotdata_means, data_yoy = yoy))
+    })
 
   make_pollution_plot <- function(plotlist, plot_title, plot_subtitle, rel_widths=1) {
     plot_grid(plotlist=plotlist, nrow=1, rel_widths=rel_widths) -> g
@@ -132,7 +148,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
     quicksave(
       file.path(output_dir, paste0(plot_title, ', ', lang,'.png')),
-      plot=p)
+      plot=p, logo_position = 'bl')
   }
 
   plot_title="Monthly average pollutant concentrations in provincial capitals"

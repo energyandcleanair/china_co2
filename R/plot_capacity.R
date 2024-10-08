@@ -34,45 +34,59 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
 
   plotdata %>% filter(date %>% 'day<-'(1) %>% equals(focus_month)) -> yoy_labels
 
-  plotdata %>%
-    ggplot(aes(plotdate, Value, colour=year)) + geom_line(linewidth=1) +
-    geom_label(data=yoy_labels, aes(label=YoY), vjust=-2) +
-    facet_wrap(~translateSources(source, lang=lang), ncol=2, scales='free_y') +
-    labs(y=unit_label('10MW', lang=lang), x='', title=trans('Newly added power capacity, year-to-date'),
-         caption=trans('Labels show year-on-year changes for the current year')) +
-    scale_x_date(date_breaks = '3 months', labels = monthlab, minor_breaks = 'month',
-                 expand = expansion(mult=c(.0,.17))) +
-    scale_y_continuous(expand=expansion(mult=c(0,.05))) +
-    theme_crea(axis.text.x=element_text(hjust=.2)) +
-    lang_theme(lang=lang) +
-    scale_color_crea_d(col.index = c(7, 2:5, 1), labels=yearlab, guide='none') +
-    geom_dl(aes(label=yearlab(year, lang=lang)), method=list('last.bumpup', cex=.7)) -> plt
-  quicksave(file.path(output_dir, paste0('Newly added power capacity, year-to-date, ',lang,'.png')),
-            plot=plt,
-            scale=1.2)
+  plt <- plotdata %>%
+    ggplot(aes(plotdate, Value, colour = year)) +
+    geom_line(linewidth = 1) +
+    geom_label(data = yoy_labels, aes(label = YoY), vjust = -2) +
+    facet_wrap(~translateSources(source, lang = lang), ncol = 2, scales = 'free_y') +
+    labs(y = unit_label('10MW', lang = lang), x = '',
+         title = trans('Newly added power capacity, year-to-date'),
+         caption = trans('Labels show year-on-year changes for the current year')) +
+    scale_x_date(date_breaks = '3 months', labels = monthlab,
+                 minor_breaks = 'month', expand = expansion(mult = c(.0, .17))) +
+    scale_y_continuous(expand = expansion(mult = c(0, .05))) +
+    theme_crea_new() +
+    theme(axis.text.x = element_text(hjust = .2)) +
+    lang_theme(lang = lang) +
+    scale_color_crea_d(col.index = c(7, 2:5, 1), labels = yearlab, guide = 'none') +
+    geom_dl(aes(label = yearlab(year, lang = lang)),
+            method = list('last.bumpup', cex = .7))
+  quicksave(file.path(output_dir,
+                      paste0('Newly added power capacity, year-to-date, ', lang,
+                             '.png')),
+            plot = plt,
+            scale = 1.2)
 
   fuel_cols = crea_palettes$CREA[c(1, 4, 2, 6, 5)]
   names(fuel_cols) = cap$source %>% unique %>% subset(.!='All') %>% sort #%>% translateSources()
   cap$date %>% year %>% max %>% seq(2010, ., 1) -> yrs
   cap$date %>% max %>% month -> ytd_month
 
-  cap %>% filter(fuel=='All', month(date)==month(ytd_month), grepl('New', var), year(date) %in% yrs) %>%
+  plt <- cap %>% filter(fuel == 'All', month(date) == month(ytd_month),
+                        grepl('New', var), year(date) %in% yrs) %>%
     write_csv(file.path(output_dir, 'Newly added power capacity, YTD.csv')) %>%
-    ggplot(aes(year(date), convert_value(Value, '10MW'), fill=source, alpha=year(date))) +
-    geom_col(size=1) + facet_wrap(~translateSources(source, lang=lang), ncol=2, scales='free') +
-    geom_label(data=yoy_labels, aes(label=YoY), vjust=-2, fill='white') +
-    labs(y=unit_label('10MW', lang=lang), x='', title=ifelse(lang=='EN',
-                                                  paste0('Newly added power capacity, January to ', month.name[ytd_month]),
-                                                  paste0("\u65b0\u589e\u53d1\u7535\u88c5\u673a\u5bb9\u91cf,\u524d", ytd_month,"\u4e2a\u6708\u7d2f\u8ba1\u503c"))) +
-    scale_y_continuous(expand=expansion(mult=c(0,.05))) +
-    scale_x_continuous(labels=yearlab, breaks=yrs) +
-    theme_crea(axis.text.x=element_text(angle=25, hjust=1)) +
-    lang_theme(lang=lang) +
-    scale_fill_manual(values=unname(fuel_cols), guide='none') +
-    scale_alpha(range=c(.5,1), guide='none') -> plt
+    ggplot(aes(year(date), convert_value(Value, '10MW'), fill = source,
+               alpha = year(date))) +
+    geom_col(size = 1) +
+    facet_wrap(~translateSources(source, lang = lang), ncol = 2, scales = 'free') +
+    geom_label(data = yoy_labels, aes(label = YoY), vjust = -2, fill = 'white') +
+    labs(y = unit_label('10MW', lang = lang), x = '',
+         title = ifelse(lang == 'EN',
+                        paste0('Newly added power capacity, January to ',
+                               month.name[ytd_month]),
+                        paste0("\u65b0\u589e\u53d1\u7535\u88c5\u673a\u5bb9\u91cf,\u524d",
+                               ytd_month, "\u4e2a\u6708\u7d2f\u8ba1\u503c"))) +
+    scale_y_continuous(expand = expansion(mult = c(0, .05))) +
+    scale_x_continuous(labels = yearlab, breaks = yrs) +
+    theme_crea_new() +
+    theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
+    lang_theme(lang = lang) +
+    scale_fill_manual(values = unname(fuel_cols), guide = 'none') +
+    scale_alpha(range = c(.5, 1), guide = 'none')
 
-  quicksave(file.path(output_dir, paste0('Newly added power capacity, YTD, ',lang,'.png')),
-            plot=plt)
+  quicksave(file.path(output_dir,
+                      paste0('Newly added power capacity, YTD, ', lang, '.png')),
+            plot = plt)
 
   in_file = get_data_file("New power capacity by province and type.xlsx")
   getwindvars(in_file)
@@ -108,7 +122,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
     scale_fill_manual(values = fuel_cols, guide = 'none') +
     facet_wrap(~translateSources(source, lang = lang), scales = 'free', ncol = 2) +
     coord_flip() +
-    theme_crea() +
+    theme_crea_new() +
     theme(plot.margin = unit(c(.5, 1.5, .2, .2), 'line')) +
     lang_theme(lang = lang) +
     labs(y = unit_label('10MW', lang = lang), x = '',
@@ -116,6 +130,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
          subtitle = period_name) +
     scale_y_continuous(expand = expansion(mult = c(0, .05)))
 
-    quicksave(file.path(output_dir, paste0('power capacity additions by province, ', lang, '.png')),
-              plot = p)
+  quicksave(file.path(output_dir,
+                      paste0('power capacity additions by province, ', lang, '.png')),
+            plot = p, scale = 1.15)
 }

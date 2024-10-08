@@ -119,50 +119,57 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     plotdata %>% mutate(YoY=get.yoy(Value1m, date) %>% scales::percent(accuracy = 1, style_positive='plus')) %>%
       filter(date %>% 'day<-'(1) %>% equals(focus_month)) -> yoy_labels
 
-    plotdata %>%
-      ggplot(aes(date, Value.seasonadj, col=YoY_3m))+
-      geom_line(size=.8)+geom_point(size=.8)+
-      facet_wrap(~trans(prod), scales='free_y') +
-      scale_color_gradientn(colors=colorspace::darken(crea_palettes$change), labels=scales::percent,
-                            name=trans('year-on-year change')) +
-      labs(title=trans(names(plots)[i]),
-           subtitle=trans('seasonally adjusted monthly data'), #'12-month moving sum',
-           x='', y=unit_label(unique(plotdata$Unit), lang=lang)) +
-      theme_crea() +
-      lang_theme(lang=lang) +
-      theme(strip.text = element_text(size=rel(labscale*.8)),
-            axis.text.y = element_text(size=rel(labscale))) +
-      geom_vline(aes(linetype=trans('COVID-19 lockdown'), xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
-      scale_linetype_manual(values='dashed', name='') +
-      expand_limits(y=0) +
+    p <- plotdata %>%
+      ggplot(aes(date, Value.seasonadj, col = YoY_3m)) +
+      geom_line(size = .8) +
+      geom_point(size = .8) +
+      facet_wrap(~trans(prod), scales = 'free_y') +
+      scale_color_gradientn(colors = colorspace::darken(crea_palettes$change),
+                            labels = scales::percent,
+                            name = trans('year-on-year change')) +
+      labs(title = trans(names(plots)[i]),
+           subtitle = trans('seasonally adjusted monthly data'), # '12-month moving sum',
+           x = '', y = unit_label(unique(plotdata$Unit), lang = lang)) +
+      theme_crea_new() +
+      lang_theme(lang = lang) +
+      theme(strip.text = element_text(size = rel(labscale * .8)),
+            axis.text.y = element_text(size = rel(labscale)),
+            legend.position = 'right', legend.direction = 'vertical',
+            legend.box = 'vertical') +
+      geom_vline(aes(linetype = trans('COVID-19 lockdown'),
+                     xintercept = ymd('2020-02-01')), size = 1, alpha = .7) +
+      scale_linetype_manual(values = 'dashed', name = '') +
+      expand_limits(y = 0) +
       x_at_zero() +
-      scale_x_date(labels = yearlab) -> p
+      scale_x_date(labels = yearlab)
 
     if(include_yoy_labels) p = p + geom_label(data=yoy_labels, aes(label=YoY), vjust=4, hjust=1)
 
-    quicksave(file.path(output_dir, paste0(names(plots)[i], '_seasonal, ',lang,'.png')), plot=p, scale=1.2)
+    quicksave(file.path(output_dir,
+                        paste0(names(plots)[i], '_seasonal, ', lang, '.png')),
+              plot = p, scale = 1.2)
 
-    plotdata %>%
-      ggplot(aes(plotdate, Value1m, col=year))+
-      geom_line(size=.8)+
-      labs(title=trans(names(plots)[i]),
-           x='', y=unit_label(unique(plotdata$Unit, lang=lang))) +
-      facet_wrap(~trans(prod), scales='free_y') +
-      scale_color_crea_d(palette = "change", name=trans('year'), darken=0.1) +
-      theme_crea() +
-      lang_theme(lang=lang) +
-      #geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
-      # scale_linetype_manual(values='dashed', name='') +
-      expand_limits(y=0) +
+    p <- plotdata %>%
+      ggplot(aes(plotdate, Value1m, col = year)) +
+      geom_line(size = .8) +
+      labs(title = trans(names(plots)[i]),
+           x = '', y = unit_label(unique(plotdata$Unit, lang = lang))) +
+      facet_wrap(~trans(prod), scales = 'free_y') +
+      scale_color_crea_d(palette = "change", name = trans('year'), darken = 0.1) +
+      theme_crea_new() +
+      lang_theme(lang = lang) +
+      # geom_vline(aes(linetype = 'COVID-19 lockdown', xintercept = ymd('2020-02-01')), size = 1, alpha = .7) +
+      # scale_linetype_manual(values = 'dashed', name = '') +
+      expand_limits(y = 0) +
       x_at_zero() +
-      scale_x_date(labels = monthlab) -> p
+      scale_x_date(labels = monthlab)
 
     if(include_yoy_labels) p = p + geom_label(data=yoy_labels, aes(label=YoY), vjust=ifelse(i==2, -.5, 5), hjust=1, key_glyph="path") +
       labs(caption=trans('Labels show year-on-year changes in the latest month of data'))
 
-    quicksave(file.path(output_dir, paste0(names(plots)[i], '_monthly_by_year, ',lang,'.png')),
-              plot=p,
-              scale=1.2)
+    quicksave(file.path(output_dir,
+                        paste0(names(plots)[i], '_monthly_by_year, ', lang, '.png')),
+              plot = p, scale = 1.2)
   }
 
   #solar cell output
@@ -172,22 +179,24 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
   solar_labels <- solar_plotdata %>% filter(date==max(date) | month(date)==12)
 
-  solar_plotdata %>%
-    ggplot(aes(date, Value12m, col=YoY, label=round(Value12m,0)))+
-    geom_line(size=1.2)+geom_point(size=.8)+
-    geom_text(data=solar_labels, vjust=-.4, hjust=1.2, fontface='bold') +
-    labs(title=trans('Solar cell output'),
-         subtitle=trans('12-month moving sum'),
-         x='', y=unit_label('10000 kw', lang=lang),
-         col=trans('year-on-year change')) +
-    theme_crea() +
-    lang_theme(lang=lang) +
-    scale_linetype_manual(values='dashed', name='') +
-    expand_limits(y=0) +
-    scale_color_crea_c('change', labels=scales::percent, guide='none') +
-    scale_y_continuous(expand=expansion(mult=c(0,.05))) +
-    scale_x_date(labels = yearlab) -> p
-  quicksave(file.path(output_dir, paste0('solar cell output, ',lang,'.png')), plot=p)
+  p <- solar_plotdata %>%
+    ggplot(aes(date, Value12m, col = YoY, label = round(Value12m, 0))) +
+    geom_line(size = 1.2) +
+    geom_point(size = .8) +
+    geom_text(data = solar_labels, vjust = -.4, hjust = 1.2, fontface = 'bold') +
+    labs(title = trans('Solar cell output'),
+         subtitle = trans('12-month moving sum'),
+         x = '', y = unit_label('10000 kw', lang = lang),
+         col = trans('year-on-year change')) +
+    theme_crea_new() +
+    lang_theme(lang = lang) +
+    scale_linetype_manual(values = 'dashed', name = '') +
+    expand_limits(y = 0) +
+    scale_color_crea_c('change', labels = scales::percent, guide = 'none') +
+    scale_y_continuous(expand = expansion(mult = c(0, .05))) +
+    scale_x_date(labels = yearlab)
+  quicksave(file.path(output_dir, paste0('solar cell output, ', lang, '.png')),
+            plot = p)
 
   if(lang=='EN') {
     solar_plotdata %>%
@@ -212,21 +221,25 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
     battery_labels <- battery_plotdata %>% filter(date==max(date) | month(date)==12)
 
-    battery_plotdata %>%
-      ggplot(aes(date, Value12m, col=trans(battery_type), label=round(Value12m,0)))+
-      geom_line(size=1.2)+geom_point(size=.8)+
-      geom_text(data=battery_labels, vjust=-.4, hjust=1.2, fontface='bold', show.legend = FALSE) +
-      labs(title=trans('Battery output'),
-           subtitle=trans('12-month moving sum'),
-           x='', y=unit_label('mwh', lang=lang),
-           col=trans('type')) +
-      theme_crea() +
-      lang_theme(lang=lang) +
-      expand_limits(y=0) +
-      scale_color_crea_d(col.index = c(1,2,5, 6:12)) +
-      scale_y_continuous(expand=expansion(mult=c(0,.05))) +
-      scale_x_date(labels = yearlab) -> p
-    quicksave(file.path(output_dir, paste0('battery output, ',lang,'.png')), plot=p)
+    p <- battery_plotdata %>%
+      ggplot(aes(date, Value12m, col = trans(battery_type),
+                 label = round(Value12m, 0))) +
+      geom_line(size = 1.2) +
+      geom_point(size = .8) +
+      geom_text(data = battery_labels, vjust = -.4, hjust = 1.2,
+                fontface = 'bold', show.legend = FALSE) +
+      labs(title = trans('Battery output'),
+           subtitle = trans('12-month moving sum'),
+           x = '', y = unit_label('mwh', lang = lang),
+           col = trans('type')) +
+      theme_crea_new() +
+      lang_theme(lang = lang) +
+      expand_limits(y = 0) +
+      scale_color_crea_d(col.index = c(1, 2, 5, 6:12)) +
+      scale_y_continuous(expand = expansion(mult = c(0, .05))) +
+      scale_x_date(labels = yearlab)
+    quicksave(file.path(output_dir, paste0('battery output, ',lang,'.png')),
+              plot = p)
 
     if(lang=='EN') {
       battery_plotdata %>%
@@ -245,20 +258,24 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
   #EV and car output
   prod_withlatest %>% filter(year(date)>=2017, grepl('Automob|Vehicle', prod)) -> plotdata1
 
-  plotdata1 %>%
-    ggplot(aes(date, convert_value(Value12m, Unit)*12, col=prod))+
-    geom_line(size=1.2)+geom_point(size=.8)+
-    facet_wrap(~trans(prod), scales='free_y',ncol=1) +
-    scale_color_crea_d('dramatic', guide=F) +
-    labs(title=trans('Vehicle production'), subtitle='', x='', y=trans('million units, 12-month moving sum')) +
-    theme_crea() +
-    theme(strip.text = element_text(size=rel(1)), legend.position = 'top',
-          plot.title=element_text(size=rel(2.9))) +
-    lang_theme(lang=lang) +
-    geom_vline(aes(linetype=trans('COVID-19 lockdown'), xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
-    scale_linetype_manual(values='dashed', name='') +
-    scale_x_date(labels=yearlab) +
-    expand_limits(y=0) + x_at_zero() -> p1
+  p1 <- plotdata1 %>%
+    ggplot(aes(date, convert_value(Value12m, Unit) * 12, col = prod)) +
+    geom_line(size = 1.2) +
+    geom_point(size = .8) +
+    facet_wrap(~trans(prod), scales = 'free_y', ncol = 1) +
+    scale_color_crea_d('dramatic', guide = F) +
+    labs(title = trans('Vehicle production'), subtitle = '',
+         x = '', y = trans('million units, 12-month moving sum')) +
+    theme_crea_new() +
+    theme(strip.text = element_text(size = rel(1)), legend.position = 'top',
+          plot.title = element_text(size = rel(2.9))) +
+    lang_theme(lang = lang) +
+    geom_vline(aes(linetype = trans('COVID-19 lockdown'),
+                   xintercept = ymd('2020-02-01')), size = 1, alpha = .7) +
+    scale_linetype_manual(values = 'dashed', name = '') +
+    scale_x_date(labels = yearlab) +
+    expand_limits(y = 0) +
+    x_at_zero()
 
   plotdata1 %>%
     group_by(prod) %>%
@@ -282,23 +299,30 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     bind_rows(plotdata2) ->
     plotdata2
 
-  plotdata2 %>%
-    filter(year(date)>=2017) %>%
-    ggplot(aes(date, share, col=trans(prod)))+
-    geom_line(size=1.2)+geom_point(size=.8)+
-    scale_color_crea_d('dramatic', col.index = c(3,6), guide=guide_legend(nrow=2)) +
-    labs(y=trans('new energy vehicle share'), title=' ', subtitle=' ', x='', col='') +
-    theme_crea() + theme(legend.position = 'top') +
-    lang_theme(lang=lang) +
-    geom_vline(aes(linetype='COVID-19 lockdown', xintercept=ymd('2020-02-01')), size=1, alpha=.7) +
-    scale_linetype_manual(values='dashed', name='', guide=F) +
-    scale_y_continuous(labels = scales::percent, breaks=function(x) seq(0,x[2],.05),
-                       expand=expansion(mult=c(0,.05))) +
-    scale_x_date(labels=yearlab, date_breaks = '1 year') +
-    expand_limits(y=0) -> p2
+  p2 <- plotdata2 %>%
+    filter(year(date) >= 2017) %>%
+    ggplot(aes(date, share, col = trans(prod))) +
+    geom_line(size = 1.2) +
+    geom_point(size = .8) +
+    scale_color_crea_d('dramatic', col.index = c(3, 6),
+                       guide = guide_legend(nrow = 2)) +
+    labs(y = trans('new energy vehicle share'), x = '',
+         title = ' ', subtitle = ' ', col = '') +
+    theme_crea_new() +
+    theme(legend.position = 'top') +
+    lang_theme(lang = lang) +
+    geom_vline(aes(linetype = 'COVID-19 lockdown',
+                   xintercept = ymd('2020-02-01')), size = 1, alpha = .7) +
+    scale_linetype_manual(values = 'dashed', name = '', guide = F) +
+    scale_y_continuous(labels = scales::percent,
+                       breaks = function(x) seq(0, x[2], .05),
+                       expand = expansion(mult = c(0, .05))) +
+    scale_x_date(labels = yearlab, date_breaks = '2 year') +
+    expand_limits(y = 0)
 
-  plot_grid(p1,p2, nrow=1) -> g
-  quicksave(file.path(output_dir, paste0('Vehicle production, ',lang,'.png')), plot=g)
+  g <- plot_grid(p1, p2, nrow = 1)
+  quicksave(file.path(output_dir, paste0('Vehicle production, ', lang, '.png')),
+            plot = g)
 
   bind_rows(plotdata1 %>% mutate(value=Value12m*12, prod = paste0(prod, ': Output: 12-month moving sum')),
             plotdata2 %>% mutate(value=share, prod = paste0('New Energy Vehicle share: ', prod))) %>%
