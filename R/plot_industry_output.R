@@ -126,7 +126,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
       facet_wrap(~trans(prod), scales = 'free_y') +
       scale_color_gradientn(colors = colorspace::darken(crea_palettes$change),
                             labels = scales::percent,
-                            name = trans('year-on-year change')) +
+                            name = trans('Year-on-year change')) +
       labs(title = trans(names(plots)[i]),
            subtitle = trans('seasonally adjusted monthly data'), # '12-month moving sum',
            x = '', y = unit_label(unique(plotdata$Unit), lang = lang)) +
@@ -155,7 +155,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
       labs(title = trans(names(plots)[i]),
            x = '', y = unit_label(unique(plotdata$Unit, lang = lang))) +
       facet_wrap(~trans(prod), scales = 'free_y') +
-      scale_color_crea_d(palette = "change", name = trans('year'), darken = 0.1) +
+      scale_color_crea_d(palette = "change", name = trans('Year'), darken = 0.1) +
       theme_crea_new() +
       lang_theme(lang = lang) +
       # geom_vline(aes(linetype = 'COVID-19 lockdown', xintercept = ymd('2020-02-01')), size = 1, alpha = .7) +
@@ -222,7 +222,8 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
     battery_labels <- battery_plotdata %>% filter(date==max(date) | month(date)==12)
 
     p <- battery_plotdata %>%
-      ggplot(aes(date, Value12m, col = trans(battery_type),
+      mutate(battery_type = factor(battery_type)) %>%
+      ggplot(aes(date, Value12m, col = battery_type,
                  label = round(Value12m, 0))) +
       geom_line(size = 1.2) +
       geom_point(size = .8) +
@@ -231,11 +232,12 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
       labs(title = trans('Battery output'),
            subtitle = trans('12-month moving sum'),
            x = '', y = unit_label('mwh', lang = lang),
-           col = trans('type')) +
+           col = trans('Type')) +
       theme_crea_new() +
       lang_theme(lang = lang) +
       expand_limits(y = 0) +
-      scale_color_crea_d(col.index = c(1, 2, 5, 6:12)) +
+      scale_color_crea_d(col.index = c(1, 2, 5, 6:12),
+                         labels = \(x) trans(x)) +
       scale_y_continuous(expand = expansion(mult = c(0, .05))) +
       scale_x_date(labels = yearlab)
     quicksave(file.path(output_dir, paste0('battery output, ',lang,'.png')),
@@ -301,6 +303,7 @@ industry_output_plots  <- function(focus_month=today() %>% subtract(30) %>% 'day
 
   p2 <- plotdata2 %>%
     filter(year(date) >= 2017) %>%
+    mutate(prod = factor(prod)) %>%
     ggplot(aes(date, share, col = trans(prod))) +
     geom_line(size = 1.2) +
     geom_point(size = .8) +

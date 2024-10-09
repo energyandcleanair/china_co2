@@ -59,6 +59,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
 
   p <- fuelsupply_plotdata %>%
     filter(year(date) >= 2017, !grepl('Diesel|Gasoline|Kerosene|Other', prod)) %>%
+    mutate(var = factor(var)) %>%
     ggplot(aes(date, Value12m * 12, col = trans(var))) +
     geom_line(aes(linewidth = var == 'Total Supply')) +
     facet_wrap(~prod_group, scales = 'free_y') +
@@ -77,6 +78,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   p <- fuelsupply_plotdata %>%
     filter(year(date) >= 2017, grepl('Diesel|Gasoline|Kerosene|Other', prod)) %>%
     write_csv(file.path(output_dir, 'oil products output.csv')) %>%
+    mutate(prod = factor(prod)) %>%
     ggplot(aes(date, Value12m * 12, col = trans(prod))) +
     geom_line(linewidth = 1.5) +
     theme_crea_new() +
@@ -112,7 +114,7 @@ fuel_supply_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
          subtitle = trans('12-month moving sum'),
          y = '', x = '') +
     scale_color_crea_c('change', labels = scales::percent,
-                       name = trans('year-on-year'),
+                       name = trans('Year-on-year'),
                        guide = guide_colorbar(direction = 'horizontal',
                                               barwidth = 10)) +
     scale_x_date(expand = expansion(mult = c(0, .05)), labels = yearlab) +
