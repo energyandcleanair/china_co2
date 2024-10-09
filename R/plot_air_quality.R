@@ -13,13 +13,19 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   dir.create(output_dir, F, T)
 
   aq_data_start=ymd(paste(year(focus_month)-1,1,1))
-  if(is.null(aq)) aq <- get_aq(start_date=aq_data_start, update_data=update_data, aq_file=aq_file)
-  if(is.null(aq_dw)) aq_dw <- get_deweathered_aq(cities, pollutants, start_date=aq_data_start, update_data=update_data, aq_file=aq_dw_file)
+  if(is.null(aq)) aq <- get_aq(start_date = aq_data_start,
+                               update_data = update_data, aq_file = aq_file)
+  if(is.null(aq_dw)) aq_dw <- get_deweathered_aq(cities, pollutants,
+                                                 start_date = aq_data_start,
+                                                 update_data = update_data,
+                                                 aq_file = aq_dw_file)
 
-  data_summary <<- data_summary %>% bind_rows(check_dates(data = aq,
-                                                          file_name = 'aq data from database'))
-  data_summary <<- data_summary %>% bind_rows(check_dates(data = aq_dw,
-                                                          file_name = 'aq deweather data from database'))
+  data_summary <<- data_summary %>%
+    bind_rows(check_dates(data = aq,
+                          file_name = 'aq data from database'))
+  data_summary <<- data_summary %>%
+    bind_rows(check_dates(data = aq_dw,
+                          file_name = 'aq deweather data from database'))
 
   #add city and pollutant names
   aq %<>%
@@ -107,7 +113,8 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
                  aes(fill = trans(type))) +
         geom_point(data = yoy %>% filter(type == 'total'),
                    aes(shape = trans('year-on-year change')), size = 3) +
-        scale_x_discrete(limits = levels) +
+        scale_x_discrete(limits = levels,
+                         labels = function(x) str_wrap(x, width = 15)) +
         coord_flip() +
         theme_crea_new() +
         theme(legend.position = 'right', legend.direction = 'vertical',
@@ -120,17 +127,30 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
         labs(subtitle = toupper(trans(group$pollutant_name)),
              x = '', y = '')
 
+      if(guide_to_use != 'none'){
+        legend <- get_legend(p_yoy)
+
+        # remove original legend
+        p_yoy <- p_yoy + theme(legend.position = 'none')
+
+        # combine plot + legend on equal widths
+        p_yoy <- plot_grid(p_yoy, legend, ncol = 2, rel_widths = c(1, 1))
+      }
+
       return(list(plot_means = p_means, plot_yoy = p_yoy,
                   data_means = plotdata_means, data_yoy = yoy))
     })
 
-  make_pollution_plot <- function(plotlist, plot_title, plot_subtitle, rel_widths=1) {
-    plot_grid(plotlist=plotlist, nrow=1, rel_widths=rel_widths) -> g
+  make_pollution_plot <- function(plotlist, plot_title, plot_subtitle,
+                                  rel_widths = 1, logo_position = 'br') {
+    g <- plot_grid(plotlist = plotlist, nrow = 1, rel_widths = rel_widths)
     title <- ggdraw() +
-      draw_label(trans(plot_title), size=22, fontface='bold', color=unname(pal_crea['Dark.blue']))
+      draw_label(trans(plot_title), size = 22, fontface = 'bold',
+                 color = unname(pal_crea['Dark.blue']))
 
     title2 <- grid::textGrob(trans(plot_title),
-                             gp = gpar(fontface = "bold", cex = 1.5, col = unname(pal_crea['Dark.blue'])),
+                             gp = gpar(fontface = "bold", cex = 1.5,
+                                       col = unname(pal_crea['Dark.blue'])),
                              just = 0,
                              x = unit(0.02, "npc")
     )
@@ -142,28 +162,35 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
     )
 
 
-    plot_grid(title2, subtitle, g, ncol=1,
-              rel_heights=c(0.06, 0.03, 1)
-    ) -> p
+    p <- plot_grid(title2, subtitle, g, ncol = 1,
+                   rel_heights = c(0.06, 0.03, 1)
+    )
 
     quicksave(
       file.path(output_dir, paste0(plot_title, ', ', lang,'.png')),
-      plot=p, logo_position = 'bl')
+      plot = p, logo_position = logo_position, scale = 1.15)
   }
 
-  plot_title="Monthly average pollutant concentrations in provincial capitals"
-  plot_subtitle=monthyearlab(focus_month)
-  plots %>% lapply('[[', 'plot_means') %>% rev %>% make_pollution_plot(plot_title=plot_title,
-                                                                       plot_subtitle=plot_subtitle)
+  plot_title <- "Monthly average pollutant concentrations in provincial capitals"
+  plot_subtitle <- monthyearlab(focus_month)
+  plots %>% lapply('[[', 'plot_means') %>%
+    rev %>%
+    make_pollution_plot(plot_title = plot_title, plot_subtitle = plot_subtitle,
+                        logo_position = 'bl')
 
-  plots %>% lapply('[[', 'data_means') %>% bind_rows() %>% write_csv(file.path(output_dir, paste0(plot_title, ', ', lang, '.csv')))
+  plots %>% lapply('[[', 'data_means') %>%
+    bind_rows() %>%
+    write_csv(file.path(output_dir, paste0(plot_title, ', ', lang, '.csv')))
 
 
-  plot_title="Year-on-year changes in pollutant concentrations in provincial capitals"
+  plot_title <- "Year-on-year changes in pollutant concentrations in provincial capitals"
   plots %>% lapply('[[', 'plot_yoy') %>% rev() %>%
-    make_pollution_plot(plot_title=plot_title, plot_subtitle=plot_subtitle, rel_widths = c(.25,.25,.5))
+    make_pollution_plot(plot_title = plot_title, plot_subtitle = plot_subtitle,
+                        rel_widths = c(.25, .25, .5))
 
-  plots %>% lapply('[[', 'data_yoy') %>% bind_rows() %>% write_csv(file.path(output_dir, paste0(plot_title, '.csv')))
+  plots %>% lapply('[[', 'data_yoy') %>%
+    bind_rows() %>%
+    write_csv(file.path(output_dir, paste0(plot_title, '.csv')))
 
 
   #worst episodes (PM2.5, non-sandstorm PM2.5, O3)
