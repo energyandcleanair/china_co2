@@ -133,13 +133,14 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
       summarise(across(c(Value1m, YoY_change_absolute_1m), sum)) %>%
       ungroup %>%
       mutate(broad_label = factor(broad_label)) %>%
-      ggplot(aes(date, YoY_change_absolute_1m / 10, fill = trans(broad_label))) +
+      ggplot(aes(date, YoY_change_absolute_1m / 10, fill = broad_label)) +
       facet_wrap(~broad_label, labeller = labeller(broad_label = trans)) +
       geom_col() +
       theme_crea_new() +
       labs(title = trans('Growth in monthly power generation by source'),
            x = '', y = trans('TWh'), fill = '') +
-      scale_fill_crea_d('change', col.index = c(7, 5, 2, 1), guide = 'none') +
+      scale_fill_crea_d('change', col.index = c(7, 5, 2, 1), guide = 'none',
+                        label = \(x) trans(x)) +
       lang_theme(lang = lang)
 
     basename <- "Growth in monthly clean and total power generation by source category, pivoted"
