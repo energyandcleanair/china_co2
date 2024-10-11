@@ -55,7 +55,9 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                       filter(!is.na(value_12m), pollutant == 'pm25') %>%
                       filter(date == max(date)),
                     size = 3, direction = 'y') +
-    facet_wrap(~city_label) +
+    facet_wrap(~city_label, ncol = 8,
+               labeller = label_wrap_gen(multi_line = T,
+                                         width = if(lang == 'ZH') 20 else 10)) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 35),
                alpha = .5) +
     theme_crea_new() +
@@ -72,7 +74,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
 
   quicksave(file.path(output_dir, paste0('PM2.5 compliance in provincial capitals, ',
                                          lang, '.png')),
-            plot = p, height = 10)
+            plot = p, scale = 1.15)
 
   p <- aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), pollutant == 'pm25', date >= start_date,
@@ -86,7 +88,9 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                              date >= start_date, date < (focus_month + months(1))) %>%
                       filter(date == max(date)),
                     size = 3, direction = 'y') +
-    facet_wrap(~city_label) +
+    facet_wrap(~city_label, ncol = 8,
+               labeller = label_wrap_gen(multi_line = T,
+                                         width = if(lang == 'ZH') 20 else 10)) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 35),
                alpha = .5) +
     theme_crea_new() +
@@ -106,7 +110,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                       paste0('PM2.5 compliance in provincial capitals until ',
                              ceiling_date(focus_month, unit = 'month') - days(1),
                              ',', lang, '.png')),
-            plot = p, height = 10)
+            plot = p, scale = 1.15)
 
   p <- aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), pollutant == 'o3', date >= start_date) %>%
@@ -118,7 +122,9 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                       filter(!is.na(value_12m), pollutant == 'o3') %>%
                       filter(date == max(date)),
                     size = 3, direction = 'y') +
-    facet_wrap(~city_label) +
+    facet_wrap(~city_label, ncol = 8,
+               labeller = label_wrap_gen(multi_line = T,
+                                         width = if(lang == 'ZH') 20 else 10)) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 160),
                alpha = .5) +
     theme_crea_new() +
@@ -133,7 +139,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
     scale_linetype_manual(values = 'dotted', name = '') +
     scale_x_date(labels = yearlab)
   quicksave(file.path(output_dir, paste0('Ozone compliance in provincial capitals, ', lang, '.png')),
-            plot = p, height = 10)
+            plot = p, scale = 1.15)
 
   p <- aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), pollutant == 'o3', date >= start_date,
@@ -148,7 +154,9 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                              date < (focus_month + months(1))) %>%
                       filter(date == max(date)),
                     size = 3, direction = 'y') +
-    facet_wrap(~city_label) +
+    facet_wrap(~city_label, ncol = 8,
+               labeller = label_wrap_gen(multi_line = T,
+                                         width = if(lang == 'ZH') 20 else 10)) +
     geom_hline(aes(linetype = trans('National air quality standard'), yintercept = 160),
                alpha = .5) +
     theme_crea_new() +
@@ -168,7 +176,7 @@ aq_compliance_plots <- function(start_date = ymd('2019-01-01'),
                       paste0('Ozone compliance in provincial capitals until ',
                              ceiling_date(focus_month, unit = 'month') - days(1),
                              ',', lang, '.png')),
-            plot = p, height = 10)
+            plot = p, , scale = 1.15)
 
   aq_capitals_12m %>% ungroup %>%
     filter(!is.na(value_12m), date >= start_date) %>%
