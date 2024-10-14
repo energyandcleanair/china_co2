@@ -1,4 +1,4 @@
-﻿Wind,error:errcode:770003,,,,,,,
+﻿0,error:errcode:770003,,,,,,,
 Name,Coal Consumption Rate of Power Supply: YTD,Output: Electricity Production: YTD,Output: Thermal Power: YTD,Output: Hydro Power Generating Capacity: YTD,Output: Nuclear Power: YTD,Output: Solar: YTD,Output: Wind Power: YTD,Coal Consumption Rate of Power Supply: YoY: % Change
 Frequency,Month,Month,Month,Month,Month,Month,Month,Month
 Unit,g/kwh,100 million kwh,100 million kwh,100 million kwh,100 million kwh,100 million kwh,100 million kwh,g/kwh
