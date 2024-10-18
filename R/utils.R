@@ -119,7 +119,7 @@ check_dates <- function(data, obv_date_threshold = Sys.Date() - 30, file_name,
 
 #download Ember data from: https://ember-climate.org/data-catalogue/monthly-electricity-data/
 get_ember_monthly_data <- function(cached = get_data_file("monthly_full_release_long_format-4.csv"),
-                                   file_url="https://ember-climate.org/app/uploads/2022/07/monthly_full_release_long_format-4.csv") {
+                                   file_url="https://storage.googleapis.com/emb-prod-bkt-publicdata/public-downloads/monthly_full_release_long_format.csv") {
   ember <- NULL
 
   try(ember <- read_csv(file_url))
