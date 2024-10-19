@@ -1,11 +1,11 @@
-﻿0,,
+﻿Wind,,
 Name,China: Blast Furnace Starting Rate (247): Nationwide,China: Blast Furnace Refining Production Capacity Utilization (247): Nationwide
 Frequency,Week,Week
 Unit,%,%
 ID,C1925068,O2244511
-Time Period,2018-03-02:2024-10-11,2018-03-02:2024-10-11
+Time Period,2018-03-02:2024-10-18,2018-03-02:2024-10-18
 Source,Wind,Wind
-Update,2024-10-11,2024-10-11
+Update,2024-10-18,2024-10-18
 2018-03-02,75.47 ,74.56 
 2018-03-09,75.13 ,74.97 
 2018-03-16,75.27 ,74.51 
@@ -348,3 +348,4 @@ Update,2024-10-11,2024-10-11
 2024-09-27,78.25 ,84.47 
 2024-10-04,79.59 ,85.63 
 2024-10-11,80.81 ,87.53 
+2024-10-18,81.70 ,88.01 
