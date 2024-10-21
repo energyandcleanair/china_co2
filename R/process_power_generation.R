@@ -29,9 +29,14 @@ read_power_generation <- function(predict_solar_wind=F) {
   monthly %<>% group_by(var, source, subtype, type) %>% unYTD()
 
   #fill missing data:
-  #Thermal utilization by fuel: last month's value
+  #Thermal utilization by fuel: last year's value * last three months yoy
   monthly %>% filter(var=='Utilization' & source=='Thermal' & !is.na(subtype)) %>%
-    group_by(subtype) %>% fill(Value1m, .direction='down') -> monthly_filled
+    group_by(subtype) %>%
+    #fill(Value1m, .direction='down') %>%
+    group_modify(function(df, ...) {
+      df$Value1m <- extrapolate_last(df$Value1m, df$date)
+      df
+    }) -> monthly_filled
 
   if(predict_solar_wind) {
     predict_solar_wind_utilization(monthly, output_plots=T) -> pred
@@ -61,30 +66,13 @@ read_power_generation <- function(predict_solar_wind=F) {
       monthly_capacity_filled = na.approx(df$Value1m, na.rm=F)
       monthly_additions = monthly_capacity_filled - lag(monthly_capacity_filled)
 
-      first_nonna <- which(!is.na(monthly_capacity_filled))[1]
-      to_fill <- monthly_capacity_filled %>% is.na %>% which %>% subset(.>first_nonna)
+      monthly_additions <- extrapolate_last(monthly_additions, df$date)
 
-      for(i in to_fill) {
-        last_year = df$date[i] %>% subtract(366) %>% 'day<-'(days_in_month(.))
-        last_year_additions = monthly_additions[df$date==last_year]
+      monthly_capacity_filled %<>% na.cover(lag(monthly_capacity_filled) + monthly_additions)
 
-        last_month = df$date[i] %>% subtract(31) %>% 'day<-'(days_in_month(.))
+      df$Value %<>% na.cover(monthly_capacity_filled)
+      df$Value1m %<>% na.cover(monthly_capacity_filled)
 
-        last_months = df$date[i] %>% subtract(31*1:3) %>% 'day<-'(days_in_month(.))
-        last_months_additions = mean(monthly_additions[df$date %in% last_months])
-
-        last_months_last_year = df$date[i] %>% subtract(31*1:3+366) %>% 'day<-'(days_in_month(.))
-        last_months_last_year_additions = mean(monthly_additions[df$date %in% last_months_last_year])
-
-        filled_value = monthly_capacity_filled[df$date==last_month] +
-          last_year_additions * last_months_additions / last_months_last_year_additions
-
-        if(length(filled_value)==1 & !is.na(filled_value)) {
-          df$Value[i] <- filled_value
-          df$Value1m[i] <- filled_value
-          message('filling ', filled_value, ' for ', group$source, ' on ', df$date[i])
-        }
-      }
       return(df)
     }) %>%
     bind_rows(monthly_filled) ->
@@ -202,4 +190,31 @@ Solar	2023	5841.5" %>% textConnection() %>%
     bind_rows(gongbao) %>% mutate(var='Generation, annual reporting') -> yearly
 
   return(list(monthly=monthly, yearly=yearly))
+}
+
+
+
+extrapolate_last <- function(values, dates, width=3) {
+  first_nonna <- which(!is.na(values))[1]
+  to_fill <- values %>% is.na %>% which %>% subset(.>first_nonna)
+
+  for(i in to_fill) {
+    last_year = dates[i] %>% subtract(366) %>% 'day<-'(days_in_month(.))
+    last_year_value = values[dates==last_year]
+
+    last_month = dates[i] %>% subtract(31) %>% 'day<-'(days_in_month(.))
+
+    last_months = dates[i-(1:width)]
+    last_months_values = mean(values[dates %in% last_months])
+
+    last_months_last_year = last_months %>% subtract(31*1:3+366) %>% 'day<-'(days_in_month(.))
+    last_months_last_year_values = mean(values[dates %in% last_months_last_year])
+
+    filled_value = last_year_value * last_months_values / last_months_last_year_values
+
+    if(length(filled_value)==1 & !is.na(filled_value))
+      values[i] <- filled_value
+  }
+
+  return(values)
 }
