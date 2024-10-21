@@ -1,11 +1,11 @@
-﻿0,,,,,,,,
+﻿Wind,,,,,,,,
 Country,China,China,China,China,China,China,China,China
 Name,China: Coal Consumption Rate of Power Supply: YTD,China: Output: Electricity Production: YTD,China: Output: Thermal Power: YTD,China: Output: Hydropower: YTD,China: Output: Nuclear Power: YTD,China: Output: Solar: YTD,China: Output: Wind Power: YTD,China: Coal Consumption Rate of Power Supply: YoY: % Change
 Frequency,Month,Month,Month,Month,Month,Month,Month,Month
 Unit,g/kwh,100 million kwh,100 million kwh,100 million kwh,100 million kwh,100 million kwh,100 million kwh,g/kwh
 ID,S0048319,S0027014,S0027018,S0027022,S0027026,S0253041,S0253040,S0048337
 Source,Wind,National Bureau of Statistics of China,National Bureau of Statistics of China,National Bureau of Statistics of China,National Bureau of Statistics of China,National Bureau of Statistics of China,National Bureau of Statistics of China,Wind
-Update,2024-09-23,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-09-23
+Update,2024-10-21,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-21
 1989-02,0.00 ,867.30 ,734.30 ,132.50 ,0.00 ,0.00 ,0.00 ,0.00 
 1989-03,0.00 ,"1,332.90 ","1,129.80 ",203.00 ,0.00 ,0.00 ,0.00 ,0.00 
 1989-04,0.00 ,"1,804.40 ","1,505.60 ",298.60 ,0.00 ,0.00 ,0.00 ,0.00 
@@ -424,4 +424,4 @@ Update,2024-09-23,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10
 2024-06,302.40 ,"44,354.50 ","30,052.70 ","5,525.80 ","2,121.50 ","1,899.30 ","4,755.20 ",2.31 
 2024-07,304.70 ,"53,239.30 ","35,813.90 ","7,188.00 ","2,518.20 ","2,281.79 ","5,437.30 ",2.46 
 2024-08,305.80 ,"62,378.80 ","41,967.70 ","8,822.00 ","2,920.40 ","2,695.14 ","5,973.50 ",1.40 
-2024-09,0.00 ,"70,560.00 ","47,439.00 ","10,040.00 ","3,275.00 ","3,073.00 ","6,733.00 ",0.00 
+2024-09,305.80 ,"70,560.00 ","47,439.00 ","10,040.00 ","3,275.00 ","3,073.00 ","6,733.00 ",0.70 
