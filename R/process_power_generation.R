@@ -15,7 +15,8 @@ read_power_generation <- function(predict_solar_wind=F) {
                                    'Heat rate'='Consumption Rate',
                                    Consumption='Consumption',
                                    Capacity='Capacity',
-                                   Generation='Generation|Output'))) ->
+                                   Generation='Generation|Output')),
+           basis_for_data=ifelse(is.na(Value), 'estimated/extrapolated', 'reported')) ->
     monthly
 
   #calculate one-month heat rates from year-to-date averages
@@ -44,7 +45,8 @@ read_power_generation <- function(predict_solar_wind=F) {
     monthly %>% filter(var=='Utilization' & source %in% c('Wind', 'Solar')) %>%
       left_join(pred) %>% arrange(date) %>%
       group_by(source, month=month(date)) %>%
-      mutate(Value1m = na.cover(Value1m, lag(Value1m) * (1+Utilization_predicted_YoY))) %>%
+      mutate(Value1m = na.cover(Value1m, lag(Value1m) * (1+Utilization_predicted_YoY)),
+             basis_for_data = ifelse(basis_for_data=='reported', basis_for_data, 'estimated from meteorology')) %>%
       ungroup %>% select(-month, -starts_with('Utilization_predicted')) %>%
       bind_rows(monthly_filled) ->
       monthly_filled
@@ -170,10 +172,12 @@ read_power_generation <- function(predict_solar_wind=F) {
   monthly %>% filter(var=='Consumption') %>%
     left_join(gen_cons %>% select(date, month, Consumption_predicted_YoY)) %>%
     group_by(month) %>%
-    mutate(Value1m=na.cover(Value1m, lag(Value1m) * (1+Consumption_predicted_YoY))) ->
+    mutate(Value1m=na.cover(Value1m, lag(Value1m) * (1+Consumption_predicted_YoY))) %>%
+    select(-Consumption_predicted_YoY) ->
     cons_filled
 
-  monthly %<>% filter(var !='Consumption') %>% bind_rows(cons_filled)
+  monthly %<>% filter(var !='Consumption') %>% bind_rows(cons_filled) %>%
+    mutate(basis_for_data=ifelse(is.na(Value1m), "", basis_for_data))
 
   "source	year	Value
 Wind	2022	7626.7
