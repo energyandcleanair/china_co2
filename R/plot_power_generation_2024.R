@@ -298,16 +298,42 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     write_csv(file.path(output_dir, 'power_data.csv'))
 
 
-  p <- pwr_data$monthly %>% filter(var == 'Capacity',
-                                   source %in% c('Wind', 'Solar')) %>%
+  pwr_data$monthly %>% filter(var == 'Capacity', basis_for_data=='reported') %>%
     group_by(source, subtype) %>%
     mutate(change = Value1m - lag(Value1m),
            plotdate = date %>% 'year<-'(2022),
            year = as.factor(year(date))) %>%
     group_by(source, subtype, year) %>%
     mutate(change_cumulative = cumsum(change)) %>%
-    filter(year(date) >= 2020) %>%
-    write_csv(file.path(output_dir, 'Newly added wind and solar.csv')) %>%
+    group_by(source, subtype, month(date)) %>%
+    mutate(yoy_1m=change/lag(change)-1,
+           yoy_ytd=change_cumulative/lag(change_cumulative)-1,
+           yoy_1m_statement=case_when(is.finite(yoy_1m)~paste0(ifelse(yoy_1m>0, 'up ',  'down '),
+                                                               scales::percent(yoy_1m),
+                                                               ' from last year'),
+                                      change==0 & lag(change)==0~'unchanged from last year',
+                                      lag(change)==0~'compared with no additions last year'),
+           yoy_ytd_statement=case_when(is.finite(yoy_ytd)~paste0(ifelse(yoy_ytd>0, 'up ',  'down '),
+                                                               scales::percent(yoy_ytd),
+                                                               ' from last year'),
+                                      change_cumulative==0 & lag(change_cumulative)==0~'unchanged from last year',
+                                      lag(change_cumulative)==0~'compared with no additions last year')) %>%
+    filter(year(date) >= 2020) %>% select(source, subtype, date, plotdate, year,
+                                          matches('Value|change|yoy|statement'), basis_for_data) %>%
+    write_csv(file.path(output_dir, 'Newly added wind and solar.csv')) ->
+    added_capacity
+
+  added_capacity %>% filter(date==focus_month, !is.na(change)) %>%
+    mutate(statement=sprintf("In %s, China added %s GW of %s power capacity, %s. A total of %s GW was added in January to %s, %s.",
+                             format.Date(date, '%B'), round(signif(change/100,3),1), tolower(na.cover(subtype, source)),
+                             yoy_1m_statement,
+                             round(signif(change_cumulative/100,3),1), format.Date(date, '%B'),
+                             yoy_ytd_statement)) %>%
+    use_series(statement) %>%
+    writeLines(file.path(output_dir, 'Newly added capacity.txt'), sep='\n\n')
+
+
+  p <- added_capacity %>% filter(source %in% c('Wind', 'Solar')) %>%
     ggplot(aes(plotdate, change_cumulative / 100, col = year)) +
     geom_line(linewidth = 1) +
     facet_wrap(~ trans(source), ncol = 1, scales = 'free_y') +
