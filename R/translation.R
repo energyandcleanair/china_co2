@@ -57,10 +57,13 @@ translateFuels <- function(x, lang=get("lang", .GlobalEnv)) {
   recode_factor(x,
                 'Steam Coal'='\u52a8\u529b\u7164',
                 'Natural Gas'='\u5929\u7136\u6c14',
+                'Gas'='\u71c3\u6c14',
                 'Crude Oil'='\u77f3\u6cb9',
                 'Coking Coal'='\u7126\u7164',
                 'Cement'='\u6c34\u6ce5',
-                'Oil Products'='\u6210\u54c1\u6cb9')
+                'Oil Products'='\u6210\u54c1\u6cb9',
+                'Coal'='\u7164\u70ad',
+                'Oil'='\u77f3\u6cb9')
 }
 
 monthlab <- function(x, lang=get('lang', envir=.GlobalEnv)) {
