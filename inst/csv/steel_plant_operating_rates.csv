@@ -1,11 +1,11 @@
-﻿0,,,,,,,,,,,,,,
+﻿Wind,,,,,,,,,,,,,,
 Name,China: Blast Furnace Starting Rate (247),China: Blast Furnace Refining Production Capacity Utilization (247),China: Tangshan: Operating Rate of Blast Furnaces,China: Operating Rate: Deformed Steel Bar: Major Steel Mills,China: Operating Rate: Electric Furnace,China: Capacity Utilization: Electric Stove,China: Estimated Daily Average Output: Steel Products,China: Estimated Daily Average Output: Pig Iron,China: Estimated Daily Average Output: Crude Steel,China: Daily Average Output: Crude Steel,China: Estimated Daily Average Output: Coke,China: Operating Rate: Wire Rod: Major Steel Mills,China: Operating Rate: Deformed Steel Bar: Major Steel Mills,China: Operating Rate of Blast Furnaces (163 Steel Mills)
 Frequency,Week,Week,Week,Week,Week,Week,Every Day,Every Day,Every Day,Week,Every Day,Week,Week,Week
 Unit,%,%,%,%,%,%,10000 tons/day,10000 tons/day,10000 tons/day,10000 tons/day,10000 tons/day,%,%,%
 ID,C1925068,O2244511,S5711217,S5713303,S5715650,S5715660,S5715686,S5715685,S5708247,S5704502,S5715687,S5713327,S5713303,S5708175
-Time Period,2018-03-02:2024-10-18,2018-03-02:2024-10-18,2013-12-20:2024-10-18,2015-02-27:2024-10-18,2017-12-08:2024-10-18,2017-12-08:2024-10-18,2014-06-10:2024-10-10,2014-06-10:2024-10-10,2009-01-10:2024-10-10,2009-01-10:2024-10-10,2014-06-10:2021-03-10,2015-02-27:2024-10-18,2015-02-27:2024-10-18,2012-08-03:2021-12-24
+Time Period,2018-03-02:2024-10-18,2018-03-02:2024-10-18,2013-12-20:2024-10-18,2015-02-27:2024-10-18,2017-12-08:2024-10-18,2017-12-08:2024-10-18,2014-06-10:2024-10-20,2014-06-10:2024-10-20,2009-01-10:2024-10-20,2009-01-10:2024-10-20,2014-06-10:2021-03-10,2015-02-27:2024-10-18,2015-02-27:2024-10-18,2012-08-03:2021-12-24
 Source,Wind,Wind,China United Steel Network,Wind,China United Steel Network,China United Steel Network,Steelhome,Steelhome,Steelhome,Steelhome,Steelhome,Wind,Wind,Wind
-Update,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2021-03-15,2024-10-18,2024-10-18,2023-09-20
+Update,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-23,2024-10-23,2024-10-23,2024-10-23,2021-03-15,2024-10-18,2024-10-18,2023-09-20
 2009-01-10,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,132.30 ,132.30 ,0.00 ,0.00 ,0.00 ,0.00 
 2009-01-20,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,132.46 ,132.46 ,0.00 ,0.00 ,0.00 ,0.00 
 2009-01-31,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,153.95 ,139.96 ,0.00 ,0.00 ,0.00 ,0.00 
@@ -1269,3 +1269,4 @@ Update,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10-18,2024-10
 2024-10-10,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,362.00 ,224.00 ,260.00 ,260.00 ,0.00 ,0.00 ,0.00 ,0.00 
 2024-10-11,80.81 ,87.53 ,88.71 ,42.32 ,60.90 ,48.95 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,49.43 ,42.32 ,0.00 
 2024-10-18,81.70 ,88.01 ,91.05 ,43.95 ,61.54 ,50.86 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,49.43 ,43.95 ,0.00 
+2024-10-20,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,386.00 ,225.00 ,263.00 ,263.00 ,0.00 ,0.00 ,0.00 ,0.00 
