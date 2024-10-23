@@ -272,11 +272,8 @@ if(T) {
 #apply adjustments
 d.quarter %<>%
   replace_na(list(adj=0, nbs_adj=1)) %>%
-  group_by(name, var, prod, sector) %>%
-  mutate(CO2 = (CO2 + adj*ef)*nbs_adj) %>%
-  roll12m(months=12, outcol='CO2_12m', incol='CO2', verbose=T) %>%
-  roll12m(months=3, outcol='CO2_3m', incol='CO2') %>%
-  filter(!is.na(CO2_12m))
+  mutate(CO2 = (CO2 + adj*ef)*nbs_adj)
+
 
 #add total CO2
 d.quarter %<>% filter(prod!='Total') %>%
@@ -287,25 +284,59 @@ d.quarter %<>% filter(prod!='Total') %>%
 
 #add steam coal total
 d.quarter %<>% filter(prod=='Steam Coal', sector!='Total') %>%
-  group_by(name, prod, date) %>% summarise(across(c(starts_with('CO2')), sum)) %>%
+  group_by(name, prod, broad_prod, date) %>% summarise(across(c(starts_with('CO2')), sum)) %>%
   mutate(include_in_totals=F, sector='Total') %>%
   bind_rows(d.quarter %>% filter(!(prod=='Steam Coal' & sector=='Total')))
 
-d.quarter %>% filter(prod=='Total', year(date)>=2019) %>% ggplot(aes(date, CO2_12m, col=name)) + geom_line()
+#add gas use breakdown to power and others
+pwr_data$monthly %>% filter(subtype=='Gas', var=='Generation, hybrid') %>%
+  mutate(CO2=Value1m/.5*3.6*55/1000/10) %>%
+  select(date, CO2) %>%
+  mutate(prod='Natural Gas', broad_prod='Gas', sector='Power Industry') ->
+  gas_power_CO2
 
-d.quarter %<>% group_by(name, prod, sector) %>%
+gas_power_CO2 %<>% cross_join(d.quarter %>% ungroup %>% distinct(name))
+
+gas_power_CO2 %>%
+  bind_rows(d.quarter %>% filter(prod=='Natural Gas', sector=='Total')) %>%
+  group_by(name, prod, broad_prod, date) %>%
+  summarise(CO2=CO2[sector=='Total']-CO2[sector=='Power Industry']) %>%
+  mutate(sector='Other Sectors') %>%
+  bind_rows(gas_power_CO2) %>%
+  mutate(include_in_totals=F) %>%
+  bind_rows(d.quarter %>% filter(prod!='Natural Gas' | sector=='Total')) ->
+  d.quarter
+
+#add rolling means
+d.quarter %<>%
+  group_by(name, var, prod, sector) %>%
+  roll12m(months=12, outcol='CO2_12m', incol='CO2', verbose=T) %>%
+  roll12m(months=3, outcol='CO2_3m', incol='CO2') %>%
+  filter(!is.na(CO2_12m))
+
+#add year-on-year changes
+d.quarter %<>%
   mutate(YoY_change_3m = get.yoy(CO2_3m, date, 'absolute'),
          YoY_3m = get.yoy(CO2_3m, date, 'relative'),
          YoY_change_1m = get.yoy(CO2, date, 'absolute'),
-         YoY_1m = get.yoy(CO2, date, 'relative'))
+         YoY_1m = get.yoy(CO2, date, 'relative')) %>%
+  ungroup
 
 
-d.quarter %>% filter(date==last_month, grepl('NBS', name)) %>%
+
+d.quarter %>% filter(prod=='Total', year(date)>=2019) %>% ggplot(aes(date, CO2_12m, col=name)) + geom_line()
+
+variant_to_highlight = 'NBS' #'predicted'
+
+
+d.quarter %>% filter(date==last_month, grepl(variant_to_highlight, name)) %>%
   select(name, prod, sector, date, CO2, CO2_3m, YoY_1m, YoY_3m) %T>% copy.xl %>% View
 
 
 d.quarter %>% ungroup %>%
-  dplyr::select(basis_of_estimate=name, date, product=prod, sector,
+  dplyr::select(basis_of_estimate=name, date,
+                product=prod, product_category=broad_prod,
+                sector,
                 CO2, CO2_3m_mean=CO2_3m, CO2_12m_mean=CO2_12m,
                 YoY_change_percent_1m=YoY_1m,
                 YoY_change_percent_3m_mean=YoY_3m,
@@ -328,20 +359,20 @@ d.quarter %>% filter(prod=='Total' | include_in_plots, name != 'reported') %>% u
   write_csv(file.path(output_dir, '12-month CO2.csv'))
 
 
-prodcols = c('black', crea_palettes$dramatic[c(6,5,3,2)], 'gray30') #
-names(prodcols) = c('Crude Oil','Cement','Natural Gas','Oil Products','Coking Coal','Steam Coal')
+prodcols = c('black', crea_palettes$dramatic[c(6,5,5,3,3,2)], 'gray30', 'gray30') #
+names(prodcols) = c('Crude Oil','Cement','Natural Gas', 'Gas', 'Oil Products', 'Oil','Coking Coal','Steam Coal', 'Coal')
 
 
-d.quarter %>% filter(include_in_plots, grepl('predicted', name)) %>%
+d.quarter %>% filter(include_in_plots, grepl(variant_to_highlight, name)) %>%
   group_by(name, date) %>% summarise(across(CO2_12m, sum)) %>%
   filter(year(date) %in% 2013:2019) %>%
   lm(CO2_12m~date, data=.) ->
   m
 
-d.quarter %>% filter(grepl('predicted', name)) %>% ungroup %>% distinct(date) %>% mutate(CO2_12m=predict(m, .)) ->
+d.quarter %>% filter(grepl(variant_to_highlight, name)) %>% ungroup %>% distinct(date) %>% mutate(CO2_12m=predict(m, .)) ->
   trend
 
-d.quarter %>% filter(include_in_plots, grepl('predicted', name)) %>% ungroup %>%
+d.quarter %>% filter(include_in_plots, grepl(variant_to_highlight, name)) %>% ungroup %>%
   bind_rows(trend %>% filter(year(date)>=2012) %>% mutate(prod='pre-COVID trend')) %>%
   mutate(CO2_12m=CO2_12m*12,
          variable="CO2 emissions, 12-month moving sum",
@@ -350,7 +381,7 @@ d.quarter %>% filter(include_in_plots, grepl('predicted', name)) %>% ungroup %>%
   write_csv(file.path(output_dir, "CO2 12m sum.csv"))
 
 d.quarter %>%
-  filter(include_in_plots, grepl('predicted', name), date>='2013-01-01') %>%
+  filter(include_in_plots, grepl(variant_to_highlight, name), date>='2013-01-01') %>%
   mutate(prod=factor(prod, levels=names(prodcols))) %>%
   ggplot(aes(date, CO2_12m*12)) +
   geom_area(aes(fill=prod)) +
@@ -369,7 +400,7 @@ quicksave(file.path(output_dir, 'CO2 12m sum.png'), plot=plt)
 
 
 
-d.quarter %>% filter(prod=='Total', grepl('predicted', name),
+d.quarter %>% filter(prod=='Total', grepl(variant_to_highlight, name),
                      month(date) %in% (3*1:4),
                      year(date)>=2015) %>%
   write_csv(file.path(output_dir, 'CO2 quarterly.csv')) %>%
@@ -390,7 +421,7 @@ quicksave(file.path(output_dir, 'CO2 quarterly.png'), plot=plt)
 prodcolsZH <- prodcols
 names(prodcolsZH) %<>% translateFuels
 
-d.quarter %>% filter(include_in_plots, grepl('predicted', name), year(date)>=2012) %>%
+d.quarter %>% filter(include_in_plots, grepl(variant_to_highlight, name), year(date)>=2012) %>%
   mutate(prod=prod %>% translateFuels %>% factor(levels=names(prodcolsZH))) %>%
   ggplot(aes(date, CO2_12m*12/100, fill=prod)) +
   geom_area() +
@@ -404,14 +435,14 @@ d.quarter %>% filter(include_in_plots, grepl('predicted', name), year(date)>=201
 quicksave(file.path(output_dir, 'CO2 12m sum ZH.png'), plot=plt)
 
 
-d.quarter %>% filter(include_in_plots | prod=='Total', grepl('predicted', name)) %>%
+d.quarter %>% filter(include_in_plots | prod=='Total', grepl(variant_to_highlight, name)) %>%
   mutate(YoY_change_3m=YoY_change_3m*3, CO2_12m=CO2_12m*12) %>% ungroup %>%
   select(date, prod, YoY_change_3m, CO2_12m) %>%
   write_csv(file.path(output_dir, 'CO2 quarterly.csv'))
 
-d.quarter %>% filter(include_in_plots, grepl('predicted', name), date>='2018-01-01') %>%
+d.quarter %>% filter(include_in_plots, grepl(variant_to_highlight, name), date>='2018-01-01') %>%
   ggplot(aes(date, YoY_change_1m)) + geom_col(aes(fill=prod)) +
-  geom_point(data=d.quarter %>% filter(prod=='Total', grepl('predicted', name), date>='2018-01-01'), aes(col=prod)) +
+  geom_point(data=d.quarter %>% filter(prod=='Total', grepl(variant_to_highlight, name), date>='2018-01-01'), aes(col=prod)) +
   scale_x_date(expand=expansion(add=c(20,20))) +
   theme_crea() +
   scale_fill_manual(values=prodcols, name='Product') +
@@ -422,7 +453,7 @@ d.quarter %>% filter(include_in_plots, grepl('predicted', name), date>='2018-01-
 quicksave(file.path(output_dir, 'CO2 monthly change by fuel.png'), plot=plt, scale=1.33)
 
 d.quarter %>%
-  filter(include_in_plots, grepl('predicted', name), date>='2018-01-01',
+  filter(include_in_plots, grepl(variant_to_highlight, name), date>='2018-01-01',
          month(date) %in% c(3,6,9,12)) %>%
   ggplot(aes(date, YoY_change_3m*3)) + geom_col(aes(fill=prod)) +
   geom_point(data=d.quarter %>% filter(prod=='Total', grepl('NBS', name),
@@ -438,7 +469,7 @@ d.quarter %>%
 quicksave(file.path(output_dir, 'CO2 quarterly change by fuel.png'), plot=plt, scale=1.33)
 
 
-d.quarter %>% filter(prod=='Total', grepl('predicted', name)) %>%
+d.quarter %>% filter(prod=='Total', grepl(variant_to_highlight, name)) %>%
   write_csv(file.path(output_dir, 'CO2 monthly change.csv')) %>%
   ggplot(aes(date, YoY_change_1m, fill=YoY_change_1m<0)) + geom_col() +
   scale_x_date(expand=c(0,0), limits = c(ymd('2018-01-01'), NA)) +
@@ -465,12 +496,12 @@ quicksave(file.path(output_dir, 'CO2 quarterly change.png'),
 
 
 d.quarter %>%
-  filter(include_in_plots, grepl('predicted', name),
+  filter(include_in_plots, grepl(variant_to_highlight, name),
          month(date) %in% c(3,6,9,12)) %>%
   mutate(prodZH = translateFuels(prod)) %>%
   ggplot(aes(date, YoY_change_3m*3/100)) +
   geom_col(aes(fill=prodZH)) +
-  geom_point(data=d.quarter %>% filter(prod=='Total', grepl('predicted', name),
+  geom_point(data=d.quarter %>% filter(prod=='Total', grepl(variant_to_highlight, name),
                                        month(date) %in% c(3,6,9,12)) %>%
                mutate(prod='总计'), aes(col=prod)) +
   scale_x_date(expand=c(0,0), limits = c(ymd('2018-01-31'), NA)) +
@@ -483,43 +514,63 @@ d.quarter %>%
 quicksave(file.path(output_dir, 'CO2 quarterly change ZH.png'), plot=p)
 
 
-d.quarter %>% filter(!(sector == 'Total' & prod == 'Steam Coal'),
-                     grepl('predicted', name)) %>%
+d.quarter %>% filter(!(sector == 'Total' & prod %in% c('Steam Coal', 'Natural Gas')),
+                     grepl(variant_to_highlight, name)) %>%
   mutate(sector = case_when(prod=='Cement'~'Building Materials',
                             prod %in% c('Crude Oil', oilprod)~'Oil Consumption',
                             is.na(sector)&prod!='Total'~paste(prod,'Consumption'),
                             prod=='Total'~'Total',
                             T~sector)) %>%
-  group_by(prod, sector, date) %>% mutate(across(YoY_change_1m, mean)) %>%
+  group_by(broad_prod, sector, date) %>%
+  summarise(across(matches('^YoY_change|CO2'), mean)) %>%
   mutate(sector=recode(sector, Total='All Sectors', 'Oil Consumption'='All Sectors', 'Natural Gas Consumption'='All Sectors')) ->
   d.changes
 
-d.changes %>% filter(prod != 'Total', date==last_month) %>%
-  ggplot(aes(prod, YoY_change_3m, fill=sector)) +
+
+d.changes %>% filter(broad_prod != 'Total', date==last_month) %>%
+  ggplot(aes(broad_prod, YoY_change_3m*3, fill=sector)) +
   geom_col() +
   scale_y_continuous(expand=expansion(c(.05,.05))) +
   theme_crea() +
   scale_fill_crea_d(name='Sector') +
   labs(title="Contributions to changes in emissions",
-       subtitle="in Q3 2024, compared with 2023", y='Mt CO2 / year', x='') +
+       subtitle="in Q3 2024, compared with 2023", y='Mt CO2 / quarter', x='') +
   coord_flip() +
   #x_at_zero() +
   scale_x_discrete(limits=rev) -> plt
 quicksave(file.path(output_dir, 'Contributions to emissions growth.png'), plot=plt, scale=1.33)
 
-d.changes %>% filter(prod != 'Total', date==last_month) %>%
-  mutate(prod=factor(prod, levels=names(prodcols)), Unit='Mt CO2') %>%
-  select(sector, prod, date, YoY_change_3m, Unit) %>%
+d.changes %>% filter(broad_prod != 'Total', date==last_month) %>%
+  mutate(prod=factor(broad_prod, levels=names(prodcols)), Unit='Mt CO2') %>%
+  select(sector, broad_prod, date, YoY_change_3m, Unit) %>%
   write_csv(file.path(output_dir, 'Contributions to emissions growth, by sector.csv')) %>%
-  ggplot(aes(sector, YoY_change_3m, fill=prod)) +
+  ggplot(aes(sector, YoY_change_3m*3, fill=broad_prod)) +
   geom_col() +
   scale_y_continuous(expand=expansion(c(.05,.05))) +
   theme_crea() +
   scale_fill_manual(values=prodcols, name='Product') +
   labs(title="Contributions to changes in emissions",
-       subtitle="in Q2 2024, compared with 2023", y='Mt CO2', x='') +
+       subtitle="in Q3 2024, compared with 2023", y='Mt CO2', x='') +
   coord_flip() +
   #x_at_zero() +
   scale_x_discrete(limits=rev) -> plt
 quicksave(file.path(output_dir, 'Contributions to emissions growth, by sector.png'),
           plot=plt, scale=1, logo=F)
+
+
+pwr_data$monthly %>% filter(var == 'Capacity', basis_for_data=='reported') %>%
+  group_by(source, subtype) %>%
+  mutate(change = Value1m - lag(Value1m),
+         change_3m = Value1m - lag(Value1m, 4),
+         plotdate = date %>% 'year<-'(2022),
+         year = as.factor(year(date))) %>%
+  group_by(source, subtype, year) %>%
+  mutate(change_cumulative = cumsum(change)) %>%
+  group_by(source, subtype, month(date)) %>%
+  mutate(yoy_1m=change/lag(change)-1,
+         yoy_3m=change_3m/lag(change_3m)-1,
+         yoy_ytd=change_cumulative/lag(change_cumulative)-1) %>%
+  filter(date==focus_month, !is.na(change)) %>%
+  select(source, subtype, date, plotdate, year,
+         matches('Value|change|yoy|statement'), basis_for_data) %>%
+  View
