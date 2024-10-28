@@ -1,4 +1,4 @@
-source('load_package.R')
+source('scripts/load_package.R')
 
 
 focus_month <- today() %>% subtract(30) %>% "day<-"(1)
@@ -6,6 +6,7 @@ focus_month <- today() %>% subtract(30) %>% "day<-"(1)
 output_dir <- paste0("outputs/monthly_snapshot_", format(as.Date(focus_month), "%Y_%m"))
 
 dir.create(output_dir, showWarnings = F, recursive = T)
+#output_dir <- 'outputs/latest'
 
 # preload air quality data
 aq <- get_aq(start_date = ymd("2022-01-01"), update_data = T)

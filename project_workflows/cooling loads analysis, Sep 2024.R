@@ -149,3 +149,39 @@ met_prov_monthly %>% filter(month(date)==9, variable=='CDD') %>%
        subtitle='September 2024, by province',
        y='degrees Celcius', x='') +
   coord_flip()
+
+
+
+met_prov_monthly %>% filter(month(date)==9, variable=='temperature') %>%
+  mutate(region_name = fix_province_names(region_name)) %>%
+  group_by(region_name) %>%
+  ggplot(aes(year(date), value, col=value)) +
+  geom_line(linewidth=1) +
+  stat_smooth(geom='line', method='lm', se=F,
+              linetype='dotted', color='black', alpha=.3,
+              linewidth=.7) +
+  facet_wrap(~region_name, scales='free_y') +
+  scale_color_crea_c('change', guide='none', col.index = c(1:3,6:7)) +
+  theme_crea(plot.margin = unit(c(1.5,1,1,1), "lines")) +
+  labs(title='Year-on-year change in population-weighted average cooling degree days',
+       subtitle='September 2024, by province',
+       y='degrees Celcius', x='')
+
+
+met_prov_monthly %>% filter(month(date)==9, variable=='temperature') %>%
+  mutate(region_name = fix_province_names(region_name)) %>%
+  group_by(region_name) %>%
+  summarise(anomaly=value[year(date)==2024]-mean(value[year(date)<=2023]),
+            difference_with_previous_record=value[year(date)==2024]-max(value[year(date)<=2023])) %>%
+  arrange(anomaly) %>%
+  mutate(region_name=factor(region_name, levels=region_name)) %>%
+  pivot_longer(-region_name) %>%
+  ggplot(aes(region_name, value, fill=value)) +
+  geom_col() +
+  facet_wrap(~name) +
+  scale_fill_crea_c('change', guide='none', col.index = c(1:3,6:7)) +
+  theme_crea(plot.margin = unit(c(1.5,1,1,1), "lines")) +
+  labs(title='Temperature anomalies by province',
+       subtitle='September 2024',
+       y='degrees Celcius', x='') +
+  coord_flip()

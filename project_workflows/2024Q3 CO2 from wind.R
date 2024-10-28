@@ -522,7 +522,7 @@ d.quarter %>% filter(!(sector == 'Total' & prod %in% c('Steam Coal', 'Natural Ga
                             prod=='Total'~'Total',
                             T~sector)) %>%
   group_by(broad_prod, sector, date) %>%
-  summarise(across(matches('^YoY_change|CO2'), mean)) %>%
+  summarise(across(matches('^YoY_change|CO2'), sum)) %>%
   mutate(sector=recode(sector, Total='All Sectors', 'Oil Consumption'='All Sectors', 'Natural Gas Consumption'='All Sectors')) ->
   d.changes
 
