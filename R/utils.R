@@ -87,34 +87,29 @@ check_dates <- function(data, obv_date_threshold = Sys.Date() - 30, file_name,
   if('Update' %in% colnames(data)){
     min_update_date <- min(data$Update)
     max_update_date <- max(data$Update)
+    if(year(max_update_date) != year(Sys.Date()) |
+       month(max_update_date) < month(Sys.Date())){
+      # problem_data <- data %>% filter(year(Update) != year(Sys.Date()) |
+      #                                   month(Update) < month(Sys.Date()),
+      #                                 !Name %in% ignore_names) %>%
+      #   distinct(Name) %>%
+      #   pull
 
-    if(max_update_date < Sys.Date() - 60 | min_update_date < Sys.Date() - 60){
-      problem_data <- data %>% filter(Update < Sys.Date() - 60,
-                                      !Name %in% ignore_names) %>%
-        distinct(Name) %>%
-        pull
-
-      if(length(problem_data != 0)){
-        warning(paste('Problematic data:', paste(problem_data, collapse = ', ')))
-
-        if(check_dates_stop){
-          stop(glue(paste('Data in file "{file_name}" is not up to date.',
-                          'Lastest update date is {max_update_date}.',
-                          'Earliest update date is {min_update_date}.')))
-        } else {
-          warning(glue(paste('Data in file "{file_name}" is not up to date.',
-                             'Lastest update date is {max_update_date}.',
-                             'Earliest update date is {min_update_date}.')))
-        }
+      if(check_dates_stop){
+        stop(glue(paste('Data in file "{file_name}" is not up to date.',
+                        'Lastest update date is {max_update_date}.',
+                        'Earliest update date is {min_update_date}.')))
       } else {
-        problem_data <- NA
+        warning(glue(paste('Data in file "{file_name}" is not up to date.',
+                           'Lastest update date is {max_update_date}.',
+                           'Earliest update date is {min_update_date}.')))
       }
     }
   }
 
-  return(tibble(file = file_name, latest_data = max_date, latest_update = max_update_date,
-                earliest_update = min_update_date,
-                problem_data = paste(problem_data, collapse = ', ')))
+  return(tibble(file = file_name, latest_data = max_date,
+                latest_update = max_update_date,
+                earliest_update = min_update_date, problem_data = NA))
 }
 
 #download Ember data from: https://ember-climate.org/data-catalogue/monthly-electricity-data/
@@ -129,6 +124,7 @@ get_ember_monthly_data <- function(cached = get_data_file("monthly_full_release_
   return(ember)
 }
 
+# names which can be ignored in checks
 ignore_names <- c(
   'China: Output: Power and Energy Storage Batteries (Lithium Manganate): YTD',
   'China: Output: Power and Energy Storage Batteries (Lithium Titanate): YTD',
