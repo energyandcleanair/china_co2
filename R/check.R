@@ -76,6 +76,7 @@ check_wind_update <- function(output_dir, stop_if_fail = F){
                           file_name = "monthly industry stats.xlsx",
                           check_dates_stop = stop_if_fail))
 
+
   # steel plot data
   in_file <- get_data_file("steel plant operating rates.xlsx")
 
@@ -87,8 +88,10 @@ check_wind_update <- function(output_dir, stop_if_fail = F){
                           file_name = "steel plant operating rates.xlsx",
                           check_dates_stop = stop_if_fail))
 
+
   # capacity plot data
   in_file <- get_data_file("Power Capacity.xlsx")
+
   cap <- readwindEN(in_file, c('var', 'source', 'fuel', 'YTD'),
                     read_vardata = T) %>%
     mutate(var = ifelse(grepl('New', var), 'Newly added capacity', 'Installed capacity'),
@@ -100,6 +103,16 @@ check_wind_update <- function(output_dir, stop_if_fail = F){
     bind_rows(check_dates(data = cap,
                           file_name = "Power Capacity.xlsx",
                           check_dates_stop = stop_if_fail))
+
+  in_file <- get_data_file("New power capacity by province and type.xlsx")
+
+  provcap <- readwindEN(in_file, c('var', 'source', 'prov'), read_vardata = T)
+
+  data_summary <- data_summary %>%
+    bind_rows(check_dates(data = provcap,
+                          file_name = "New power capacity by province and type.xlsx",
+                          check_dates_stop = stop_if_fail))
+
 
   # fuel supply plot
   in_file <- get_data_file("fuel supply.xlsx")
@@ -113,9 +126,38 @@ check_wind_update <- function(output_dir, stop_if_fail = F){
                           file_name = "fuel supply.xlsx",
                           check_dates_stop = stop_if_fail))
 
+
+  # power generation plot
+  in_file <- get_data_file("generation-consumption-utilization-capacity.xlsx")
+
+  power <- readwindEN(in_file, c('var', 'source', 'subtype'), read_vardata = T,
+                      skip = 3, zero_as_NA = T)
+
+  data_summary <- data_summary %>%
+    bind_rows(check_dates(data = power,
+                          file_name = "generation-consumption-utilization-capacity.xlsx",
+                          check_dates_stop = stop_if_fail))
+
+
+  # solar wind prediction
+  in_file <- get_data_file("wind_solar_utilization_capacity_by_province.xlsx")
+
+  provdata <- readwindEN(in_file, c('prov', 'var', 'source', 'source2'),
+                         read_vardata = T, skip = 2,
+                         columnExclude = "National|China: Installed")
+
+  data_summary <- data_summary %>%
+    bind_rows(check_dates(data = provdata,
+                          file_name = "wind_solar_utilization_capacity_by_province.xlsx",
+                          check_dates_stop = stop_if_fail))
+
+
+  # write data summary
   dir.create('wind_update_check', showWarnings = F)
   write.csv(data_summary,
             file.path('wind_update_check',
                       paste0("wind_data_summary_", today(), ".csv")),
             row.names = F)
+
+
 }
