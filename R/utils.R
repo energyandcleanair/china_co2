@@ -83,7 +83,6 @@ check_dates <- function(data, file_name, check_dates_stop = F){
   if('Update' %in% colnames(data)){
     min_update_date <- min(data$Update)
     max_update_date <- max(data$Update)
-    update_threshold <-
 
     if(max_update_date <= (Sys.Date() - months(1)) %>% `day<-`(25)){
       if(check_dates_stop){
