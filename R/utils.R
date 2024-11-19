@@ -73,11 +73,7 @@ fix_province_names <- function(x) {
   x %>% recode('Nei Mongol'='Inner Mongolia', 'Ningxia Hui'='Ningxia', 'Xinjiang Uygur'='Xinjiang', 'Xizang'='Tibet')
 }
 
-check_dates <- function(data, obv_date_threshold = Sys.Date() - 30, file_name,
-                        check_dates_stop = F){
-  problem_data <- NA
-  max_update_date <- NA
-  min_update_date <- NA
+check_dates <- function(data, file_name, check_dates_stop = F){
 
   max_date <- max(data$date)
   if(max_date < Sys.Date() - 60){
@@ -87,14 +83,9 @@ check_dates <- function(data, obv_date_threshold = Sys.Date() - 30, file_name,
   if('Update' %in% colnames(data)){
     min_update_date <- min(data$Update)
     max_update_date <- max(data$Update)
-    if(year(max_update_date) != year(Sys.Date()) |
-       month(max_update_date) < month(Sys.Date())){
-      # problem_data <- data %>% filter(year(Update) != year(Sys.Date()) |
-      #                                   month(Update) < month(Sys.Date()),
-      #                                 !Name %in% ignore_names) %>%
-      #   distinct(Name) %>%
-      #   pull
+    update_threshold <-
 
+    if(max_update_date <= (Sys.Date() - months(1)) %>% `day<-`(25)){
       if(check_dates_stop){
         stop(glue(paste('Data in file "{file_name}" is not up to date.',
                         'Lastest update date is {max_update_date}.',
