@@ -41,7 +41,7 @@ capacity_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1),
     facet_wrap(~translateSources(source, lang = lang), ncol = 2, scales = 'free_y') +
     labs(y = unit_label('10MW', lang = lang), x = '',
          title = trans('Newly added power capacity, year-to-date'),
-         caption = trans('Labels show year-on-year changes for the current year')) +
+         caption = if(nrow(yoy_labels) > 0) trans('Labels show year-on-year changes for the current year')) +
     scale_x_date(date_breaks = '3 months', labels = monthlab,
                  minor_breaks = 'month', expand = expansion(mult = c(.0, .17))) +
     scale_y_continuous(expand = expansion(mult = c(0, .05))) +
