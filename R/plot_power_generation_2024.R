@@ -22,7 +22,8 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
 
 
   pwr_growth_plot <- pwr_data$monthly %>%
-    filter(date <= focus_month, var == 'Generation, hybrid') %>%
+    filter(date <= (ceiling_date(focus_month, 'month') - days(1)),
+           var == 'Generation, hybrid') %>%
     mutate(data_source = 'CREA') %>%
     bind_rows(ember_chn) %>%
     filter(!is.na(Value1m)) %>%
@@ -274,7 +275,8 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
     facet_wrap(~ trans(label), scales = 'free_y') +
     geom_line(aes(col = year), linewidth=1) +
     geom_label(aes(label=scales::percent(YoY_change_percent_1m, accuracy = 1.1)),
-               data=plotdata %>% filter(date==focus_month),
+               data=plotdata %>%
+                 filter(date == (ceiling_date(focus_month, 'month') - days(1))),
                vjust=0, hjust=-.1) +
     labs(title = trans('Monthly power generation by technology'),
          x = '', y = 'TWh', col = '') +
