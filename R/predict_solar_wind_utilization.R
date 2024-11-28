@@ -1,8 +1,19 @@
 #wind and solar utilization prediction using data from CREA API
 
 predict_solar_wind_utilization <- function(pwr_data_monthly, output_plots=F) {
-  read_csv("https://api.energyandcleanair.org/v1/weather?region_type=gadm1&region_iso2=CN&variable=wind_speed,temperature,solar_radiation&format=csv") ->
-    met_from_API
+  weather_url <- "https://api.energyandcleanair.org/v1/weather?region_type=gadm1&region_iso2=CN&variable=wind_speed,temperature,solar_radiation&format=csv"
+  tryCatch({
+    read_csv(weather_url) ->
+      met_from_API
+  }, error=function(e) {
+    message("Reading directly failed, downloading...")
+
+    download.file(weather_url, file.path(tempdir(), "met_from_API.csv"),
+                  mode = "wb")
+    met_from_API <- read_csv(file.path(tempdir(), "met_from_API.csv"))
+  })
+
+
 
   get_data_file("wind_solar_utilization_capacity_by_province.xlsx") %>%
     readwindEN(c('prov', 'var', 'source', 'source2'),
