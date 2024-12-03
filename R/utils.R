@@ -95,11 +95,14 @@ check_dates <- function(data, file_name, check_dates_stop = F){
                            'Earliest update date is {min_update_date}.')))
       }
     }
+
+    return(tibble(file = file_name, latest_data = max_date,
+                  latest_update = max_update_date,
+                  earliest_update = min_update_date, problem_data = NA))
   }
 
-  return(tibble(file = file_name, latest_data = max_date,
-                latest_update = max_update_date,
-                earliest_update = min_update_date, problem_data = NA))
+  return(tibble(file = file_name, latest_data = max_date, latest_update = NA,
+                earliest_update = NA, problem_data = NA))
 }
 
 #download Ember data from: https://ember-climate.org/data-catalogue/monthly-electricity-data/
