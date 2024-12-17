@@ -269,22 +269,25 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
 
 
   p <- plotdata %>%
-    ggplot(aes(plotdate, Value1m/10)) +
+    ggplot(aes(plotdate, Value1m / 10)) +
     theme_crea_new() +
     theme(legend.position = 'top') +
     facet_wrap(~ trans(label), scales = 'free_y') +
-    geom_line(aes(col = year), linewidth=1) +
-    geom_label(aes(label=scales::percent(YoY_change_percent_1m, accuracy = 1.1)),
-               data=plotdata %>%
+    geom_line(aes(col = year), linewidth = 1) +
+    geom_label(aes(label = scales::percent(YoY_change_percent_1m, accuracy = 1.1)),
+               data = plotdata %>%
                  filter(date == (ceiling_date(focus_month, 'month') - days(1))),
-               vjust=0, hjust=-.1) +
+               vjust = -0.5,
+               hjust = case_when(month(focus_month) == 1 ~ 0.2,
+                                 month(focus_month) == 12 ~ 0.8,
+                                 T ~ 0)) +
     labs(title = trans('Monthly power generation by technology'),
          x = '', y = 'TWh', col = '') +
     scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708')) +
     scale_color_crea_d('change', col.index = c(7, 6, 5, 3, 2, 1),
                       guide = guide_legend(nrow = 1)) +
     scale_y_continuous(expand=expansion(mult=c(0,.2))) +
-    expand_limits(y=0) +
+    expand_limits(y = 0) +
     lang_theme()
 
   basename <- "Monthly generation by technology"
