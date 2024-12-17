@@ -280,7 +280,7 @@ power_generation_plots <- function(focus_month = today() %>% subtract(30) %>% 'd
                vjust = -0.5,
                hjust = case_when(month(focus_month) == 1 ~ 0.2,
                                  month(focus_month) == 12 ~ 0.8,
-                                 T ~ 0)) +
+                                 T ~ 0.5)) +
     labs(title = trans('Monthly power generation by technology'),
          x = '', y = 'TWh', col = '') +
     scale_x_date(date_labels = ifelse(lang == 'EN', '%b', '%m\u6708')) +
