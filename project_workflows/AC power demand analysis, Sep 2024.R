@@ -1,3 +1,7 @@
+source('scripts/load_package.R')
+
+last_month=ymd('2024-09-30')
+
 output_dir='outputs/AC_power_demand_Sep2024'
 dir.create(output_dir)
 
@@ -92,14 +96,17 @@ power_demand_natl_broad %>% rename(power_demand_ytd=Value, power_demand=Value1m)
 
 #model building
 #IEA: cooling used almost 400 TWh in 2017 https://www.iea.org/reports/the-future-of-cooling-in-china
-power_demand %>% filter(year(date)>2017) %>%
-  lm(Value~(CDD+HDD)*date:region_name, data=.) -> m
+power_demand_prov %>% filter(year(date)>2017) %>%
+  lm(power_demand~(CDD+HDD)*date:region_name, data=.) -> m
 
 m %>% summary
 
-power_demand %<>% ungroup %>% mutate(Value_predicted=predict(m, .))
+power_demand_prov %<>% ungroup %>% mutate(power_demand_predicted=predict(m, .))
 
-power_demand_all %>% ungroup %>% filter(sector_category=='broad', grepl('Resid|Tertiary', sector), !is.na(power_demand+CDD+HDD)) -> attrib_data
+power_demand_all %>% ungroup %>%
+  filter(sector_category=='broad',
+         grepl('Resid|Tertiary', sector),
+         !is.na(power_demand+CDD+HDD)) -> attrib_data
 
 attrib_data %>% lm(power_demand~sector+date:sector+(CDD+HDD):as.factor(year(date)):sector, data=.) -> m
 
@@ -122,13 +129,13 @@ attrib_data %>%
   cooling_demand
 
 cooling_demand %>%
-  group_by(sector, name) %>%
+  group_by(label, date) %>% summarise(across(value, sum)) %>%
   mutate(value=(value/10+65/12)*1.5, value_12m=rollapplyr(value, 12, mean, fill=NA)) %>%
   ggplot(aes(date, value, linetype=label)) +
-  geom_line(aes(col=sector, linewidth='monthly')) +
+  geom_line(aes(linewidth='monthly')) + #col=sector,
   geom_smooth(aes(linewidth='12-month mean'), col=crea_palettes$CREA['Dark.red'], se=F) +
   #geom_line(aes(y=value_12m), col=crea_palettes$CREA['Dark.red'], linewidth=1) +
-  facet_wrap(~sector, ncol=1) +
+  #facet_wrap(~sector, ncol=1) +
   scale_linetype_discrete(name='', guide=guide_legend(nrow=2)) +
   scale_color_crea_d(col.index=c(13:14,11), guide='none') +
   theme_crea(legend.position = 'top') +
@@ -136,8 +143,7 @@ cooling_demand %>%
   scale_x_date(limits = ymd(c('2016-01-01', NA)), expand=expansion(mult=c(.02,.02))) +
   scale_linewidth_manual(values=c(1,.75), name='') +
   labs(x='', y='TWh/month', title='Electricity demand for heating and cooling',
-       caption='CREA estimates based on regression model of monthly power demand data\n
-       and heating and cooling degree days derived from ERA5 data') -> p
+       caption='CREA estimates based on regression model of monthly power demand data\nand heating and cooling degree days derived from ERA5 data') -> p
 
 quicksave(make_filename('Electricity demand for heating and cooling'), plot=p,scale=.8, logo = logo)
 
@@ -157,11 +163,20 @@ power_demand_all %>% filter(sector_category=='broad', !grepl('Whole', sector)) %
                                 T~power_demand)) %>% filter(year(date)>=2015) %>%
   group_by(sector) %>% mutate(power_demand_12m=rollapplyr(power_demand, 12, sum, fill=NA)) %>%
   ungroup %>% mutate(sector=factor(sector, levels=sector %>% unique %>% sort %>% rev)) %>%
-  na.omit %>%
-  ggplot(aes(date, power_demand_12m/10, col=sector)) + geom_line(linewidth=1.5) + x_at_zero() +
+  na.omit ->
+  sector_plotdata
+
+sector_plotdata %>%
+  ggplot(aes(date, power_demand_12m/10, col=sector)) +
+  geom_line(linewidth=1.5) +
+  geom_smooth(data=sector_plotdata %>% filter(date<='2020-01-01'), method='lm', se=F,
+              aes(linetype='pre-Covid trend'), fullrange=T) +
+  x_at_zero() +
   labs(subtitle='12-month moving sum', title='Electricity consumption by end use', x='', y='TWh/year') +
   theme_crea() +
-  scale_color_crea_d(col.index = c(1,4,11), name='') -> p
+  scale_color_crea_d(col.index = c(1,4,11), name='') +
+  scale_linetype_manual(values='dotted', guide=guide_legend(override.aes = list(col='black')),
+                        name='')-> p
 
 quicksave(make_filename('Electricity consumption by end use'), plot=p,scale=.8, logo = logo)
 
@@ -378,6 +393,9 @@ readRDS('G:/Shared drives/CREA-data/IEA paid datasets/World Energy Balances 2024
 
 iea %<>% select(-country) %>% left_join(codes %>% distinct(iso2c=iso2, countrycode=region_raw, country))
 
+iea %<>% mutate(country=case_when(countrycode=='JAPAN'~'Japan', T~country),
+                iso2c=case_when(countrycode=='JAPAN'~'JP', T~iso2c))
+
 ind <- wb_indicators()
 wbd <- ind %>% filter(grepl('^Population, total|GDP .constant 2015 US', indicator)) %>%
   use_series(indicator_id) %>%
@@ -388,18 +406,25 @@ wbd %>% select(iso2c, year=date, gdp=contains('GDP'), pop=contains('POP')) %>%
 
 iea %>% filter(flow=='Residential', product=='Electricity', unit=='TJ') %>%
   filter(!is.na(value), !is.na(country)) %>%
-  group_by(year) %>% mutate(gdp_percap=gdp/pop, gdp_rank=rank(-gdp), gdp_per_pop_rank=rank(-gdp_percap)) %>%
+  group_by(year) %>%
+  mutate(gdp_percap=gdp/pop, gdp_rank=rank(-gdp), gdp_per_pop_rank=rank(-gdp_percap),
+         mwh_percap=value/3.6*1000/pop) ->
+  percap
+
+focus_countries <- c('China', 'Singapore', 'Japan', 'South Korea',
+  'Spain', 'Italy', 'Germany', 'Malaysia',
+  'Argentina', 'Turkey', 'Portugal',
+  'Mexico')
+
+percap %>%
   group_by(iso2c) %>%
   #filter((gdp_rank[year==2022]<=40 & gdp/pop[year==2022]>12000) | iso2c=='CN') %>%
-  filter(country %in% c('China', 'Singapore', 'Japan', 'South Korea',
-                        'Spain', 'Italy', 'Germany', 'Malaysia',
-                        'Argentina', 'Turkey', 'Portugal',
-                        'Mexico')) %>%
+  filter(country %in% focus_countries) %>%
   ungroup() %>% filter(gdp_percap<50000) ->
   percap_plotdata
 
-percap_plotdata %>% filter(country=='Japan') %>%
-  ggplot(aes(gdp/pop, value/3.6*1000/pop, col=country)) +
+percap_plotdata %>% #filter(country=='Japan') %>%
+  ggplot(aes(gdp_percap, mwh_percap, col=country)) +
   geom_smooth(se=F, span=.4) +
   #geom_line() +
   geom_label_repel(aes(label=country), data=percap_plotdata %>% group_by(country) %>% filter(year==max(year)),
@@ -409,11 +434,31 @@ percap_plotdata %>% filter(country=='Japan') %>%
   x_at_zero() +
   scale_x_continuous(labels=scales::comma) +
   labs(title='Residential electricity consumption and GDP in selected countries',
-       x='GDP per person, $', y='MWh/person') ->
+       x='GDP per person, 2015$', y='MWh/person') ->
   p
 
-quicksave(make_filename('residential power demand vs gdp by country.png'), plot=p,
+quicksave(make_filename('residential power demand vs gdp by country'), plot=p,
           scale=.7, logo = logo)
 
+dd_global %>%
+  mutate(iso2c=countrycode(ISO3, 'iso3c', 'iso2c')) %>%
+  group_by(iso2c, year=year(Date)) %>%
+  summarise(across(c(HDD, CDD), sum)) %>%
+  left_join(percap, .) ->
+  percap
+
+percap %>% filter(CDD>=800, CDD<2500, gdp_percap>8e3, gdp_percap<=40e3, year==2022) %>%
+  ggplot(aes(country, mwh_percap)) + geom_col() + coord_flip()
+
+percap %>% filter(!is.na(HDD+CDD+gdp_percap+mwh_percap)) %>%
+  lm(mwh_percap~(HDD+CDD):poly(gdp_percap,2)+poly(gdp_percap,2), data=.) -> m_global
+
+m_global %>% summary
+
+percap %>%
+  ungroup %>% mutate(mwh_percap_predicted=predict(m_global, .)) %>%
+  filter(mwh_percap_predicted>0, mwh_percap_predicted<4) %>%
+  ggplot(aes(mwh_percap_predicted, mwh_percap, col=country=='China', groups=country)) +
+  geom_smooth(method='gam', se=F) + geom_abline()
 
 
