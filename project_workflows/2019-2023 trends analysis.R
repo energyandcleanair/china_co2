@@ -46,13 +46,18 @@ elec_cons_sector %<>% filter(!grepl('^Animal|Agriculture$|^Industry$|^Manufactur
                                   grepl('Printing|Wholesale|Transport|Services|Real Estate|Education|Finance|Social|Storage|Public|Telecomm|Management', sector)~'Services'))
 
 
+focus_period <- seq.Date(ymd('2024-03-01'),ymd('2024-09-30'), by='day')
+base_period <- focus_period %>% 'year<-'(year(.)-1)
+period_name <- 'from March-September 2023 to 2024'
+fn <- file.path(output_dir, paste('Drivers of electricity consumption growth,', period_name))
+
 elec_cons_sector %>%
   #fill missing data with previous year values
   group_by(month(date), sector, subsector) %>% fill(Value, .direction='down') %>%
   filter(!is.na(Value), is.na(subsector)) %>%
   group_by(broad_sector, sector, subsector) %>%
   #summarise(change=Value12m[date=='2023-12-31']-Value12m[date=='2019-12-31']) %>%
-  summarise(change=Value[date=='2024-03-31']-Value[date=='2023-03-31']) %>%
+  summarise(change=sum(Value[date %in% focus_period])-sum(Value[date %in% base_period])) %>%
   ungroup %>% arrange(-change) -> elec_plot
 
 elec_plot %>% mutate(sector=case_when(sector %in% elec_plot$sector[1:20]~sector, T~'Others')) %>%
@@ -63,7 +68,7 @@ elec_plot %>% mutate(sector=case_when(sector %in% elec_plot$sector[1:20]~sector,
          Unit='TWh') %>%
   ungroup %>%
   mutate(share_overall=change/sum(change)) %>%
-  write_csv(file.path(output_dir, 'Drivers of electricity consumption growth, March 2024.csv')) %>%
+  write_csv(paste0(fn, '.csv')) %>%
   #arrange(change_3m) %>% mutate(sector=factor(sector, levels=sector)) %>%
   ggplot(aes(broad_sector, change, fill=sector)) + geom_col() +
   geom_text(aes(label=str_wrap(sector, width=40)), position=position_stack(vjust=.5), size=3, color='white') + #, fill='white', check_overlap=F
@@ -71,9 +76,9 @@ elec_plot %>% mutate(sector=case_when(sector %in% elec_plot$sector[1:20]~sector,
   scale_fill_manual(values=rep(unname(crea_palettes$CREA[c(1:7,14)]),100), guide='none') +
   x_at_zero() + theme_crea() +
   labs(title='Drivers of electricity consumption growth',
-       subtitle = 'Change from March 2023 to 2024',
+       subtitle = paste('Change', period_name),
        y='TWh', x='') -> p
-quicksave(file.path(output_dir, 'Drivers of electricity consumption growth, March 2024.png'), plot=p, scale=1.33, logo=F)
+quicksave(paste0(fn, '.png'), plot=p, scale=1.33, logo=F)
 
 
 elec_cons_sector %>%
@@ -94,6 +99,25 @@ elec_change %>%
        subtitle = 'Change from 2019 to 2023, compared with 2016 to 2019',
        y='TWh', x='')
 
+
+#province breakdown
+pop <- read_csv(get_data_file('population_by_province_2022.csv'))
+
+elec_cons_prov %>%
+  group_by(prov) %>%
+  summarise(cons = sum(Value[date %in% focus_period]),
+            change_abs  = sum(Value[date %in% focus_period])-sum(Value[date %in% base_period]),
+            change_perc = sum(Value[date %in% focus_period])/sum(Value[date %in% base_period])-1) ->
+  prov_changes
+
+prov_changes %>%
+  arrange(change_perc) %>% mutate(prov=factor(prov, levels=prov)) %>%
+  ggplot(aes(prov, change_perc)) + geom_col() + coord_flip()
+
+prov_changes %>%
+  left_join(pop %>% mutate(prov=chinatracker::fix_province_names(region_name))) %>%
+  mutate(across(c(cons, change_abs), ~.x/population_total)) %>%
+  ggplot(aes(cons, change_perc, label=prov)) + geom_point() + geom_text_repel()
 
 #output annual data
 elec_cons_sector %>%
@@ -205,12 +229,40 @@ elec_dd %>%
 
 
 
-infile <- "inst/extdata/Electricity Consumption by key sector.xlsx"
+infile <- get_data_file("Electricity Consumption by key sector.xlsx")
 infile %>% getwindvars(skip=1)
-readwindEN(infile, c('var', 'sector'), read_vardata = T, zero_as_NA = T, columnFilter = 'Whole Society') -> elec_cons_total
+readwindEN(infile, c('var', 'sector'), read_vardata = T, zero_as_NA = T, columnFilter = 'Whole Society|Industry') -> elec_cons_total
 
 
 elec_cons_total %>% group_by(year=year(date)) %>%
   summarise(across(Value, sum)) %>%
   mutate(Value=Value/lag(Value)-1) %>%
   filter(year %in% 2015:2022) %>% spread(year, Value) %>% copy.xl()
+
+read_industrial_output() -> ind
+
+ind %>% filter(grepl('Solar Cell|Battery', prod), is.na(battery_type) | battery_type=='Total') %>%
+  mutate(Value=case_when(grepl('Solar', prod)~Value1m/100*0.35/.8, #350 kg/kw, 800 gCO2/kWhe
+                         T~Value1m/1000*.108/.8)*100e3, #108 kg/kWh
+         sector=case_when(prod=='Battery'~'Battery manufacturing',
+                          T~'Solar PV manufacturing')) ->
+           pv_and_battery
+
+read_csv(file.path('outputs/monthly_snapshot_2024_11', 'vehicle production.csv')) -> evs
+
+evs$variable %>% unique
+evs %>% filter(grepl('cumulative sales', variable)) %>%
+  mutate(sector='EV charging',
+         Value=6.5*100e3*value/value[date=='2024-10-31']) ->
+  ev_charging
+
+elec_cons_sector$sector %>% unique %>% sort
+elec_cons_sector %>%
+  filter(grepl('Information Transmission|Whole Soc|Charging', sector)) %>%
+  bind_rows(pwr_data$monthly %>% filter(var=='Consumption') %>% mutate(Value=Value1m*1e4) %>% rename(sector=source)) %>%
+  bind_rows(pv_and_battery) %>%
+  bind_rows(ev_charging) %>%
+  filter(year(date)>2019) %>%
+  ggplot(aes(date, Value/100e3, col=sector)) + geom_line(linewidth=1) + labs(title='Monthly electricity consumption in China', x='', y='TWh') +
+  theme_crea_new() + theme(legend.text = element_text(size=rel(.8))) +
+  x_at_zero() + scale_color_crea_d(col.index = c('Dark.red','Orange','Blue', 'Green', 'Dark.violet', 'Red'), guide=guide_legend(ncol=1))

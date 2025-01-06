@@ -1,7 +1,6 @@
 #wind and solar utilization prediction using data from CREA API
 
-predict_solar_wind_utilization <- function(pwr_data_monthly, output_plots=F) {
-  weather_url <- "https://api.energyandcleanair.org/v1/weather?region_type=gadm1&region_iso2=CN&variable=wind_speed,temperature,solar_radiation&format=csv"
+read_weather <- function(weather_url = "https://api.energyandcleanair.org/v1/weather?region_type=gadm1&region_iso2=CN&variable=wind_speed,temperature,solar_radiation&format=csv") {
   tryCatch({
     read_csv(weather_url) ->
       met_from_API
@@ -13,7 +12,12 @@ predict_solar_wind_utilization <- function(pwr_data_monthly, output_plots=F) {
     met_from_API <- read_csv(file.path(tempdir(), "met_from_API.csv"))
   })
 
+  return(met_from_API)
+}
 
+predict_solar_wind_utilization <- function(pwr_data_monthly, output_plots=F, output_full_data=F,
+                                           output_dir='outputs') {
+  met_from_API <- read_weather()
 
   get_data_file("wind_solar_utilization_capacity_by_province.xlsx") %>%
     readwindEN(c('prov', 'var', 'source', 'source2'),
@@ -109,6 +113,11 @@ predict_solar_wind_utilization <- function(pwr_data_monthly, output_plots=F) {
     national_data %>% filter(Utilization_YoY<.35) %>%
       ggplot(aes(Utilization, Utilization_predicted)) + geom_point() + facet_wrap(~source) +
       geom_smooth(method='lm') + geom_abline()
+  }
+
+  if(output_full_data) {
+    alldata %>% saveRDS(file.path(output_dir, 'wind_solar_prediction_province_data.RDS'))
+    national_data %>% saveRDS(file.path(output_dir, 'wind_solar_prediction_national_data.RDS'))
   }
 
   national_data %>% ungroup %>%

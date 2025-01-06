@@ -84,7 +84,7 @@ read_power_generation <- function(predict_solar_wind=F) {
     bind_rows(monthly_filled)
 
   #normalize consumption to 30 days
-  monthly %<>% mutate(Value1m=Value1m*ifelse(var=='Consumption', 30/days_in_month(date), 1))
+  #monthly %<>% mutate(Value1m=Value1m*ifelse(var=='Consumption', 30/days_in_month(date), 1))
 
   #interpolate gaps in capacity data
   monthly %<>% filter(var=='Capacity') %>%

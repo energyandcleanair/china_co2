@@ -1,5 +1,7 @@
 source('scripts/load_package.R')
 require(units)
+require(sf)
+#Sys.setenv(GIS_DIR='~/GIS')
 
 output_dir <- 'outputs/province_clean_power_analysis'
 
@@ -34,11 +36,6 @@ changes %>% filter(source!='Thermal') %>%
   scale_y_continuous(labels=scales::percent) -> p
 quicksave(file.path(output_dir, 'Changes in power generation mix.png'), plot=p)
 
-require(sf)
-
-#Sys.setenv(GIS_DIR='~/GIS')
-get_adm(1, 'low') %>% st_as_sf() %>% filter(NAME_0=='China') -> adm1
-get_adm(0, 'low') %>% st_as_sf() -> adm0
 adm1 %>% mutate(prov=fix_province_names(NAME_1)) %>%
   left_join(changes_total) %>%
   ggplot() +
@@ -108,6 +105,7 @@ provdata_filled %>% filter(var=='Capacity', source %in% c('Solar'), year(date)>=
 quicksave(file.path(output_dir, 'Solar power capacity in China by province.png'), plot=p)
 
 
+#Analysis of factors
 
 
 #target dataset: increase in capacity, increase in generation, GDP growth, GDP per capita, industrial output & growth
@@ -123,11 +121,14 @@ provdata_filled %>% group_by(prov) %>% filter(!is.na(Value1m)) %>%
   geom_abline(linetype='dashed')
 
 #wind and solar utilization vs additions
+provdata_filled %<>% group_by(prov, var, variant, date) %>%
+  mutate(share=Value_rollmean_12m/sum(Value_rollmean_12m, na.rm=T)) %>%
+  ungroup
+
+
 provdata_filled %>% #filter(prov!='Tibet') %>%
   filter(date<'2024-10-30') %>%
-  group_by(prov, var, variant, date) %>%
-  mutate(share=Value_rollmean_12m/sum(Value_rollmean_12m, na.rm=T),
-         value_to_plot = ifelse(var %in% c('Capacity', 'Generation'), share, Value_rollmean_12m)) %>% #Value1m
+  mutate(value_to_plot = ifelse(var %in% c('Capacity', 'Generation'), share, Value_rollmean_12m)) %>% #Value1m
   ungroup %>%
   filter(source %in% c('Wind', 'Solar'), var %in% c('Capacity', 'Generation', 'Utilization'),
          date==max(date), variant=='Utilization at trend') %>%
@@ -163,15 +164,15 @@ adm1 %>% mutate(area_km2 = as.numeric(st_area(.)/1e6),
 
 provdata_filled %>% filter(var=='Capacity', source %in% c('Wind', 'Solar'), !is.na(Value1m)) %>%
   filter(date==max(date)) %>% ungroup %>% distinct(prov, source, .keep_all = T) %>%
-  select(prov, source, Value1m) %>%
+  select(prov, source, Capacity=Value1m) %>%
   left_join(pop_density %>% select(-pop)) %>%
-  left_join(gdp_pop %>% filter(is.na(subsector)) %>%
+  left_join(gdp_prov %>% filter(is.na(subsector)) %>%
               select(prov, date, sector, pop, gdp_12m) %>%
               mutate(sector=paste('GDP', sector) %>% make_names) %>%
               spread(sector, gdp_12m)) %>%
-  mutate(across(starts_with('gdp'), list(percap=.x/pop))) -> gdp_pop
+  mutate(across(starts_with('gdp'), list(percap=~.x/pop))) -> gdp_pop
 
-gdp_pop %>% lm(Value1m~(pop_per_km2+area_km2+pop+gdp_per_cap_12m):source, data=.) %>% summary
+gdp_pop %>% lm(Capacity~(pop_per_km2+area_km2+pop+gdp_total_percap):source, data=.) %>% summary
 
 gdp_pop %>%
   ggplot(aes(pop_per_km2, Value1m)) + geom_point() + geom_text_repel(aes(label=prov)) + facet_wrap(~source) +

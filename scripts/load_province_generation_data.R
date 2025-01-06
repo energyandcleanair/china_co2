@@ -58,6 +58,7 @@ provdata %<>% mutate(Value1m=case_when(var=='Utilization' & Value1m>days_in_mont
 
 #fill gaps in time series
 provdata %>% ungroup %>%
+  mutate(basis_for_data='reported') %>%
   complete(prov, nesting(source, var), date) %>%
   group_by(prov, source, var) %>%
   mutate(Value1m=ifelse(Value1m<=0, NA, Value1m) %>% na.approx(na.rm=F)) ->
@@ -66,7 +67,8 @@ provdata %>% ungroup %>%
 #add utilization when missing
 provdata_filled %<>% group_by(prov, source, date) %>%
   filter('Utilization' %notin% var) %>%
-  summarise(Value1m=Value1m[var=='Generation']/Value1m[var=='Capacity']) %>%
+  summarise(Value1m=Value1m[var=='Generation']/Value1m[var=='Capacity'],
+            basis_for_data=ifelse(all(basis_for_data=='reported'), 'reported', NA)) %>%
   mutate(var='Utilization') %>%
   bind_rows(provdata_filled)
 
@@ -97,7 +99,8 @@ provdata_filled %<>% filter(var=='Utilization') %>%
 #calculate generation from capacity and utilization
 provdata_filled %<>% filter(var %in% c('Capacity', 'Utilization')) %>%
   group_by(prov, source, date, variant) %>%
-  summarise(Value1m=Value1m[var=='Capacity']*Value1m[var=='Utilization']) %>%
+  summarise(Value1m=Value1m[var=='Capacity']*Value1m[var=='Utilization'],
+            basis_for_data=ifelse(all(basis_for_data=='reported'), 'reported', NA)) %>%
   mutate(var='Generation, calculated') %>%
   bind_rows(provdata_filled)
 
@@ -124,9 +127,10 @@ provdata_filled %<>% ungroup %>% filter(grepl('Generation', var)) %>%
   bind_rows(provdata_filled %>% filter(!grepl('Generation', var)))
 
 
-provdata_filled %<>% group_by(var, prov, source, variant) %>% mutate(Value_rollmean_12m=zoo::rollapplyr(Value1m, 12, mean, fill=NA))
+provdata_filled %<>% group_by(var, prov, source, variant) %>%
+  mutate(Value_rollmean_12m=zoo::rollapplyr(Value1m, 12, mean, fill=NA))
 
-
+provdata_filled %<>% replace_na(list(basis_for_data='interpolated'))
 
 provdata_filled %>%
   filter(var=='Generation, calculated', year(date)>=2013) %>%
@@ -152,6 +156,10 @@ changes %>% filter(source!='Thermal') %>% group_by(prov) %>% summarise(across(is
   mutate(source='Non-fossil total') -> changes_total
 
 
+
+#shapefiles
+get_adm(1, 'low') %>% st_as_sf() %>% filter(NAME_0=='China') -> adm1
+get_adm(0, 'low') %>% st_as_sf() -> adm0
 
 
 
