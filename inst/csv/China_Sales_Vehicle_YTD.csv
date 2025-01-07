@@ -1,5 +1,11 @@
 ﻿Wind,,,,,,,
-Name,China: Sales: Vehicle: YTD,China: Sales: New Energy Vehicles: YTD,China: Sales: New Energy Passenger Cars: YTD,China: Sales: New Energy Automobiles: Battery Electric Vehicles: YTD,China: Sales: New Energy Automobiles: Plug-in Hybrid Vehicles: YTD,China: Sales: New Energy Automobiles (Fuel Cell Vehicles): YTD,China: Market Share: New Energy Automobiles: YTD
+Country,China,China,China,China,China,China,China
+Name,China: Sales: Vehicle: YTD,China: Sales: New Energy Vehicles: YTD,China: Sales: New Energy Passenger Cars: YTD,China: Sales: New Energy Automobiles (Battery Electric): YTD,China: Sales: New Energy Automobiles (Plug-in Hybrid): YTD,China: Sales: New Energy Automobiles (Fuel Cell Vehicles): YTD,China: Market Share: New Energy Automobiles: YTD
+Frequency,Month,Month,Month,Month,Month,Month,Month
+Unit,10000 units,unit,unit,unit,unit,unit,%
+ID,S0031542,S6125073,S6131320,S6125074,S6125075,S6136764,F2517409
+Source,China Association of Automobile Manufacturers,China Association of Automobile Manufacturers,China Association of Automobile Manufacturers,China Association of Automobile Manufacturers,China Association of Automobile Manufacturers,China Association of Automobile Manufacturers,Wind
+Update,2024-12-11,2025-01-06,2025-01-06,2025-01-06,2025-01-06,2025-01-06,2024-12-15
 2003-12,439.08 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 
 2004-01,30.41 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 
 2004-02,73.43 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 ,0.00 
@@ -250,3 +256,5 @@ Name,China: Sales: Vehicle: YTD,China: Sales: New Energy Vehicles: YTD,China: Sa
 2024-07,"1,631.00 ","5,934,471.00 ","5,655,323.00 ","3,570,342.00 ","2,360,767.00 ","3,362.00 ",36.39 
 2024-08,"1,876.60 ","7,036,876.00 ","6,712,433.00 ","4,216,280.00 ","2,816,673.00 ","3,923.00 ",37.50 
 2024-09,"2,157.10 ","8,320,135.00 ","7,943,599.00 ","4,988,166.00 ","3,327,836.00 ","4,133.00 ",38.57 
+2024-10,"2,462.40 ","9,750,246.00 ","9,314,558.00 ","5,830,407.00 ","3,915,144.00 ","4,695.00 ",39.60 
+2024-11,"2,794.00 ","11,261,930.00 ","10,764,374.00 ","6,738,193.00 ","4,518,899.00 ","4,838.00 ",40.31 
