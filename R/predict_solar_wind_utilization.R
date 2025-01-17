@@ -72,7 +72,9 @@ predict_solar_wind_utilization <- function(pwr_data_monthly, output_plots=F, out
   left_join(met_for_model, provdata) -> alldata
 
   #aggregate to national data
-  alldata %>% filter(is_sane) %>%
+  alldata %>%
+    #filter(is_sane) %>%
+    mutate(Utilization=ifelse(is_sane, Utilization, NA)) %>%
     group_by(source, date) %>%
     summarise(across(is.numeric, ~weighted.mean(.x, Capacity))) %>%
     select(-Capacity, -Utilization) ->
