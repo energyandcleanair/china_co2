@@ -1,4 +1,4 @@
-read_power_generation <- function(predict_solar_wind=F) {
+read_power_generation <- function(predict_solar_wind=F, addmonths=NULL) {
   readwindEN(get_data_file('generation-consumption-utilization-capacity.xlsx'),
              c('var', 'source', 'subtype'), read_vardata = T, skip=3, zero_as_NA = T) -> monthly_raw
 
@@ -18,6 +18,11 @@ read_power_generation <- function(predict_solar_wind=F) {
                                    Generation='Generation|Output')),
            basis_for_data=ifelse(is.na(Value), 'estimated/extrapolated', 'reported')) ->
     monthly
+
+  if(!is.null(addmonths)) {
+    monthly %<>% filter(date==max(date)) %>% select(-date) %>% cross_join(tibble(date=addmonths)) %>% mutate(Value=NA) %>%
+      bind_rows(monthly, .)
+  }
 
   #calculate one-month heat rates from year-to-date averages
   monthly %<>% filter(var=='Heat rate') %>% addmonths() %>%
