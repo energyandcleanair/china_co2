@@ -179,7 +179,8 @@ readwindEN(get_data_file('Regional GDP complete.xlsx'), c('prov', 'var', 'sector
                                   'Wholesale and Retail Trade'='Trade',
                                   'Transport, Storage and Post'='Transport')),
          across(contains('sector'), ~ifelse(.x=='YTD', NA, .x)),
-         type=ifelse(grepl('YTD', Name), 'YTD', 'single month')) %>%
+         type=ifelse(grepl('YTD', Name), 'YTD', 'single month'),
+         prov=disambiguate(prov, c('Beijing', 'Chongqing', 'Tianjin', 'Shanghai'))) %>%
   replace_na(list(sector='Total')) -> gdp_prov
 
 readwindEN(get_data_file('iron&steel output by province.xlsx'),
@@ -196,11 +197,6 @@ read_xlsx('inst/extdata/population by province.xlsx') %>% distinct %>%
   pivot_longer(-Region, names_to='year', values_to='pop') %>%
   mutate(across(year, as.numeric)) %>%
   rename(prov=Region) -> pop
-
-#add total GDP when missing
-gdp_prov %<>% group_by(prov) %>% filter('Total' %notin% sector, is.na(subsector)) %>%
-  group_by(prov, date) %>% summarise(across(Value, sum)) %>%
-  mutate(sector='Total') %>% bind_rows(gdp_prov) %>% ungroup
 
 #gdp per capita
 gdp_prov %<>%
