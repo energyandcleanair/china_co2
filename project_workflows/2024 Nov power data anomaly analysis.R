@@ -219,7 +219,37 @@ national_data %>% filter(!is.na(Utilization)) %>%
   theme_crea_new()
 quicksave(file.path(output_dir, 'Utilization hours by year and month - national.png'))
 
+national_data %>%
+  select(date, source, Utilization, Utilization_predicted) %>%
+  pivot_longer(starts_with('Utilization')) %>%
+  #group_by(source, name) %>% mutate(across(value, ~zoo::rollapplyr(.x, 3, mean, fill=NA))) %>%
+  filter(!is.na(value), month(date) == 11) %>%
+  ggplot(aes(date, value, col=name)) + geom_line() + facet_wrap(~source, scales='free', ncol=1) +
+  x_at_zero()
 
+provdata_agg %>% lm(Utilization~Utilization_pred, data=.) %>% summary %>% '$'('adj.r.squared') -> r2
+
+provdata_agg %>%
+  ggplot(aes(Utilization, Utilization_pred, col=source)) +
+  geom_point() +
+  geom_abline(linetype='dashed') +
+  scale_x_continuous(expand=expansion(mult=c(0,.05))) +
+  scale_y_continuous(expand=expansion(mult=c(0,.05))) +
+  expand_limits(x=0, y=0) +
+  labs(title='Model performance',
+       subtitle='reported and predicted capacity utilization hours',
+       x='reported',
+       y='predicted', col='',
+       caption=paste('R squared:', scales::percent(r2))) +
+  scale_color_crea_d('dramatic') +
+  theme_crea_new()
+quicksave(file.path(output_dir, 'reported and predicted utilization.png'))
+
+
+
+provdata_agg %>%
+  mutate(error=Utilization-Utilization_pred) %>%
+  ggplot(aes(date, error)) + geom_col() + facet_wrap(~source)
 
 
 #do yoy in solar/wind and thermal correlate???
@@ -255,7 +285,7 @@ pwr_data$monthly %>%
 
 
 pwr_data$monthly %>%
-  filter(var=='Utilization', source %in% c('Solar', 'Wind')) %>%
+  filter(var %in% c('Utilization', 'Consumption'), source %in% c('Solar', 'Wind', 'Whole Society')) %>%
   group_by(source, month(date)) %>%
   mutate(yoy=Value1m/lag(Value1m)-1,
          anomaly=Value1m-mean(Value1m)) %>%
