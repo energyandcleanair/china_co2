@@ -225,6 +225,7 @@ air_quality_plots <- function(focus_month=today() %>% subtract(30) %>% 'day<-'(1
   }
 
   aq_episodes_w_sandstorms %>% filter(grepl('PM2.5|O3|NO2', pollutant_name), !is.na(value)) %>%
+    ungroup %>% mutate(across(NAME_1, fix_province_names)) %>%
     group_by(city_name, NAME_1, location_id, pollutant_name) %>% arrange(date) %>%
     mutate(value_rollmean = zoo::rollapplyr(value, width=7, FUN=mean, fill=NA),
            worst_day = zoo::rollapplyr(value, width=7, FUN=max, fill=NA)) %>%
