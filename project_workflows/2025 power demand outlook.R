@@ -9,7 +9,8 @@ elec_cons_broad %<>% mutate(sector=case_when(grepl('Residen', Name)~'Residential
   group_by(var, sector) %>% unYTD() %>% roll12m()
 
 elec_cons_broad %<>% group_by(var, sector, month(date)) %>%
-  mutate(across(starts_with('Value'), list(yoy_change=~.x-lag(.x))))
+  mutate(across(starts_with('Value'), list(yoy_change=~.x-lag(.x))),
+         across(starts_with('Value'), list(yoy_percent=~.x/lag(.x)-1)))
 
 start_year=2012
 
@@ -114,7 +115,7 @@ elec_cons_broad %>% ungroup %>%
 plotdata %>%
   ggplot(aes(date, Value1m_yoy_change, fill=sector)) +
   geom_col() +
-  geom_smooth(aes(linetype='trend'), color=col.a('orange', .75), linewidth=1, se=F) +
+  geom_smooth(aes(linetype='trend'), color=col.a('orange', .75), linewidth=1, se=F, span=.5) +
   facet_wrap(~sector) +
   theme_crea_new() +
   scale_fill_crea_d('dramatic', guide='none') +

@@ -5,28 +5,44 @@ pwr_data <- read_power_generation(predict_solar_wind = T)
 
 
 pwr_data$monthly %>% filter(var == 'Capacity',
-                            source %in% c('Wind', 'Solar')) %>%
-  mutate(Value1m=case_when(date!='2024-08-31'~Value1m,
-                           source=='Wind'~47403,
-                           source=='Solar'~75235)) %>%
+                            is.na(subtype)) %>%
+  mutate(Value1m=case_when(date!='2024-12-31'~Value1m,
+                           source=='Wind'~52068,
+                           source=='Solar'~88666,
+                           source=='Thermal'~144445,
+                           source=='Hydro'~43595,
+                           source=='Nuclear'~6083)) %>%
   group_by(source, subtype) %>%
   mutate(change = Value1m - lag(Value1m),
          plotdate = date %>% 'year<-'(2022),
          year = as.factor(year(date))) %>%
   group_by(source, subtype, year) %>%
   mutate(change_cumulative = cumsum(change)) %>%
-  filter(year(date) >= 2020) %>%
-  write_csv(file.path(output_dir, 'Newly added wind and solar.csv')) %>%
-  (function(df) {
-    df %>%
-      group_by(month(date)) %>%
-      mutate(added_yoy=change/lag(change)-1,
-             added_yoy_ytd=change_cumulative/lag(change_cumulative)-1) %>%
-      ungroup %>% filter(date==max(date)) %>%
-      select(date, source, matches('change|yoy')) %>%
-      print()
-    df
-  }) %>%
+  write_csv(file.path(output_dir, 'Newly added power capacity.csv')) ->
+  cap
+
+cap %>%
+  group_by(month(date)) %>%
+  mutate(added_yoy=change/lag(change)-1,
+         added_yoy_ytd=change_cumulative/lag(change_cumulative)-1) %>%
+  ungroup %>% filter(date==max(date)) %>%
+  select(date, source, matches('change|yoy'))
+
+cap %>% filter(month(date)==month(max(date)), change_cumulative>0) %>%
+  ggplot(aes(year(date), change_cumulative / 100, fill = source)) +
+  geom_col() +
+  facet_wrap(~ trans(source), ncol = 2, scales = 'free_y') +
+  theme_crea() +
+  x_at_zero() +
+  scale_x_continuous(breaks=function(x) round(seq(x[1], x[2], 4), 0)) +
+  scale_fill_crea_d(col.index = c(1,9,10,12,4), guide='none') +
+  labs(title = trans('Newly added power capacity by year'),
+       x = '', y = trans('GW'), col = '') +
+  lang_theme()
+quicksave(file.path(output_dir, paste0('Newly added power capacity by year', ' ', lang, '.png')), scale = .8)
+
+
+cap %>% filter(year(date)>=2020, source %in% c('Solar', 'Wind')) %>%
   ggplot(aes(plotdate, change_cumulative / 100, col = year)) +
   geom_line(linewidth = 1) +
   facet_wrap(~ trans(source), ncol = 1, scales = 'free_y') +
@@ -39,14 +55,14 @@ pwr_data$monthly %>% filter(var == 'Capacity',
   lang_theme() ->
   p
 
-basename <- "Newly added wind and solar"
+basename <- "Newly added capacity"
 quicksave(
   file.path(output_dir, paste0(basename, ' ', lang, '.png')),
   plot = p,
   logo = T,
   scale = .8)
 
-update_date='2024-11-30' %>% ymd
+update_date='2024-12-31' %>% ymd
 pwr_data$monthly %>% group_by(var, source) %>%
   filter(date %in% c(update_date, update_date %>% 'year<-'(year(.)-1)),
          source %in% c('Hydro', 'Wind')) %>%

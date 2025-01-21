@@ -354,7 +354,7 @@ variant_to_highlight = 'NBS' #'predicted'
 d.quarter %>% filter(date==last_month,
                      grepl(variant_to_highlight, name),
                      prod=='Total') %>%
-  mutate(across(starts_with('YoY_'), scales::percent)) %>%
+  mutate(across(starts_with('YoY_'), ~scales::percent(.x, accuracy=.1))) %>%
   select(name, prod, sector, date, CO2, CO2_3m, YoY_1m, YoY_3m, YoY_12m) %T>% copy.xl %>% View
 
 
