@@ -149,7 +149,7 @@ plotdata %>%
 shares %>%
   group_by(variant, prov, source) %>%
   summarise(across(c(Value_rollmean_12m, share),
-                   ~.x[date==max(date)]-.x[date=='2020-12-31'])) ->
+                   ~.x[date==last_month]-.x[date=='2020-12-31'])) ->
   changes
 
 changes %>% filter(source!='Thermal') %>% group_by(prov) %>% summarise(across(is.numeric, sum)) %>%

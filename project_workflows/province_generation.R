@@ -4,6 +4,7 @@ require(sf)
 #Sys.setenv(GIS_DIR='~/GIS')
 
 output_dir <- 'outputs/province_clean_power_analysis'
+last_month <- '2024-11-30'
 
 source('scripts/load_province_generation_data.R')
 save(provdata_filled, plotdata, changes, adm1, shares,
@@ -86,7 +87,7 @@ quicksave(file.path(output_dir, 'Changes in clean share by technology, map.png')
 
 shares %>% filter(source!='Thermal') %>% group_by(prov, date) %>%
   summarise(across(share, sum)) %>%
-  filter(date %in% c(ymd('2020-12-31'), max(date))) ->
+  filter(date %in% c(ymd('2020-12-31'), last_month)) ->
   shares_plotdata
 
 shares_plotdata %>% group_by(prov) %>% mutate(change=share[2]-share[1]) %>%
@@ -119,25 +120,33 @@ quicksave(file.path(output_dir, 'Solar power capacity in China by province.png')
 provdata_filled %>% group_by(prov) %>% filter(!is.na(Value1m)) %>%
   filter(source=='Thermal', var %in% c('Capacity', 'Generation'), variant=='Utilization at trend') %>%
   mutate(value_to_plot = ifelse(var=='Capacity', Value1m, Value_rollmean_12m),
-         Generation_volume=value_to_plot[var=='Generation' & date==max(date)]) %>%
+         Generation_volume=value_to_plot[var=='Generation' & date==last_month]) %>%
   group_by(prov, var, Generation_volume) %>% summarise(change=value_to_plot[date==max(date)]/value_to_plot[date=='2015-12-31']-1) %>%
   spread(var, change) -> coal_changes
 
 #wind&solar utilization
 provdata_filled %>%
-  filter(date<'2024-10-30') %>%
   mutate(value_to_plot = ifelse(var == 'Capacity', Value1m, Value_rollmean_12m)) %>% #Value1m
   ungroup %>%
   filter(source %in% c('Wind', 'Solar'), var %in% c('Capacity', 'Utilization'),
-         date==max(date), variant=='Utilization at trend') %>%
+         date==last_month, variant=='Utilization at trend') %>%
   select(prov, source, var, value_to_plot) %>%
   spread(var, value_to_plot) %>%
+  mutate(Utilization=Utilization*12/8760) ->
+  utilization
+
+utilization %>%
   group_by(source) %>%
   mutate(ratio=Utilization/weighted.mean(Utilization, Capacity)) %>%
   select(prov, source, ratio) %>%
   mutate(source=paste0(source, '_utilization_percent_of_national_average')) %>%
   spread(source, ratio) ->
   utilization_rating
+
+utilization %>% mutate(source=paste0(source, '_utilization')) %>%
+  select(prov, source, Utilization) %>%
+  spread(source, Utilization) ->
+  utilization_wide
 
 #population density
 adm1 %>% mutate(area_km2 = as.numeric(st_area(.)/1e6),
@@ -153,8 +162,8 @@ provdata_filled %>% filter(prov!='Tibet') %>%
   filter(var=='Generation', variant=='Utilization at trend', !is.na(Value_rollmean_12m)) %>%
   group_by(prov, var, variant, date) %>%
   summarise(across(Value_rollmean_12m, sum)) %>%
-  summarise(generation_growth=Value_rollmean_12m[date==max(date)]/Value_rollmean_12m[date=='2020-12-31']-1,
-            total_generation=Value_rollmean_12m[date==max(date)]*12) ->
+  summarise(generation_growth=Value_rollmean_12m[date==last_month]/Value_rollmean_12m[date=='2020-12-31']-1,
+            total_generation=Value_rollmean_12m[date==last_month]*12) ->
   generation_growth
 
 #GDP growth
@@ -167,21 +176,36 @@ gdp_prov %>% ungroup %>% filter(sector=='Total') %>%
   ungroup  ->
   gdp_growth
 
+#predicted utilization of wind and solar, i.e. quality of the resource
+atlas_cf <- read_csv('outputs/solar_wind_predicted_utilization_by_province_from_Global_Atlas.csv') %>%
+  select(prov=province, energy_source, atlas_CF) %>%
+  mutate(energy_source=energy_source %>% gsub(' ', '_', .) %>% paste0('_utilization_predicted')) %>%
+  spread(energy_source, atlas_CF) %>%
+  mutate(across(is.numeric, ~pmax(.x, 0, na.rm=T)))
+
+
+
 #join
 list(coal_changes %>% select(prov, thermal_capacity_increase=Capacity, thermal_generation_increase=Generation),
      changes_total %>% select(prov, clean_share_increase=share),
      shares %>% filter(variant=='Utilization at trend', date==base_date, source!='Thermal') %>%
        summarise(across(share, sum)) %>% select(prov, clean_share_2020=share),
-     utilization_rating,
+     #utilization_rating,
+     utilization_wide,
      pop_density %>% select(prov, pop_per_km2),
      generation_growth %>% ungroup %>% select(prov, generation_growth, total_generation),
-     gdp_growth) %>%
+     gdp_growth,
+     atlas_cf) %>%
   Reduce(full_join, .) ->
   prov_table
 
+prov_table %<>% mutate(Solar_utilization_to_potential=Solar_utilization/Solar_utilization_predicted,
+                       Wind_utilization_to_potential=Wind_utilization/Wind_utilization_predicted)
+
 prov_table %>% copy.xl()
 
-prov_table %>% pivot_longer(-c(prov, clean_share_increase)) %>%
+prov_table %>% select(-Wind_utilization) %>%
+  pivot_longer(-c(prov, clean_share_increase)) %>%
   group_by(name) %>%
   mutate(cor=cor(value, clean_share_increase, use='complete.obs'),
          name=gsub('_percent_of.*', '', name)) %>%
@@ -193,6 +217,30 @@ prov_table %>% pivot_longer(-c(prov, clean_share_increase)) %>%
   geom_text(aes(label = paste0("Correlation: ", round(cor, 2))), x = Inf, y = Inf, hjust = 1.1, vjust = 1.3, inherit.aes = FALSE,
             size=2, alpha=.5)
 
+
+utilization %>% select(prov, source, Capacity) %>% spread(source, Capacity) %>%
+  full_join(prov_table, .) ->
+  prov_table_w_capacity
+
+prov_table_w_capacity %>%
+  ggplot(aes(Solar, Solar_utilization_to_potential)) + geom_point() + geom_smooth(method='lm') +
+  geom_text_repel(aes(label=prov), size=2)
+
+prov_table_w_capacity %>%
+  ggplot(aes(Solar_utilization_predicted, Solar)) + geom_point() + geom_smooth(method='lm') +
+  geom_text_repel(aes(label=prov), size=2)
+
+prov_table_w_capacity %>%
+  ggplot(aes(Wind_Onshore_utilization_predicted, Wind)) + geom_point() + geom_smooth(method='lm') +
+  geom_text_repel(aes(label=prov), size=2)
+
+prov_table_w_capacity %>%
+  ggplot(aes(Wind_utilization_predicted, Wind_utilization)) + geom_point() + geom_smooth(method='lm') +
+  geom_text_repel(aes(label=prov), size=2)
+
+prov_table_w_capacity %>%
+  ggplot(aes(Wind_utilization_predicted, Wind_utilization_to_potential)) + geom_point() + geom_smooth(method='lm') +
+  geom_text_repel(aes(label=prov), size=2)
 
 
 #analyses:
