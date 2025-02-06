@@ -15,22 +15,27 @@ read_weather <- function(weather_url = "https://api.energyandcleanair.org/v1/wea
   return(met_from_API)
 }
 
-predict_solar_wind_utilization <- function(pwr_data_monthly, output_plots=F, output_full_data=F,
-                                           output_dir='outputs') {
-  met_from_API <- read_weather()
-
+read_province_solar_wind_data <- function() {
   get_data_file("wind_solar_utilization_capacity_by_province.xlsx") %>%
     readwindEN(c('prov', 'var', 'source', 'source2'),
                read_vardata = T, skip=2, columnExclude = "National|China: Installed") ->
     provdata
 
-  provdata %<>% filter(!grepl('Above.*Solar', Name)) %>%
+  provdata %>% filter(!grepl('Above.*Solar', Name)) %>%
     mutate(source=disambiguate(paste(source, source2), c('Wind', 'Solar')),
            var=disambiguate(var, c('Capacity', 'Utilization')),
            type=ifelse(var=='Capacity', 'cumulative', 'YTD')) %>%
     #calculate monthly utilization from YTD
     group_by(source, var, prov, type) %>% unYTD %>%
     filter(month(date)!=1) %>% ungroup
+}
+
+
+predict_solar_wind_utilization <- function(pwr_data_monthly, output_plots=F, output_full_data=F,
+                                           output_dir='outputs') {
+  met_from_API <- read_weather()
+
+  provdata <- read_province_solar_wind_data()
 
   #add cubed wind speed
   met_from_API %<>% filter(variable=='wind_speed') %>%
