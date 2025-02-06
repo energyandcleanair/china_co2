@@ -48,7 +48,7 @@ elec_cons_sector %<>% filter(!grepl('^Animal|Agriculture$|^Industry$|^Manufactur
                                   grepl('Printing|Wholesale|Transport|Services|Real Estate|Education|Finance|Social|Storage|Public|Telecomm|Management', sector)~'Services'))
 
 
-focus_period <- seq.Date(ymd('2024-03-01'),ymd('2024-12-31'), by='day')
+focus_period <- seq.Date(ymd('2024-03-01'),ymd('2024-11-30'), by='day')
 base_period <- focus_period %>% 'year<-'(year(.)-1)
 period_name <- 'from March-November 2023 to 2024'
 fn <- file.path(output_dir, paste('Drivers of electricity consumption growth,', period_name))

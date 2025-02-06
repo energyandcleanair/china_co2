@@ -491,9 +491,10 @@ pwr_data <- read_power_generation(predict_solar_wind = T)
 paste.xl() -> energy
 
 energy %>%
-  mutate(across(starts_with('X'), force_numeric)) %>%
-  pivot_longer(starts_with('X'), names_to='year', values_to='yoy_abs_Mtce') %>%
-  mutate(across(year, force_numeric)) %>% na.omit ->
+  pivot_longer(starts_with('X'), names_to='year', values_to = 'growth') %>%
+  mutate(unit=ifelse(grepl('%', growth), '%', 'Mtce/year'),
+         across(c(year, growth), force_numeric),
+         growth=growth/ifelse(unit=='%', 100, 1)) %>% na.omit ->
   energy_long
 
 energy_long %>% write_csv(file.path(output_dir, 'total energy demand growth.csv'))
@@ -507,34 +508,41 @@ ember_annual %>%
   rename(year=Year) %>%
   mutate(source=Variable %>% recode(Bioenergy='Biomass')) %>%
   group_by(source) %>%
-  mutate(yoy_abs_TWh=Value-lag(Value)) ->
+  mutate(growth=Value-lag(Value)) ->
   ember_annual_growth
 
 pwr_data$monthly %>% filter(var=='Generation, hybrid') %>%
   group_by(var, source, subtype, year=year(date)) %>%
   summarise(across(Value1m, ~sum(.x, na.rm=F))) %>%
-  mutate(yoy_abs_TWh=(Value1m-lag(Value1m))/10) %>%
+  mutate(growth=(Value1m-lag(Value1m))/10) %>%
   ungroup %>% mutate(source=na.cover(subtype, source)) ->
   crea_annual_growth
 
 bind_rows(ember_annual_growth,
           crea_annual_growth %>% filter(year %notin% ember_annual_growth$year)) %>%
-  select(source, year, yoy_abs_TWh) %>%
+  select(source, year, growth) %>%
   filter(source %in% c('Hydro', 'Nuclear', 'Wind', 'Solar', 'Biomass'), year>=2015) %>%
   mutate(source=recode(source, Thermal='Biomass'),
-         yoy_abs_Mtce=yoy_abs_TWh/(29.3/3.6)/.303) ->
+         growth=growth/(29.3/3.6)/.303,
+         unit='Mtce/year') ->
   plotdata
 
-plotdata %>%
-  ggplot(aes(year, yoy_abs_Mtce)) + geom_col(aes(fill=source)) +
-  geom_line(data=energy_long %>% filter(grepl('demand', variable)) %>%
-              filter(year>=2015),
+plotdata %<>% rename(variable=source) %>%
+  mutate(unit='Mtce/year') %>%
+  bind_rows(energy_long %>% filter(!grepl('Non-fossil', variable))) %>%
+  filter(year>=2015) %>% ungroup %>%
+  select(variable, year, growth, unit) %>% arrange(year) %>%
+  write_csv(file.path(output_dir, 'Annual growth in energy demand and non-fossil energy supply.csv'))
+
+plotdata %>% filter(!grepl('increase|growth', variable)) %>%
+  ggplot(aes(year, growth)) + geom_col(aes(fill=variable)) +
+  geom_line(data=plotdata %>% filter(grepl('demand', variable), unit=='Mtce/year', year>=2015),
             aes(linetype='Energy consumption'),
             color='darkgray', linewidth=1) +
-  geom_line(data=energy_long %>% filter(grepl('GDP', variable)) %>%
-              filter(year>=2015) %>% mutate(yoy_abs_Mtce=yoy_abs_Mtce*50),
-            aes(linetype='GDP growth (right axis)'),
-            color='darkred', linewidth=1) +
+  #geom_line(data=plotdata %>% filter(grepl('GDP', variable), unit=='%') %>%
+  #            filter(year>=2015) %>% mutate(growth=growth*50*100),
+  #          aes(linetype='GDP growth (right axis)'),
+  #          color='darkred', linewidth=1) +
   theme_crea() + scale_fill_crea_d() +
   scale_x_continuous(breaks=function(x) seq(2015,2024,2),
                      expand=expansion(mult=c(.02,.02))) +
@@ -543,14 +551,16 @@ plotdata %>%
        title='Annual growth in energy demand and non-fossil energy supply')
 quicksave(file.path(output_dir, 'Annual growth in energy demand and non-fossil energy supply.png'))
 
-plotdata %>% rename(variable=source) %>%
-  bind_rows(energy_long %>% filter(grepl('demand', variable))) %>%
-  mutate(unit='Mtce/year') %>%
-  bind_rows(energy_long %>% filter(grepl('GDP', variable)) %>% mutate(unit='%')) %>%
-  rename(value=yoy_abs_Mtce) %>%
-  filter(year>=2015) %>% ungroup %>%
-  select(variable, year, value, unit) %>% arrange(year) %>%
-  write_csv(file.path(output_dir, 'Annual growth in energy demand and non-fossil energy supply.csv'))
+
+plotdata %>% filter(grepl('growth', variable), unit=='%') %>%
+  ggplot(aes(year, growth)) + geom_line(aes(col=variable), linewidth=1) +
+  theme_crea() + scale_color_crea_d() +
+  scale_x_continuous(breaks=function(x) seq(2015,2024,2),
+                     expand=expansion(mult=c(.02,.02))) +
+  x_at_zero(labels=scales::percent) +
+  labs(linetype='', x='', y='',
+       title='Annual growth in energy demand and GDP')
+quicksave(file.path(output_dir, 'Annual growth in energy demand and GDP.png'))
 
 
 
