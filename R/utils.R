@@ -126,3 +126,46 @@ ignore_names <- c(
   'China: Estimated Daily Average Output: Coke',
   'China: Operating Rate of Blast Furnaces (163 Steel Mills)'
 )
+
+
+#' Check AQ data against China's standard
+#'
+#' The function will check AQ data against China's "Assessment methods for ambient air quality"
+#' https://www.mee.gov.cn/gkml/hbb/bgth/201303/W020130301528975259527.pdf
+#'
+#' @param df AQ data frame
+#' @param groups a vector of strings of column names to group
+#' @param period one of the following: "monthly", "yearly"
+#'
+#' @return summarised columns which do not meet the standard
+#' @export
+#'
+#' @examples
+check_data_cn_standard <- function(df, groups, period){
+  browser()
+  processed_df <- df %>%
+    check_data_cn_standard_precheck() %>%
+    mutate(year = year(date),
+           month = month(date)) %>%
+    group_by(across(all_of(c(groups, 'year', 'month')))) %>%
+    summarise(count = n()) %>%
+    mutate(pass_monthly = case_when(month == 2 ~ count >= 25,
+                                    T ~ count >= 27))
+
+  if(period == "monthly"){
+    return(processed_df %>% filter(!pass_monthly))
+  } else if(period == "yearly"){
+    processed_df %>% group_by(year, .add = T) %>%
+      summarise(count = sum(count)) %>%
+      mutate(pass_yearly = count >= 300) %>%
+      filter(!pass_yearly)
+  }
+}
+
+check_data_cn_standard_precheck <- function(df){
+  if(class(df$date) != "Date"){
+    df %>% mutate(date = ymd(date))
+  } else {
+    df
+  }
+}
