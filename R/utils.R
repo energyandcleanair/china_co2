@@ -142,7 +142,6 @@ ignore_names <- c(
 #'
 #' @examples
 check_data_cn_standard <- function(df, groups, period){
-  browser()
   processed_df <- df %>%
     check_data_cn_standard_precheck() %>%
     mutate(year = year(date),
@@ -156,7 +155,8 @@ check_data_cn_standard <- function(df, groups, period){
     return(processed_df %>% filter(!pass_monthly))
   } else if(period == "yearly"){
     processed_df %>% group_by(year, .add = T) %>%
-      summarise(count = sum(count)) %>%
+      summarise(count = sum(count),
+                pass_monthly = all(pass_monthly)) %>%
       mutate(pass_yearly = count >= 300) %>%
       filter(!pass_yearly)
   }
