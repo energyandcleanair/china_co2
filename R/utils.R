@@ -145,19 +145,20 @@ check_data_cn_standard <- function(df, groups, period){
   processed_df <- df %>%
     check_data_cn_standard_precheck() %>%
     mutate(year = year(date),
-           month = month(date)) %>%
-    group_by(across(all_of(c(groups, 'year', 'month')))) %>%
+           month = month(date),
+           days_in_month = days_in_month(date)) %>%
+    group_by(across(all_of(c(groups, 'year', 'month', 'days_in_month')))) %>%
     summarise(count = n()) %>%
-    mutate(pass_monthly = case_when(month == 2 ~ count >= 25,
-                                    T ~ count >= 27))
+    mutate(pass_monthly = case_when(month == 2 ~ (count >= 25 & count <= days_in_month),
+                                    T ~ count >= 27 & count <= days_in_month))
 
   if(period == "monthly"){
     return(processed_df %>% filter(!pass_monthly))
   } else if(period == "yearly"){
-    processed_df %>% group_by(year, .add = T) %>%
+    processed_df %>% group_by(across(all_of(c(groups, 'year')))) %>%
       summarise(count = sum(count),
                 pass_monthly = all(pass_monthly)) %>%
-      mutate(pass_yearly = count >= 300) %>%
+      mutate(pass_yearly = count >= 300 & count <= yday(ymd(paste0(year, '-12-31')))) %>%
       filter(!pass_yearly)
   }
 }
