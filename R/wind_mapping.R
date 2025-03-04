@@ -54,19 +54,32 @@ readwindEN <- function(infile,
                        columnExclude = "$^",
                        read_vardata = F,
                        readfun = readxl::read_excel,
-                       skip=1,
+                       skip=NULL,
                        zero_as_NA=F,
                        force_last_of_month=T,
                        drop_china_column=T) {
-  readfun(infile, n_max=1, col_names = F, skip=skip) %>% unlist -> h
+
+  if(is.null(skip)) {
+    readfun(infile, n_max=20, col_names = F, skip=0) -> header_rows
+    header_rows[header_rows[[1]]=='Name',] %>% unlist -> h
+  } else {
+    warning("Picking the row with variable names using the skip argument has been superceded by finding the row automatically, which is less error-prone. Set skip=NULL or omit the argument to use the new functionality.")
+    readfun(infile, n_max=1, col_names = F, skip=skip) %>% unlist -> h
+  }
+
+
 
   if(any(grepl('YTD', h))) colNames %<>% c('type') %>% unique
   if(any(grepl('YoY', h))) colNames %<>% c('YoY') %>% unique
   if(drop_china_column) h %<>% gsub('(\\(DC\\) )?China: ', '', .)
 
-  if(read_vardata) {
-    readfun(infile, n_max=10, col_names = F, skip=skip) -> vardata
-    vardata[is.na(as.numeric(vardata[[1]])), ] -> vardata
+  readfun(infile, n_max=20, col_names = F, skip=1) -> vardata
+  vardata[is.na(as.numeric(vardata[[1]])), ] -> vardata
+
+  if(is.null(skip)) {
+    skip = nrow(vardata)+1
+  } else {
+    skip=skip+2
   }
 
   readfun(infile, skip=2+skip, col_names = F) -> d

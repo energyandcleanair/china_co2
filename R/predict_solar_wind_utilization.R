@@ -15,6 +15,20 @@ read_weather <- function(weather_url = "https://api.energyandcleanair.org/v1/wea
   return(met_from_API)
 }
 
+
+read_weather_by_year <- function(weather_url = "https://api.energyandcleanair.org/v1/weather?region_type=gadm1&region_iso2=CN&variable=wind_speed,temperature,solar_radiation&format=csv",
+                                 years=2010:year(today())) {
+  met_from_API <- list()
+  for(y in years) {
+    message('reading ', y)
+    weather_url_with_dates <- weather_url %>% paste0('&date_to=', y, '-01-01', '&date_to=', y, '-12-31')
+    read_weather(weather_url_with_dates) -> met_from_API[[paste0('Y', y)]]
+  }
+
+  met_from_API %>% bind_rows()
+}
+
+
 read_province_solar_wind_data <- function() {
   get_data_file("wind_solar_utilization_capacity_by_province.xlsx") %>%
     readwindEN(c('prov', 'var', 'source', 'source2'),
@@ -33,7 +47,7 @@ read_province_solar_wind_data <- function() {
 
 predict_solar_wind_utilization <- function(pwr_data_monthly, output_plots=F, output_full_data=F,
                                            output_dir='outputs') {
-  met_from_API <- read_weather()
+  met_from_API <- read_weather_by_year()
 
   provdata <- read_province_solar_wind_data()
 
