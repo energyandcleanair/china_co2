@@ -4,9 +4,17 @@ lang='EN'
 pwr_data <- read_power_generation(predict_solar_wind = T)
 
 
+#backfill solar capacity additions
+"0.123	0.184	0.223	0.272	0.290	0.286	0.211	0.225	0.483	0.991	1.296	1.718	6.967 9.740 12.82 34.59 53.38 44.73 26.52 48.2" %>%
+  strsplit('\t| ') %>% '[['(T) %>% as.numeric() %>% tibble(date=ymd(paste(2001:2020, '12 31')), change_cumulative=.*100) %>%
+  mutate(source='Solar') ->
+  solar_yearly
+
+
+
 pwr_data$monthly %>% filter(var == 'Capacity',
                             is.na(subtype)) %>%
-  mutate(Value1m=case_when(date!='2024-12-31'~Value1m,
+  mutate(Value1m=case_when(date!='2024-12-31' | !is.na(Value1m)~Value1m,
                            source=='Wind'~52068,
                            source=='Solar'~88666,
                            source=='Thermal'~144445,
@@ -28,8 +36,15 @@ cap %>%
   ungroup %>% filter(date==max(date)) %>%
   select(date, source, matches('change|yoy'))
 
-cap %>% filter(month(date)==month(max(date)), change_cumulative>0) %>%
-  ggplot(aes(year(date), change_cumulative / 100, fill = source)) +
+
+
+
+cap %>% bind_rows(solar_yearly) %>%
+  mutate(capacity_added_ytd_GW = change_cumulative / 100) %>%
+  select(source, date, capacity_added_ytd_GW) %>%
+  filter(month(date)==month(max(date)), capacity_added_ytd_GW>0, year(date)>=2013) %>%
+  write_csv(file.path(output_dir, 'Newly added power capacity, YTD.csv')) %>%
+  ggplot(aes(year(date), capacity_added_ytd_GW, fill = source)) +
   geom_col() +
   facet_wrap(~ trans(source), ncol = 2, scales = 'free_y') +
   theme_crea() +
