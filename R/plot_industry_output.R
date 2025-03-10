@@ -6,10 +6,10 @@ read_industrial_output <- function(data_to_include=".*",
   in_file_compare <- get_data_file('monthly industry stats.xlsx')
   prod_compare <- readwindEN(in_file_compare, c('var', 'prod'), read_vardata = T, zero_as_NA = T, skip=1)
 
-  if(max(prod$date) != max(prod_compare$date)){
+  if(max(prod$date) < max(prod_compare$date)){
     warning('The data in the two files do not match. Will merge_rows from the newer one.')
 
-    prod_compare <- prod_compare %>% filter(date == max(prod_compare$date))
+    prod_compare <- prod_compare %>% filter(date == max(prod_compare$date), Value>0)
     prod <- bind_rows(prod, prod_compare)
   }
 
